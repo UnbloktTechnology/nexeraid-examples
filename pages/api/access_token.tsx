@@ -9,14 +9,12 @@ const getAccessToken = async (req: NextApiRequest, res: NextApiResponse) => {
   const query = req.query;
   const { address } = query;
 
-  console.log("TOKEN: ", API_KEY);
-  console.log("ADDRESS: ", address);
-
   try {
     const response = await fetch(
-      "https://api.nexera.id/kyc/auth/access-token",
+      // "https://api-dev.nexera.id/kyc/auth/access-token"
+      "http://localhost:3001/kyc/auth/access-token",
       {
-        body: JSON.stringify({ address }),
+        body: JSON.stringify({ publicAddress: address }),
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${API_KEY}`,
@@ -24,14 +22,14 @@ const getAccessToken = async (req: NextApiRequest, res: NextApiResponse) => {
         method: "POST",
       }
     );
-    const { accessToken, ...res } = await response.json();
-    console.log("ACEESS TOKEN ", accessToken, res);
+    const { accessToken, ...error } = await response.json();
+    console.log("ACEESS TOKEN ", accessToken, error);
+    res.status(200).json({ accessToken });
   } catch (e) {
     console.log("ERROR: ", e);
     console.error(e);
+    res.status(400).json({ message: "BAD REQUEST" });
   }
-
-  res.status(200).json({ accessToken: "asdasd" });
 };
 
 export default getAccessToken;

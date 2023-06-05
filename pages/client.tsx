@@ -2,16 +2,20 @@
 
 import { useEffect, useState } from "react";
 import KycClient from "@nexeraid/kyc-sdk/client";
-import { useConnect, useSignMessage, useWalletClient } from "wagmi";
+import { useAccount, useConnect, useSignMessage, useWalletClient } from "wagmi";
+import { getAccessToken } from "../src/utils/api";
 
-const KYC_CLIENT = new KycClient({ identifier: "myIdentifier" });
+const KYC_CLIENT = new KycClient({
+  // baseUrl: "https://nexera-id-kyc-app-monorepo.vercel.app/",
+  baseUrl: "http://localhost:3008",
+});
 
-export default function Counter() {
+export default function Client() {
   const { signMessageAsync, error: connectorError } = useSignMessage();
   const { data: walletClient } = useWalletClient();
   const { connect, connectors, pendingConnector, error, isLoading } =
     useConnect();
-  const address = "0x82732eCa78474A772799b341100098F05464c401";
+  const { address } = useAccount();
 
   const [auth, setAuth] = useState<any>();
 
@@ -29,21 +33,14 @@ export default function Counter() {
       return txHash as string;
     });
     // build signing message, needed to safetly store kyc in user's browser
-    const signingMessage = KycClient.buildSignatureMessage(address);
+    const signingMessage = KycClient.buildSignatureMessage(address as string);
     const signature = await signMessageAsync({ message: signingMessage });
     // here you need to get access token from your server, which will call our backend as we explained in the Server app section
 
     // TODO - Check functionality
-    const accessToken = "token"; // getAccessTokenFromYourServer(address);
+    const accessToken = await getAccessToken(address as string);
 
     // finally, once accessToken, signingMessage and signature ready, and button defined, KycClient can be initialised
-    console.log(
-      "ALL REQUIRED FIELDS: ",
-      accessToken,
-      signingMessage,
-      signature
-    );
-
     setAuth({
       accessToken,
       signingMessage,
@@ -52,35 +49,35 @@ export default function Counter() {
   };
 
   useEffect(() => {
-    configKYCClient();
-  }, []);
+    if (address) {
+      configKYCClient();
+    }
+  }, [address]);
 
   useEffect(() => {
     if (auth) {
+      console.log("AUTH: ", auth);
       KYC_CLIENT.init({
         auth,
         initOnFlow: "REQUEST", // flows available: "REQUEST" | "MANAGEMENT"
       });
+      console.log("Obvio bobis");
     }
   }, [auth]);
 
   return (
     <main>
       <div>
-        {connectors.map((connector) => (
-          <button
-            disabled={!connector.ready}
-            key={connector.id}
-            onClick={() => connect({ connector })}
-          >
-            {connector.name}
-            {/* {!connector.ready && " (unsupported)"} */}
-            {/* {isLoading &&
-              connector.id === pendingConnector?.id &&
-              " (connecting)"} */}
-          </button>
-        ))}
-
+        {!isLoading &&
+          connectors.map((connector) => (
+            <button key={connector.id} onClick={() => connect({ connector })}>
+              {connector.name}
+              {/* {!connector.ready && " (unsupported)"} */}
+              {/* {isLoading &&
+                connector.id === pendingConnector?.id &&
+                " (connecting)"} */}
+            </button>
+          ))}
         {error && <div>{error.message}</div>}
       </div>
       <div>

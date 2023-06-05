@@ -7,8 +7,8 @@ import { publicProvider } from "wagmi/providers/public";
 import { polygonMumbai } from "wagmi/chains";
 
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
-// import { InjectedConnector } from "wagmi/connectors/injected";
-// import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import { InjectedConnector } from "wagmi/connectors/injected";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [polygonMumbai],
@@ -21,20 +21,20 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
 const config = createConfig({
   autoConnect: true,
   connectors: [
-    // new MetaMaskConnector({ chains }),
+    new MetaMaskConnector({ chains }),
     new CoinbaseWalletConnector({
       chains,
       options: {
         appName: "wagmi",
       },
     }),
-    // new InjectedConnector({
-    //   chains,
-    //   options: {
-    //     name: "Injected",
-    //     shimDisconnect: true,
-    //   },
-    // }),
+    new InjectedConnector({
+      chains,
+      options: {
+        name: "Injected",
+        shimDisconnect: true,
+      },
+    }),
   ],
   publicClient,
   webSocketPublicClient,

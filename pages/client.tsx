@@ -6,8 +6,8 @@ import { useAccount, useConnect, useSignMessage, useWalletClient } from "wagmi";
 import { getAccessToken } from "../src/utils/api";
 
 const KYC_CLIENT = new KycClient({
-  // baseUrl: "https://nexera-id-kyc-app-monorepo.vercel.app/",
-  baseUrl: "http://localhost:3008",
+  baseUrl: "https://nexera-id-kyc-app-monorepo.vercel.app/",
+  // baseUrl: "http://localhost:3008",
 });
 
 export default function Client() {

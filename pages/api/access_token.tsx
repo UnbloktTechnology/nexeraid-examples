@@ -11,8 +11,8 @@ const getAccessToken = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const response = await fetch(
-      // "https://api-dev.nexera.id/kyc/auth/access-token"
-      "http://localhost:3001/kyc/auth/access-token",
+      "https://api-dev.nexera.id/kyc/auth/access-token",
+      // "http://localhost:3001/kyc/auth/access-token",
       {
         body: JSON.stringify({ publicAddress: address }),
         headers: {

@@ -1,18 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { getConfig } from "../../src/utils/getConfig";
 
 /*
  * Get access token
  * This has to be done from secured server, to avoid leaking API_KEY
  */
 const getAccessToken = async (req: NextApiRequest, res: NextApiResponse) => {
-  const API_KEY = process.env.NEXT_PUBLIC_NEXERA_ID_API_KEY;
+  const config = getConfig()
+  const API_KEY = config.apiKey;
   const query = req.query;
   const { address } = query;
-
+  const apiHost = config.api
   try {
     const response = await fetch(
-      "https://api-dev.nexera.id/kyc/auth/access-token",
-      // "http://localhost:3001/kyc/auth/access-token",
+      `${apiHost}kyc/auth/access-token`,
       {
         body: JSON.stringify({ publicAddress: address }),
         headers: {

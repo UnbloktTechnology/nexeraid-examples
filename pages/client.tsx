@@ -4,13 +4,15 @@ import { useEffect, useState } from "react";
 import KycClient from "@nexeraid/kyc-sdk/client";
 import { useAccount, useConnect, useSignMessage, useWalletClient } from "wagmi";
 import { getAccessToken } from "../src/utils/api";
+import {getConfig } from "../src/utils/getConfig";
 
-const KYC_CLIENT = new KycClient({
-  baseUrl: "https://nexera-id-kyc-app-monorepo.vercel.app/",
-  // baseUrl: "http://localhost:3008",
-});
 
 export default function Client() {
+  
+  const KYC_CLIENT = new KycClient({
+    baseUrl: getConfig().kycApp,
+  });
+
   const { signMessageAsync, error: connectorError } = useSignMessage();
   const { data: walletClient } = useWalletClient();
   const { connect, connectors, pendingConnector, error, isLoading } =
@@ -61,7 +63,6 @@ export default function Client() {
         auth,
         initOnFlow: "REQUEST", // flows available: "REQUEST" | "MANAGEMENT"
       });
-      console.log("Obvio bobis");
     }
   }, [auth]);
 

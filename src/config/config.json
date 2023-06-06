@@ -1,0 +1,18 @@
+{
+    "dev": {
+        "api": "https://api-dev.nexera.id/",
+        "apiKey": "4588c8dc-3cfb-477d-90eb-92509b5a396a",
+        "kycApp":"https://nexera-id-kyc-app-monorepo.vercel.app/"
+    },
+    "staging": {
+        "api": "https://api-staging.nexera.id/",
+        "apiKey": "",
+        "kycApp":"https://nexera-id-kyc-app-monorepo.vercel.app/"
+    },
+    "production": {
+        "api": "https://api.nexera.id/",
+        "apiKey": "",
+        "kycApp":"https://nexera-id-kyc-app-monorepo.vercel.app/"
+    },
+    "alchemyProviderApiKey":"l17F_fBBtM6Tn1RNN_lXaXMc2Czt0tlA"
+}

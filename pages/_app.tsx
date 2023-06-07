@@ -18,7 +18,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   ]
 );
 
-const config = createConfig({
+export const wagmiConfig = createConfig({
   autoConnect: true,
   connectors: [
     new MetaMaskConnector({ chains }),
@@ -42,7 +42,7 @@ const config = createConfig({
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <WagmiConfig config={config}>
+    <WagmiConfig config={wagmiConfig}>
       <Component {...pageProps} />
     </WagmiConfig>
   );

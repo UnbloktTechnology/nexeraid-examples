@@ -3,20 +3,16 @@
 import { useEffect, useState } from "react";
 import KycClient from "@nexeraid/kyc-sdk/client";
 import { useAccount, useConnect, useSignMessage, useWalletClient } from "wagmi";
-import { getAccessToken } from "../src/utils/api";
-import { getConfig } from "../src/utils/getConfig";
+import { getAccessToken } from "../../src/utils/api";
+import { getConfig } from "../../src/utils/getConfig";
 
+const KYC_CLIENT = new KycClient({
+  baseUrl: getConfig().kycApp,
+});
 
-export default function Client() {
-
-  const KYC_CLIENT = new KycClient({
-    baseUrl: getConfig().kycApp,
-  });
-
-  const { signMessageAsync, error: connectorError } = useSignMessage();
+const KYCFlow = () => {
+  const { signMessageAsync } = useSignMessage();
   const { data: walletClient } = useWalletClient();
-  const { connect, connectors, pendingConnector, error, isLoading } =
-    useConnect();
   const { address } = useAccount();
 
   const [auth, setAuth] = useState<any>();
@@ -53,13 +49,15 @@ export default function Client() {
 
   useEffect(() => {
     if (address) {
-      configKYCClient();
+      setTimeout(() => {
+        configKYCClient();
+      }, 100);
     }
   }, [address]);
 
   useEffect(() => {
     if (auth) {
-      console.log("AUTH: ", auth);
+      console.log("INIT");
       KYC_CLIENT.init({
         auth,
         initOnFlow: "REQUEST", // flows available: "REQUEST" | "MANAGEMENT"
@@ -68,23 +66,48 @@ export default function Client() {
   }, [auth]);
 
   return (
-    <main>
+    <div>
+      <button disabled={!auth} id="kyc-btn">
+        Start KYC
+      </button>
+    </div>
+  );
+};
+
+const Client = () => {
+  const { address, connector, isConnected } = useAccount();
+  const { connect, connectors, error, isLoading, pendingConnector } =
+    useConnect();
+  const { disconnect } = useDisconnect();
+
+  const renderComponent = () => {
+    if (isConnected)
+      return (
+        <>
+          <div>{address}</div>
+          <div>Connected to {connector?.name}</div>
+          <button onClick={disconnect}>Disconnect</button>
+          <KYCFlow />
+        </>
+      );
+    return (
       <div>
         {!isLoading &&
-          connectors.map((connector) => (
+          connectors?.map((connector) => (
             <button key={connector.id} onClick={() => connect({ connector })}>
               {connector.name}
-              {/* {!connector.ready && " (unsupported)"} */}
-              {/* {isLoading &&
+              {!connector.ready && " (unsupported)"}
+              {isLoading &&
                 connector.id === pendingConnector?.id &&
-                " (connecting)"} */}
+                " (connecting)"}
             </button>
           ))}
         {error && <div>{error.message}</div>}
       </div>
-      <div>
-        <button id="kyc-btn">Start KYC</button>
-      </div>
-    </main>
-  );
-}
+    );
+  };
+
+  return <main>{renderComponent()}</main>;
+};
+
+export default Client;

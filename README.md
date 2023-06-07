@@ -6,33 +6,52 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+1. First, install with `yarn`:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+yarn
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Set environments like `.env.example` in your `.env.local`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Be sure that you have `Metamask` or `Coinbase` on your Browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+4. Run the development server
 
-## Learn More
+```bash
+yarn dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+5. Open [http://localhost:3006](http://localhost:3006) with your browser to see the result.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+6. You could go through "Get Started with KYC Flow" or visit directly [http://localhost:3006/client](http://localhost:3006/client)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## KYC FLOW
 
-## Deploy on Vercel
+1. Let's start the KYC flow by connecting to a supported wallet.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Await until the connection process starts.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+3. Sign the KYC Client initialization.
+
+4. Let the signing end to press the button `Start KYC`
+
+5. Upload your passport
+
+6. Either upload a passport from your Local machine (find some dummy passports in the `resources` folder)
+
+7. Scan your passport using a mobile phone
+
+8. See the results VCs shared with your application
+
+9. See the Rule invocation results
+
+## Project Structure
+
+1. Remember that in the `.env.example` do you find the `API_KEY`, `NEXERA_KYC_ACCESS_TOKEN_URL` and `KYC_CLIENT_URL` environment variables to config the flow
+
+2. The Access Token call is provided by the endpoint in `pages/api/access_token`
+
+3. The SDK of KYC Client is initialized in `pages/client/component`
+
+4. The KYC Client binding button is placed on `pages/client/component`

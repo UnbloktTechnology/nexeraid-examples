@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import KycClient from "@nexeraid/kyc-sdk/client";
-import { useAccount, useConnect, useSignMessage, useWalletClient } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useSignMessage, useWalletClient } from "wagmi";
 import { getAccessToken } from "../../src/utils/api";
 import { getConfig } from "../../src/utils/getConfig";
 
@@ -57,7 +57,6 @@ const KYCFlow = () => {
 
   useEffect(() => {
     if (auth) {
-      console.log("INIT");
       KYC_CLIENT.init({
         auth,
         initOnFlow: "REQUEST", // flows available: "REQUEST" | "MANAGEMENT"

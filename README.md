@@ -6,10 +6,10 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-1. First, install with `yarn`:
+1. First, install with `npm`:
 
 ```bash
-yarn
+npm i
 ```
 
 2. Set environments like `.env.example` in your `.env.local`
@@ -19,7 +19,7 @@ yarn
 4. Run the development server
 
 ```bash
-yarn dev
+npm run dev
 ```
 
 5. Open [http://localhost:3006](http://localhost:3006) with your browser to see the result.
@@ -48,7 +48,7 @@ yarn dev
 
 ## Project Structure
 
-1. Remember that in the `.env.example` do you find the `API_KEY`, `NEXERA_KYC_ACCESS_TOKEN_URL` and `KYC_CLIENT_URL` environment variables to config the flow
+1. Remember that in the `.env.example` you will find the `NEXT_PUBLIC_ENVIROMENT` to configure depending on `src/config/config.json` environment that you require
 
 2. The Access Token call is provided by the endpoint in `pages/api/access_token`
 

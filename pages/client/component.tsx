@@ -37,6 +37,12 @@ const KYCFlow = () => {
       const txHash = await walletClient?.sendTransaction(data);
       return txHash as string;
     });
+    KYC_CLIENT.onOffChainShareCompletition((isValid: boolean) => {
+      if (isValid)
+        console.log(`Success Off chain data sharing`)
+      else
+        console.log(`Off chain share data was invalid`)
+    })
     // build signing message, needed to safetly store kyc in user's browser
     const signingMessage = KycClient.buildSignatureMessage(address as string);
     const signature = await signMessageAsync({ message: signingMessage });

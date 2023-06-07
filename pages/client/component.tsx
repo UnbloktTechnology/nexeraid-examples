@@ -2,7 +2,13 @@
 
 import { useEffect, useState } from "react";
 import KycClient from "@nexeraid/kyc-sdk/client";
-import { useAccount, useConnect, useDisconnect, useSignMessage, useWalletClient } from "wagmi";
+import {
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useSignMessage,
+  useWalletClient,
+} from "wagmi";
 import { getAccessToken } from "../../src/utils/api";
 import { getConfig } from "../../src/utils/getConfig";
 
@@ -85,7 +91,13 @@ const Client = () => {
         <>
           <div>{address}</div>
           <div>Connected to {connector?.name}</div>
-          <button onClick={disconnect}>Disconnect</button>
+          <button
+            onClick={() => {
+              disconnect();
+            }}
+          >
+            Disconnect
+          </button>
           <KYCFlow />
         </>
       );

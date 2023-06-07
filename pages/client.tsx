@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import KycClient from "@nexeraid/kyc-sdk/client";
 import { useAccount, useConnect, useSignMessage, useWalletClient } from "wagmi";
 import { getAccessToken } from "../src/utils/api";
-import {getConfig } from "../src/utils/getConfig";
+import { getConfig } from "../src/utils/getConfig";
 
 
 export default function Client() {
-  
+
   const KYC_CLIENT = new KycClient({
     baseUrl: getConfig().kycApp,
   });
@@ -31,6 +31,7 @@ export default function Client() {
     // optional onZkCallback (mandatory if zk flow will be used)
     KYC_CLIENT.onZkCallback(async (data) => {
       // make wallet user send transaction, using data from kyc app, and returning transaction hash
+      // @ts-ignore
       const txHash = await walletClient?.sendTransaction(data);
       return txHash as string;
     });

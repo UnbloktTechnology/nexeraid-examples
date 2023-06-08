@@ -1,7 +1,12 @@
 {
+  "local": {
+    "api": "http://localhost:3001/",
+    "apiKey": "ae8393af-8d88-4895-91fc-03c313091d93",
+    "kycApp": "http://localhost:3008/"
+  },
   "dev": {
     "api": "https://api-dev.nexera.id/",
-    "apiKey": "4588c8dc-3cfb-477d-90eb-92509b5a396a",
+    "apiKey": "8038d25e-4ca4-45c2-8bff-642c47870cca",
     "kycApp": "https://nexera-id-kyc-app-monorepo.vercel.app/"
   },
   "staging": {

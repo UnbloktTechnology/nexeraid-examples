@@ -6,7 +6,7 @@
   },
   "dev": {
     "api": "https://api-dev.nexera.id/",
-    "apiKey": "db449699-152c-43fa-87dc-d6aa1e7aeb89",
+    "apiKey": "8038d25e-4ca4-45c2-8bff-642c47870cca",
     "kycApp": "https://kyc-dev.nexera.id/"
   },
   "staging": {

@@ -9,7 +9,7 @@ import {
   useSignMessage,
   useWalletClient,
 } from "wagmi";
-import { getAccessToken } from "../../src/utils/api";
+import { getAccessToken } from "../../src/utils/api_client";
 import { getConfig } from "../../src/utils/getConfig";
 
 const KYC_CLIENT = new KycClient({
@@ -38,11 +38,9 @@ const KYCFlow = () => {
       return txHash as string;
     });
     KYC_CLIENT.onOffChainShareCompletition((isValid: boolean) => {
-      if (isValid)
-        console.log(`Success Off chain data sharing`)
-      else
-        console.log(`Off chain share data was invalid`)
-    })
+      if (isValid) console.log(`Success Off chain data sharing`);
+      else console.log(`Off chain share data was invalid`);
+    });
     // build signing message, needed to safetly store kyc in user's browser
     const signingMessage = KycClient.buildSignatureMessage(address as string);
     const signature = await signMessageAsync({ message: signingMessage });
@@ -63,7 +61,7 @@ const KYCFlow = () => {
     if (address) {
       setTimeout(() => {
         configKYCClient();
-      }, 100);
+      }, 200);
     }
   }, [address]);
 

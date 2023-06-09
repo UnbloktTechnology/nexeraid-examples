@@ -14,7 +14,7 @@ const dataWebHookGet = async (req: NextApiRequest, res: NextApiResponse) => {
       response = undefined;
     }
 
-    res.status(200).json(response ? JSON.parse(response.toString()) : response);
+    res.status(200).json(JSON.parse(response?.toString() || "{}"));
   }
 };
 

@@ -5,7 +5,6 @@ const ruleWebHookGet = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     const { address } = req.query;
     const fileName = `rule_webhook_${address}`;
-    console.log("ADDRESS: ", address);
     let response;
 
     try {
@@ -15,7 +14,7 @@ const ruleWebHookGet = async (req: NextApiRequest, res: NextApiResponse) => {
       response = undefined;
     }
 
-    res.status(200).json(response ? JSON.parse(response.toString()) : response);
+    res.status(200).json(JSON.parse(response?.toString() || "{}"));
   }
 };
 

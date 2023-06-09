@@ -2,6 +2,10 @@
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import KYCFlow from "../../components/KYCFlow";
 import WebHooks from "../../components/WebHooks";
+import { Inter } from "next/font/google";
+import styles from "./client.module.css";
+
+const inter = Inter({ subsets: ["latin"] });
 
 const Client = () => {
   const { address, connector, isConnected } = useAccount();
@@ -13,8 +17,8 @@ const Client = () => {
     if (isConnected)
       return (
         <>
+          <div>Connected to {connector?.name}: </div>
           <div>{address}</div>
-          <div>Connected to {connector?.name}</div>
           <button
             onClick={() => {
               disconnect();
@@ -43,7 +47,11 @@ const Client = () => {
     );
   };
 
-  return <main>{renderComponent()}</main>;
+  return (
+    <main className={`${inter.className} ${styles.main}`}>
+      {renderComponent()}
+    </main>
+  );
 };
 
 export default Client;

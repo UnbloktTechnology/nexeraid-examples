@@ -15,7 +15,7 @@ const WebHooks = () => {
 
       if (Object.keys(res).length) {
         console.log("RES INS Data: ", res);
-        setData(JSON.stringify(res, null, "\t"));
+        setData(JSON.stringify(res, null, 1));
       }
     }
   }, 5000);
@@ -26,7 +26,7 @@ const WebHooks = () => {
 
       if (Object.keys(res).length) {
         console.log("RES INS Rule: ", res);
-        setRule(JSON.stringify(res, null, "\t"));
+        setRule(JSON.stringify(res, null, 1));
       }
     }
   }, 5000);

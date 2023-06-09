@@ -21,7 +21,7 @@ export const getDataWebHook = async (address: string) => {
 }
 
 export const getRuleWebHook = async (address: string) => {
-  const response = await fetch(`/api/data_webhook?address=${address}`, {
+  const response = await fetch(`/api/rule_webhook?address=${address}`, {
     headers: {
       "Content-Type": "application/json",
     },

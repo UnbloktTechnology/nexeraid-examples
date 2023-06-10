@@ -6,11 +6,11 @@ const dataWebHookGet = async (req: NextApiRequest, res: NextApiResponse) => {
     const { address } = req.query;
     const fileName = `data_webhook_${address}`;
     let response;
-
     try {
       response = readFile(fileName);
       deleteFile(fileName);
     } catch (e) {
+      console.error(e)
       response = undefined;
     }
 

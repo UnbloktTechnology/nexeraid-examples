@@ -11,6 +11,7 @@ const ruleWebHookGet = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       console.log("key", key);
       response = await redis.get(key);
+      redis.set(key, "");
     } catch (e) {
       console.error("rule webhook get error", e);
       response = undefined;

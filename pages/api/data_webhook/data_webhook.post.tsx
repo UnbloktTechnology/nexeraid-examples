@@ -7,7 +7,7 @@ const dataWebHookPost = async (req: NextApiRequest, res: NextApiResponse) => {
     const key = `data_webhook_${body.address}`;
     console.log("key", key);
     const result = await redis.set(key, JSON.stringify(body));
-    console.log("result", result);
+    console.log("data webhook post response", result);
     res.status(200).json({ response: "ok" });
   }
 };

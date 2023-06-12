@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { deleteFile, readFile } from "../../../src/utils/files_server";
 import { redis } from "../../../src/utils/redis";
 
 const dataWebHookGet = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -7,13 +6,15 @@ const dataWebHookGet = async (req: NextApiRequest, res: NextApiResponse) => {
     const { address } = req.query;
     const key = `data_webhook_${address}`;
     let response;
+
     try {
       response = await redis.get(key);
     } catch (e) {
-      console.error(e)
+      console.error("data webhook get error", e);
       response = undefined;
     }
 
+    console.log("data webhook response", response);
     res.status(200).json(JSON.parse(response?.toString() || "{}"));
   }
 };

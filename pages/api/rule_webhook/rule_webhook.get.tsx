@@ -10,9 +10,11 @@ const ruleWebHookGet = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       response = await redis.get(key);
     } catch (e) {
+      console.error("rule webhook get error", e);
       response = undefined;
     }
 
+    console.log("rule webhook response", response);
     res.status(200).json(JSON.parse(response?.toString() || "{}"));
   }
 };

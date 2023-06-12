@@ -17,7 +17,7 @@ const ruleWebHookGet = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     console.log("rule webhook get response", response);
-    res.status(200).json(JSON.parse(response?.toString() || "{}"));
+    res.status(200).json(response || {});
   }
 };
 

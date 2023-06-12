@@ -16,8 +16,7 @@ export const getDataWebHook = async (address: string) => {
     },
     method: "GET",
   });
-  const res = await response.json();
-  return res;
+  return await response.json();
 }
 
 export const getRuleWebHook = async (address: string) => {
@@ -27,6 +26,5 @@ export const getRuleWebHook = async (address: string) => {
     },
     method: "GET",
   });
-  const res = await response.json();
-  return res;
+  return await response.json();
 }

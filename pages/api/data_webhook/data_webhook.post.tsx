@@ -1,11 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { writeFile } from "../../../src/utils/files_server";
+import { redis } from "../../../src/utils/redis";
 
 const dataWebHookPost = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     const body = req.body;
-    writeFile(`data_webhook_${body.address}`, JSON.stringify(body));
-
+    const key = `data_webhook_${body.address}`;
+    console.log("key", key);
+    const result = await redis.set(key, JSON.stringify(body));
+    console.log("result", result);
     res.status(200).json({ response: "ok" });
   }
 };

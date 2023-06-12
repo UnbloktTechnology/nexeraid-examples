@@ -8,6 +8,7 @@ const ruleWebHookPost = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log("key", key);
     await redis.set(key, JSON.stringify(body));
 
+    console.log("rule webhook post response", response);
     res.status(200).json({ response: "ok" });
   }
 };

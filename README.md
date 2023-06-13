@@ -30,21 +30,23 @@ npm run dev
 
 1. Let's start the KYC flow by connecting to a supported wallet.
 
-2. Await until the connection process starts.
+2. Be sure that you're connected to `Mumbai` testnet on your wallet, if not, add the network to your wallet with: [ChainList Mumbai](https://chainlist.org/chain/80001)
 
-3. Sign the KYC Client initialization.
+3. Await until the connection process starts.
 
-4. Let the signing end to press the button `Start KYC`
+4. Sign the KYC Client initialization.
 
-5. Upload your passport
+5. Let the signing end to press the button `Start KYC`
 
-6. Either upload a passport from your Local machine (find some dummy passports in the `resources` folder)
+6. Upload your passport
 
-7. Scan your passport using a mobile phone
+7. Either upload a passport from your Local machine (find some dummy passports in the `resources` folder)
 
-8. See the results VCs shared with your application
+8. Scan your passport using a mobile phone
 
-9. See the Rule invocation results
+9. See the results VCs shared with your application
+
+10. See the Rule invocation results
 
 ## Project Structure
 

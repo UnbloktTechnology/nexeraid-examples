@@ -1,8 +1,8 @@
 {
   "local": {
-    "api": "http://localhost:3001/",
+    "api": "https://api-dev.nexera.id/",
     "apiKey": "8038d25e-4ca4-45c2-8bff-642c47870cca",
-    "kycApp": "http://localhost:3008/"
+    "kycApp": "https://kyc-dev.nexera.id/"
   },
   "dev": {
     "api": "https://api-dev.nexera.id/",

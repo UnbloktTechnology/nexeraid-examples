@@ -12,7 +12,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 npm i
 ```
 
-2. Set environments like `.env.example` in your `.env.local`
+2. Set environments like `.env.example` in your `.env.local`, for this, it's required the respective `API_KEY` for your App, correctly configured with its `Data WebHook` and `Rule WebHook`
 
 3. Be sure that you have `Metamask` or `Coinbase` on your Browser.
 

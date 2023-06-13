@@ -6,19 +6,15 @@ const ruleWebHookGet = async (req: NextApiRequest, res: NextApiResponse) => {
     const { address } = req.query;
     const addressLowerCase = (address as string).toLowerCase();
     const key = `rule_webhook_${addressLowerCase}`;
-    let response;
 
     try {
-      console.log("key", key);
-      response = await redis.get(key);
+      const response = await redis.get(key);
       redis.set(key, "");
-    } catch (e) {
-      console.error("rule webhook get error", e);
-      response = undefined;
+      res.status(200).json(response || {});
+    } catch (e: any) {
+      console.error("ERROR: ", e);
+      res.status(500).json(e.stack);
     }
-
-    console.log("rule webhook get response", response);
-    res.status(200).json(response || {});
   }
 };
 

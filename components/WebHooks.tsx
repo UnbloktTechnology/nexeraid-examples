@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { getDataWebHook, getRuleWebHook } from "../src/utils/api_client";
-import { useInterval } from "../src/hooks/useInterval";
+import { useQuery } from "react-query";
 import styles from "./styles.module.css";
 
 const WebHooks = () => {
@@ -9,35 +9,33 @@ const WebHooks = () => {
   const [rule, setRule] = useState("");
   const { address } = useAccount();
 
-  const { clear: clearDataInterval } = useInterval(async () => {
-    if (address) {
-      const res = await getDataWebHook(address);
-
-      if (Object.keys(res).length) {
-        console.log("RES INS Data: ", res);
-        setData(JSON.stringify(res, null, 1));
-      }
+  const { data: dataWebHook } = useQuery(
+    ["dataWebHook", address, data],
+    () => getDataWebHook(address as string),
+    {
+      // The query will not execute until the address exists
+      enabled: !!address && !data,
     }
-  }, 5000);
+  );
 
-  const { clear: clearRuleInterval } = useInterval(async () => {
-    if (address) {
-      const res = await getRuleWebHook(address);
-
-      if (Object.keys(res).length) {
-        console.log("RES INS Rule: ", res);
-        setRule(JSON.stringify(res, null, 1));
-      }
+  const { data: ruleWebHook } = useQuery(
+    ["ruleWebHook", address, rule],
+    () => getRuleWebHook(address as string),
+    {
+      // The query will not execute until the address exists
+      enabled: !!address && !rule,
     }
-  }, 5000);
+  );
 
   useEffect(() => {
-    if (data) clearDataInterval();
-  }, [data]);
+    if (dataWebHook && Object.keys(dataWebHook).length)
+      setData(JSON.stringify(dataWebHook, null, 1));
+  }, [dataWebHook]);
 
   useEffect(() => {
-    if (rule) clearRuleInterval();
-  }, [rule]);
+    if (ruleWebHook && Object.keys(ruleWebHook).length)
+      setData(JSON.stringify(ruleWebHook, null, 1));
+  }, [ruleWebHook]);
 
   return (
     <div className={styles.responseColumns}>

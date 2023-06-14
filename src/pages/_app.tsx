@@ -1,4 +1,3 @@
-// src/pages/_app.tsx
 import type { AppType } from "next/app";
 
 import { WagmiConfig, createConfig, configureChains } from "wagmi";
@@ -8,6 +7,8 @@ import { polygonMumbai } from "wagmi/chains";
 
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [polygonMumbai],
@@ -16,7 +17,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
     publicProvider(),
   ]
 );
-
+const queryClient = new QueryClient();
 export const wagmiConfig = createConfig({
   autoConnect: true,
   connectors: [
@@ -29,6 +30,7 @@ export const wagmiConfig = createConfig({
       },
     }),
   ],
+  queryClient,
   publicClient,
   webSocketPublicClient,
 });
@@ -36,7 +38,10 @@ export const wagmiConfig = createConfig({
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <WagmiConfig config={wagmiConfig}>
-      <Component {...pageProps} />
+      <QueryClientProvider client={queryClient}>
+        <Component {...pageProps} />
+        <ReactQueryDevtools initialIsOpen={true} position={"bottom-right"} />
+      </QueryClientProvider>
     </WagmiConfig>
   );
 };

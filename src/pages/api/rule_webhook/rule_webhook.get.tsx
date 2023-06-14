@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { redis } from "../../../src/utils/redis";
+import { redis } from "../../../utils/redis";
 
 const ruleWebHookGet = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {

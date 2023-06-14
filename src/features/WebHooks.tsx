@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import { getDataWebHook, getRuleWebHook } from "../src/utils/api_client";
-import { useInterval } from "../src/hooks/useInterval";
 import styles from "./styles.module.css";
+import { getDataWebHook, getRuleWebHook } from "../utils/api_client";
+import { useInterval } from "../hooks/useInterval";
 
-const WebHooks = () => {
+export const WebHooks = () => {
   const [data, setData] = useState("");
   const [rule, setRule] = useState("");
   const { address } = useAccount();
@@ -52,5 +52,3 @@ const WebHooks = () => {
     </div>
   );
 };
-
-export default WebHooks;

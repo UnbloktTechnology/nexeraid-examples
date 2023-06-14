@@ -1,53 +1,48 @@
-import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import styles from "./styles.module.css";
-import {getDataWebHook, getRuleWebHook} from "../apiClient";
-import {useInterval} from "../../hooks/useInterval";
+import { getDataWebHook, getRuleWebHook } from "../apiClient";
+import { useQuery } from "@tanstack/react-query";
 
 export const WebHooks = () => {
-  const [data, setData] = useState("");
-  const [rule, setRule] = useState("");
   const { address } = useAccount();
 
-  const { clear: clearDataInterval } = useInterval(async () => {
-    if (address) {
+  const dataWebhook = useQuery({
+    queryKey: ["webhook", address],
+    queryFn: async () => {
+      if (!address) throw new Error("No address");
       const res = await getDataWebHook(address);
-
       if (Object.keys(res).length) {
-        console.log("RES INS Data: ", res);
-        setData(JSON.stringify(res, null, 1));
+        return JSON.stringify(res, null, 1);
       }
-    }
-  }, 5000);
+      return "";
+    },
+    refetchInterval: 5000,
+    enabled: !!address,
+  });
 
-  const { clear: clearRuleInterval } = useInterval(async () => {
-    if (address) {
+  const ruleWebHook = useQuery({
+    queryKey: ["rulewebhook", address],
+    queryFn: async () => {
+      if (!address) throw new Error("No address");
       const res = await getRuleWebHook(address);
-
       if (Object.keys(res).length) {
-        console.log("RES INS Rule: ", res);
-        setRule(JSON.stringify(res, null, 1));
+        return JSON.stringify(res, null, 1);
       }
-    }
-  }, 5000);
-
-  useEffect(() => {
-    if (data) clearDataInterval();
-  }, [data]);
-
-  useEffect(() => {
-    if (rule) clearRuleInterval();
-  }, [rule]);
+      return "";
+    },
+    refetchInterval: 5000,
+    enabled: !!address,
+  });
 
   return (
     <div className={styles.responseColumns}>
       <div>
         <h4>DATA: </h4>
-        <pre>{data}</pre>
+        <pre>{dataWebhook.data}</pre>
       </div>
       <div>
         <h4>RULE:</h4>
-        <pre>{rule}</pre>
+        <pre>{ruleWebHook.data}</pre>
       </div>
     </div>
   );

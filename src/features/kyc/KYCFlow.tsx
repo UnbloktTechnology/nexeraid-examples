@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import KycClient from "@nexeraid/kyc-sdk/client";
 import { useAccount, useSignMessage, useWalletClient } from "wagmi";
-import { appConfig } from "../../appConfig";
-import { env } from "../../env.mjs";
 import { getAccessToken } from "../apiClient";
 import { KYC_CLIENT } from "../kycClient";
 

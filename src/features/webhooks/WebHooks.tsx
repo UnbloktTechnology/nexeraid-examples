@@ -1,48 +1,43 @@
 import { useAccount } from "wagmi";
 import styles from "./styles.module.css";
 import { getDataWebHook, getRuleWebHook } from "../apiClient";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { KYC_CLIENT } from "../kycClient";
+
+const formatResponse = (res: any) => {
+  if (Object.keys(res).length) {
+    return JSON.stringify(res, null, 1);
+  }
+  return "";
+};
 
 export const WebHooks = () => {
   const { address } = useAccount();
+  const [data, setData] = useState("");
+  const [rule, setRule] = useState("");
 
-  const dataWebhook = useQuery({
-    queryKey: ["webhook", address],
-    queryFn: async () => {
-      if (!address) throw new Error("No address");
-      const res = await getDataWebHook(address);
-      if (Object.keys(res).length) {
-        return JSON.stringify(res, null, 1);
-      }
-      return "";
-    },
-    refetchInterval: 5000,
-    enabled: !!address,
-  });
+  useEffect(() => {
+    // Get Off Chain Completition process event response
+    if (address) {
+      KYC_CLIENT.onOffChainShareCompletition(async () => {
+        const _data = await getDataWebHook(address as string);
+        const _rule = await getRuleWebHook(address as string);
 
-  const ruleWebHook = useQuery({
-    queryKey: ["rulewebhook", address],
-    queryFn: async () => {
-      if (!address) throw new Error("No address");
-      const res = await getRuleWebHook(address);
-      if (Object.keys(res).length) {
-        return JSON.stringify(res, null, 1);
-      }
-      return "";
-    },
-    refetchInterval: 5000,
-    enabled: !!address,
-  });
+        setData(formatResponse(_data));
+        setRule(formatResponse(_rule));
+      });
+    }
+  }, [address]);
 
   return (
     <div className={styles.responseColumns}>
       <div>
         <h4>DATA: </h4>
-        <pre>{dataWebhook.data}</pre>
+        <pre>{data}</pre>
       </div>
       <div>
         <h4>RULE:</h4>
-        <pre>{ruleWebHook.data}</pre>
+        <pre>{rule}</pre>
       </div>
     </div>
   );

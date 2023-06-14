@@ -6,9 +6,9 @@ export const ENVSchema = z.enum(ENVS);
 export const appConfig = {
   [ENVSchema.enum.local]: {
     alchemyProviderApiKey: "l17F_fBBtM6Tn1RNN_lXaXMc2Czt0tlA",
-    api: "http://localhost:3001/",
+    api: "https://api-dev.nexera.id/",
     apiKey: "8038d25e-4ca4-45c2-8bff-642c47870cca",
-    kycApp: "http://localhost:3008/",
+    kycApp: "https://kyc-dev.nexera.id/",
   },
   [ENVSchema.enum.dev]: {
     alchemyProviderApiKey: "l17F_fBBtM6Tn1RNN_lXaXMc2Czt0tlA",

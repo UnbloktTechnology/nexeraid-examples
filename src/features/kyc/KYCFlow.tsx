@@ -4,10 +4,7 @@ import { useAccount, useSignMessage, useWalletClient } from "wagmi";
 import { appConfig } from "../../appConfig";
 import { env } from "../../env.mjs";
 import { getAccessToken } from "../apiClient";
-
-const KYC_CLIENT = new KycClient({
-  baseUrl: appConfig[env.NEXT_PUBLIC_ENVIRONMENT].kycApp,
-});
+import { KYC_CLIENT } from "../kycClient";
 
 export const KYCFlow = () => {
   const { signMessageAsync } = useSignMessage();
@@ -29,9 +26,6 @@ export const KYCFlow = () => {
       // @ts-ignore
       const txHash = await walletClient?.sendTransaction(data);
       return txHash as string;
-    });
-    KYC_CLIENT.onOffChainShareCompletition(() => {
-      console.log("off chain share completed");
     });
     // build signing message, needed to safetly store kyc in user's browser
     const signingMessage = KycClient.buildSignatureMessage(address as string);

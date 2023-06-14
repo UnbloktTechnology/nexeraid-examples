@@ -9,11 +9,15 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { appConfig } from "../appConfig";
+import { env } from "../env.mjs";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [polygonMumbai],
   [
-    alchemyProvider({ apiKey: "l17F_fBBtM6Tn1RNN_lXaXMc2Czt0tlA" }),
+    alchemyProvider({
+      apiKey: appConfig[env.NEXT_PUBLIC_ENVIRONMENT].alchemyProviderApiKey,
+    }),
     publicProvider(),
   ]
 );

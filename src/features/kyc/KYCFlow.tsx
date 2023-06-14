@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import KycClient from "@nexeraid/kyc-sdk/client";
 import { useAccount, useSignMessage, useWalletClient } from "wagmi";
-import { getAccessToken } from "../src/utils/api_client";
-import { getConfig } from "../src/utils/getConfig";
+import { appConfig } from "../../appConfig";
+import { env } from "../../env.mjs";
+import { getAccessToken } from "../../utils/api_client";
 
 const KYC_CLIENT = new KycClient({
-  baseUrl: getConfig().kycApp,
+  baseUrl: appConfig[env.NEXT_PUBLIC_ENVIRONMENT].kycApp,
 });
 
-const KYCFlow = () => {
+export const KYCFlow = () => {
   const { signMessageAsync } = useSignMessage();
   const { data: walletClient } = useWalletClient();
   const { address } = useAccount();
@@ -29,9 +30,8 @@ const KYCFlow = () => {
       const txHash = await walletClient?.sendTransaction(data);
       return txHash as string;
     });
-    KYC_CLIENT.onOffChainShareCompletition((isValid: boolean) => {
-      if (isValid) console.log(`Success Off chain data sharing`);
-      else console.log(`Off chain share data was invalid`);
+    KYC_CLIENT.onOffChainShareCompletition(() => {
+      console.log("off chain share completed");
     });
     // build signing message, needed to safetly store kyc in user's browser
     const signingMessage = KycClient.buildSignatureMessage(address as string);
@@ -74,5 +74,3 @@ const KYCFlow = () => {
     </div>
   );
 };
-
-export default KYCFlow;

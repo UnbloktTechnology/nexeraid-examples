@@ -3,7 +3,7 @@ import KycClient from "@nexeraid/kyc-sdk/client";
 import { useAccount, useSignMessage, useWalletClient } from "wagmi";
 import { appConfig } from "../../appConfig";
 import { env } from "../../env.mjs";
-import { getAccessToken } from "../../utils/api_client";
+import { getAccessToken } from "../apiClient";
 
 const KYC_CLIENT = new KycClient({
   baseUrl: appConfig[env.NEXT_PUBLIC_ENVIRONMENT].kycApp,

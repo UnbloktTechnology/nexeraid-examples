@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { redis } from "../../../utils/redis";
+import { redis } from "../../../features/redis";
 
 const dataWebHookPost = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {

@@ -1,9 +1,9 @@
-"use client"
+"use client";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { Inter } from "next/font/google";
 import styles from "./client.module.css";
 import { KYCFlow } from "./KYCFlow";
-import { WebHooks } from "../WebHooks";
+import { WebHooks } from "../webhooks/WebHooks";
 
 const inter = Inter({ subsets: ["latin"] });
 

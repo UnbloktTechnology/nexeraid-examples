@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import styles from "./styles.module.css";
-import { getDataWebHook, getRuleWebHook } from "../utils/api_client";
-import { useInterval } from "../hooks/useInterval";
+import {getDataWebHook, getRuleWebHook} from "../apiClient";
+import {useInterval} from "../../hooks/useInterval";
 
 export const WebHooks = () => {
   const [data, setData] = useState("");

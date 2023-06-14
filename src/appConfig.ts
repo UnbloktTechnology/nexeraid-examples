@@ -26,6 +26,6 @@ export const appConfig = {
     alchemyProviderApiKey: "l17F_fBBtM6Tn1RNN_lXaXMc2Czt0tlA",
     api: "https://api.nexera.id/",
     apiKey: "7a2f9b1e-cd9d-466c-97a7-9ea25aad465b",
-    kycApp: "https://kyc-dev.nexera.id/",
+    kycApp: "https://kyc.nexera.id/",
   },
 } as const;

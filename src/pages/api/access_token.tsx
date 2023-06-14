@@ -1,16 +1,16 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getConfig } from "../../src/utils/getConfig";
+import { appConfig } from "../../appConfig";
+import { env } from "../../env.mjs";
 
 /*
  * Get access token
  * This has to be done from secured server, to avoid leaking API_KEY
  */
 const getAccessToken = async (req: NextApiRequest, res: NextApiResponse) => {
-  const config = getConfig();
-  const API_KEY = config.apiKey;
+  const API_KEY = appConfig[env.NEXT_PUBLIC_ENVIRONMENT].apiKey;
   const query = req.query;
   const { address } = query;
-  const apiHost = config.api;
+  const apiHost = appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api;
   try {
     const response = await fetch(`${apiHost}kyc/auth/access-token`, {
       body: JSON.stringify({ publicAddress: address }),

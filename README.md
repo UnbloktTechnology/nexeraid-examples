@@ -1,8 +1,7 @@
 # NexeraID KYC-SDK
 
-This repo shows how to use a NexeraID KYC-SDK
-
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This repo shows how to use a NexeraID KYC-SDK to integrate a KYC flow in your application. 
+This example uses Nextjs and React.
 
 ## Getting Started
 
@@ -14,7 +13,7 @@ npm i
 
 2. Set environments like `.env.example` in your `.env.local`
 
-3. Be sure that you have `Metamask` or `Coinbase` on your Browser.
+3. Be sure that you have `Metamask` on your Browser.
 
 4. Run the development server
 
@@ -50,10 +49,10 @@ npm run dev
 
 ## Project Structure
 
-1. Remember that in the `.env.example` you will find the `NEXT_PUBLIC_ENVIROMENT` to configure depending on `src/config/config.json` environment that you require
+1. Remember that in the `.env.example` you will find the `NEXT_PUBLIC_ENVIRONMENT` to configure depending on [appConfig.ts](src/appConfig.ts) environment that you require
 
-2. The Access Token call is provided by the endpoint in `pages/api/access_token`
+2. The Access Token call is provided by the endpoint in [src/pages/api/access_token](src/pages/api/access_token.tsx)
 
-3. The SDK of KYC Client is initialized in `pages/client/component`
+3. The SDK of KYC Client is initialized in [src/features/client/KYCFlow.tsx](src/features/kyc/KYCFlow.tsx)
 
-4. The KYC Client binding button is placed on `pages/client/component`
+4. The KYC Client binding button is placed on [src/features/kyc/Client.tsx](src/features/kyc/Client.tsx)

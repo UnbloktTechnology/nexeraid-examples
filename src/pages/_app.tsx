@@ -8,7 +8,6 @@ import { polygonMumbai } from "wagmi/chains";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { appConfig } from "../appConfig";
 import { env } from "../env.mjs";
 
@@ -42,10 +41,7 @@ export const wagmiConfig = createConfig({
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <WagmiConfig config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
-        <ReactQueryDevtools initialIsOpen={true} position={"bottom-right"} />
-      </QueryClientProvider>
+      <Component {...pageProps} />
     </WagmiConfig>
   );
 };

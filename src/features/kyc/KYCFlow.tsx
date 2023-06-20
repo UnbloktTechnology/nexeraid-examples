@@ -6,10 +6,10 @@ import { KYC_CLIENT } from "../kycClient";
 
 export const KYCFlow = () => {
   const signMessage = useSignMessage();
-  const { address } = useAccount();
-  const [initalized, setInitialized] = useState<"inital" | "signature" | "done">(
-    "inital"
-  );
+  const { address, connector } = useAccount();
+  const [initalized, setInitialized] = useState<
+    "inital" | "signature" | "done"
+  >("inital");
   const [auth, setAuth] = useState<{
     accessToken: string;
     signingMessage: string;
@@ -33,7 +33,7 @@ export const KYCFlow = () => {
   }, [address, signMessage]);
 
   useEffect(() => {
-    if (!address || !signMessage) return;
+    if (!address || !signMessage || !connector) return;
     if (!auth && initalized === "inital") {
       setInitialized("signature");
       void configKYCClient();
@@ -45,7 +45,7 @@ export const KYCFlow = () => {
         initOnFlow: "REQUEST",
       });
     }
-  }, [address, auth, configKYCClient, initalized, signMessage]);
+  }, [address, auth, configKYCClient, initalized, signMessage, connector]);
 
   return (
     <div>

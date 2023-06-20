@@ -20,8 +20,8 @@ const { chains, publicClient } = configureChains(
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "My RainbowKit App",
-  projectId: "YOUR_PROJECT_ID",
+  appName: "NexeraID Example-dapp",
+  projectId: "5d874ef9e44150c54831f6ba7e6d6228",
   chains,
 });
 

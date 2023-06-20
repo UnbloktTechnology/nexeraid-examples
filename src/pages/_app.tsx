@@ -1,47 +1,42 @@
-import type { AppType } from "next/app";
-
-import { WagmiConfig, createConfig, configureChains } from "wagmi";
-import { alchemyProvider } from "wagmi/providers/alchemy";
+import "@rainbow-me/rainbowkit/styles.css";
+import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { configureChains, createConfig, WagmiConfig } from "wagmi";
+import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
-import { polygonMumbai } from "wagmi/chains";
+import { AppType } from "next/app";
+import { arbitrumGoerli, avalancheFuji, polygonMumbai } from "viem/chains";
 
-import { InjectedConnector } from "wagmi/connectors/injected";
-import { MetaMaskConnector } from "wagmi/connectors/metaMask";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { appConfig } from "../appConfig";
-import { env } from "../env.mjs";
-
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [polygonMumbai],
+const { chains, publicClient } = configureChains(
   [
-    alchemyProvider({
-      apiKey: appConfig[env.NEXT_PUBLIC_ENVIRONMENT].alchemyProviderApiKey,
-    }),
-    publicProvider(),
-  ]
-);
-const queryClient = new QueryClient();
-export const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors: [
-    new MetaMaskConnector({ chains }),
-    new InjectedConnector({
-      chains,
-      options: {
-        name: "Injected",
-        shimDisconnect: true,
-      },
-    }),
+    mainnet,
+    polygon,
+    optimism,
+    arbitrum,
+    polygonMumbai,
+    arbitrumGoerli,
+    avalancheFuji,
   ],
-  queryClient,
+  [publicProvider()]
+);
+
+const { connectors } = getDefaultWallets({
+  appName: "My RainbowKit App",
+  projectId: "YOUR_PROJECT_ID",
+  chains,
+});
+
+const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors,
   publicClient,
-  webSocketPublicClient,
 });
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <WagmiConfig config={wagmiConfig}>
-      <Component {...pageProps} />
+      <RainbowKitProvider chains={chains}>
+        <Component {...pageProps} />
+      </RainbowKitProvider>
     </WagmiConfig>
   );
 };

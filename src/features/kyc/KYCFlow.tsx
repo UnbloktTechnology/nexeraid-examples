@@ -1,62 +1,51 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import KycClient from "@nexeraid/kyc-sdk/client";
 import { useAccount, useSignMessage, useWalletClient } from "wagmi";
 import { getAccessToken } from "../apiClient";
 import { KYC_CLIENT } from "../kycClient";
 
 export const KYCFlow = () => {
-  const { signMessageAsync } = useSignMessage();
-  const { data: walletClient } = useWalletClient();
+  const signMessage = useSignMessage();
   const { address } = useAccount();
+  const [initalized, setInitialized] = useState<"inital" | "signature" | "done">(
+    "inital"
+  );
+  const [auth, setAuth] = useState<{
+    accessToken: string;
+    signingMessage: string;
+    signature: string;
+  }>();
 
-  const [auth, setAuth] = useState<any>();
-
-  const configKYCClient = async () => {
-    // configure kyc flow callbacks
-    // mandatory onSignPersonalData callback
+  const configKYCClient = useCallback(async () => {
     KYC_CLIENT.onSignPersonalData(async (data: string) => {
-      // make user sign data with wallet, and return result
-      return await signMessageAsync({ message: data });
+      return await signMessage.signMessageAsync({ message: data });
     });
-    // optional onZkCallback (mandatory if zk flow will be used)
-    KYC_CLIENT.onZkCallback(async (data) => {
-      // make wallet user send transaction, using data from kyc app, and returning transaction hash
-      // @ts-ignore
-      const txHash = await walletClient?.sendTransaction(data);
-      return txHash as string;
-    });
-    // build signing message, needed to safetly store kyc in user's browser
     const signingMessage = KycClient.buildSignatureMessage(address as string);
-    const signature = await signMessageAsync({ message: signingMessage });
-    // here you need to get access token from your server, which will call our backend as we explained in the Server app section
-
-    // TODO - Check functionality
+    const signature = await signMessage.signMessageAsync({
+      message: signingMessage,
+    });
     const accessToken = await getAccessToken(address as string);
-
-    // finally, once accessToken, signingMessage and signature ready, and button defined, KycClient can be initialised
     setAuth({
       accessToken,
       signingMessage,
       signature,
     });
-  };
+  }, [address, signMessage]);
 
   useEffect(() => {
-    if (address) {
-      setTimeout(() => {
-        configKYCClient();
-      }, 200);
+    if (!address || !signMessage) return;
+    if (!auth && initalized === "inital") {
+      setInitialized("signature");
+      void configKYCClient();
     }
-  }, [address]);
-
-  useEffect(() => {
-    if (auth) {
+    if (auth && initalized === "signature") {
+      setInitialized("done");
       KYC_CLIENT.init({
         auth,
-        initOnFlow: "REQUEST", // flows available: "REQUEST" | "MANAGEMENT"
+        initOnFlow: "REQUEST",
       });
     }
-  }, [auth]);
+  }, [address, auth, configKYCClient, initalized, signMessage]);
 
   return (
     <div>

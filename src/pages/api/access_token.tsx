@@ -13,7 +13,7 @@ const getAccessToken = async (req: NextApiRequest, res: NextApiResponse) => {
   const apiHost = appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api;
   try {
     const response = await fetch(`${apiHost}kyc/auth/access-token`, {
-      body: JSON.stringify({ publicAddress: address }),
+      body: JSON.stringify({ address: address }),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${API_KEY}`,

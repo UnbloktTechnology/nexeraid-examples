@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { redis } from "../../../appConfig";
+import { redis } from "./index";
 
 const ruleWebHookPost = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {

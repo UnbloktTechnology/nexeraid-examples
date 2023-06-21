@@ -17,14 +17,14 @@ export const getDataWebHook = async (address: string) => {
     method: "GET",
   });
   return await response.json();
-}
+};
 
-export const getRuleWebHook = async (address: string) => {
-  const response = await fetch(`/api/rule_webhook?address=${address}`, {
+export const getScenarioWebhook = async (address: string) => {
+  const response = await fetch(`/api/scenario_webhook?address=${address}`, {
     headers: {
       "Content-Type": "application/json",
     },
     method: "GET",
   });
   return await response.json();
-}
+};

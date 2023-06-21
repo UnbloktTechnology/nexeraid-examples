@@ -21,7 +21,7 @@ npm i
 npm run dev
 ```
 
-5. Open [http://localhost:3006](http://localhost:3006) with your browser to see the result.
+5. Open [http://localhost:3012](http://localhost:3012) with your browser to see the result.
 
 6. You could go through "Get Started with KYC Flow" or visit directly [http://localhost:3006/client](http://localhost:3006/client)
 

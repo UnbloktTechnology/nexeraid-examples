@@ -9,13 +9,11 @@ const inter = Inter({ subsets: ["latin"] });
 export const Client = () => {
   const account = useAccount();
   return (
-    <body>
-      <main className={`${inter.className} ${styles.main}`}>
-        <>
-          <ConnectButton />
-          {account && <KYCFlow />}
-        </>
-      </main>
-    </body>
+    <main className={`${inter.className} ${styles.main}`}>
+      <>
+        <ConnectButton />
+        {account && <KYCFlow />}
+      </>
+    </main>
   );
 };

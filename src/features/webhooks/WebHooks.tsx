@@ -1,6 +1,6 @@
 import { useAccount } from "wagmi";
 import styles from "./styles.module.css";
-import { getDataWebHook, getRuleWebHook } from "../apiClient";
+import { getDataWebHook, getScenarioWebhook } from "../apiClient";
 import { useEffect, useState } from "react";
 import { KYC_CLIENT } from "../../appConfig";
 
@@ -21,7 +21,7 @@ export const WebHooks = () => {
     if (address) {
       KYC_CLIENT.onOffChainShareCompletition(async () => {
         const _data = await getDataWebHook(address as string);
-        const _rule = await getRuleWebHook(address as string);
+        const _rule = await getScenarioWebhook(address as string);
 
         setData(formatResponse(_data));
         setRule(formatResponse(_rule));

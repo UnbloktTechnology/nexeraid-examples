@@ -2,7 +2,7 @@ import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 
 
-export const ENVS = ["local", "dev", "staging", "prod"]
+export const ENVS = ["local", "dev", "stage", "prod"]
 export const ENVSchema = z.enum(ENVS);
 export const env = createEnv({
   server: {

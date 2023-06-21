@@ -24,5 +24,3 @@ export const KYC_CLIENT = new KycClient({
   env: ENVSchema.parse(process.env.NEXT_PUBLIC_ENVIRONMENT),
   identifier: "verify",
 });
-
-export const redis = Redis.fromEnv();

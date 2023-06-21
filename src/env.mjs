@@ -8,6 +8,7 @@ export const env = createEnv({
   server: {
     UPSTASH_REDIS_REST_TOKEN: z.string(),
     UPSTASH_REDIS_REST_URL: z.string(),
+    NEXERA_ID_API_KEY: z.string(),
   },
   client: {
     NEXT_PUBLIC_ENVIRONMENT: ENVSchema,
@@ -16,5 +17,6 @@ export const env = createEnv({
     NEXT_PUBLIC_ENVIRONMENT: process.env.NEXT_PUBLIC_ENVIRONMENT,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
+    NEXERA_ID_API_KEY: process.env.NEXERA_ID_API_KEY,
   },
 });

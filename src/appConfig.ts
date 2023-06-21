@@ -6,7 +6,7 @@ export const ENVSchema = z.enum(ENVS);
 export const appConfig = {
   [ENVSchema.enum.local]: {
     api: "http://localhost:3001/",
-    apiKey: "6e9e57c3-0f53-4643-90ac-e420fff21ef7",
+    apiKey: "65755090-45c1-4a8b-b115-da8ca336ed01",
     kycApp: "http://localhost:3008/",
   },
   [ENVSchema.enum.dev]: {

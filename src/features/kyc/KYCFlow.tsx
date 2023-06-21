@@ -1,15 +1,13 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import KycClient from "@nexeraid/kyc-sdk/client";
-import { useAccount, useSignMessage, useWalletClient } from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
 import { getAccessToken } from "../apiClient";
 import { KYC_CLIENT } from "../kycClient";
+import { WebHooks } from "../webhooks/WebHooks";
 
 export const KYCFlow = () => {
   const signMessage = useSignMessage();
   const { address } = useAccount();
-  const [initalized, setInitialized] = useState<"inital" | "signature" | "done">(
-    "inital"
-  );
   const [auth, setAuth] = useState<{
     accessToken: string;
     signingMessage: string;
@@ -32,26 +30,30 @@ export const KYCFlow = () => {
     });
   }, [address, signMessage]);
 
-  useEffect(() => {
-    if (!address || !signMessage) return;
-    if (!auth && initalized === "inital") {
-      setInitialized("signature");
-      void configKYCClient();
-    }
-    if (auth && initalized === "signature") {
-      setInitialized("done");
-      KYC_CLIENT.init({
-        auth,
-        initOnFlow: "REQUEST",
-      });
-    }
-  }, [address, auth, configKYCClient, initalized, signMessage]);
-
   return (
     <div>
-      <button disabled={!auth} id="kyc-btn">
-        Start KYC
-      </button>
+      <h1>KYC Flow</h1>
+      {!auth && (
+        <div>
+          <h2>Not Authenticated</h2>
+          <button onClick={configKYCClient}>Authenticate</button>
+        </div>
+      )}
+      {auth && (
+        <button
+          onClick={() => {
+            KYC_CLIENT.init({
+              auth,
+              initOnFlow: "REQUEST",
+            });
+          }}
+          id="kyc-btn"
+        >
+          Start KYC
+        </button>
+      )}
+
+      {auth && <WebHooks />}
     </div>
   );
 };

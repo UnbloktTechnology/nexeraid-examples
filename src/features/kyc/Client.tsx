@@ -6,20 +6,16 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const Client = () => {
+export const Client = () => {
   const account = useAccount();
   return (
     <body>
       <main className={`${inter.className} ${styles.main}`}>
-        {account && (
-          <>
-            <ConnectButton />
-            <KYCFlow />
-          </>
-        )}
+        <>
+          <ConnectButton />
+          {account && <KYCFlow />}
+        </>
       </main>
     </body>
   );
 };
-
-export default Client;

@@ -2,8 +2,8 @@ import { useCallback, useState } from "react";
 import KycClient from "@nexeraid/kyc-sdk/client";
 import { useAccount, useSignMessage } from "wagmi";
 import { getAccessToken } from "../apiClient";
-import { KYC_CLIENT } from "../kycClient";
 import { WebHooks } from "../webhooks/WebHooks";
+import { KYC_CLIENT } from "../../appConfig";
 
 export const KYCFlow = () => {
   const signMessage = useSignMessage();

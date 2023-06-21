@@ -2,7 +2,7 @@ import { useAccount } from "wagmi";
 import styles from "./styles.module.css";
 import { getDataWebHook, getRuleWebHook } from "../apiClient";
 import { useEffect, useState } from "react";
-import { KYC_CLIENT } from "../kycClient";
+import { KYC_CLIENT } from "../../appConfig";
 
 const formatResponse = (res: any) => {
   if (Object.keys(res).length) {

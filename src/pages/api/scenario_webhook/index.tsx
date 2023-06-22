@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import ruleWebHookGet from "./rule_webhook.get";
-import ruleWebHookPost from "./rule_webhook.post";
+import { Redis } from "@upstash/redis";
+import ruleWebHookGet from "./scenario_webhook.get";
+import ruleWebHookPost from "./scenario_webhook.post";
 
 export default async function handler(
   req: NextApiRequest,
@@ -22,3 +23,5 @@ export default async function handler(
     }
   }
 }
+
+export const redis = Redis.fromEnv();

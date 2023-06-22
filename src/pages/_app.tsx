@@ -1,42 +1,42 @@
-// src/pages/_app.tsx
-import type { AppType } from "next/app";
-
-import { WagmiConfig, createConfig, configureChains } from "wagmi";
-import { alchemyProvider } from "wagmi/providers/alchemy";
+import "@rainbow-me/rainbowkit/styles.css";
+import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { configureChains, createConfig, WagmiConfig } from "wagmi";
+import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
-import { polygonMumbai } from "wagmi/chains";
+import { AppType } from "next/app";
+import { arbitrumGoerli, avalancheFuji, polygonMumbai } from "viem/chains";
 
-import { InjectedConnector } from "wagmi/connectors/injected";
-import { MetaMaskConnector } from "wagmi/connectors/metaMask";
-
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [polygonMumbai],
+const { chains, publicClient } = configureChains(
   [
-    alchemyProvider({ apiKey: "l17F_fBBtM6Tn1RNN_lXaXMc2Czt0tlA" }),
-    publicProvider(),
-  ]
+    mainnet,
+    polygon,
+    optimism,
+    arbitrum,
+    polygonMumbai,
+    arbitrumGoerli,
+    avalancheFuji,
+  ],
+  [publicProvider()]
 );
 
-export const wagmiConfig = createConfig({
+const { connectors } = getDefaultWallets({
+  appName: "NexeraID Example-dapp",
+  projectId: "5d874ef9e44150c54831f6ba7e6d6228",
+  chains,
+});
+
+const wagmiConfig = createConfig({
   autoConnect: true,
-  connectors: [
-    new MetaMaskConnector({ chains }),
-    new InjectedConnector({
-      chains,
-      options: {
-        name: "Injected",
-        shimDisconnect: true,
-      },
-    }),
-  ],
+  connectors,
   publicClient,
-  webSocketPublicClient,
 });
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <WagmiConfig config={wagmiConfig}>
-      <Component {...pageProps} />
+      <RainbowKitProvider chains={chains}>
+        <Component {...pageProps} />
+      </RainbowKitProvider>
     </WagmiConfig>
   );
 };

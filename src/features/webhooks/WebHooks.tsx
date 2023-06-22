@@ -1,43 +1,33 @@
-import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import styles from "./styles.module.css";
-import {getDataWebHook, getRuleWebHook} from "../apiClient";
-import {useInterval} from "../../hooks/useInterval";
+import { getDataWebHook, getScenarioWebhook } from "../apiClient";
+import { useEffect, useState } from "react";
+import { KYC_CLIENT } from "../../appConfig";
+
+const formatResponse = (res: any) => {
+  if (Object.keys(res).length) {
+    return JSON.stringify(res, null, 1);
+  }
+  return "";
+};
 
 export const WebHooks = () => {
+  const { address } = useAccount();
   const [data, setData] = useState("");
   const [rule, setRule] = useState("");
-  const { address } = useAccount();
-
-  const { clear: clearDataInterval } = useInterval(async () => {
-    if (address) {
-      const res = await getDataWebHook(address);
-
-      if (Object.keys(res).length) {
-        console.log("RES INS Data: ", res);
-        setData(JSON.stringify(res, null, 1));
-      }
-    }
-  }, 5000);
-
-  const { clear: clearRuleInterval } = useInterval(async () => {
-    if (address) {
-      const res = await getRuleWebHook(address);
-
-      if (Object.keys(res).length) {
-        console.log("RES INS Rule: ", res);
-        setRule(JSON.stringify(res, null, 1));
-      }
-    }
-  }, 5000);
 
   useEffect(() => {
-    if (data) clearDataInterval();
-  }, [data]);
+    // Get Off Chain Completition process event response
+    if (address) {
+      KYC_CLIENT.onOffChainShareCompletition(async () => {
+        const _data = await getDataWebHook(address as string);
+        const _rule = await getScenarioWebhook(address as string);
 
-  useEffect(() => {
-    if (rule) clearRuleInterval();
-  }, [rule]);
+        setData(formatResponse(_data));
+        setRule(formatResponse(_rule));
+      });
+    }
+  }, [address]);
 
   return (
     <div className={styles.responseColumns}>

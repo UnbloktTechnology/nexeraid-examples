@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { redis } from "../../../features/redis";
+import { redis } from "../scenario_webhook";
 
 const dataWebHookGet = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
@@ -7,11 +7,9 @@ const dataWebHookGet = async (req: NextApiRequest, res: NextApiResponse) => {
     const addressLowerCase = (address as string).toLowerCase();
     const key = `data_webhook_${addressLowerCase}`;
     let response;
-
     try {
-      console.log("key", key);
+      console.log("dataWebHookGet key", key);
       response = await redis.get(key);
-      redis.set(key, "");
     } catch (e) {
       console.error("data webhook get error", e);
       response = undefined;

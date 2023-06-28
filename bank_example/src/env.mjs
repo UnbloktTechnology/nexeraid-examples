@@ -8,6 +8,9 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
+    NEXERA_SCENARIO_ID: z.string().default('6491f9bf20410c15798b1dd1').describe("Specific Scenario ID for the APP"),
+    UPSTASH_REDIS_REST_TOKEN: z.string().default("=AXcgASQgZmQ5ZWJhMTktNzQ5Zi00MzUzLTg5MDQtZWM1MmRiZmRkNjU2MTUxMWFjZjY4MDhiNDRkYTk1MjgzN2IxMzEzZDVmMGE="),
+    UPSTASH_REDIS_REST_URL: z.string().default("https://eu2-chief-puma-30496.upstash.io")
   },
 
   /**
@@ -17,7 +20,7 @@ export const env = createEnv({
    */
   client: {
     NEXT_PUBLIC_ENVIRONMENT: z.enum(["local", "dev", "stage", "prod"]).default("local").describe("The environment the app is running in"),
-    NEXT_PUBLIC_NEXERA_ID_API_KEY: z.string().optional().default("c89910dd-d71b-49e9-af59-4ba016ab48cc").describe("The API key for the Nexera ID API -> https://cms.nexera.id/"),
+    NEXT_PUBLIC_NEXERA_ID_API_KEY: z.string().optional().default("c89910dd-d71b-49e9-af59-4ba016ab48cc").describe("The API key for the Nexera ID API -> https://cms.nexera.id/: Nexera Example Dapp"),
   },
 
   /**
@@ -27,7 +30,10 @@ export const env = createEnv({
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_ENVIRONMENT: process.env.NEXT_PUBNEXT_PUBLIC_ENVIRONMENT,
-    NEXT_PUBLIC_NEXERA_ID_API_KEY: process.env.NEXT_PUBLIC_NEXERA_ID_API_KEY
+    NEXT_PUBLIC_NEXERA_ID_API_KEY: process.env.NEXT_PUBLIC_NEXERA_ID_API_KEY,
+    NEXERA_SCENARIO_ID: process.env.NEXERA_SCENARIO_ID,
+    UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
+    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL 
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

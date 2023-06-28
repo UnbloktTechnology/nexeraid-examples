@@ -1,5 +1,6 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 import { complianceRouter } from "@/server/api/routers/complianceRouter";
+import { identityRouter } from "@/server/api/routers/identityRouter";
 
 /**
  * This is the primary router for your server.
@@ -8,6 +9,7 @@ import { complianceRouter } from "@/server/api/routers/complianceRouter";
  */
 export const appRouter = createTRPCRouter({
   compliance: complianceRouter,
+  identity: identityRouter
 });
 
 // export type definition of API

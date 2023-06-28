@@ -1,13 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { env } from "@/env.mjs";
-
-const NEXERA_API_URLS = {
-  local: "http://localhost:3001",
-  dev: "https://api-dev.nexera.id",
-  stage: "https://api-staging.nexera.id",
-  prod: "https://api.nexera.id",
-} as const;
+import { appConfig } from "../../../appConfig";
 
 export const complianceRouter = createTRPCRouter({
   executeRule: publicProcedure
@@ -32,7 +26,7 @@ export const complianceRouter = createTRPCRouter({
       const creds = [];
       const result = await fetch(
         `${
-          NEXERA_API_URLS[env.NEXT_PUBLIC_ENVIRONMENT]
+          appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api
         }/compliance/scenario/execute`,
         {
           method: "POST",

@@ -14,7 +14,6 @@ export const complianceRouter = createTRPCRouter({
     .input(
       z.object({
         address: z.string(),
-        credentials: z.array(z.any()),
       })
     )
     .output(
@@ -29,6 +28,8 @@ export const complianceRouter = createTRPCRouter({
       )
     )
     .query(async ({ input }) => {
+      // TODO get creds from db based on address
+      const creds = [];
       const result = await fetch(
         `${
           NEXERA_API_URLS[env.NEXT_PUBLIC_ENVIRONMENT]
@@ -42,7 +43,7 @@ export const complianceRouter = createTRPCRouter({
           },
           body: JSON.stringify({
             address: input.address,
-            inputData: input.credentials,
+            inputData: [],
             scenarioId: "string",
           }),
         }

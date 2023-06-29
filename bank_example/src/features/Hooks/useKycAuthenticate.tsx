@@ -7,7 +7,6 @@ import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { api } from "@/utils/api";
-import { accessCaller } from "../../server/api/routers/accessRouter";
 
 export interface AuthenticationData {
   address: string;
@@ -16,6 +15,8 @@ export interface AuthenticationData {
 
 export const useKycAuthentication = () => {
   const authStore = useAuthStore((state) => state);
+
+  const getAccessToken = api.access.accessToken.useMutation();
 
   const logout = useMutation(async () => {
     await Promise.resolve(authStore.logout());
@@ -35,7 +36,7 @@ export const useKycAuthentication = () => {
       );
       const signer = new ethers.Wallet(privateKey, provider);
       const signature = await signer.signMessage(signingMessage);
-      const response = await accessCaller.accessToken({ address });
+      const response = await getAccessToken.mutateAsync({ address });
       const { accessToken } = response;
 
       console.log("HELLOOOOO Access token: ", accessToken);

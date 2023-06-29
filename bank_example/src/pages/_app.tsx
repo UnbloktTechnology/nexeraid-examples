@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { type AppType } from "next/app";
-import { api } from "@/utils/api";
 import "@/styles/globals.css";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -12,9 +10,10 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
-import { SimpleAuthProvider } from "../features/SimpleAuthProvider";
+import { SimpleAuthProvider } from "@/features/SimpleAuthProvider";
 import { arbitrumGoerli, avalancheFuji, polygonMumbai } from "viem/chains";
 import dynamic from "next/dynamic";
+import { api } from "@/utils/api";
 
 const { chains, publicClient } = configureChains(
   [

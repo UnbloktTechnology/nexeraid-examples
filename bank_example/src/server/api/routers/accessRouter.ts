@@ -2,7 +2,7 @@ import { env } from "@/env.mjs";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 
 import { z } from "zod";
-import { appConfig } from "../../../appConfig";
+import { appConfig } from "@/appConfig";
 
 export const accessRouter = createTRPCRouter({
   accessToken: publicProcedure
@@ -17,10 +17,10 @@ export const accessRouter = createTRPCRouter({
     .input(
       z.object({
         address: z.string(),
-      }),
+      })
     )
     .output(z.any())
-    .query(async ({ input }) => {
+    .mutation(async ({ input }) => {
       const apiHost = appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api;
       const response = await fetch(`${apiHost}kyc/auth/access-token`, {
         body: JSON.stringify({ address: input.address }),
@@ -34,8 +34,6 @@ export const accessRouter = createTRPCRouter({
       const { accessToken } = await response.json();
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      return { accessToken: accessToken as string }
-    })
+      return { accessToken: accessToken as string };
+    }),
 });
-
-export const accessCaller = accessRouter.createCaller({})

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useEffect } from "react";
 import { KYC_CLIENTS } from "@/features/Services/KycClient";
 import { useKycAuthentication } from "@/features/Hooks/useKycAuthenticate";
@@ -51,7 +49,6 @@ export const KycVerifyButton = () => {
         initOnFlow: "REQUEST",
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

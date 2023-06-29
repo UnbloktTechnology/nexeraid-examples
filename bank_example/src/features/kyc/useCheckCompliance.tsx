@@ -2,19 +2,21 @@ import { api } from "@/utils/api";
 import { useMutation } from "@tanstack/react-query";
 import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
 
-export const useIsUserCompliant = () => {
+export const useCheckCompliance = () => {
   const { user } = useKycAuthentication();
   const isCompliant = api.compliance.executeRule.useMutation();
 
   return useMutation({
     mutationFn: async () => {
       if (!user) return Promise.resolve(false);
+      console.log("isCompliant", user.walletAddress);
       const result = await isCompliant.mutateAsync({
         address: user.walletAddress,
       });
+      console.log("isCompliant result", result);
       return result.every((compliant) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        return compliant.result.validate[0].is_valid as boolean;
+        return compliant.result.result.validate?.[0].is_valid as boolean;
       });
     },
   });

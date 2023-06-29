@@ -6,10 +6,7 @@ import { Banner, Content, Header, Layout } from "@/features/Layout";
 import { SimpleAuthContext } from "@/features/SimpleAuthProvider";
 import { useGlobalModals } from "@/features/Modals/useGlobalModals";
 import { toast } from "react-toastify";
-import {
-  type AuthenticationData,
-  useKycAuthentication,
-} from "@/features/kyc/useKycAuthenticate";
+import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
 import { useIsUserCompliant } from "@/features/kyc/useIsUserCompliant";
 import { KYC_CLIENTS } from "@/features/kyc/KycClient";
 import { getSigner, TEST_USERS, TestUser } from "@/appConfig";
@@ -68,11 +65,7 @@ const Home = () => {
 
   const onAuthenticate = (user: TestUser) => {
     if (signIn(user)) {
-      const authenticationData: AuthenticationData = {
-        address: user.walletAddress,
-        privateKey: user.privateKey,
-      };
-      void authenticate.mutate(authenticationData);
+      void authenticate.mutate({ user });
       if (isUserCompliant) {
         logOnSuccessfull(user);
       }
@@ -93,6 +86,8 @@ const Home = () => {
           textButton: "Verify Identity",
         },
         userData: {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           users: TEST_USERS,
           onSuccess: logOnSuccessfull,
           onAuthenticate: onAuthenticate,

@@ -1,40 +1,35 @@
 import KycClient from "@nexeraid/kyc-sdk/client";
 import { useMutation } from "@tanstack/react-query";
-import { ethers } from "ethers";
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { api } from "@/utils/api";
-
-export interface AuthenticationData {
-  address: string;
-  privateKey: string;
-}
+import { getSigner, TestUser } from "@/appConfig";
+import { useContext } from "react";
+import { SimpleAuthContext } from "@/features/SimpleAuthProvider";
 
 export const useKycAuthentication = () => {
   const authStore = useAuthStore((state) => state);
-
   const getAccessToken = api.access.accessToken.useMutation();
+  const { getUser } = useContext(SimpleAuthContext);
+  const user = getUser();
 
   const logout = useMutation(async () => {
     await Promise.resolve(authStore.logout());
   });
 
   const authenticate = useMutation(
-    async (authenticateData: AuthenticationData) => {
-      const { address, privateKey } = authenticateData;
-      if (!address || !privateKey) {
+    async (variables: { user: TestUser }) => {
+      if (!variables.user.walletAddress)
         throw new Error("Missing data to authenticate");
-      }
-
-      const signingMessage = KycClient.buildSignatureMessage(address);
-      const provider = new ethers.JsonRpcProvider(
-        "https://ava-testnet.public.blastapi.io/ext/bc/C/rpc",
-        43113
+      const signingMessage = KycClient.buildSignatureMessage(
+        variables.user.walletAddress
       );
-      const signer = new ethers.Wallet(privateKey, provider);
-      const signature = signer.signMessageSync(signingMessage);
-      const response = await getAccessToken.mutateAsync({ address });
+      const signer = getSigner(variables.user);
+      const signature = await signer.signMessage(signingMessage);
+      const response = await getAccessToken.mutateAsync({
+        address: variables.user.walletAddress,
+      });
       const { accessToken } = response;
       return {
         accessToken,

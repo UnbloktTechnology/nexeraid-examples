@@ -3,6 +3,7 @@ import { SimpleAuthContext } from "@/features/SimpleAuthProvider";
 import { ethers } from "ethers";
 import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
 import { KYC_CLIENTS } from "@/features/kyc/KycClient";
+import { getSigner, TestUser } from "@/appConfig";
 
 interface ItemGroup {
   name: string;
@@ -156,14 +157,6 @@ export const Sidebar = () => {
     ],
   };
 
-  const buildSigner = (user: IUser) => {
-    const provider = new ethers.JsonRpcProvider(
-      "https://ava-testnet.public.blastapi.io/ext/bc/C/rpc",
-      43113
-    );
-    return new ethers.Wallet(user.privateKey, provider);
-  };
-
   useEffect(() => {
     console.log("USER", user, accessToken, signingMessage, signature);
     if (user && accessToken && signingMessage && signature && kycClient) {
@@ -172,7 +165,7 @@ export const Sidebar = () => {
       });
       kycClient.onSignPersonalData(async (data: string) => {
         console.log("on sign personal data");
-        const signer = buildSigner(user);
+        const signer = getSigner(user);
         return await signer.signMessage(data);
       });
       kycClient.onKycCompletion(() => {

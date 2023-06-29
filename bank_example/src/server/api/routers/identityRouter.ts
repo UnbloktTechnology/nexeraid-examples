@@ -59,57 +59,5 @@ export const identityRouter = createTRPCRouter({
       //   },
       // });
       return true
-    }),
-  validateAddress: publicProcedure
-    .meta({
-      openapi: {
-        path: "/verify",
-        method: "GET",
-        description: "Check if the address has been verified.",
-        tags: ["identity-verification"],
-        summary: "Check if the address has been verified.",
-      },
     })
-    .input(
-      z.object({
-        address: z.string(),
-      }),
-    )
-    .output(z.any())
-    .query(async ({ input }) => {
-      console.log("validateAddress", input);
-      const key = `${APP_NAME}:verify:${input.address.toLowerCase()}`;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-      const result = await redis.get(key) as unknown[]
-      console.log(`found ${key}`, result);
-
-      const scenarioId = env.NEXERA_SCENARIO_ID;
-
-      console.log(
-        `validateAddress Using scenarioId ${scenarioId} - ${
-          result ? "gbg" : "sumsub"
-        } for ${input.address}`,
-      );
-
-      // console.log("sending", credential);
-      // return await apiClient.complianceApi.complianceExecute({
-      //   complianceExecuteRequest: {
-      //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //     // @ts-ignore
-      //     inputData: {
-      //       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //       // @ts-ignore
-      //       credentials: [credential],
-      //     },
-      //     address: input.address,
-      //     scenarioId: scenarioId,
-      //   },
-      // });
-
-      console.log("EXECUTING QURRYYYY: ", input.address.toLowerCase(), result)
-      const res = api.compliance.executeRule.useQuery({ address: input.address.toLowerCase(), credentials: result })
-
-      console.log(":RESUUUUUULT: ", res)
-      return true;
-    }),
 });

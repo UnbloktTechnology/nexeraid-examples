@@ -7,6 +7,7 @@ import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { api } from "@/utils/api";
+import { accessCaller } from "../../server/api/routers/accessRouter";
 
 export interface AuthenticationData {
   address: string;
@@ -34,12 +35,12 @@ export const useKycAuthentication = () => {
       );
       const signer = new ethers.Wallet(privateKey, provider);
       const signature = await signer.signMessage(signingMessage);
-      const hello = api.example.hello.useQuery({ text: "from tRPC" });
+      const response = await accessCaller.accessToken({ address });
+      const { accessToken } = response;
 
-      console.log("HELLOOOOO: ", hello);
+      console.log("HELLOOOOO Access token: ", accessToken);
       return {
-        // accessToken: response.accessToken,
-        accessToken: hello.data ? hello.data.greeting : "",
+        accessToken,
         signingMessage,
         signature,
       };

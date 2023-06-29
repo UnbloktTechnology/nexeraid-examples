@@ -1,24 +1,20 @@
-import React, { useContext, useState } from "react";
-import { SimpleAuthContext } from "@/features/SimpleAuthProvider";
-import { useGlobalModals } from "@/features/Modals/useGlobalModals";
+import React, { useState } from "react";
 
 import { UsersDropDown } from "../Components/UsersDropDown";
 import { useIsUserCompliant } from "@/features/kyc/useIsUserCompliant";
 import { KycVerifyButton } from "@/features/kyc/KycVerifyButton";
-import { TestUser } from "@/appConfig";
+import { TEST_USERS, type TestUser } from "@/appConfig";
+import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
+import { toast } from "react-toastify";
 
 export const LogOnModal = () => {
-  const { getUser } = useContext(SimpleAuthContext);
-  const { data } = useGlobalModals((state) => ({
-    data: state.data,
-  }));
   const [showMsg, setShowMsg] = useState(true);
   const [helpMsg, setHelpMsg] = useState(
     "To open an HSBC account you will need to verify your identity first"
   );
   const [userSelected, setUserSelected] = useState<TestUser>();
-  const user = getUser();
   const { data: isUserCompliant } = useIsUserCompliant();
+  const { authenticate, user, isAuthenticated } = useKycAuthentication();
 
   const handleUserSelected = (user: TestUser) => {
     setUserSelected(user);
@@ -36,8 +32,6 @@ export const LogOnModal = () => {
     }
   };
 
-  if (typeof data?.userData === "undefined") return <></>;
-
   return (
     <div className="flex w-full flex-col items-center gap-10">
       <div className="flex w-full flex-col gap-4">
@@ -46,7 +40,7 @@ export const LogOnModal = () => {
         {showMsg && (
           <div className="relative flex items-center justify-between bg-[#EBEFF4] p-5">
             <button className="mr-2 cursor-pointer" onClick={changeHelperText}>
-              {data?.basicData?.icon ?? ""}
+              {}
             </button>
 
             <p className="mr-2 text-base">{helpMsg}</p>
@@ -63,7 +57,7 @@ export const LogOnModal = () => {
 
       <div className="flex w-full flex-col items-center">
         <UsersDropDown
-          items={data?.userData?.users ?? []}
+          items={TEST_USERS}
           selected={userSelected}
           onSelect={handleUserSelected}
           className="relative w-full"
@@ -78,16 +72,16 @@ export const LogOnModal = () => {
           className={`ml-auto bg-[#DB0011] px-6 py-4 text-white ${
             typeof userSelected === "undefined" ? "opacity-50" : ""
           }`}
-          onClick={() => {
-            if (typeof userSelected !== "undefined") {
-              data?.userData?.onAuthenticate(userSelected);
-            }
-          }}
+          onClick={() =>
+            userSelected
+              ? authenticate.mutate({ user: userSelected })
+              : toast("Please select a user")
+          }
         >
           Log on
         </button>
       )}
-      {user?.id === userSelected?.id && <KycVerifyButton />}
+      {user?.id === userSelected?.id && isAuthenticated && <KycVerifyButton />}
 
       <div className="flex w-full flex-col justify-start gap-2 text-base">
         <button className="!text-cta-black w-fit text-base font-normal">

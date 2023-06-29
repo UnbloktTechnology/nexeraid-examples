@@ -1,6 +1,14 @@
 import { useState } from "react";
-import { type IDropDown } from "../Interfaces";
 import { type TestUser } from "@/appConfig";
+
+export interface IDropDown {
+  items: readonly TestUser[];
+  selected?: TestUser;
+  className?: string;
+  classNameButton?: string;
+  classNameList?: string;
+  onSelect: (item: TestUser) => void;
+}
 
 export const UsersDropDown = ({
   items,

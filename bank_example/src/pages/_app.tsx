@@ -6,7 +6,6 @@ import { ToastContainer } from "react-toastify";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { SimpleAuthProvider } from "@/features/SimpleAuthProvider";
 import dynamic from "next/dynamic";
 import { api } from "@/utils/api";
 
@@ -15,9 +14,7 @@ const queryClient = new QueryClient();
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <SimpleAuthProvider>
-        <Component {...pageProps} />
-      </SimpleAuthProvider>
+      <Component {...pageProps} />
       <ReactQueryDevtools initialIsOpen={false} />
       <ToastContainer />
     </QueryClientProvider>

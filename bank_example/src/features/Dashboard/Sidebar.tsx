@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
-import { SimpleAuthContext } from "@/features/SimpleAuthProvider";
-import { ethers } from "ethers";
+import React, { useEffect, useState } from "react";
 import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
 import { KYC_CLIENTS } from "@/features/kyc/KycClient";
-import { getSigner, TestUser } from "@/appConfig";
+import { getSigner } from "@/appConfig";
 
 interface ItemGroup {
   name: string;
@@ -13,8 +11,7 @@ interface ItemGroup {
 
 const UserOptions = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { getUser, signOut } = useContext(SimpleAuthContext);
-  const user = getUser();
+  const { logout, user } = useKycAuthentication();
 
   if (!user) return <></>;
 
@@ -43,7 +40,7 @@ const UserOptions = () => {
             <li
               className="flex h-14 cursor-pointer items-center px-3 py-2 text-sm hover:bg-gray-100"
               onClick={() => {
-                signOut(user.id ?? "");
+                logout.mutate();
                 setIsOpen(false);
               }}
             >
@@ -93,9 +90,8 @@ const MenuItems = ({ itemGroup }: { itemGroup: ItemGroup[] }) => {
 };
 
 export const Sidebar = () => {
-  const { accessToken, signingMessage, signature } = useKycAuthentication();
-  const { getUser } = useContext(SimpleAuthContext);
-  const user = getUser();
+  const { accessToken, signingMessage, signature, user } =
+    useKycAuthentication();
   const kycClient = KYC_CLIENTS.management;
 
   const menuItems = {

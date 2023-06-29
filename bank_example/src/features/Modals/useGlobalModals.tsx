@@ -2,7 +2,6 @@ import { type ReactNode } from "react";
 import { type BackgroundType } from "@/features/Layout";
 import { type AvailableFlow } from "@nexeraid/kyc-sdk/client";
 import { create } from "zustand";
-import { type TestUser } from "@/appConfig";
 
 export type CenterModalStyle = "default" | "rounded";
 
@@ -36,12 +35,6 @@ interface ModalData {
     icon?: string;
     textButton?: string;
     onClick?: () => void;
-  };
-  userData?: {
-    selected?: TestUser;
-    users: TestUser[];
-    onAuthenticate: (user: TestUser) => void;
-    onSuccess?: (user: TestUser) => void;
   };
   initOnFlow?: AvailableFlow;
 }

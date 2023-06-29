@@ -5,14 +5,10 @@ import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { api } from "@/utils/api";
 import { getSigner, TestUser } from "@/appConfig";
-import { useContext } from "react";
-import { SimpleAuthContext } from "@/features/SimpleAuthProvider";
 
 export const useKycAuthentication = () => {
   const authStore = useAuthStore((state) => state);
   const getAccessToken = api.access.accessToken.useMutation();
-  const { getUser } = useContext(SimpleAuthContext);
-  const user = getUser();
 
   const logout = useMutation(async () => {
     await Promise.resolve(authStore.logout());
@@ -35,6 +31,7 @@ export const useKycAuthentication = () => {
         accessToken,
         signingMessage,
         signature,
+        testUser: variables.user,
       };
     },
     {
@@ -42,7 +39,8 @@ export const useKycAuthentication = () => {
         authStore.authenticate(
           data.accessToken,
           data.signingMessage,
-          data.signature
+          data.signature,
+          data.testUser
         );
       },
       onError: (error) => {
@@ -57,6 +55,8 @@ export const useKycAuthentication = () => {
     accessToken: authStore.accessToken,
     signingMessage: authStore.signingMessage,
     signature: authStore.signature,
+    isAuthenticated: authStore.isAuthenticated,
+    user: authStore.user,
   };
 };
 
@@ -65,10 +65,12 @@ interface IAuthStore {
   signingMessage?: string;
   signature?: string;
   isAuthenticated: boolean;
+  user?: TestUser;
   authenticate: (
     accessToken: string,
     signingMessage: string,
-    signature: string
+    signature: string,
+    user: TestUser
   ) => void;
   logout: () => void;
 }
@@ -84,13 +86,15 @@ const useAuthStore = create<IAuthStore>()(
         authenticate: (
           accessToken: string,
           signingMessage: string,
-          signature: string
+          signature: string,
+          user: TestUser
         ) => {
           set((state) => {
             state.accessToken = accessToken;
             state.signingMessage = signingMessage;
             state.signature = signature;
             state.isAuthenticated = true;
+            state.user = user;
           });
         },
         logout: () => {
@@ -99,6 +103,7 @@ const useAuthStore = create<IAuthStore>()(
             state.signingMessage = undefined;
             state.signature = undefined;
             state.isAuthenticated = false;
+            state.user = undefined;
           });
         },
       })),

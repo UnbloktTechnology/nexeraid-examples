@@ -1,16 +1,22 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { GlobalModals } from "@/features/Modals/GlobalModals";
 
-import { type ILayout } from "@/features/Interfaces";
-
-export const Layout = ({
-  children,
-  sidebar,
-  footer,
-  header,
-  className = "",
-  bg = "default",
-}: ILayout) => {
+export const Layout = (props: {
+  children: ReactNode;
+  sidebar?: ReactNode;
+  header?: ReactNode;
+  footer?: ReactNode;
+  className?: string;
+  bg?: "default" | "defi";
+}) => {
+  const {
+    children,
+    sidebar,
+    header,
+    footer,
+    className,
+    bg = "default",
+  } = props;
   const background =
     bg === "default" ? "" : "bg-gradient-to-b from-[#202738] to-[#070816]";
 

@@ -1,28 +1,24 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { DisclaimerOverlay } from "@/features/Components/DisclaimerOverlay";
 import { Dashboard } from "@/features/Dashboard";
 
 import { Banner, Content, Header, Layout } from "@/features/Layout";
-import { SimpleAuthContext } from "@/features/SimpleAuthProvider";
 import { useGlobalModals } from "@/features/Modals/useGlobalModals";
 import { toast } from "react-toastify";
 import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
 import { useIsUserCompliant } from "@/features/kyc/useIsUserCompliant";
 import { KYC_CLIENTS } from "@/features/kyc/KycClient";
-import { getSigner, TEST_USERS, TestUser } from "@/appConfig";
+import { getSigner } from "@/appConfig";
 
 const Home = () => {
-  const { openModal, close } = useGlobalModals((state) => ({
+  const { openModal } = useGlobalModals((state) => ({
     openModal: state.open,
     close: state.close,
   }));
-  const { isLogin, signIn, getUser } = useContext(SimpleAuthContext);
-  const { authenticate, accessToken, signingMessage, signature } =
+  const { accessToken, signingMessage, signature, user } =
     useKycAuthentication();
-  const user = getUser();
   const { data: isUserCompliant } = useIsUserCompliant();
   const kycClient = KYC_CLIENTS.verify;
-  console.log("isUserCompliant", isUserCompliant);
 
   useEffect(() => {
     if (user && accessToken && signingMessage && signature && kycClient) {
@@ -57,21 +53,6 @@ const Home = () => {
     }
   }, [user, accessToken, signingMessage, signature, kycClient]);
 
-  const logOnSuccessfull = (user: TestUser) => {
-    close();
-    console.log("GO TO DASHBOARD");
-    console.log("USER", user);
-  };
-
-  const onAuthenticate = (user: TestUser) => {
-    if (signIn(user)) {
-      void authenticate.mutate({ user });
-      if (isUserCompliant) {
-        logOnSuccessfull(user);
-      }
-    }
-  };
-
   const onClickLogOn = () => {
     openModal(
       "LogOnModal",
@@ -85,29 +66,16 @@ const Home = () => {
           icon: "help",
           textButton: "Verify Identity",
         },
-        userData: {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          users: TEST_USERS,
-          onSuccess: logOnSuccessfull,
-          onAuthenticate: onAuthenticate,
-        },
       }
     );
   };
 
   return (
     <Layout
-      header={
-        !isLogin || !isUserCompliant ? (
-          <Header onClickLogOn={onClickLogOn} />
-        ) : (
-          <></>
-        )
-      }
-      className={!isLogin || !isUserCompliant ? "px-[105px]" : "bg-[#F2F2F2]"}
+      header={!isUserCompliant ? <Header onClickLogOn={onClickLogOn} /> : <></>}
+      className={!isUserCompliant ? "px-[105px]" : "bg-[#F2F2F2]"}
     >
-      {!isLogin || !isUserCompliant ? (
+      {!isUserCompliant ? (
         <>
           <Banner />
           <Content />

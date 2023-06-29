@@ -26,7 +26,6 @@ export const complianceRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       const redisKey = getDataWebhookRedisKey(input.address);
       const redisData = await redis.get(redisKey);
-      console.log(`Got ${redisKey} from redis`, redisData);
       const body = {
         address: input.address,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -35,10 +34,13 @@ export const complianceRouter = createTRPCRouter({
         inputData: { credentials: redisData.data.credentials },
         scenarioId: env.NEXERA_SCENARIO_ID,
       };
+      console.log(`Got ${redisKey} from redis`, {
+        body,
+      });
       const result = await fetch(
         `${
           appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api
-        }/compliance/scenario/execute`,
+        }compliance/scenario/execute`,
         {
           method: "POST",
           headers: {

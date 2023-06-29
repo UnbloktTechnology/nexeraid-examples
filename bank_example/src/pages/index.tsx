@@ -11,7 +11,7 @@ import { KYC_CLIENTS } from "@/features/kyc/KycClient";
 import { getSigner } from "@/appConfig";
 
 const Home = () => {
-  const { openModal } = useGlobalModals((state) => ({
+  const { openModal, close } = useGlobalModals((state) => ({
     openModal: state.open,
     close: state.close,
   }));
@@ -20,19 +20,26 @@ const Home = () => {
   const checkCompliance = useCheckCompliance();
   const kycClient = KYC_CLIENTS.verify;
 
+  console.log("checkCompliance", checkCompliance.data);
+
   useEffect(() => {
     if (user && accessToken && signingMessage && signature && kycClient) {
-      kycClient.onOffChainShareCompletition(() => {
-        toast(`Off chain data sharing completed`);
-      });
       kycClient.onSignPersonalData(async (data: string) => {
         console.log("on sign personal data");
         const signer = getSigner(user);
         return await signer.signMessage(data);
       });
       kycClient.onOffChainShareCompletition(() => {
-        console.log("on kyc completion");
-        void checkCompliance.mutateAsync();
+        void (async () => {
+          const result = await checkCompliance.mutateAsync();
+          console.log("result", result);
+          if (result) {
+            toast(`Your identity has been verified`);
+            close();
+          } else {
+            toast(`Your identity has not been verified`);
+          }
+        })();
       });
       kycClient.init({
         auth: {

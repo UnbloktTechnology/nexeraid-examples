@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import { UsersDropDown } from "../Components/UsersDropDown";
-import { useCheckCompliance } from "@/features/kyc/useCheckCompliance";
 import { KycVerifyButton } from "@/features/kyc/KycVerifyButton";
 import { TEST_USERS, type TestUser } from "@/appConfig";
 import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
@@ -13,7 +12,6 @@ export const LogOnModal = () => {
     "To open an HSBC account you will need to verify your identity first"
   );
   const [userSelected, setUserSelected] = useState<TestUser>();
-  const { data: isUserCompliant } = useCheckCompliance();
   const { authenticate, user, isAuthenticated } = useKycAuthentication();
 
   const handleUserSelected = (user: TestUser) => {

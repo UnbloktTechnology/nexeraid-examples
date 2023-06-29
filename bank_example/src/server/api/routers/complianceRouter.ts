@@ -35,7 +35,6 @@ export const complianceRouter = createTRPCRouter({
         inputData: { credentials: redisData.data.credentials },
         scenarioId: env.NEXERA_SCENARIO_ID,
       };
-      console.log("body", body);
       const result = await fetch(
         `${
           appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api
@@ -50,7 +49,6 @@ export const complianceRouter = createTRPCRouter({
           body: JSON.stringify(body),
         }
       );
-      console.log(result);
       return result?.json();
     }),
 });

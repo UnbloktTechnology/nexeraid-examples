@@ -22,6 +22,7 @@ export const accessRouter = createTRPCRouter({
     .output(z.any())
     .mutation(async ({ input }) => {
       const apiHost = appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api;
+      console.log("apiHost", apiHost);
       const response = await fetch(`${apiHost}kyc/auth/access-token`, {
         body: JSON.stringify({ address: input.address }),
         headers: {
@@ -32,7 +33,7 @@ export const accessRouter = createTRPCRouter({
       });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { accessToken } = await response.json();
-
+      console.log("response", accessToken);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       return { accessToken: accessToken as string };
     }),

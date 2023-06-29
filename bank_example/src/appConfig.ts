@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { ethers } from "ethers";
-import { Redis } from "@upstash/redis";
 
 export const ENVS = ["local", "dev", "stage", "prod"] as const;
 export const ENVSchema = z.enum(ENVS);

@@ -8,10 +8,10 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
-    NEXERA_SCENARIO_ID: z.string().default('6491f9bf20410c15798b1dd1').describe("Specific Scenario ID for the APP"),
-    UPSTASH_REDIS_REST_TOKEN: z.string().default("=AXcgASQgZmQ5ZWJhMTktNzQ5Zi00MzUzLTg5MDQtZWM1MmRiZmRkNjU2MTUxMWFjZjY4MDhiNDRkYTk1MjgzN2IxMzEzZDVmMGE="),
-    UPSTASH_REDIS_REST_URL: z.string().default("https://eu2-chief-puma-30496.upstash.io"),
-    NEXERA_ID_API_KEY: z.string().optional().default("c89910dd-d71b-49e9-af59-4ba016ab48cc").describe("The API key for the Nexera ID API -> https://cms.nexera.id/: Nexera Example Dapp"),
+    NEXERA_SCENARIO_ID: z.string().describe("Specific Scenario ID for the APP"),
+    UPSTASH_REDIS_REST_TOKEN: z.string().describe("The token for the Upstash Redis REST API -> https://console.upstash.com/redis/"),
+    UPSTASH_REDIS_REST_URL: z.string().describe("The URL for the Upstash Redis REST API -> https://console.upstash.com/redis/"),
+    NEXERA_ID_API_KEY: z.string().describe("The API key for the Nexera ID API -> https://cms.nexera.id/: Nexera Example Dapp"),
   },
 
   /**

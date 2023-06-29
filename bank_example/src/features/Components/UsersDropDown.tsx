@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { type IDropDown, type IUser } from "../Interfaces";
+import { type IDropDown } from "../Interfaces";
+import { type TestUser } from "@/appConfig";
 
 export const UsersDropDown = ({
   items,
@@ -11,16 +12,7 @@ export const UsersDropDown = ({
 }: IDropDown) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  if (typeof selected === "undefined") {
-    selected = {
-      id: "select",
-      name: "Select user",
-      walletAddress: "",
-      privateKey: "",
-    };
-  }
-
-  const toggleDropdown = (item?: IUser) => {
+  const toggleDropdown = (item?: TestUser) => {
     setIsOpen(!isOpen);
 
     if (item) {
@@ -38,13 +30,11 @@ export const UsersDropDown = ({
         onClick={() => toggleDropdown()}
         className={`inline-flex items-center px-3 py-2 shadow-sm ${classNameButton}`}
       >
-        {selected?.avatar && (
-          <button className="mr-2">{selected.avatar}</button>
-        )}
+        {selected?.avatar && <div className="mr-2">{selected.avatar}</div>}
         <span className="w-full text-left">{selected?.name}</span>
-        <button color="#000" className="ml-2 mt-2">
+        <div color="#000" className="ml-2 mt-2">
           expand
-        </button>
+        </div>
       </button>
       {isOpen && (
         <div

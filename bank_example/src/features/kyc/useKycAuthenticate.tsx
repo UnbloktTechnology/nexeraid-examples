@@ -1,8 +1,6 @@
-import { useEffect } from "react";
 import KycClient from "@nexeraid/kyc-sdk/client";
 import { useMutation } from "@tanstack/react-query";
 import { ethers } from "ethers";
-import { decodeJwt } from "jose";
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -35,11 +33,9 @@ export const useKycAuthentication = () => {
         43113
       );
       const signer = new ethers.Wallet(privateKey, provider);
-      const signature = await signer.signMessage(signingMessage);
+      const signature = signer.signMessageSync(signingMessage);
       const response = await getAccessToken.mutateAsync({ address });
       const { accessToken } = response;
-
-      console.log("HELLOOOOO Access token: ", accessToken);
       return {
         accessToken,
         signingMessage,
@@ -59,21 +55,6 @@ export const useKycAuthentication = () => {
       },
     }
   );
-
-  useEffect(() => {
-    if (authStore.accessToken) {
-      const token = decodeJwt(authStore?.accessToken);
-      if (!token.exp) throw new Error("Invalid token, missing token.EXP");
-      const jwtDate = new Date(token.exp * 1000);
-      // if jwt has more than 1 hour to live, use it
-      const now = new Date();
-
-      now.setHours(now.getHours() - 1);
-      if (jwtDate < now) {
-        logout.mutate();
-      }
-    }
-  }, [authStore.accessToken, logout]);
 
   return {
     authenticate,

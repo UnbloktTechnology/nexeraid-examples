@@ -1,11 +1,17 @@
-import { type IUser } from "@/features/Interfaces";
-import { createContext, type ReactNode, useEffect, useState } from "react";
+import {
+  createContext,
+  type ReactNode,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { type TestUser } from "@/appConfig";
 
 interface ISimpleAuthContext {
   isLogin: boolean;
-  signIn: (user: IUser) => boolean;
+  signIn: (user: TestUser) => boolean;
   signOut: (id: string) => boolean;
-  getUser: () => IUser | undefined;
+  getUser: () => TestUser | undefined;
   authenticated: boolean;
   authenticate: () => void;
 }
@@ -28,7 +34,7 @@ export const SimpleAuthProvider = ({ children }: { children: ReactNode }) => {
     setIsLogin(!!localStorage.getItem("example-user"));
   }, []);
 
-  const signIn = (user: IUser) => {
+  const signIn = (user: TestUser) => {
     localStorage.setItem("example-user", JSON.stringify(user));
     setIsLogin(true);
     return true;
@@ -38,7 +44,7 @@ export const SimpleAuthProvider = ({ children }: { children: ReactNode }) => {
     const currentUser = localStorage.getItem("example-user");
 
     if (currentUser) {
-      const user = JSON.parse(currentUser) as IUser;
+      const user = JSON.parse(currentUser) as TestUser;
 
       if (user.id === id) {
         localStorage.removeItem("example-user");
@@ -54,7 +60,7 @@ export const SimpleAuthProvider = ({ children }: { children: ReactNode }) => {
     const currentUser = localStorage.getItem("example-user");
 
     if (currentUser) {
-      return JSON.parse(currentUser) as IUser;
+      return JSON.parse(currentUser) as TestUser;
     }
   };
 
@@ -62,10 +68,19 @@ export const SimpleAuthProvider = ({ children }: { children: ReactNode }) => {
     setAuthenticated(true);
   };
 
+  const value = useMemo(() => {
+    return {
+      isLogin,
+      signIn,
+      signOut,
+      getUser,
+      authenticated,
+      authenticate,
+    };
+  }, [isLogin, authenticated]);
+
   return (
-    <SimpleAuthContext.Provider
-      value={{ isLogin, signIn, signOut, getUser, authenticate, authenticated }}
-    >
+    <SimpleAuthContext.Provider value={value}>
       {children}
     </SimpleAuthContext.Provider>
   );

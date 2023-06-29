@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
-import { useIsUserCompliant } from "@/features/Hooks/useIsUserCompliant";
 import { SimpleAuthContext } from "@/features/SimpleAuthProvider";
 import { useGlobalModals } from "@/features/Modals/useGlobalModals";
 
-import { type IUser } from "../Interfaces";
 import { UsersDropDown } from "../Components/UsersDropDown";
+import { useIsUserCompliant } from "@/features/kyc/useIsUserCompliant";
+import { KycVerifyButton } from "@/features/kyc/KycVerifyButton";
+import { TestUser } from "@/appConfig";
 
 export const LogOnModal = () => {
   const { getUser } = useContext(SimpleAuthContext);
@@ -15,11 +16,11 @@ export const LogOnModal = () => {
   const [helpMsg, setHelpMsg] = useState(
     "To open an HSBC account you will need to verify your identity first"
   );
-  const [userSelected, setUserSelected] = useState<IUser>();
+  const [userSelected, setUserSelected] = useState<TestUser>();
   const user = getUser();
   const { data: isUserCompliant } = useIsUserCompliant();
 
-  const handleUserSelected = (user: IUser) => {
+  const handleUserSelected = (user: TestUser) => {
     setUserSelected(user);
   };
 
@@ -86,22 +87,7 @@ export const LogOnModal = () => {
           Log on
         </button>
       )}
-      {user?.id === userSelected?.id && isUserCompliant !== true && (
-        <button
-          id="kyc-btn-verify"
-          disabled={typeof userSelected === "undefined"}
-          className={`ml-auto bg-[#DB0011] px-6 py-4 text-white ${
-            typeof userSelected === "undefined" ? "opacity-50" : ""
-          }`}
-          onClick={() => {
-            if (typeof userSelected !== "undefined") {
-              data?.userData?.onSuccess?.(userSelected);
-            }
-          }}
-        >
-          Verify identity
-        </button>
-      )}
+      {user?.id === userSelected?.id && <KycVerifyButton />}
 
       <div className="flex w-full flex-col justify-start gap-2 text-base">
         <button className="!text-cta-black w-fit text-base font-normal">

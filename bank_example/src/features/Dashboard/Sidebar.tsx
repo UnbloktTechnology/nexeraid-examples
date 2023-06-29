@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useKycAuthentication } from "@/features/Hooks/useKycAuthenticate";
-import { type IUser } from "@/features/Interfaces";
-import { KYC_CLIENTS } from "@/features/Services/KycClient";
 import { SimpleAuthContext } from "@/features/SimpleAuthProvider";
 import { ethers } from "ethers";
+import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
+import { KYC_CLIENTS } from "@/features/kyc/KycClient";
 
 interface ItemGroup {
   name: string;
@@ -41,7 +40,7 @@ const UserOptions = () => {
         <div className="absolute bottom-[0px] z-10 w-full border bg-white shadow-xl">
           <ul className="max-h-52 overflow-y-auto scroll-auto py-1">
             <li
-              className="flex h-14 cursor-pointer items-center px-3 py-2 text-sm hover:bg-[#F2F2F2] hover:bg-gray-100"
+              className="flex h-14 cursor-pointer items-center px-3 py-2 text-sm hover:bg-gray-100"
               onClick={() => {
                 signOut(user.id ?? "");
                 setIsOpen(false);
@@ -76,7 +75,7 @@ const MenuItems = ({ itemGroup }: { itemGroup: ItemGroup[] }) => {
           id={
             item.name === "Manage identity" ? "kyc-btn-management" : item.name
           }
-          key={index}
+          key={item.name + index.toString()}
           className={`flex h-14 w-full cursor-pointer items-center space-x-4 rounded-lg p-5 font-semibold hover:bg-[#DB0011] hover:text-white ${
             item.name === "Overview" ? "bg-[#DB0011] text-white" : ""
           }`}

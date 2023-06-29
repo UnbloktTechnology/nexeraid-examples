@@ -21,7 +21,7 @@ export const complianceRouter = createTRPCRouter({
         })
       )
     )
-    .query(async ({ input }) => {
+    .mutation(async ({ input }) => {
       // TODO get creds from db based on address
       const creds = [];
 
@@ -37,19 +37,17 @@ export const complianceRouter = createTRPCRouter({
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
-              Authorization: `Bearer ${env.NEXT_PUBLIC_NEXERA_ID_API_KEY}`,
+              Authorization: `Bearer ${env.NEXERA_ID_API_KEY}`,
             },
             body: JSON.stringify({
               address: input.address,
-              inputData: { credentials: [
-                
-              ] },
+              inputData: { credentials: [] },
               scenarioId: env.NEXERA_SCENARIO_ID,
             }),
           }
         );
-      } catch(e) {
-        console.error(e)
+      } catch (e) {
+        console.error(e);
       }
       return result?.json();
     }),

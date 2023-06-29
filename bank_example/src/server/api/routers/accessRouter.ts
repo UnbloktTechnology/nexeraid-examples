@@ -26,7 +26,7 @@ export const accessRouter = createTRPCRouter({
         body: JSON.stringify({ address: input.address }),
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${env.NEXT_PUBLIC_NEXERA_ID_API_KEY}`,
+          Authorization: `Bearer ${env.NEXERA_ID_API_KEY}`,
         },
         method: "POST",
       });

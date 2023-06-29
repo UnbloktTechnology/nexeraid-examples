@@ -1,8 +1,8 @@
 import { type ReactNode } from "react";
-import { type IUser } from "@/features/Interfaces";
 import { type BackgroundType } from "@/features/Layout";
 import { type AvailableFlow } from "@nexeraid/kyc-sdk/client";
 import { create } from "zustand";
+import { type TestUser } from "@/appConfig";
 
 export type CenterModalStyle = "default" | "rounded";
 
@@ -38,10 +38,10 @@ interface ModalData {
     onClick?: () => void;
   };
   userData?: {
-    selected?: IUser;
-    users: IUser[];
-    onAuthenticate: (user: IUser) => void;
-    onSuccess?: (user: IUser) => void;
+    selected?: TestUser;
+    users: TestUser[];
+    onAuthenticate: (user: TestUser) => void;
+    onSuccess?: (user: TestUser) => void;
   };
   initOnFlow?: AvailableFlow;
 }

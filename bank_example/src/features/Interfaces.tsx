@@ -1,20 +1,13 @@
 import type { ReactNode } from "react";
-
-export interface IUser {
-  id: string;
-  avatar?: string;
-  name: string;
-  walletAddress: string;
-  privateKey: string;
-}
+import { TestUser } from "@/appConfig";
 
 export interface IDropDown {
-  items: readonly IUser[];
-  selected?: IUser;
+  items: readonly TestUser[];
+  selected?: TestUser;
   className?: string;
   classNameButton?: string;
   classNameList?: string;
-  onSelect: (item: IUser) => void;
+  onSelect: (item: TestUser) => void;
 }
 
 export type BackgroundType = "default" | "defi";

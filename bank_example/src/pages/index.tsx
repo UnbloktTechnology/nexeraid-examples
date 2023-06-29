@@ -6,7 +6,7 @@ import { Banner, Content, Header, Layout } from "@/features/Layout";
 import { useGlobalModals } from "@/features/Modals/useGlobalModals";
 import { toast } from "react-toastify";
 import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
-import { useIsUserCompliant } from "@/features/kyc/useIsUserCompliant";
+import { useCheckCompliance } from "@/features/kyc/useCheckCompliance";
 import { KYC_CLIENTS } from "@/features/kyc/KycClient";
 import { getSigner } from "@/appConfig";
 
@@ -17,7 +17,7 @@ const Home = () => {
   }));
   const { accessToken, signingMessage, signature, user } =
     useKycAuthentication();
-  const { data: isUserCompliant } = useIsUserCompliant();
+  const checkCompliance = useCheckCompliance();
   const kycClient = KYC_CLIENTS.verify;
 
   useEffect(() => {
@@ -30,18 +30,10 @@ const Home = () => {
         const signer = getSigner(user);
         return await signer.signMessage(data);
       });
-      kycClient.onKycCompletion(
-        (idScanVerifiableCredential, id3VerifiableCredential) => {
-          console.log(
-            "id3VerifiableCredential from onKycCompletion",
-            id3VerifiableCredential
-          );
-          console.log(
-            "idScanVerifiableCredential from onKycCompletion",
-            idScanVerifiableCredential
-          );
-        }
-      );
+      kycClient.onOffChainShareCompletition(() => {
+        console.log("on kyc completion");
+        void checkCompliance.mutateAsync();
+      });
       kycClient.init({
         auth: {
           accessToken,
@@ -72,10 +64,12 @@ const Home = () => {
 
   return (
     <Layout
-      header={!isUserCompliant ? <Header onClickLogOn={onClickLogOn} /> : <></>}
-      className={!isUserCompliant ? "px-[105px]" : "bg-[#F2F2F2]"}
+      header={
+        !checkCompliance.data ? <Header onClickLogOn={onClickLogOn} /> : <></>
+      }
+      className={!checkCompliance.data ? "px-[105px]" : "bg-[#F2F2F2]"}
     >
-      {!isUserCompliant ? (
+      {!checkCompliance.data ? (
         <>
           <Banner />
           <Content />

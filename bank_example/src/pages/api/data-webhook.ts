@@ -17,6 +17,7 @@ const dataWebHookPost = async (req: NextApiRequest, res: NextApiResponse) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const key = getDataWebhookRedisKey(body.address as string);
     await redis.set(key, JSON.stringify(body));
+    console.log(`Saved ${key} to redis`);
     res.status(200).json({ response: "ok" });
   }
   if (req.method === "GET") {

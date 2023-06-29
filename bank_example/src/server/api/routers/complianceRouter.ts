@@ -24,8 +24,18 @@ export const complianceRouter = createTRPCRouter({
       )
     )
     .mutation(async ({ input }) => {
-      const creds = await redis.get(getDataWebhookRedisKey(input.address));
-
+      const redisKey = getDataWebhookRedisKey(input.address);
+      const redisData = await redis.get(redisKey);
+      console.log(`Got ${redisKey} from redis`, redisData);
+      const body = {
+        address: input.address,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+        inputData: { credentials: redisData.data.credentials },
+        scenarioId: env.NEXERA_SCENARIO_ID,
+      };
+      console.log("body", body);
       const result = await fetch(
         `${
           appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api
@@ -37,14 +47,7 @@ export const complianceRouter = createTRPCRouter({
             "Content-Type": "application/json",
             Authorization: `Bearer ${env.NEXERA_ID_API_KEY}`,
           },
-          body: JSON.stringify({
-            address: input.address,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            inputData: { credentials: creds.credentials },
-            scenarioId: env.NEXERA_SCENARIO_ID,
-          }),
+          body: JSON.stringify(body),
         }
       );
       console.log(result);

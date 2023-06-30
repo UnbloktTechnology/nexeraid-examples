@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { type ICenterModal } from "@/features/Modals/Hooks/useGlobalModals";
 
-import { Icon } from "@nexeraprotocol/react-components";
-
 export const CenterModal = ({
   isOpen,
   overlay = true,
@@ -32,11 +30,12 @@ export const CenterModal = ({
             <div
               className={`relative flex min-h-[200px] w-full max-w-[480px] flex-col items-center justify-center gap-4 p-5 ${clasName}`}
             >
-              <Icon
-                icon="exit"
+              <button
                 className="absolute right-4 top-4 cursor-pointer"
                 onClick={onClose}
-              />
+              >
+                exit
+              </button>
               {children}
             </div>
           </div>

@@ -1,20 +1,17 @@
-import { LogOnModal } from "@/features/Bank/Components/LogOnModal";
-import { KycModal } from "@/features/Defi/KycModal";
+import { KycModal } from "@/features/KycModal";
 import { CenterModal } from "@/features/Modals/CenterModal";
 import { shallow } from "zustand/shallow";
-
-import { LogInModal } from "../Abnamro/Components/LogInModal";
 import { useGlobalModals } from "./Hooks/useGlobalModals";
 
 export const GlobalModals = () => {
-  const { view, isOpen, close, attributes } = useGlobalModals(
+  const { isOpen, close, attributes } = useGlobalModals(
     (state) => ({
       view: state.view,
       isOpen: state.isOpen,
       close: state.close,
       attributes: state.attributes,
     }),
-    shallow,
+    shallow
   );
 
   switch (attributes?.modalType) {
@@ -27,9 +24,7 @@ export const GlobalModals = () => {
           bg={attributes.bg}
           overlay
         >
-          {view === "KycModal" && <KycModal />}
-          {view === "LogOnModal" && <LogOnModal />}
-          {view === "AbnModal" && <LogInModal />}
+          <KycModal />
         </CenterModal>
       );
     default:

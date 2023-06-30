@@ -1,108 +1,11 @@
 import { type Address } from "wagmi";
 
-interface TNftInfo {
-  /**
-   *
-   * @type {number}
-   * @memberof TokensGetTokens200ResponseItemsInner
-   */
-  contract_decimals?: number | null;
-  /**
-   *
-   * @type {string}
-   * @memberof TokensGetTokens200ResponseItemsInner
-   */
-  contract_name?: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof TokensGetTokens200ResponseItemsInner
-   */
-  contract_ticker_symbol?: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof TokensGetTokens200ResponseItemsInner
-   */
-  contract_address?: string | null;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof TokensGetTokens200ResponseItemsInner
-   */
-  supports_erc?: Array<string> | null;
-  /**
-   *
-   * @type {string}
-   * @memberof TokensGetTokens200ResponseItemsInner
-   */
-  logo_url?: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof TokensGetTokens200ResponseItemsInner
-   */
-  last_transferred_at?: string | null;
-  /**
-   *
-   * @type {boolean}
-   * @memberof TokensGetTokens200ResponseItemsInner
-   */
-  native_token?: boolean | null;
-  /**
-   *
-   * @type {string}
-   * @memberof TokensGetTokens200ResponseItemsInner
-   */
-  type?: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof TokensGetTokens200ResponseItemsInner
-   */
-  balance?: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof TokensGetTokens200ResponseItemsInner
-   */
-  balance_24h?: string | null;
-  /**
-   *
-   * @type {number}
-   * @memberof TokensGetTokens200ResponseItemsInner
-   */
-  quote_rate?: number | null;
-  /**
-   *
-   * @type {number}
-   * @memberof TokensGetTokens200ResponseItemsInner
-   */
-  quote_rate_24h?: number | null;
-  /**
-   *
-   * @type {number}
-   * @memberof TokensGetTokens200ResponseItemsInner
-   */
-  quote?: number | null;
-  /**
-   *
-   * @type {number}
-   * @memberof TokensGetTokens200ResponseItemsInner
-   */
-  quote_24h?: number | null;
-  /**
-   *
-   * @type {Array<any>}
-   * @memberof TokensGetTokens200ResponseItemsInner
-   */
-  nft_data?: Array<any> | null;
-  /**
-   *
-   * @type {any}
-   * @memberof TokensGetTokens200ResponseItemsInner
-   */
-  INFTMetadata?: any | null;
+export interface IUser {
+  id: string;
+  avatar?: string;
+  name: string;
+  walletAddress: string;
+  privateKey: string;
 }
 
 export type IWalletSidebar = {
@@ -143,10 +46,6 @@ export interface IDropDown {
   classNameButton?: string;
   classNameList?: string;
   onSelect: (item: ITokenInfo) => void;
-}
-
-export interface ITokenList {
-  tokens: TNftInfo[];
 }
 
 export interface ITokenRow {

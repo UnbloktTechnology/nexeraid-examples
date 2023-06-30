@@ -1,18 +1,14 @@
 import React from "react";
-
-import { TokenImage } from "@nexeraprotocol/react-components";
-
 import { type ITokenRow } from "../../Interfaces";
 
 export const TokenRow = (props: ITokenRow) => {
   return (
     <div className="flex w-full cursor-pointer flex-row items-center justify-between p-4 pr-8">
       <div className="flex w-full flex-row items-center gap-2">
-        <TokenImage
-          name={props.tokenName}
-          size={"base"}
-          src={props.tokenLogo}
-        />
+        <div>
+          {props.tokenName}
+          {props.tokenLogo}
+        </div>
         <div className="flex flex-col">
           <div className="text-sm font-medium text-white">
             {props.tokenName}

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { toast } from "react-toastify";
 import { useContract, useSigner } from "wagmi";
 
@@ -42,7 +45,7 @@ export const usePlaygroundMockSwap = () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
       const result = await mockSwapContract.swapNativeForUSDT(
         mnftId,
-        overrides,
+        overrides
       );
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       console.log("SwapNative: ", await result.wait());

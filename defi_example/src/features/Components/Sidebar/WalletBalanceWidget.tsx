@@ -1,34 +1,37 @@
 import { useMemo } from "react";
-import { Icon, BalanceWidget, } from "@nexeraprotocol/react-components";
 import { type ITokenList } from "../../Interfaces";
 import { ethers } from "ethers";
 
 export const WalletBalanceWidget = ({ tokens }: ITokenList) => {
   const tokenBalance = useMemo(
     () =>
-    tokens?.reduce((acc, cur) => {
-        return acc + Number(
-          ethers.utils.formatUnits(cur.balance ?? "0", cur.contract_decimals ?? 0)
+      tokens?.reduce((acc, cur) => {
+        return (
+          acc +
+          Number(
+            ethers.utils.formatUnits(
+              cur.balance ?? "0",
+              cur.contract_decimals ?? 0
+            )
+          )
         );
       }, 0) ?? 0,
-    [tokens],
+    [tokens]
   );
 
   const { balance, decimals } = useMemo(
     () => formatTokenBalance(tokenBalance),
-    [tokenBalance],
+    [tokenBalance]
   );
 
   return (
-    <div className="flex flex-col justify-start gap-1 w-full">
-      <BalanceWidget
-        currencySymbol="$"
-        balance={balance ?? "0"}
-        decimals={decimals ?? "18"}
-      />
-    
+    <div className="flex w-full flex-col justify-start gap-1">
+      <div>
+        Balance: {balance ?? "0"} ({decimals ?? "18"} decimals) $
+      </div>
+
       <div className="flex items-center space-x-1">
-        <Icon icon="down-balance" size={18} color="#FF0000"/>
+        <div>down-balance</div>
         <span className="text-[#98A1C0]">
           {tokenBalance === 0 ? "$0.00 (0.0%)" : "$16.15 (0.62%)"}
         </span>
@@ -52,4 +55,4 @@ function formatTokenBalance(tokenBalance: number) {
     balance: integerPart ?? "0",
     decimals: "." + formattedDecimals,
   };
-};
+}

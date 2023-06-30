@@ -14,6 +14,7 @@ export default async function handler(
       break;
     }
     case "POST": {
+      console.log("🪝scenario_webhook/index.tsx - POST");
       await ruleWebHookPost(req, res);
       break;
     }

@@ -13,6 +13,7 @@ export default async function handler(
       break;
     }
     case "POST": {
+      console.log("🪝data_webhook/index.tsx - POST");
       await dataWebHookPost(req, res);
       break;
     }

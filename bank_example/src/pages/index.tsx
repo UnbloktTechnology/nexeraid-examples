@@ -1,18 +1,60 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { DisclaimerOverlay } from "@/features/Components/DisclaimerOverlay";
 import { Dashboard } from "@/features/Dashboard";
 
 import { Banner, Content, Header, Layout } from "@/features/Layout";
 import { useGlobalModals } from "@/features/Modals/useGlobalModals";
+import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
 import { useCheckCompliance } from "@/features/kyc/useCheckCompliance";
+import { KYC_CLIENTS } from "@/features/kyc/KycClient";
+import { getSigner } from "@/appConfig";
+import { toast } from "react-toastify";
 
 const Home = () => {
-  const { openModal } = useGlobalModals((state) => ({
+  const { openModal, close } = useGlobalModals((state) => ({
     openModal: state.open,
     close: state.close,
+    data: state.data,
   }));
-  const checkCompliance = useCheckCompliance();
-  console.log("checkCompliance", checkCompliance.data);
+  const { accessToken, signingMessage, signature, user } =
+    useKycAuthentication();
+  const { checkCompliance } = useCheckCompliance();
+  const kycClient = KYC_CLIENTS.verify;
+
+  useEffect(() => {
+    if (user && accessToken && signingMessage && signature && kycClient) {
+      console.log("init kyc client", {
+        accessToken,
+        signingMessage,
+        signature,
+      });
+      kycClient.onSignPersonalData(async (data: string) => {
+        console.log("on sign personal data");
+        const signer = getSigner(user);
+        return await signer.signMessage(data);
+      });
+      kycClient.onOffChainShareCompletition(() => {
+        void (async () => {
+          const result = await checkCompliance.mutateAsync();
+          console.log("result", result);
+          if (result) {
+            toast(`Your identity has been verified`);
+            close();
+          } else {
+            toast(`Your identity has not been verified`);
+          }
+        })();
+      });
+      kycClient.init({
+        auth: {
+          accessToken,
+          signingMessage,
+          signature,
+        },
+        initOnFlow: "REQUEST",
+      });
+    }
+  }, [user, accessToken, signingMessage, signature]);
 
   const onClickLogOn = () => {
     openModal(

@@ -35,7 +35,8 @@ export const complianceRouter = createTRPCRouter({
         scenarioId: env.NEXERA_SCENARIO_ID,
       };
       console.log(`Got ${redisKey} from redis`, {
-        body,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+        body: body.inputData.credentials[0].type,
       });
       const result = await fetch(
         `${
@@ -51,6 +52,13 @@ export const complianceRouter = createTRPCRouter({
           body: JSON.stringify(body),
         }
       );
-      return result?.json();
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const json = await result.json();
+      console.log(`Got result from Nexera`, {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        json,
+      });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      return json;
     }),
 });

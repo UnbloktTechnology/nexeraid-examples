@@ -11,6 +11,7 @@ export const getDataWebhookRedisKey = (address: string) => {
 
 const dataWebHookPost = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
+    console.log("🪝data_webhook/data_webhook.post.tsx - POST", req.body);
     const body = req.body;
     const addressLowerCase = (body.address as string).toLowerCase();
     const key = getDataWebhookRedisKey(addressLowerCase);

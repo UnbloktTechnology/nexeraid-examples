@@ -37,6 +37,7 @@ interface ModalData {
     onClick?: () => void;
   };
   initOnFlow?: AvailableFlow;
+  isCompliant?: boolean;
 }
 
 interface IModalStore {
@@ -50,6 +51,7 @@ interface IModalStore {
     data?: ModalData
   ) => void;
   close: () => void;
+  setIsCompliant: (isCompliant: boolean) => void;
 }
 
 /**
@@ -84,5 +86,14 @@ export const useGlobalModals = create<IModalStore>((set) => ({
       data: undefined,
       attributes: undefined,
     });
+  },
+  setIsCompliant: (isCompliant: boolean) => {
+    set((state) => ({
+      ...state,
+      data: {
+        ...state.data,
+        isCompliant,
+      },
+    }));
   },
 }));

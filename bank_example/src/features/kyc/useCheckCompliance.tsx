@@ -4,13 +4,13 @@ import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
 
 export const useCheckCompliance = () => {
   const { user } = useKycAuthentication();
-  const isCompliant = api.compliance.executeRule.useMutation();
+  const mutation = api.compliance.executeRule.useMutation();
 
-  return useMutation({
+  const checkCompliance = useMutation({
     mutationFn: async () => {
       if (!user) return Promise.resolve(false);
       console.log("isCompliant", user.walletAddress);
-      const result = await isCompliant.mutateAsync({
+      const result = await mutation.mutateAsync({
         address: user.walletAddress,
       });
       console.log("isCompliant result", result);
@@ -20,4 +20,6 @@ export const useCheckCompliance = () => {
       });
     },
   });
+
+  return { checkCompliance };
 };

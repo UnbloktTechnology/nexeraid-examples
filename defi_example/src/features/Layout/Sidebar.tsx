@@ -1,6 +1,7 @@
 import { useAccountModal } from "@rainbow-me/rainbowkit";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 import { useAccount } from "wagmi";
+import { Icon } from "../Components/Icon";
 
 export type IWalletSidebar = {
   isOpen: boolean;
@@ -32,31 +33,34 @@ export const WalletSidebar = ({ isOpen, onClose }: IWalletSidebar) => {
               </div>
 
               <div className="flex justify-end space-x-2">
-                {/* <Icon
+                <Icon
                   icon="config"
                   size={28}
                   className="cursor-pointer rounded-lg bg-[#293249] p-2"
-                /> */}
+                />
 
-                <span
-                  className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-[#293249]"
-                  onClick={openAccountModal}
-                >
-                  power
-                </span>
+                <Icon
+                  icon="power"
+                  size={28}
+                  className="cursor-pointer rounded-lg bg-[#293249] p-2 text-white"
+                />
               </div>
             </div>
 
             <div className="flex w-full flex-col justify-center gap-2">
-              <button className="border-none !bg-[#1F2538]">
+              <button className="p-4 rounded-xl border-none !bg-[#1F2538]">
                 View and sell NFTs
               </button>
-              <button className="border-none !bg-[#1F2538]">
-                <span className="flex items-center space-x-1">
+              <button className="p-4 rounded-xl border-none !bg-[#1F2538]">
+                <span className="flex items-center justify-center space-x-1 gap-2">
+                  <Icon
+                    icon="buy"
+                    className="text-white"
+                  />
                   <span>Buy crypto</span>
                 </span>
               </button>
-              <button className="border-none !bg-[#1F2538]">Review KYC</button>
+              <button className="p-4 rounded-xl border-none !bg-[#1F2538]">Review KYC</button>
             </div>
           </div>
         </div>

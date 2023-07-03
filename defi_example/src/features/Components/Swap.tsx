@@ -5,7 +5,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import SwapOptionsData from "../SwapOptionsDemoData.json";
 import { SwapInput } from "./SwapInput";
 import { toast } from "react-toastify";
-import { ITokenInfo } from "@/features/Components/TokenDropDown";
+import { type ITokenInfo } from "@/features/Components/TokenDropDown";
+import { Icon } from "./Icon";
 
 const optionsToSwap = (options: ITokenInfo[], tokenInfo: ITokenInfo) => {
   return options.filter((token) => token.value !== tokenInfo.value);
@@ -92,36 +93,36 @@ export const Swap = () => {
     <div className="relative z-10 mx-auto mt-20 w-[464px]">
       <div className="flex w-full flex-col gap-1 rounded-xl bg-[#0D111C] p-4">
         <div className="flex flex-col">
-          <div className="mx-2 flex justify-between">
+          <div className="mx-2 flex justify-between mb-3">
             <span className="text-base font-bold text-white">Swap</span>
-            {/* <Icon icon="config" size={20} className="cursor-pointer" /> */}
+            <Icon icon="config" size={20} className="cursor-pointer" />
           </div>
 
           <div className="flex w-full flex-col items-center gap-4">
-            <div className="relative w-full">
+            <div className="flex flex-col justify-center items-center relative w-full gap-1">
               <SwapInput
                 value={fromAmount}
                 token={fromToken}
                 options={optionsToSwap(options, toToken)}
-                className="my-4 h-24 w-full rounded-xl bg-[#131A2A] text-white"
+                className="h-24 w-full rounded-xl bg-[#131A2A] text-white"
                 classNameInput="text-4xl text-[#5D6785] w-[280px]"
                 classNameDropDownButton="border-0 font-semibold text-xl bg-[#293249] rounded-2xl h-8"
                 classNameDropDownList="font-semibold text-xl bg-[#293249] rounded-2xl"
                 onChange={(value, token) => handleFromValues(value, token)}
               />
-
-              <div
-                className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-xl border-4 border-[#0D111C] bg-[#293249] p-2"
-                onClick={() => handleSwapFrom()}
-              >
-                arrow-down
+              <div className="absolute z-10 flex justify-center items-center cursor-pointer h-10 w-10 bg-[#293249] rounded-xl border-[#0D111C] border-4">
+                <Icon
+                  icon="arrow-down"
+                  size={16}
+                  onClick={() => handleSwapFrom()}
+                  className="font-bold"
+                />
               </div>
-
               <SwapInput
                 value={toAmount}
                 token={toToken}
                 options={optionsToSwap(options, fromToken)}
-                className="my-4 h-24 w-full rounded-xl bg-[#131A2A] text-white"
+                className="h-24 w-full rounded-xl bg-[#131A2A] text-white"
                 classNameInput="text-4xl text-[#5D6785] w-[280px]"
                 classNameDropDownButton="border-0 font-semibold text-xl bg-[#293249] rounded-2xl h-8"
                 classNameDropDownList="font-semibold text-xl bg-[#293249] rounded-2xl"
@@ -132,7 +133,7 @@ export const Swap = () => {
         </div>
 
         <button
-          className="h-14 w-full rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]"
+          className="h-14 w-full mt-3 rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]"
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClick={handleSwap}
         >

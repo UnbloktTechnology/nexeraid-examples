@@ -4,6 +4,7 @@ import { useAccount, useSwitchNetwork } from "wagmi";
 import { avalanche, avalancheFuji, polygonMumbai } from "wagmi/chains";
 import { type ITokenInfo, TokenDropDown } from "../Components/TokenDropDown";
 import { WalletSidebar } from "./Sidebar";
+import { Icon } from "../Components/Icon";
 
 export const Header = () => {
   const { openConnectModal } = useConnectModal();
@@ -67,7 +68,7 @@ export const Header = () => {
       <div className="relative z-30 flex h-20 w-full items-center justify-between p-4 text-white">
         <div className="flex items-center justify-between">
           <div className="align-center flex">
-            {/* <Icon icon="uniswap" size={40} className="mr-2" /> */}
+            <Icon icon="uniswap" size={40} className="mr-2" />
           </div>
 
           <nav className="flex items-center">
@@ -87,7 +88,7 @@ export const Header = () => {
         </div>
 
         <div className="box-border flex h-11 w-[480px] items-center rounded-xl border-[#ffffff12] bg-[#ffffff12] p-4">
-          {/* <Icon icon="search" className="p-1" /> */}
+          <Icon icon="nav-search" className="p-1" />
 
           <input
             type="text"
@@ -100,7 +101,7 @@ export const Header = () => {
         </div>
 
         <div className="flex w-96 items-center justify-between">
-          {/* <Icon icon="dots-menu" /> */}
+          <Icon icon="dots-menu" />
 
           <TokenDropDown
             items={chainList}
@@ -111,7 +112,7 @@ export const Header = () => {
           />
 
           <button
-            className="px-base h-10 min-w-[8rem] !rounded-full border-none !bg-[#4c82fb3d] py-3 !text-[#4C82FB]"
+            className="flex justify-center items-center p-2 gap-1 px-base h-10 min-w-[8rem] !rounded-full border-none !bg-[#4c82fb3d] py-3 !text-[#4C82FB]"
             onClick={() => {
               if (openConnectModal) {
                 openConnectModal();
@@ -129,12 +130,12 @@ export const Header = () => {
               ) : (
                 <span>Connect |</span>
               )}
-              {/* <Icon
+              <Icon
                 icon="expand"
                 size={12}
                 color="#4C82FB"
                 className="ml-1 mt-2"
-              /> */}
+              />
             </span>
           </button>
         </div>

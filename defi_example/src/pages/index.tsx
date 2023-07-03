@@ -1,19 +1,85 @@
 import { Swap } from "@/features/Components/Swap";
 import { useCheckCompliance } from "@/features/kyc/useCheckCompliance";
-import { Header } from "@/features/Layout";
-import { Layout } from "@/features/Layout";
+import { Header } from "@/features/Layout/Header";
+import { Layout } from "@/features/Layout/Layout";
 import { useGlobalModals } from "@/features/Modals/Hooks/useGlobalModals";
+import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
+import { useEffect } from "react";
+import { useAccount, useSignMessage } from "wagmi";
+import { KYC_CLIENTS } from "@/features/kyc/KycClient";
+import { toast } from "react-toastify";
 
-const Compliant = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+const Home = () => {
   const { openModal } = useGlobalModals((state) => ({
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     openModal: state.open,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     close: state.close,
   }));
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
   const isUserCompliant = useCheckCompliance();
+  const address = useAccount();
+  const { accessToken, signingMessage, signature } = useKycAuthentication();
+  const { checkCompliance } = useCheckCompliance();
+  const kycClient = KYC_CLIENTS.verify;
+  const signMessage = useSignMessage();
+
+  useEffect(() => {
+    if (
+      address.address &&
+      accessToken &&
+      signingMessage &&
+      signature &&
+      kycClient
+    ) {
+      console.log("init kyc client", {
+        accessToken,
+        signingMessage,
+        signature,
+      });
+      kycClient.onSignPersonalData(async (data: string) => {
+        console.log("on sign personal data");
+        return await signMessage.signMessageAsync({
+          message: data,
+        });
+      });
+      kycClient.onKycCompletion((data) => {
+        void (async () => {
+          console.log("on kyc completion", data);
+          const result = await checkCompliance.mutateAsync();
+          console.log("result", result);
+          if (result) {
+            toast(`Your identity has been verified`);
+            close();
+          } else {
+            toast(`Your identity has not been verified`);
+          }
+        })();
+      });
+      kycClient.init({
+        auth: {
+          accessToken,
+          signingMessage,
+          signature,
+        },
+        initOnFlow: "REQUEST",
+      });
+    }
+  }, [address.address, accessToken, signingMessage, signature]);
+
+  const onClickLogOn = () => {
+    openModal(
+      "LogOnModal",
+      {
+        modalType: "center",
+        overlayType: "dark",
+      },
+      {
+        basicData: {
+          text: "",
+          icon: "help",
+          textButton: "Verify Identity",
+        },
+      }
+    );
+  };
 
   return (
     <Layout header={<Header />} bg={"defi"}>
@@ -68,4 +134,4 @@ const Compliant = () => {
   );
 };
 
-export default Compliant;
+export default Home;

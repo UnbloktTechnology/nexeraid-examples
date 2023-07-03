@@ -1,5 +1,28 @@
 import { useState } from "react";
-import { type IDropDown, type ITokenInfo } from "../Interfaces";
+
+export interface ITokenInfo {
+  value: string | number;
+  label: string;
+  address: string;
+  pairs: ITokensPair[];
+  icon?: string;
+  decimals?: number;
+}
+
+export interface ITokensPair {
+  value: string;
+  address: string;
+  swapForY: boolean;
+}
+
+export interface IDropDown {
+  items: readonly ITokenInfo[];
+  selected?: ITokenInfo;
+  className?: string;
+  classNameButton?: string;
+  classNameList?: string;
+  onSelect: (item: ITokenInfo) => void;
+}
 
 export const TokenDropDown = ({
   items,

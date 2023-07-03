@@ -1,20 +1,34 @@
-import { type TInput } from "../Interfaces";
-import { TokenDropDown } from "./TokenDropDown";
+import { type ITokenInfo, TokenDropDown } from "./TokenDropDown";
+
+export interface TInput {
+  options: readonly ITokenInfo[];
+  value: string;
+  token: ITokenInfo;
+  className?: string;
+  classNameInput?: string;
+  classNameDropDownButton?: string;
+  classNameDropDownList?: string;
+  onChange: (value: string, token: ITokenInfo) => void;
+}
 
 export const SwapInput = ({
   value,
   token,
   options,
-  className="",
-  classNameInput="",
-  classNameDropDownButton="",
-  classNameDropDownList="",
-  onChange
+  className = "",
+  classNameInput = "",
+  classNameDropDownButton = "",
+  classNameDropDownList = "",
+  onChange,
 }: TInput) => {
   const handleAmount = (amount: string) => {
     if (amount === "") {
       amount = "0";
-    } else if (amount.length > 1 && amount[0] === "0" && amount[1] !== ".") {
+    } else if (
+      amount.length > 1 &&
+      amount.startsWith("0") &&
+      amount[1] !== "."
+    ) {
       amount = amount.slice(1);
     }
 
@@ -22,7 +36,7 @@ export const SwapInput = ({
     if (regex.test(amount)) {
       onChange(amount, token);
     }
-  }
+  };
 
   if (value === "") {
     value = "0";
@@ -33,7 +47,7 @@ export const SwapInput = ({
       <input
         type="text"
         value={value}
-        className={`h-full bg-transparent px-3 py-2 border-none focus:outline-none ${classNameInput}`}
+        className={`h-full border-none bg-transparent px-3 py-2 focus:outline-none ${classNameInput}`}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           handleAmount(e.target.value);
         }}

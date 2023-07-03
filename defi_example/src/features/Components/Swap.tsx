@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useGlobalModals } from "@/features/Modals/Hooks/useGlobalModals";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { type ITokenInfo } from "../Interfaces";
 import SwapOptionsData from "../SwapOptionsDemoData.json";
 import { SwapInput } from "./SwapInput";
 import { toast } from "react-toastify";
+import { ITokenInfo } from "@/features/Components/TokenDropDown";
 
 const optionsToSwap = (options: ITokenInfo[], tokenInfo: ITokenInfo) => {
   return options.filter((token) => token.value !== tokenInfo.value);

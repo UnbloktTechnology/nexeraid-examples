@@ -1,7 +1,16 @@
-import React from "react";
+import { ReactNode } from "react";
 import { GlobalModals } from "@/features/Modals/GlobalModals";
 
-import { type ILayout } from "./Interfaces";
+export type BackgroundType = "default" | "defi";
+
+export interface ILayout {
+  children: ReactNode;
+  sidebar?: ReactNode;
+  header?: ReactNode;
+  footer?: ReactNode;
+  className?: string;
+  bg?: BackgroundType;
+}
 
 export const Layout = ({
   children,

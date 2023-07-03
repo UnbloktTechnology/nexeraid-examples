@@ -1,40 +1,15 @@
-import React, { useMemo, useState } from "react";
 import { useAccountModal } from "@rainbow-me/rainbowkit";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
-import { useAccount, useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 
-import { ChainIdSchema } from "@nexeraprotocol/nexera-id-schemas";
-import { Button, Icon } from "@nexeraprotocol/react-components";
-import { useEOATokenInfo, type TNftInfo } from "@nexeraprotocol/react/api";
-
-import { Portfolio } from "../Components/Sidebar/Portfolio";
-import { WalletBalanceWidget } from "../Components/Sidebar/WalletBalanceWidget";
-import { type IWalletSidebar } from "../Interfaces";
+export type IWalletSidebar = {
+  isOpen: boolean;
+  onClose: () => void;
+};
 
 export const WalletSidebar = ({ isOpen, onClose }: IWalletSidebar) => {
   const { openAccountModal } = useAccountModal();
   const { address } = useAccount();
-  const { chain } = useNetwork();
-  const tokensInfo = useEOATokenInfo({
-    chainId: ChainIdSchema.parse(chain?.id) ?? undefined,
-    userAddress: address,
-  });
-  const [eoaTokenInfo, setEoaTokenInfo] = useState<Array<TNftInfo>>([]);
-  console.log("TOkens", tokensInfo);
-
-  useMemo(() => {
-    if (typeof tokensInfo?.eoaTokenInfo.data?.items === "undefined") return;
-
-    const tokens = tokensInfo.eoaTokenInfo.data.items.filter(
-      (token: TNftInfo) => {
-        return (
-          typeof token !== "undefined" &&
-          typeof token.contract_ticker_symbol !== "undefined"
-        );
-      },
-    );
-    setEoaTokenInfo(tokens);
-  }, [tokensInfo?.eoaTokenInfo.data?.items]);
 
   return (
     <>
@@ -51,43 +26,38 @@ export const WalletSidebar = ({ isOpen, onClose }: IWalletSidebar) => {
                   diameter={35}
                   seed={jsNumberForAddress(address as string)}
                 />
-                <span>{`${address?.slice(0, 5)}...${address?.slice(37)}`}</span>
+                <span>{`${(address as string)?.slice(0, 5)}...${(
+                  address as string
+                )?.slice(37)}`}</span>
               </div>
 
               <div className="flex justify-end space-x-2">
-                <Icon
+                {/* <Icon
                   icon="config"
                   size={28}
                   className="cursor-pointer rounded-lg bg-[#293249] p-2"
-                />
+                /> */}
 
                 <span
                   className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-[#293249]"
                   onClick={openAccountModal}
                 >
-                  <Icon icon="power" size={15} color="#98A1C0" />
+                  power
                 </span>
               </div>
             </div>
 
-            <WalletBalanceWidget tokens={eoaTokenInfo} />
-
             <div className="flex w-full flex-col justify-center gap-2">
-              <Button size="sm" className="border-none !bg-[#1F2538]">
+              <button className="border-none !bg-[#1F2538]">
                 View and sell NFTs
-              </Button>
-              <Button size="sm" className="border-none !bg-[#1F2538]">
+              </button>
+              <button className="border-none !bg-[#1F2538]">
                 <span className="flex items-center space-x-1">
-                  <Icon icon="buy" size={20} color="#98A1C0" className="!h-4" />
                   <span>Buy crypto</span>
                 </span>
-              </Button>
-              <Button size="sm" className="border-none !bg-[#1F2538]">
-                Review KYC
-              </Button>
+              </button>
+              <button className="border-none !bg-[#1F2538]">Review KYC</button>
             </div>
-
-            <Portfolio tokens={eoaTokenInfo} />
           </div>
         </div>
       )}

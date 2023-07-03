@@ -1,8 +1,7 @@
 import { type ReactNode } from "react";
-import { type IUser } from "@/features/Bank/Interfaces";
-import { type BackgroundType } from "@/features/Layout";
 import { type AvailableFlow } from "@nexeraid/kyc-sdk/client";
 import { create } from "zustand";
+import { type BackgroundType } from "@/features/Layout/Layout";
 
 export type CenterModalStyle = "default" | "rounded";
 
@@ -37,12 +36,6 @@ interface ModalData {
     textButton?: string;
     onClick?: () => void;
   };
-  userData?: {
-    selected?: IUser;
-    users: IUser[];
-    onAuthenticate: (user: IUser) => void;
-    onSuccess?: (user: IUser) => void;
-  };
   initOnFlow?: AvailableFlow;
 }
 
@@ -54,7 +47,7 @@ interface IModalStore {
   open: (
     view: IModalStore["view"],
     attributes?: ModalStoreAttributes,
-    data?: ModalData,
+    data?: ModalData
   ) => void;
   close: () => void;
 }
@@ -75,7 +68,7 @@ export const useGlobalModals = create<IModalStore>((set) => ({
       modalType: "center",
       overlayType: "base",
     },
-    data?: ModalData,
+    data?: ModalData
   ) => {
     set({
       isOpen: true,

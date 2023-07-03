@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Button } from "../Components/Button";
 
 export const Banner = () => {
   return (
@@ -23,9 +24,9 @@ export const Banner = () => {
             New customers only. Further eligibility and T&Cs apply. Deposit
             £1,500 within 60 days of account opening.
           </p>
-          <button className="!rounded-none border-none !bg-[#DB0011] font-normal">
+          <Button>
             Find out more
-          </button>
+          </Button>
         </div>
       </div>
 

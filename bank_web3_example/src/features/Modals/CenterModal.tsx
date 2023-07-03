@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { type ICenterModal } from "./useGlobalModals";
+import { Icon } from "../Components/Icon";
 
 export const CenterModal = ({
   isOpen,
@@ -30,12 +31,11 @@ export const CenterModal = ({
             <div
               className={`relative flex min-h-[200px] w-full max-w-[480px] flex-col items-center justify-center gap-4 p-5 ${clasName}`}
             >
-              <button
+              <Icon
+              icon="exit"
                 className="absolute right-4 top-4 cursor-pointer"
                 onClick={onClose}
-              >
-                exit
-              </button>
+              />
               {children}
             </div>
           </div>

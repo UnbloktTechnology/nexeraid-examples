@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Button } from "./Button";
 
 interface IDisclaimerOverlay {
   content: string;
@@ -24,12 +25,12 @@ export const DisclaimerOverlay = ({
           className={`fixed bottom-0 left-0 right-0 z-[999999] flex justify-between bg-gray-900 p-4 text-white ${className}`}
         >
           <p className="w-10/12 text-base">{content}</p>
-          <button
+          <Button
             className={classNameButton}
             onClick={() => (onClick ? onClick() : setIsOpen(false))}
           >
             {textButton}
-          </button>
+          </Button>
         </div>
       )}
     </>

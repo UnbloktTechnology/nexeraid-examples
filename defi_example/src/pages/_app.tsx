@@ -1,18 +1,23 @@
 import { type AppType } from "next/app";
 import "@/styles/globals.css";
-
+import "@rainbow-me/rainbowkit/styles.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
-import { publicProvider } from "wagmi/providers/public";
-import { arbitrumGoerli, avalancheFuji, polygonMumbai } from "viem/chains";
 import dynamic from "next/dynamic";
 import { api } from "@/utils/api";
+import { configureChains, createConfig, mainnet, WagmiConfig } from "wagmi";
+import { publicProvider } from "wagmi/providers/public";
+import {
+  arbitrum,
+  arbitrumGoerli,
+  avalancheFuji,
+  optimism,
+  polygon,
+  polygonMumbai,
+} from "viem/chains";
 
 const { chains, publicClient } = configureChains(
   [
@@ -30,15 +35,12 @@ const { chains, publicClient } = configureChains(
 const { connectors } = getDefaultWallets({
   appName: "NexeraID DEFi Example app",
   projectId: "5d874ef9e44150c54831f6ba7e6d6228",
-
   chains,
 });
 
 const wagmiConfig = createConfig({
   autoConnect: true,
-
   connectors,
-
   publicClient,
 });
 
@@ -46,16 +48,15 @@ const queryClient = new QueryClient();
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains}>
-        <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <WagmiConfig config={wagmiConfig}>
+        <RainbowKitProvider chains={chains}>
           <Component {...pageProps} />
-
           <ReactQueryDevtools initialIsOpen={false} />
           <ToastContainer />
-        </QueryClientProvider>
-      </RainbowKitProvider>
-    </WagmiConfig>
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </QueryClientProvider>
   );
 };
 

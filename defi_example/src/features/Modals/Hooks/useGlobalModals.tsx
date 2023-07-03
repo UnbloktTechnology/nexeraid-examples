@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import { type IUser } from "@/features/Bank/Interfaces";
+import { type IUser } from "@/features/Interfaces";
 import { type BackgroundType } from "@/features/Layout";
 import { type AvailableFlow } from "@nexeraid/kyc-sdk/client";
 import { create } from "zustand";
@@ -54,7 +54,7 @@ interface IModalStore {
   open: (
     view: IModalStore["view"],
     attributes?: ModalStoreAttributes,
-    data?: ModalData,
+    data?: ModalData
   ) => void;
   close: () => void;
 }
@@ -75,7 +75,7 @@ export const useGlobalModals = create<IModalStore>((set) => ({
       modalType: "center",
       overlayType: "base",
     },
-    data?: ModalData,
+    data?: ModalData
   ) => {
     set({
       isOpen: true,

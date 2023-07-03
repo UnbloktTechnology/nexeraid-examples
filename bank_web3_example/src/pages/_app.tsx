@@ -33,7 +33,7 @@ const { chains, publicClient } = configureChains(
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "NexeraID DEFi Example app",
+  appName: "NexeraID Bank Web3 Example app",
   projectId: "5d874ef9e44150c54831f6ba7e6d6228",
   chains,
 });

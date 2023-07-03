@@ -4,6 +4,7 @@ import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { AppType } from "next/app";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { arbitrumGoerli, avalancheFuji, polygonMumbai } from "viem/chains";
 
 const { chains, publicClient } = configureChains(
@@ -25,6 +26,8 @@ const { connectors } = getDefaultWallets({
   chains,
 });
 
+const queryClient = new QueryClient();
+
 const wagmiConfig = createConfig({
   autoConnect: true,
   connectors,
@@ -33,11 +36,13 @@ const wagmiConfig = createConfig({
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains}>
-        <Component {...pageProps} />
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <QueryClientProvider client={queryClient}>
+      <WagmiConfig config={wagmiConfig}>
+        <RainbowKitProvider chains={chains}>
+          <Component {...pageProps} />
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </QueryClientProvider>
   );
 };
 

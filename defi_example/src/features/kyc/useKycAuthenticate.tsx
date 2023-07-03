@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useEffect } from "react";
-import { apiClient } from "@/config/apiClient";
 import KycClient from "@nexeraid/kyc-sdk/client";
 import { useMutation } from "@tanstack/react-query";
 import { decodeJwt } from "jose";
@@ -7,6 +10,7 @@ import { useAccount, useSignMessage } from "wagmi";
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
+import { api } from "@/utils/api";
 
 import { AddressSchema } from "@nexeraprotocol/nexera-id-schemas";
 
@@ -14,6 +18,7 @@ export const useKycAuthentication = () => {
   const { address } = useAccount();
   const { signMessageAsync } = useSignMessage();
   const authStore = useAuthStore((state) => state);
+  const getAccessToken = api.access.accessToken.useMutation();
 
   const logout = useMutation(async () => {
     await Promise.resolve(authStore.logout());
@@ -24,17 +29,16 @@ export const useKycAuthentication = () => {
       if (!address) {
         throw new Error("Missing data to authenticate");
       }
-      const publicAddress = address.toLowerCase();
-      const response =
-        await apiClient.kycApi.journey.journeyGenerateClientAccessToken({
-          journeyGenerateClientAccessTokenRequest: {
-            address: publicAddress,
-          },
-        });
-      const signingMessage = KycClient.buildSignatureMessage(address);
+      const signingMessage = KycClient.buildSignatureMessage(
+        address.toLowerCase()
+      );
       const signature = await signMessageAsync({ message: signingMessage });
+      const response = await getAccessToken.mutateAsync({
+        address: address.toLowerCase(),
+      });
+      const { accessToken } = response;
       return {
-        accessToken: response.accessToken,
+        accessToken,
         signingMessage,
         signature,
       };
@@ -46,13 +50,13 @@ export const useKycAuthentication = () => {
           validatedAddress,
           data.accessToken,
           data.signingMessage,
-          data.signature,
+          data.signature
         );
       },
       onError: (error) => {
         console.error(error);
       },
-    },
+    }
   );
 
   useEffect(() => {
@@ -94,7 +98,7 @@ interface IAuthStore {
     address: string,
     accessToken: string,
     signingMessage: string,
-    signature: string,
+    signature: string
   ) => void;
   logout: () => void;
 }
@@ -112,7 +116,7 @@ const useAuthStore = create<IAuthStore>()(
           address: string,
           accessToken: string,
           signingMessage: string,
-          signature: string,
+          signature: string
         ) => {
           set((state) => {
             state.address = address;
@@ -135,7 +139,7 @@ const useAuthStore = create<IAuthStore>()(
       {
         name: "kyc-demo-auth-store",
         storage: createJSONStorage(() => sessionStorage),
-      },
-    ),
-  ),
+      }
+    )
+  )
 );

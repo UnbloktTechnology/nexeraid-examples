@@ -1,5 +1,12 @@
-import { type TNftInfo } from "@nexeraprotocol/react/api";
 import { type Address } from "wagmi";
+
+export interface IUser {
+  id: string;
+  avatar?: string;
+  name: string;
+  walletAddress: string;
+  privateKey: string;
+}
 
 export type IWalletSidebar = {
   isOpen: boolean;
@@ -39,10 +46,6 @@ export interface IDropDown {
   classNameButton?: string;
   classNameList?: string;
   onSelect: (item: ITokenInfo) => void;
-}
-
-export interface ITokenList {
-  tokens: TNftInfo[];
 }
 
 export interface ITokenRow {

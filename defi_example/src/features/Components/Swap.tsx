@@ -1,11 +1,7 @@
 import { useState } from "react";
-import { useMockCompliancePmVerifiedStatus } from "@/features/Defi/useMockCompliancePmVerifiedStatus";
 import { useGlobalModals } from "@/features/Modals/Hooks/useGlobalModals";
 import { useQueryClient } from "@tanstack/react-query";
 import { ethers, type BigNumber } from "ethers";
-import { useAccount } from "wagmi";
-
-import { Button, Icon } from "@nexeraprotocol/react-components";
 
 import { usePlaygroundMockSwap } from "../Contracts/Avalanche/PlaygroundMockSwap";
 import { useTraderJoe } from "../Contracts/Avalanche/TraderJoe";
@@ -16,7 +12,7 @@ import { SwapInput } from "./SwapInput";
 const amountToStringFormat = (
   balance: BigNumber | string,
   decimals: number,
-  fix?: number,
+  fix?: number
 ) => {
   const value = ethers.utils.formatUnits(balance, decimals ?? 0).toString();
 
@@ -37,14 +33,12 @@ const optionsToSwap = (options: ITokenInfo[], tokenInfo: ITokenInfo) => {
 
 export const Swap = () => {
   const {
-    WNATIVE,
     getSwapOut,
     // swapExactNATIVEForTokens,
     // swapExactTokensForNATIVE,
     // swapExactTokensForTokens,
   } = useTraderJoe();
-  const { getConversionRate, swapUSDTForNative, swapNativeForUSDT } =
-    usePlaygroundMockSwap();
+  const { getConversionRate } = usePlaygroundMockSwap();
   const options = SwapOptionsData as ITokenInfo[];
   const [swapError, setSwapError] = useState(true);
   const [fromAmount, setFromAmount] = useState("0");
@@ -54,9 +48,8 @@ export const Swap = () => {
       label: "Select Token",
       pairs: [],
       address: "",
-    },
+    }
   );
-  const account = useAccount();
   const [toAmount, setToAmount] = useState("0");
   const [toToken, setToToken] = useState<ITokenInfo>({
     value: "select",
@@ -64,54 +57,51 @@ export const Swap = () => {
     address: "",
     pairs: [],
   });
-  const isUserMockPMCompliant = useMockCompliancePmVerifiedStatus({
-    address: account?.address,
-  });
   const { openModal, close } = useGlobalModals((state) => ({
     openModal: state.open,
     close: state.close,
   }));
   const queryClient = useQueryClient();
 
-  const handleSwap = async () => {
-    if (!isUserMockPMCompliant.data?.isVerified18) {
-      openModal(
-        "KycModal",
-        {
-          modalType: "center",
-          overlayType: "dark",
-        },
-        {
-          initOnFlow: "MANAGEMENT",
-          basicData: {
-            text: "Verify your identity on-chain to be able to swap assets on our Protocol",
-            icon: "kyc",
-            textButton: "Generate ZKProofs",
-            onClick: () => {
-              void queryClient.invalidateQueries();
-              close();
-            },
+  const handleSwap = () => {
+    // if (!isUserMockPMCompliant.data?.isVerified18) {
+    openModal(
+      "KycModal",
+      {
+        modalType: "center",
+        overlayType: "dark",
+      },
+      {
+        initOnFlow: "MANAGEMENT",
+        basicData: {
+          text: "Verify your identity on-chain to be able to swap assets on our Protocol",
+          icon: "kyc",
+          textButton: "Generate ZKProofs",
+          onClick: () => {
+            void queryClient.invalidateQueries();
+            close();
           },
         },
-      );
-    } else {
-      if (fromToken.address === WNATIVE) {
-        await swapNativeForUSDT("10000000");
-      } else {
-        await swapUSDTForNative("10000000");
       }
-    }
+    );
+    // } else {
+    //   if (fromToken.address === WNATIVE) {
+    //     await swapNativeForUSDT("10000000");
+    //   } else {
+    //     await swapUSDTForNative("10000000");
+    //   }
+    // }
   };
 
   const getEstimateSwap = async (
     value: string,
     token: ITokenInfo,
-    isFrom: boolean,
+    isFrom: boolean
   ) => {
     const tokenInfo = isFrom ? toToken : fromToken;
 
     const tokenIndex = token.pairs.findIndex(
-      (token) => token.value === tokenInfo.value,
+      (token) => token.value === tokenInfo.value
     );
     if (tokenIndex < 0) return;
     const pair = token.pairs[tokenIndex];
@@ -120,7 +110,7 @@ export const Swap = () => {
     const response = await getSwapOut(
       pair?.address as string,
       amount.toString(),
-      pair?.swapForY as boolean,
+      pair?.swapForY as boolean
     );
 
     await getConversionRate();
@@ -168,7 +158,7 @@ export const Swap = () => {
         <div className="flex flex-col">
           <div className="mx-2 flex justify-between">
             <span className="text-base font-bold text-white">Swap</span>
-            <Icon icon="config" size={20} className="cursor-pointer" />
+            {/* <Icon icon="config" size={20} className="cursor-pointer" /> */}
           </div>
 
           <div className="flex w-full flex-col items-center gap-4">
@@ -184,11 +174,12 @@ export const Swap = () => {
                 onChange={(value, token) => void handleFromValues(value, token)}
               />
 
-              <Icon
-                icon="arrow-down"
+              <div
                 className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-xl border-4 border-[#0D111C] bg-[#293249] p-2"
                 onClick={() => handleSwapFrom()}
-              />
+              >
+                arrow-down
+              </div>
 
               <SwapInput
                 value={toAmount}
@@ -204,20 +195,21 @@ export const Swap = () => {
           </div>
 
           {swapError && (
-            <p className="text-[12px] leading-4 text-[#] text-negative-default">
+            <p className="text-negative-default text-[12px] leading-4 text-[#]">
               Insufficient liquidity
             </p>
           )}
         </div>
 
-        <Button
+        <button
           className="h-14 w-full rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClick={handleSwap}
         >
-          {isUserMockPMCompliant.data?.isVerified18
-            ? "Swap"
-            : "Verify identity on-chain"}
-        </Button>
+          {/* {isUserMockPMCompliant.data?.isVerified18
+            ? "Swap" */}
+          Verify identity on-chain
+        </button>
       </div>
     </div>
   );

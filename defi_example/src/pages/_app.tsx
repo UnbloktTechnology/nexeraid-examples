@@ -6,52 +6,55 @@ import "@/styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import {
+  RainbowKitProvider,
+  connectorsForWallets,
+} from "@rainbow-me/rainbowkit";
+import {
+  metaMaskWallet,
+  walletConnectWallet,
+} from "@rainbow-me/rainbowkit/wallets";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { configureChains, createConfig, WagmiConfig } from "wagmi";
+import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
-import { arbitrumGoerli, avalancheFuji, polygonMumbai } from "viem/chains";
+import { avalancheFuji, polygonMumbai } from "wagmi/chains";
 import dynamic from "next/dynamic";
 import { api } from "@/utils/api";
 
-// @typescript-eslint/no-unsafe-call
-const { chains, publicClient } = configureChains(
-  [
-    mainnet,
-    polygon,
-    optimism,
-    arbitrum,
-    polygonMumbai,
-    arbitrumGoerli,
-    avalancheFuji,
-  ],
+const supportedChains = [
+  mainnet,
+  polygon,
+  optimism,
+  arbitrum,
+  polygonMumbai,
+  avalancheFuji,
+];
+const { provider, chains, webSocketProvider } = configureChains(
+  supportedChains,
   [publicProvider()]
 );
 
-// @typescript-eslint/no-unsafe-call
-const { connectors } = getDefaultWallets({
-  appName: "NexeraID DEFi Example app",
-  projectId: "5d874ef9e44150c54831f6ba7e6d6228",
+const connectors = connectorsForWallets([
+  {
+    groupName: "Recommended",
+    wallets: [metaMaskWallet({ chains }), walletConnectWallet({ chains })],
+  },
+]);
 
-  chains,
-});
-
-// @typescript-eslint/no-unsafe-call
-const wagmiConfig = createConfig({
+const wagmiClient = createClient({
   autoConnect: true,
-
+  provider,
+  webSocketProvider,
   connectors,
-
-  publicClient,
 });
 
 const queryClient = new QueryClient();
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <WagmiConfig config={wagmiConfig}>
+    <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
         <QueryClientProvider client={queryClient}>
           <Component {...pageProps} />

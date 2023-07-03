@@ -1,10 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import React from "react";
 import { useAccountModal } from "@rainbow-me/rainbowkit";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 import { useAccount } from "wagmi";
-import { type IWalletSidebar } from "../Interfaces";
+
+export type IWalletSidebar = {
+  isOpen: boolean;
+  onClose: () => void;
+};
 
 export const WalletSidebar = ({ isOpen, onClose }: IWalletSidebar) => {
   const { openAccountModal } = useAccountModal();
@@ -41,13 +42,10 @@ export const WalletSidebar = ({ isOpen, onClose }: IWalletSidebar) => {
                   className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-[#293249]"
                   onClick={openAccountModal}
                 >
-                  {/* <Icon icon="power" size={15} color="#98A1C0" /> */}
                   power
                 </span>
               </div>
             </div>
-
-            {/* <WalletBalanceWidget tokens={eoaTokenInfo} /> */}
 
             <div className="flex w-full flex-col justify-center gap-2">
               <button className="border-none !bg-[#1F2538]">
@@ -55,14 +53,11 @@ export const WalletSidebar = ({ isOpen, onClose }: IWalletSidebar) => {
               </button>
               <button className="border-none !bg-[#1F2538]">
                 <span className="flex items-center space-x-1">
-                  {/* <Icon icon="buy" size={20} color="#98A1C0" className="!h-4" /> */}
                   <span>Buy crypto</span>
                 </span>
               </button>
               <button className="border-none !bg-[#1F2538]">Review KYC</button>
             </div>
-
-            {/* <Portfolio tokens={eoaTokenInfo} /> */}
           </div>
         </div>
       )}

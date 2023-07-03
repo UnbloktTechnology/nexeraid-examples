@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useEffect } from "react";
 import KycClient from "@nexeraid/kyc-sdk/client";
 import { useMutation } from "@tanstack/react-query";
@@ -112,12 +108,7 @@ const useAuthStore = create<IAuthStore>()(
         signature: undefined,
         signingMessage: undefined,
         isAuthenticated: false,
-        authenticate: (
-          address: string,
-          accessToken: string,
-          signingMessage: string,
-          signature: string
-        ) => {
+        authenticate: (address, accessToken, signingMessage, signature) => {
           set((state) => {
             state.address = address;
             state.accessToken = accessToken;

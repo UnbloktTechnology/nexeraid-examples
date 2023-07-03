@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useAccount, useSwitchNetwork } from "wagmi";
 import { avalanche, avalancheFuji, polygonMumbai } from "wagmi/chains";

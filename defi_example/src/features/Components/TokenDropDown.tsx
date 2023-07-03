@@ -1,5 +1,14 @@
 import { useState } from "react";
-import { type IDropDown, type ITokenInfo } from "../Interfaces";
+import { type ITokenInfo } from "../Interfaces";
+
+export interface IDropDown {
+  items: readonly ITokenInfo[];
+  selected?: ITokenInfo;
+  className?: string;
+  classNameButton?: string;
+  classNameList?: string;
+  onSelect: (item: ITokenInfo) => void;
+}
 
 export const TokenDropDown = ({
   items,

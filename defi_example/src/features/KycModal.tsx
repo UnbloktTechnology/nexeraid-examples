@@ -1,4 +1,3 @@
-import React from "react";
 import { KycVerifyButton } from "@/features/kyc/KycVerifyButton";
 import { useGlobalModals } from "@/features/Modals/Hooks/useGlobalModals";
 

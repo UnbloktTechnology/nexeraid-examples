@@ -66,7 +66,7 @@ const Home = () => {
 
   const onClickLogOn = () => {
     openModal(
-      "LogOnModal",
+      "KycModal",
       {
         modalType: "center",
         overlayType: "dark",

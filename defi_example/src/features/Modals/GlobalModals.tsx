@@ -1,7 +1,7 @@
-import { KycModal } from "@/features/KycModal";
 import { CenterModal } from "@/features/Modals/CenterModal";
 import { shallow } from "zustand/shallow";
 import { useGlobalModals } from "./Hooks/useGlobalModals";
+import { LogOnModal } from "@/features/kyc/LogOnModal";
 
 export const GlobalModals = () => {
   const { isOpen, close, attributes } = useGlobalModals(
@@ -24,7 +24,7 @@ export const GlobalModals = () => {
           bg={attributes.bg}
           overlay
         >
-          <KycModal />
+          <LogOnModal />
         </CenterModal>
       );
     default:

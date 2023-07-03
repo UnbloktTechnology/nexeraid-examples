@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import KycClient from "@nexeraid/kyc-sdk/client";
 import { useMutation } from "@tanstack/react-query";
 import { create } from "zustand";
@@ -24,7 +27,7 @@ export const useKycAuthentication = () => {
         address: variables.user,
       });
 
-      console.log("RESPONSE", response)
+      console.log("RESPONSE", response);
 
       const { accessToken } = response;
 

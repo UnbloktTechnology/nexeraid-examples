@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useMockCompliancePmVerifiedStatus } from "@/features/useMockCompliancePmVerifiedStatus";
 import { useGlobalModals } from "@/features/Modals/Hooks/useGlobalModals";
 import { useQueryClient } from "@tanstack/react-query";
 import { ethers, type BigNumber } from "ethers";
@@ -62,43 +61,40 @@ export const Swap = () => {
     address: "",
     pairs: [],
   });
-  const isUserMockPMCompliant = useMockCompliancePmVerifiedStatus({
-    address: account?.address,
-  });
   const { openModal, close } = useGlobalModals((state) => ({
     openModal: state.open,
     close: state.close,
   }));
   const queryClient = useQueryClient();
 
-  const handleSwap = async () => {
-    if (!isUserMockPMCompliant.data?.isVerified18) {
-      openModal(
-        "KycModal",
-        {
-          modalType: "center",
-          overlayType: "dark",
-        },
-        {
-          initOnFlow: "MANAGEMENT",
-          basicData: {
-            text: "Verify your identity on-chain to be able to swap assets on our Protocol",
-            icon: "kyc",
-            textButton: "Generate ZKProofs",
-            onClick: () => {
-              void queryClient.invalidateQueries();
-              close();
-            },
+  const handleSwap = () => {
+    // if (!isUserMockPMCompliant.data?.isVerified18) {
+    openModal(
+      "KycModal",
+      {
+        modalType: "center",
+        overlayType: "dark",
+      },
+      {
+        initOnFlow: "MANAGEMENT",
+        basicData: {
+          text: "Verify your identity on-chain to be able to swap assets on our Protocol",
+          icon: "kyc",
+          textButton: "Generate ZKProofs",
+          onClick: () => {
+            void queryClient.invalidateQueries();
+            close();
           },
-        }
-      );
-    } else {
-      if (fromToken.address === WNATIVE) {
-        await swapNativeForUSDT("10000000");
-      } else {
-        await swapUSDTForNative("10000000");
+        },
       }
-    }
+    );
+    // } else {
+    //   if (fromToken.address === WNATIVE) {
+    //     await swapNativeForUSDT("10000000");
+    //   } else {
+    //     await swapUSDTForNative("10000000");
+    //   }
+    // }
   };
 
   const getEstimateSwap = async (
@@ -214,9 +210,9 @@ export const Swap = () => {
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClick={handleSwap}
         >
-          {isUserMockPMCompliant.data?.isVerified18
-            ? "Swap"
-            : "Verify identity on-chain"}
+          {/* {isUserMockPMCompliant.data?.isVerified18
+            ? "Swap" */}
+          Verify identity on-chain
         </button>
       </div>
     </div>

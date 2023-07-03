@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useGlobalModals } from "@/features/Modals/Hooks/useGlobalModals";
 import { useQueryClient } from "@tanstack/react-query";
 import { ethers, type BigNumber } from "ethers";
-import { useAccount } from "wagmi";
 
 import { usePlaygroundMockSwap } from "../Contracts/Avalanche/PlaygroundMockSwap";
 import { useTraderJoe } from "../Contracts/Avalanche/TraderJoe";
@@ -34,14 +33,12 @@ const optionsToSwap = (options: ITokenInfo[], tokenInfo: ITokenInfo) => {
 
 export const Swap = () => {
   const {
-    WNATIVE,
     getSwapOut,
     // swapExactNATIVEForTokens,
     // swapExactTokensForNATIVE,
     // swapExactTokensForTokens,
   } = useTraderJoe();
-  const { getConversionRate, swapUSDTForNative, swapNativeForUSDT } =
-    usePlaygroundMockSwap();
+  const { getConversionRate } = usePlaygroundMockSwap();
   const options = SwapOptionsData as ITokenInfo[];
   const [swapError, setSwapError] = useState(true);
   const [fromAmount, setFromAmount] = useState("0");
@@ -53,7 +50,6 @@ export const Swap = () => {
       address: "",
     }
   );
-  const account = useAccount();
   const [toAmount, setToAmount] = useState("0");
   const [toToken, setToToken] = useState<ITokenInfo>({
     value: "select",

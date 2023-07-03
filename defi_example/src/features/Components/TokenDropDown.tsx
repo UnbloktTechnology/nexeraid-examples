@@ -1,5 +1,19 @@
 import { useState } from "react";
-import { type ITokenInfo } from "../Interfaces";
+
+export interface ITokenInfo {
+  value: string | number;
+  label: string;
+  address: string;
+  pairs: ITokensPair[];
+  icon?: string;
+  decimals?: number;
+}
+
+export interface ITokensPair {
+  value: string;
+  address: string;
+  swapForY: boolean;
+}
 
 export interface IDropDown {
   items: readonly ITokenInfo[];

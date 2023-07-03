@@ -1,5 +1,4 @@
-import { ITokenInfo } from "../Interfaces";
-import { TokenDropDown } from "./TokenDropDown";
+import { type ITokenInfo, TokenDropDown } from "./TokenDropDown";
 
 export interface TInput {
   options: readonly ITokenInfo[];
@@ -25,7 +24,11 @@ export const SwapInput = ({
   const handleAmount = (amount: string) => {
     if (amount === "") {
       amount = "0";
-    } else if (amount.length > 1 && amount[0] === "0" && amount[1] !== ".") {
+    } else if (
+      amount.length > 1 &&
+      amount.startsWith("0") &&
+      amount[1] !== "."
+    ) {
       amount = amount.slice(1);
     }
 

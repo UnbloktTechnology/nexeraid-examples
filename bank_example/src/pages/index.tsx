@@ -33,8 +33,9 @@ const Home = () => {
         const signer = getSigner(user);
         return await signer.signMessage(data);
       });
-      kycClient.onOffChainShareCompletition(() => {
+      kycClient.onKycCompletion((data) => {
         void (async () => {
+          console.log("on kyc completion", data);
           const result = await checkCompliance.mutateAsync();
           console.log("result", result);
           if (result) {

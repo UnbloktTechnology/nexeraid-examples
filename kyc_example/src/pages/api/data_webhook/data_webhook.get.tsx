@@ -8,6 +8,9 @@ const dataWebHookGet = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log("dataWebHookGet key", key);
     const response = await redis.get(key);
     console.log("data webhook get response", response);
+
+    // clear redis
+    await redis.del(key);
     res.status(200).json(response || {});
   }
 };

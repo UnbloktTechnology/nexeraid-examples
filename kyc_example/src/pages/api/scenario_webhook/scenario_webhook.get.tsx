@@ -11,6 +11,9 @@ const scenarioWebHookGet = async (
     console.log("scenarioWebHookGet key", key);
     const response = await redis.get(key);
     console.log("scenario webhook get response", response);
+
+    // clear redis
+    await redis.del(key);
     res.status(200).json(response || {});
   }
 };

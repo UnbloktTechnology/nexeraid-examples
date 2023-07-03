@@ -1,43 +1,42 @@
 import { useAccount } from "wagmi";
+import { useMutation } from "@tanstack/react-query";
 import styles from "./styles.module.css";
 import { getDataWebHook, getScenarioWebhook } from "../apiClient";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { KYC_CLIENT } from "../../appConfig";
 
-const formatResponse = (res: any) => {
-  if (Object.keys(res).length) {
-    return JSON.stringify(res, null, 1);
-  }
-  return "";
+const formatResponse = (res?: unknown) => {
+  if (!res) return "";
+  return JSON.stringify(res, null, 1);
 };
 
 export const WebHooks = () => {
   const { address } = useAccount();
-  const [data, setData] = useState("");
-  const [rule, setRule] = useState("");
+  const dataWebhook = useMutation(getDataWebHook);
+  const scenarioWebhook = useMutation(getScenarioWebhook);
 
   useEffect(() => {
     // Get Off Chain Completition process event response
     if (address) {
-      KYC_CLIENT.onOffChainShareCompletition(async () => {
-        const _data = await getDataWebHook(address as string);
-        const _rule = await getScenarioWebhook(address as string);
-
-        setData(formatResponse(_data));
-        setRule(formatResponse(_rule));
+      KYC_CLIENT.onKycCompletion(async (data) => {
+        console.log("KYC COMPLETION", data);
+        dataWebhook.mutate(address);
+        scenarioWebhook.mutate(address);
       });
     }
-  }, [address]);
+  }, [address, dataWebhook, scenarioWebhook]);
 
   return (
     <div className={styles.responseColumns}>
       <div>
         <h4>DATA: </h4>
-        <pre>{data}</pre>
+        {dataWebhook.isLoading && <p>loading...</p>}
+        <pre>{formatResponse(dataWebhook.data)}</pre>
       </div>
       <div>
         <h4>RULE:</h4>
-        <pre>{rule}</pre>
+        {scenarioWebhook.isLoading && <p>loading...</p>}
+        <pre>{formatResponse(scenarioWebhook.data)}</pre>
       </div>
     </div>
   );

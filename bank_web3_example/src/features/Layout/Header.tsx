@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { Icon } from "../Components/Icon";
 
 export const Header = ({ onClickLogOn }: { onClickLogOn: () => void }) => {
   const items = [
@@ -13,7 +14,7 @@ export const Header = ({ onClickLogOn }: { onClickLogOn: () => void }) => {
 
   return (
     <div className="flex w-full flex-col items-center">
-      <div className="bold bg-cta-black flex h-9 w-full items-center justify-between px-[105px] text-white">
+      <div className="bold bg-black flex h-9 w-full items-center justify-between px-[105px] text-white">
         <ul className="m-0 flex h-full p-0">
           <li className="flex cursor-pointer items-center font-bold">
             <Link href="#personal" className="border-r px-2">
@@ -44,13 +45,13 @@ export const Header = ({ onClickLogOn }: { onClickLogOn: () => void }) => {
             className="flex h-full w-24 cursor-pointer items-center justify-center bg-[#DB0011] hover:bg-[#cf313e]"
             onClick={onClickLogOn}
           >
-            Log on
+            Log in
           </li>
         </ul>
       </div>
 
       <div className="flex w-full items-center px-[105px] py-6">
-        {/* <Icon icon="hsbc-uk" size={185} className="!h-auto"/> */}
+        <Icon icon="hsbc-uk" size={185} className="!h-auto"/>
 
         <div className="flex w-full justify-between">
           {items.map((item, index) => (

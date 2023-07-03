@@ -22,6 +22,8 @@ const Home = () => {
   const signMessage = useSignMessage();
 
   useEffect(() => {
+    console.log("accessToken", accessToken);
+
     if (
       address.address &&
       accessToken &&

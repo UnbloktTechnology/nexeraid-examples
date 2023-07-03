@@ -5,7 +5,7 @@ import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { api } from "@/utils/api";
 import { useSignMessage } from "wagmi";
-import { Address } from "viem";
+import { type Address } from "viem";
 
 export const useKycAuthentication = () => {
   const authStore = useAuthStore((state) => state);
@@ -23,7 +23,11 @@ export const useKycAuthentication = () => {
       const response = await getAccessToken.mutateAsync({
         address: variables.user,
       });
+
+      console.log("RESPONSE", response)
+
       const { accessToken } = response;
+
       return {
         accessToken,
         signingMessage,

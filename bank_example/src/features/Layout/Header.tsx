@@ -44,7 +44,7 @@ export const Header = ({ onClickLogOn }: { onClickLogOn: () => void }) => {
             className="flex h-full w-24 cursor-pointer items-center justify-center bg-[#DB0011] hover:bg-[#cf313e]"
             onClick={onClickLogOn}
           >
-            Log on
+            Log in
           </li>
         </ul>
       </div>

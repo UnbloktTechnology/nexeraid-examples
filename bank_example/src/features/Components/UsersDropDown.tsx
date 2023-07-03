@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { type TestUser } from "@/appConfig";
+import { Icon } from "./Icon";
 
 export interface IDropDown {
   items: readonly TestUser[];
@@ -36,13 +37,18 @@ export const UsersDropDown = ({
       <button
         type="button"
         onClick={() => toggleDropdown()}
-        className={`inline-flex items-center px-3 py-2 shadow-sm ${classNameButton}`}
+        className={`inline-flex gap-3 items-center px-3 py-2 shadow-sm ${classNameButton}`}
       >
-        {selected?.avatar && <div className="mr-2">{selected.avatar}</div>}
-        <span className="w-full text-left">{selected?.name}</span>
-        <div color="#000" className="ml-2 mt-2">
-          expand
-        </div>
+        {selected?.avatar ?
+          <>
+            <Icon
+              icon={selected?.avatar as string}
+            />
+            <span className="w-full text-left">{selected?.name}</span>
+          </> :
+          <span>Select user</span>
+        }
+        <Icon icon={isOpen ? "condence" : "expand"} color="#000" size={12} />
       </button>
       {isOpen && (
         <div
@@ -52,10 +58,14 @@ export const UsersDropDown = ({
             {items.map((item) => (
               <li
                 key={item.id}
-                className="flex cursor-pointer items-center px-3 py-2 text-sm hover:bg-gray-100"
+                className="flex gap-3 cursor-pointer items-center px-3 py-2 text-sm hover:bg-gray-100"
                 onClick={() => toggleDropdown(item)}
               >
-                {item.avatar && <button className="mr-2">{item.avatar}</button>}
+                {item.avatar &&
+                  <Icon
+                    icon={item.avatar as string}
+                  />
+                }
                 <span>{item.name}</span>
               </li>
             ))}

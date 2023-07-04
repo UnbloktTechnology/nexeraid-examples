@@ -14,7 +14,6 @@ const Home = () => {
     openModal: state.open,
     close: state.close,
   }));
-  const isUserCompliant = useCheckCompliance();
   const address = useAccount();
   const { accessToken, signingMessage, signature } = useKycAuthentication();
   const { checkCompliance } = useCheckCompliance();
@@ -66,28 +65,11 @@ const Home = () => {
     }
   }, [address.address, accessToken, signingMessage, signature]);
 
-  const onClickLogOn = () => {
-    openModal(
-      "KycModal",
-      {
-        modalType: "center",
-        overlayType: "dark",
-      },
-      {
-        basicData: {
-          text: "",
-          icon: "help",
-          textButton: "Verify Identity",
-        },
-      }
-    );
-  };
-
   return (
     <Layout header={<Header />} bg={"defi"}>
       <>
         <Swap />
-        {!isUserCompliant.checkCompliance && (
+        {!checkCompliance && (
           <>
             <div className="absolute left-1/2 top-24 z-0 h-1/2 w-[480px] -translate-x-1/2 rounded-3xl bg-gradient-to-t from-[#ff57db95] to-[#a697ff00]" />
             <div className="absolute top-0 z-20 h-screen w-screen bg-gradient-to-t from-[#080A18] from-50% to-transparent to-95%">

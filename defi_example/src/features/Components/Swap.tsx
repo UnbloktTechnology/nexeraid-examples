@@ -137,7 +137,7 @@ export const Swap = () => {
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClick={handleSwap}
         >
-          {checkCompliance?.data ? "Swap" : "Verify identity on-chain"}
+          {checkCompliance?.data ? "Swap" : "Verify identity"}
         </button>
       </div>
     </div>

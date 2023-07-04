@@ -16,7 +16,7 @@ export const useCheckCompliance = () => {
       console.log("isCompliant result", result);
       return result.every((compliant) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        return compliant.result?.validate?.[0].is_valid as boolean;
+        return compliant.result?.result?.validate?.[0].is_valid as boolean;
       });
     },
   });

@@ -1,18 +1,21 @@
 import { useState } from "react";
 import { useGlobalModals } from "@/features/Modals/Hooks/useGlobalModals";
 import { useQueryClient } from "@tanstack/react-query";
-import { useCheckCompliance } from "@/features/kyc/useCheckCompliance";
 import SwapOptionsData from "../SwapOptionsDemoData.json";
 import { SwapInput } from "./SwapInput";
 import { toast } from "react-toastify";
 import { type ITokenInfo } from "@/features/Components/TokenDropDown";
 import { Icon } from "./Icon";
+import { useAccount } from "wagmi";
+import { useKycAuthentication } from "../kyc/useKycAuthenticate";
 
 const optionsToSwap = (options: ITokenInfo[], tokenInfo: ITokenInfo) => {
   return options.filter((token) => token.value !== tokenInfo.value);
 };
 
-export const Swap = () => {
+export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
+  isCompliant,
+}) => {
   const options = SwapOptionsData as ITokenInfo[];
   const [fromAmount, setFromAmount] = useState("0");
   const [fromToken, setFromToken] = useState<ITokenInfo>(
@@ -35,7 +38,8 @@ export const Swap = () => {
     close: state.close,
   }));
   const queryClient = useQueryClient();
-  const { checkCompliance } = useCheckCompliance();
+  const account = useAccount();
+  const { isAuthenticated } = useKycAuthentication();
 
   const handleSwap = () => {
     openModal(
@@ -90,6 +94,8 @@ export const Swap = () => {
     setToToken(fromTokenCopy);
   };
 
+  const isAuthOK = account.address && isAuthenticated;
+
   return (
     <div className="relative z-10 mx-auto mt-20 w-[464px]">
       <div className="flex w-full flex-col gap-1 rounded-xl bg-[#0D111C] p-4">
@@ -135,9 +141,10 @@ export const Swap = () => {
         <button
           className="mt-3 h-14 w-full rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]"
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onClick={handleSwap}
+          onClick={isAuthOK ? undefined : handleSwap}
+          id={isAuthOK ? "kyc-btn-verify" : ""}
         >
-          {checkCompliance?.data ? "Swap" : "Verify identity"}
+          {isCompliant ? "Swap" : "Verify identity"}
         </button>
       </div>
     </div>

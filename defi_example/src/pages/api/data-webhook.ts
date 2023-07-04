@@ -10,6 +10,7 @@ export const getDataWebhookRedisKey = (address: string) => {
 };
 
 const dataWebHookPost = async (req: NextApiRequest, res: NextApiResponse) => {
+  console.log("DATA WEBHOOK")
   if (req.method === "POST") {
     console.log("dataWebHookPost - req.body", req.body);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

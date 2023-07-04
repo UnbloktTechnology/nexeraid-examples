@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
 import { KYC_CLIENTS } from "@/features/kyc/KycClient";
 import { getSigner } from "@/appConfig";
+import { Icon } from "../Components/Icon";
 
 interface ItemGroup {
   name: string;
@@ -30,9 +31,9 @@ const UserOptions = () => {
           <span className="font-semibold">{user.name}</span>
         </div>
 
-        <button color="#000" className="ml-2 mt-2">
-          {"expand"}
-        </button>
+        <Icon
+          icon="expand"
+        />
       </button>
       {isOpen && (
         <div className="absolute bottom-[0px] z-10 w-full border bg-white shadow-xl">
@@ -74,14 +75,14 @@ const MenuItems = ({ itemGroup }: { itemGroup: ItemGroup[] }) => {
             item.name === "Manage identity" ? "kyc-btn-management" : item.name
           }
           key={item.name + index.toString()}
-          className={`flex h-14 w-full cursor-pointer items-center space-x-4 rounded-lg p-5 font-semibold hover:bg-[#DB0011] hover:text-white ${
-            item.name === "Overview" ? "bg-[#DB0011] text-white" : ""
-          }`}
+          className={`flex h-14 w-full cursor-pointer items-center space-x-4 rounded-lg p-5 font-semibold hover:bg-[#DB0011] hover:text-white ${item.name === "Overview" ? "bg-[#DB0011] text-white" : ""
+            }`}
           onClick={item.onClick}
         >
-          <button color={item.name === "Overview" ? "white" : "#c1c1c1"}>
-            {item.icon}
-          </button>
+          <Icon
+            icon={item.icon}
+            size={24}
+          />
           <span>{item.name}</span>
         </li>
       ))}
@@ -179,10 +180,8 @@ export const Sidebar = () => {
   }, [user, accessToken, signingMessage, signature, kycClient]);
 
   return (
-    <div className="relative w-1/5">
-      <div className="fixed flex flex-col gap-10">
-        <button className="!h-auto">{"hsbc-uk"}</button>
-
+    <div className="w-1/5">
+      <div className=" flex flex-col gap-10">
         <div className="flex w-full flex-col gap-4 rounded-lg border bg-white p-5">
           <MenuItems itemGroup={menuItems.main} />
 

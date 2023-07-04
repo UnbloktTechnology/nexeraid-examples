@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { Icon } from "../Components/Icon";
 
 export const Transactions = () => {
   const transactions = [
@@ -40,7 +41,7 @@ export const Transactions = () => {
               </span>
 
               <div className="flex items-center justify-center space-x-1 font-semibold">
-                {/* <Icon icon="down-balance" size={18} color="#FF0000" /> */}
+                <Icon icon="down-balance" size={18} color="#FF0000" />
                 <span className="font-bold text-[#FF0000]">10.55%</span>
               </div>
             </div>
@@ -48,11 +49,11 @@ export const Transactions = () => {
 
           <div className="flex items-center space-x-2">
             <div className="rounded p-2">
-              {/* <Icon icon="pie-chart" className="opacity-50" size={24}/> */}
+              <Icon icon="pie-chart" className="opacity-50" size={24}/>
             </div>
 
             <div className="rounded bg-[#DB0011] p-2">
-              {/* <Icon icon="trending-up" color="white" size={24}/> */}
+              <Icon icon="trending-up" color="white" size={24}/>
             </div>
           </div>
         </div>
@@ -69,15 +70,15 @@ export const Transactions = () => {
 
       <div className="flex w-full flex-col gap-5 rounded-lg border bg-white p-10">
         {transactions.map((transaction, index) => {
-          // const color = transaction.type === "deposit" ? "#98d674" : "#FF0000";
-          // const icon =
-          //   transaction.type === "deposit" ? "up-balance" : "down-balance";
+          const color = transaction.type === "deposit" ? "#98d674" : "#FF0000";
+          const icon =
+            transaction.type === "deposit" ? "up-balance" : "down-balance";
 
           return (
             <div key={index} className="flex w-full justify-between">
               <div className="flex items-center space-x-5">
                 <div className="rounded bg-[#F2F2F2] p-2">
-                  {/* <Icon icon={icon} color={color} size={24}/> */}
+                  <Icon icon={icon} color={color} size={24}/>
                 </div>
 
                 <div className="flex flex-col">

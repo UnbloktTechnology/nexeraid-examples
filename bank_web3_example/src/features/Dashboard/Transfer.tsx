@@ -1,4 +1,5 @@
 import React from "react";
+import { Icon } from "../Components/Icon";
 
 const TransferInput = ({
   label,
@@ -17,7 +18,7 @@ const TransferInput = ({
       <div className="ml-2 mt-1 rounded bg-[#F2F2F2] p-2 pt-3">
         <span className="font-semibold opacity-50">{prependIcon}</span>
 
-        {/* <Icon icon="expand" color="#000" size={12}/> */}
+        <Icon icon="expand" color="#000" size={12}/>
       </div>
     </button>
   );

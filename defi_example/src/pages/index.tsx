@@ -10,7 +10,7 @@ import { KYC_CLIENTS } from "@/features/kyc/KycClient";
 import { toast } from "react-toastify";
 
 const Home = () => {
-  const { openModal } = useGlobalModals((state) => ({
+  const { openModal, close } = useGlobalModals((state) => ({
     openModal: state.open,
     close: state.close,
   }));
@@ -68,7 +68,7 @@ const Home = () => {
   return (
     <Layout header={<Header />} bg={"defi"}>
       <>
-        <Swap />
+        <Swap isCompliant={checkCompliance?.data} />
         {!checkCompliance && (
           <>
             <div className="absolute left-1/2 top-24 z-0 h-1/2 w-[480px] -translate-x-1/2 rounded-3xl bg-gradient-to-t from-[#ff57db95] to-[#a697ff00]" />

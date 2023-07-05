@@ -88,8 +88,6 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
     setToToken(fromTokenCopy);
   };
 
-  const isAuthOK = account.address && isAuthenticated;
-
   return (
     <div className="relative z-10 mx-auto mt-20 w-[464px]">
       <div className="flex w-full flex-col gap-1 rounded-xl bg-[#0D111C] p-4">
@@ -133,8 +131,8 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
           </div>
         </div>
 
-        {!isCompliant && <SwapButton amount={fromAmount.toString()} />}
-        {isCompliant && (
+        {isCompliant && <SwapButton amount={fromAmount.toString()} />}
+        {!isCompliant && (
           <button
             className="mt-3 h-14 w-full rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]"
             onClick={verifyUser}

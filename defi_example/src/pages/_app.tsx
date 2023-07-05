@@ -20,15 +20,7 @@ import {
 } from "viem/chains";
 
 const { chains, publicClient } = configureChains(
-  [
-    mainnet,
-    polygon,
-    optimism,
-    arbitrum,
-    polygonMumbai,
-    arbitrumGoerli,
-    avalancheFuji,
-  ],
+  [polygonMumbai],
   [publicProvider()]
 );
 

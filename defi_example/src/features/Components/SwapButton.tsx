@@ -4,18 +4,19 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi";
+import { parseEther, parseGwei } from "viem";
 import { mockSwapABi } from "@/features/Components/abi";
 import { useDebounce } from "@/features/useDebounce";
 
-export const SwapButton = (props: { amount: bigint }) => {
+export const SwapButton = (props: { amount: string }) => {
+  console.log("swap amount in matic: ", { amount: parseGwei(props.amount) });
   const debouncedTokenId = useDebounce(props.amount, 500);
   const { config } = usePrepareContractWrite({
-    address: "0x8C85697F41330c9bb3a197a91E4E85D627F03bCe",
+    address: "0x10e26aE45a98CCA6bed4Ee58Ba6F5649Ab9FDA08",
     abi: mockSwapABi,
     functionName: "swapNativeForUSDT",
-    args: [BigInt(0)],
-    enabled: !!debouncedTokenId,
-    value: BigInt(props.amount),
+    enabled: !!debouncedTokenId && debouncedTokenId !== "0",
+    value: parseEther(props.amount),
   });
   const contractWrite = useContractWrite(config);
 

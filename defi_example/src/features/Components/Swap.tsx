@@ -7,7 +7,7 @@ import { useAccount, useNetwork } from "wagmi";
 import { useKycAuthentication } from "../kyc/useKycAuthenticate";
 import { SwapButton } from "@/features/Components/SwapButton";
 import { useState } from "react";
-import { ChainOptions, SwapOptions } from "@/features/SwapOptionsDemoData";
+import { type ChainOptions, SwapOptions } from "@/features/SwapOptionsDemoData";
 
 const optionsToSwap = (options: ITokenInfo[], tokenInfo: ITokenInfo) => {
   return options.filter((token) => token.value !== tokenInfo.value);
@@ -66,13 +66,15 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
 
   const handleFromValues = (value: string, token: ITokenInfo) => {
     setFromAmount(value);
-    setToAmount(BigInt(value) * BigInt(2) + "");
+    const toAmount = 2 * Number(value);
+    setToAmount(toAmount.toString());
     setFromToken(token);
   };
 
   const handleToValues = (value: string, token: ITokenInfo) => {
     setToAmount(value);
-    setFromAmount(BigInt(value) * BigInt(2) + "");
+    const fromAmount = Number(value) / 2;
+    setFromAmount(fromAmount.toString());
     setToToken(token);
   };
 
@@ -100,7 +102,7 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
           <div className="flex w-full flex-col items-center gap-4">
             <div className="relative flex w-full flex-col items-center justify-center gap-1">
               <SwapInput
-                value={fromAmount}
+                value={fromAmount.toString()}
                 token={fromToken}
                 options={optionsToSwap(options, toToken)}
                 className="h-24 w-full rounded-xl bg-[#131A2A] text-white"
@@ -118,7 +120,7 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
                 />
               </div>
               <SwapInput
-                value={toAmount}
+                value={toAmount.toString()}
                 token={toToken}
                 options={optionsToSwap(options, fromToken)}
                 className="h-24 w-full rounded-xl bg-[#131A2A] text-white"
@@ -131,8 +133,8 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
           </div>
         </div>
 
-        {isCompliant && <SwapButton amount={BigInt(fromAmount)} />}
-        {!isCompliant && (
+        {!isCompliant && <SwapButton amount={fromAmount.toString()} />}
+        {isCompliant && (
           <button
             className="mt-3 h-14 w-full rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]"
             onClick={verifyUser}

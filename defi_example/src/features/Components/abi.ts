@@ -11,6 +11,11 @@ export const mockSwapABi = [
         name: "_conversionRate",
         type: "uint256",
       },
+      {
+        internalType: "uint256",
+        name: "_usdtDecimals",
+        type: "uint256",
+      },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
@@ -118,13 +123,7 @@ export const mockSwapABi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "mid",
-        type: "uint256",
-      },
-    ],
+    inputs: [],
     name: "swapNativeForUSDT",
     outputs: [],
     stateMutability: "payable",
@@ -135,11 +134,6 @@ export const mockSwapABi = [
       {
         internalType: "uint256",
         name: "usdtAmount",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "mid",
         type: "uint256",
       },
     ],
@@ -159,6 +153,19 @@ export const mockSwapABi = [
     name: "transferOwnership",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "usdtDecimals",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {

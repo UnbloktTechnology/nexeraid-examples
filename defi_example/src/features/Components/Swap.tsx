@@ -1,13 +1,13 @@
-import { useState } from "react";
 import { useGlobalModals } from "@/features/Modals/Hooks/useGlobalModals";
 import { useQueryClient } from "@tanstack/react-query";
-import SwapOptionsData from "../SwapOptionsDemoData.json";
 import { SwapInput } from "./SwapInput";
-import { toast } from "react-toastify";
 import { type ITokenInfo } from "@/features/Components/TokenDropDown";
 import { Icon } from "./Icon";
-import { useAccount } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 import { useKycAuthentication } from "../kyc/useKycAuthenticate";
+import { SwapButton } from "@/features/Components/SwapButton";
+import { useState } from "react";
+import { ChainOptions, SwapOptions } from "@/features/SwapOptionsDemoData";
 
 const optionsToSwap = (options: ITokenInfo[], tokenInfo: ITokenInfo) => {
   return options.filter((token) => token.value !== tokenInfo.value);
@@ -16,14 +16,16 @@ const optionsToSwap = (options: ITokenInfo[], tokenInfo: ITokenInfo) => {
 export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
   isCompliant,
 }) => {
-  const options = SwapOptionsData as ITokenInfo[];
+  const network = useNetwork();
+  const options = SwapOptions[(network.chain?.id as ChainOptions) ?? "80001"];
+  console.log(options, network.chain?.name);
   const [fromAmount, setFromAmount] = useState("0");
   const [fromToken, setFromToken] = useState<ITokenInfo>(
     options[0] ?? {
       value: "select",
       label: "Select Token",
-      pairs: [],
       address: "",
+      pairs: [],
     }
   );
   const [toAmount, setToAmount] = useState("0");
@@ -41,19 +43,18 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
   const account = useAccount();
   const { isAuthenticated } = useKycAuthentication();
 
-  const handleSwap = () => {
+  const verifyUser = () => {
     openModal(
-      "KycModal",
+      "LogOnModal",
       {
         modalType: "center",
         overlayType: "dark",
       },
       {
-        initOnFlow: "MANAGEMENT",
+        initOnFlow: "REQUEST",
         basicData: {
           text: "Verify your identity on-chain to be able to swap assets on our Protocol",
           icon: "kyc",
-          textButton: "Generate ZKProofs",
           onClick: () => {
             void queryClient.invalidateQueries();
             close();
@@ -63,25 +64,16 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
     );
   };
 
-  const getEstimateSwap = (
-    value: string,
-    token: ITokenInfo,
-    isFrom: boolean
-  ) => {
-    const tokenInfo = isFrom ? toToken : fromToken;
-    toast.info(`Getting estimate swap for ${tokenInfo.label}...`);
-  };
-
   const handleFromValues = (value: string, token: ITokenInfo) => {
     setFromAmount(value);
+    setToAmount(BigInt(value) * BigInt(2) + "");
     setFromToken(token);
-    getEstimateSwap(value, token, true);
   };
 
   const handleToValues = (value: string, token: ITokenInfo) => {
     setToAmount(value);
+    setFromAmount(BigInt(value) * BigInt(2) + "");
     setToToken(token);
-    getEstimateSwap(value, token, false);
   };
 
   const handleSwapFrom = () => {
@@ -138,14 +130,16 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
             </div>
           </div>
         </div>
-        <button
-          className="mt-3 h-14 w-full rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]"
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onClick={isAuthOK ? undefined : handleSwap}
-          id={isAuthOK ? "kyc-btn-verify" : ""}
-        >
-          {isCompliant ? "Swap" : "Verify identity"}
-        </button>
+
+        {isCompliant && <SwapButton amount={BigInt(fromAmount)} />}
+        {!isCompliant && (
+          <button
+            className="mt-3 h-14 w-full rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]"
+            onClick={verifyUser}
+          >
+            Verify
+          </button>
+        )}
       </div>
     </div>
   );

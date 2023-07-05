@@ -1,47 +1,8 @@
-import { useState } from "react";
-import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { useAccount, useSwitchNetwork } from "wagmi";
-import { avalanche, avalancheFuji, polygonMumbai } from "wagmi/chains";
-import { type ITokenInfo, TokenDropDown } from "../Components/TokenDropDown";
-import { WalletSidebar } from "./Sidebar";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Icon } from "../Components/Icon";
 
 export const Header = () => {
-  const { openConnectModal } = useConnectModal();
   const navItems = ["Swap", "Tokens", "NFTs", "Pool"];
-  const chainList = [
-    {
-      value: avalanche.id,
-      label: avalanche.name,
-      icon: "avalanche-chain",
-      pairs: [],
-      address: "",
-    },
-    {
-      value: avalancheFuji.id,
-      label: avalancheFuji.name,
-      icon: "avalanche-chain",
-      pairs: [],
-      address: "",
-    },
-    {
-      value: polygonMumbai.id,
-      label: polygonMumbai.name,
-      icon: "polygon-matic",
-      pairs: [],
-      address: "",
-    },
-  ];
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [chainSelected, setChainSelected] = useState<ITokenInfo>({
-    value: avalanche.id,
-    label: "Avalanche",
-    icon: "avalanche-chain",
-    pairs: [],
-    address: "",
-  });
-  const { switchNetwork } = useSwitchNetwork();
-  const { isConnected, address } = useAccount();
 
   const handleNav = (nav: string) => {
     console.log("NavID: ", nav);
@@ -51,20 +12,8 @@ export const Header = () => {
     console.log("Search: ", search);
   };
 
-  const handleChain = (chain: ITokenInfo) => {
-    switchNetwork?.(chain.value as number);
-    setChainSelected(chain);
-  };
-
   return (
     <>
-      {!!address && (
-        <WalletSidebar
-          isOpen={isSidebarOpen}
-          onClose={() => setIsSidebarOpen(false)}
-        />
-      )}
-
       <div className="relative z-30 flex h-20 w-full items-center justify-between p-4 text-white">
         <div className="flex items-center justify-between">
           <div className="align-center flex">
@@ -100,45 +49,7 @@ export const Header = () => {
           {/* <Icon icon="enter" className="p-1" /> */}
         </div>
 
-        <div className="flex w-96 items-center justify-between">
-          <Icon icon="dots-menu" />
-
-          <TokenDropDown
-            items={chainList}
-            selected={chainSelected}
-            className="justify-center"
-            classNameList={"!w-auto !bg-[#4c82fb3d] !top-[60px]"}
-            onSelect={(option) => handleChain(option)}
-          />
-
-          <button
-            className="flex justify-center items-center p-2 gap-1 px-base h-10 min-w-[8rem] !rounded-full border-none !bg-[#4c82fb3d] py-3 !text-[#4C82FB]"
-            onClick={() => {
-              if (openConnectModal) {
-                openConnectModal();
-              } else {
-                setIsSidebarOpen(true);
-              }
-            }}
-          >
-            <span className="flex flex-row items-center justify-between">
-              {isConnected ? (
-                <span className="text-sm">{`${(address as string)?.slice(
-                  0,
-                  5
-                )}...${(address as string)?.slice(37)}`}</span>
-              ) : (
-                <span>Connect |</span>
-              )}
-              <Icon
-                icon="expand"
-                size={12}
-                color="#4C82FB"
-                className="ml-1 mt-2"
-              />
-            </span>
-          </button>
-        </div>
+        <ConnectButton />
       </div>
     </>
   );

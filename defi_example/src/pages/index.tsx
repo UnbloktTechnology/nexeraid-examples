@@ -4,13 +4,13 @@ import { Header } from "@/features/Layout/Header";
 import { Layout } from "@/features/Layout/Layout";
 import { useGlobalModals } from "@/features/Modals/Hooks/useGlobalModals";
 import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAccount, useSignMessage } from "wagmi";
 import { KYC_CLIENTS } from "@/features/kyc/KycClient";
 import { toast } from "react-toastify";
 
 const Home = () => {
-  const { openModal, close } = useGlobalModals((state) => ({
+  const { close } = useGlobalModals((state) => ({
     openModal: state.open,
     close: state.close,
   }));
@@ -19,6 +19,7 @@ const Home = () => {
   const { checkCompliance } = useCheckCompliance();
   const kycClient = KYC_CLIENTS.verify;
   const signMessage = useSignMessage();
+  const [started, setStarted] = useState(false);
 
   useEffect(() => {
     console.log("accessToken", accessToken);
@@ -69,11 +70,11 @@ const Home = () => {
     <Layout header={<Header />} bg={"defi"}>
       <>
         <Swap isCompliant={checkCompliance?.data} />
-        {!checkCompliance && (
+        {!checkCompliance?.data && !started && (
           <>
             <div className="absolute left-1/2 top-24 z-0 h-1/2 w-[480px] -translate-x-1/2 rounded-3xl bg-gradient-to-t from-[#ff57db95] to-[#a697ff00]" />
             <div className="absolute top-0 z-20 h-screen w-screen bg-gradient-to-t from-[#080A18] from-50% to-transparent to-95%">
-              <div className="fixed bottom-32 w-full">
+              <div className="fixed bottom-32 w-full text-center">
                 <div className="mx-auto flex w-[800px] flex-col gap-4 text-center">
                   <h1 className="bg-gradient-to-t from-[#FFF4CF] to-[#FF57DA] bg-clip-text text-[64px] font-bold leading-[72px] text-transparent">
                     Welcome to the new Institutional Uniswap app
@@ -85,27 +86,8 @@ const Home = () => {
                 </div>
 
                 <button
-                  className="mx-auto mt-11 h-14 w-80 rounded-2xl border-none bg-gradient-to-r from-[#FF00C7] to-[#FF9FFB] text-xl"
-                  onClick={() => {
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-                    openModal(
-                      "LogOnModal",
-                      {
-                        modalType: "center",
-                        overlayType: "dark",
-                        style: "rounded",
-                        bg: "defi",
-                      },
-                      {
-                        initOnFlow: "REQUEST",
-                        basicData: {
-                          text: "Authenticate and then Verify yourself",
-                          icon: "kyc",
-                          textButton: "Verify",
-                        },
-                      }
-                    );
-                  }}
+                  className="mx-auto mt-11 h-14 w-80 rounded-2xl border-none bg-gradient-to-r from-[#FF00C7] to-[#FF9FFB] text-center text-xl"
+                  onClick={() => setStarted(true)}
                 >
                   Get started
                 </button>

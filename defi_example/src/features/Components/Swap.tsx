@@ -43,6 +43,8 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
   const account = useAccount();
   const { isAuthenticated } = useKycAuthentication();
 
+  const isAuthOK = account.address && isAuthenticated;
+
   const verifyUser = () => {
     openModal(
       "LogOnModal",
@@ -135,7 +137,8 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
         {!isCompliant && (
           <button
             className="mt-3 h-14 w-full rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]"
-            onClick={verifyUser}
+            id={isAuthOK ? "kyc-btn-verify" : ""}
+            onClick={isAuthOK ? undefined : verifyUser}
           >
             Verify
           </button>

@@ -89,7 +89,7 @@ const Home = () => {
                   onClick={() => {
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
                     openModal(
-                      "KycModal",
+                      "LogOnModal",
                       {
                         modalType: "center",
                         overlayType: "dark",

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Icon } from "./Icon";
 
 export interface ITokenInfo {
   value: string | number;
@@ -63,11 +64,11 @@ export const TokenDropDown = ({
         onClick={() => toggleDropdown()}
         className={`inline-flex items-center px-3 py-2 shadow-sm ${classNameButton} ${initialClass}`}
       >
-        {/* {selected?.icon && (
+        {selected?.icon && (
           <Icon icon={selected.icon} size={24} className="mr-2" />
-        )} */}
+        )}
         <span>{selected?.label}</span>
-        {/* <Icon icon="expand" size={12} color="#FFFF" className="ml-2 mt-2" /> */}
+        <Icon icon="expand" size={12} color="#FFFF" className="ml-2 mt-2" />
       </button>
       {isOpen && (
         <div

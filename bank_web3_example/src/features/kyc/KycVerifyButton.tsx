@@ -1,10 +1,12 @@
+import { Button } from "../Components/Button";
+
 export const KycVerifyButton = () => {
   return (
-    <button
+    <Button
       id="kyc-btn-verify"
-      className={`ml-auto rounded-md bg-[#DB0011] px-6 py-4 text-base font-bold text-white`}
+      className={`ml-auto px-6 py-4 text-base font-bold text-white`}
     >
       Verify
-    </button>
+    </Button>
   );
 };

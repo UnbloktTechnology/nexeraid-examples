@@ -8,27 +8,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import dynamic from "next/dynamic";
 import { api } from "@/utils/api";
-import { configureChains, createConfig, mainnet, WagmiConfig } from "wagmi";
+import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
-import {
-  arbitrum,
-  arbitrumGoerli,
-  avalancheFuji,
-  optimism,
-  polygon,
-  polygonMumbai,
-} from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 
 const { chains, publicClient } = configureChains(
-  [
-    mainnet,
-    polygon,
-    optimism,
-    arbitrum,
-    polygonMumbai,
-    arbitrumGoerli,
-    avalancheFuji,
-  ],
+  [polygonMumbai],
   [publicProvider()]
 );
 

@@ -5,6 +5,8 @@ import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import { toast } from "react-toastify";
+import { Icon } from "../Components/Icon";
+import { Button } from "../Components/Button";
 
 export const LogOnModal = () => {
   const [showMsg, setShowMsg] = useState(true);
@@ -38,13 +40,11 @@ export const LogOnModal = () => {
             </button>
 
             <p className="mr-2 text-base">{helpMsg}</p>
-
-            <button
+            <Icon
+              icon="exit"
               className="absolute right-4 top-4 cursor-pointer"
               onClick={() => setShowMsg(false)}
-            >
-              exit
-            </button>
+            />
           </div>
         )}
       </div>
@@ -54,8 +54,8 @@ export const LogOnModal = () => {
       </div>
 
       {account.address && !isAuthenticated && (
-        <button
-          className={`ml-auto rounded-md bg-[#DB0011] px-6 py-4 text-base font-bold text-white`}
+        <Button
+          className={`ml-auto text-base font-bold text-white`}
           onClick={() => {
             if (!account.address) {
               toast("Please connect your wallet first");
@@ -64,8 +64,8 @@ export const LogOnModal = () => {
             authenticate.mutate({ user: account.address });
           }}
         >
-          Log on
-        </button>
+          Log in
+        </Button>
       )}
       {account.address && isAuthenticated && <KycVerifyButton />}
 

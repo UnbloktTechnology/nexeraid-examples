@@ -1,5 +1,6 @@
 import { api } from "@/utils/api";
 import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 import { useAccount } from "wagmi";
 
 export const useCheckCompliance = () => {
@@ -14,10 +15,12 @@ export const useCheckCompliance = () => {
         address: address as string,
       });
       console.log("isCompliant result", result);
-      return result.every((compliant) => {
+      const _isCompliant = result.every((compliant) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        return compliant.result.result.validate?.[0].is_valid as boolean;
+        return compliant.result?.result?.validate?.[0].is_valid as boolean;
       });
+
+      return _isCompliant;
     },
   });
 

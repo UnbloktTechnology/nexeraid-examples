@@ -1,3 +1,4 @@
+import React from "react";
 import { useCallback, useState } from "react";
 import KycClient from "@nexeraid/kyc-sdk/client";
 import { useAccount, useSignMessage } from "wagmi";
@@ -36,21 +37,47 @@ export const KYCFlow = () => {
       {!auth && (
         <div>
           <h2>Not Authenticated</h2>
-          <button onClick={configKYCClient}>Authenticate</button>
+          <button
+            style={{
+              padding: "16px 24px",
+              borderRadius: 16,
+              cursor: "pointer",
+              backgroundColor: "#0258FD",
+              color: "white",
+              fontWeight: "bold",
+              fontSize: "16px",
+              border: "none",
+            }}
+            onClick={configKYCClient}>Authenticate</button>
         </div>
       )}
       {auth && (
-        <button
-          onClick={() => {
-            KYC_CLIENT.init({
-              auth,
-              initOnFlow: "REQUEST",
-            });
-          }}
-          id="kyc-btn"
-        >
-          Start KYC
-        </button>
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+        }}>
+          <button
+            style={{
+              padding: "16px 24px",
+              borderRadius: 16,
+              cursor: "pointer",
+              backgroundColor: "#0258FD",
+              color: "white",
+              fontWeight: "bold",
+              fontSize: "16px",
+              border: "none",
+            }}
+            onClick={() => {
+              KYC_CLIENT.init({
+                auth,
+                initOnFlow: "REQUEST",
+              });
+            }}
+            id="kyc-btn"
+          >
+            Start KYC
+          </button>
+        </div>
       )}
 
       {auth && <WebHooks />}

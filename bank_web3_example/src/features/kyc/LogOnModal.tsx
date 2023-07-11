@@ -11,7 +11,7 @@ import { Button } from "../Components/Button";
 export const LogOnModal = () => {
   const [showMsg, setShowMsg] = useState(true);
   const [helpMsg, setHelpMsg] = useState(
-    "To open an HSBC account you will need to verify your identity first"
+    "To open an account you will need to verify your identity first"
   );
   const account = useAccount();
   const { authenticate, user, isAuthenticated } = useKycAuthentication();
@@ -23,7 +23,7 @@ export const LogOnModal = () => {
       );
     } else {
       setHelpMsg(
-        "To open an HSBC account you will need to verify your identity first"
+        "To open an account you will need to verify your identity first"
       );
     }
   };
@@ -73,13 +73,13 @@ export const LogOnModal = () => {
         <button className="!text-cta-black w-fit text-base font-normal">
           <>
             Forgotten your username?{" "}
-            <span className="font-bold text-[#DB0011]">&gt;</span>
+            <span className="font-bold text-[#2849F5]">&gt;</span>
           </>
         </button>
         <button className="!text-cta-black w-fit text-base font-normal">
           <>
             Not registered for Online Banking?{" "}
-            <span className="font-bold text-[#DB0011]">&gt;</span>
+            <span className="font-bold text-[#2849F5]">&gt;</span>
           </>
         </button>
       </div>

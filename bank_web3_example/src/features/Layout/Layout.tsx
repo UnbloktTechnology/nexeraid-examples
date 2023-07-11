@@ -1,33 +1,29 @@
-import React, { ReactNode } from "react";
+import React, { type ReactNode } from "react";
 import { GlobalModals } from "@/features/Modals/GlobalModals";
 
 export const Layout = (props: {
   children: ReactNode;
-  sidebar?: ReactNode;
-  header?: ReactNode;
-  footer?: ReactNode;
+  isCompliant?: boolean;
   className?: string;
+  header: ReactNode;
   bg?: "default" | "defi";
 }) => {
-  const {
-    children,
-    sidebar,
-    header,
-    footer,
-    className,
-    bg = "default",
-  } = props;
+  const { children, header, className, bg = "default" } = props;
   const background =
     bg === "default" ? "" : "bg-gradient-to-b from-[#202738] to-[#070816]";
 
   return (
     <main
       className={`scrollable relative mx-auto my-0 h-full min-h-screen w-full ${background}`}
+      style={{
+        backgroundImage: `url(/images/SideDesign.jpg)`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+      }}
     >
-      {sidebar}
       {header}
       <div className={className}>{children}</div>
-      {footer && footer}
       <GlobalModals />
     </main>
   );

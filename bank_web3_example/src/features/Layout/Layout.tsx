@@ -14,7 +14,7 @@ export const Layout = (props: {
 
   return (
     <main
-      className={`scrollable relative mx-auto my-0 h-full min-h-screen w-full ${background}`}
+      className={`relative mx-auto my-0 h-full max-h-screen min-h-screen w-full overflow-hidden ${background}`}
       style={{
         backgroundImage: `url(/images/SideDesign.jpg)`,
         backgroundPosition: "center",

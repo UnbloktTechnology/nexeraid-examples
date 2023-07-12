@@ -3,14 +3,14 @@ import React from "react";
 
 export const Content = ({ onClickLogOn }: { onClickLogOn: () => void }) => {
   return (
-    <div className="grid grid-cols-8 gap-2">
-      <div className="col-span-5">
+    <div className="grid grid-cols-8 gap-6">
+      <div className="col-span-5 flex justify-end">
         <Image
           src={"/images/Card.png"}
           width={600}
           height={800}
           alt=""
-          className="w-10/12"
+          className="h-fit w-9/12"
         />
       </div>
 

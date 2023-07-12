@@ -10,23 +10,23 @@ export const Content = ({ onClickLogOn }: { onClickLogOn: () => void }) => {
           width={600}
           height={800}
           alt=""
-          className="h-fit w-9/12"
+          className="h-fit w-8/12"
         />
       </div>
 
-      <div className="col-span-3 mt-52">
+      <div className="col-span-3 my-auto">
         <div className="flex items-center gap-4">
           <span className="text-4xl ">💰</span>
           <span className="font-medium text-[#2A9206]">
             START SAVING YOUR MONEY SMARTLY
           </span>
         </div>
-        <div className="text-8xl font-bold leading-[110px] text-[#1C1B54]">
+        <div className="text-6xl font-bold leading-[75px] text-[#1C1B54]">
           Payments <br></br>
           have never <br></br>
           been easier
         </div>
-        <div className="my-8 text-xl text-[#4E4CB7]">
+        <div className="my-8 text-lg text-[#4E4CB7]">
           Discover the easiest and smartest way to manage your personal
           finances. Save, analyse, invest, withdraw, send, and receive money all
           over world with no limit.

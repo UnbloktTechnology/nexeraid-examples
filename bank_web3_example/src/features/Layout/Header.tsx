@@ -1,72 +1,46 @@
 import React from "react";
 import Link from "next/link";
-import { Icon } from "../Components/Icon";
 
 export const Header = ({ onClickLogOn }: { onClickLogOn: () => void }) => {
-  const items = [
-    { title: "Banking", subtitle: "Accounts & services" },
-    { title: "Borrowing", subtitle: "Short & long-term" },
-    { title: "Investing", subtitle: "Products & planning" },
-    { title: "Insurance", subtitle: "Property & family" },
-    { title: "Wellbeing", subtitle: "Financial health & support" },
-    { title: "Help", subtitle: "Service & security" },
-  ];
-
   return (
     <div className="flex w-full flex-col items-center">
-      <div className="bold bg-black flex h-9 w-full items-center justify-between px-[105px] text-white">
-        <ul className="m-0 flex h-full p-0">
-          <li className="flex cursor-pointer items-center font-bold">
-            <Link href="#personal" className="border-r px-2">
-              Personal
+      <div className="bold flex h-16 w-full items-center justify-between px-[140px] text-[#1C1B54]">
+        <ul className="m-0 flex h-full items-center gap-6 p-0">
+          <li className="hover:text-cta-black flex h-full w-24 cursor-pointer items-center justify-center hover:bg-white">
+            <Link href="/" className="text-5xl">
+              💰
             </Link>
-          </li>
-          <li className="flex cursor-pointer items-center">
-            <Link href="#business" className="px-2">
-              Business
+            <Link href="/" className="ml-4 text-xl font-bold">
+              Payee
             </Link>
           </li>
         </ul>
-
-        <ul className="m-0 flex h-full items-center p-0">
+        <ul className="m-0 flex h-full items-center gap-6 p-0">
           <li
             className="hover:text-cta-black flex h-full w-24 cursor-pointer items-center justify-center hover:bg-white"
             onClick={() => console.log("Laguage")}
           >
-            English
+            About
           </li>
           <li
             className="hover:text-cta-black flex h-full w-24 cursor-pointer items-center justify-center hover:bg-white"
             onClick={() => console.log("Register")}
           >
-            Register &gt;
+            Product
           </li>
           <li
-            className="flex h-full w-24 cursor-pointer items-center justify-center bg-[#DB0011] hover:bg-[#cf313e]"
+            className="hover:text-cta-black flex h-full w-24 cursor-pointer items-center justify-center hover:bg-white"
+            onClick={() => console.log("Register")}
+          >
+            Pricing
+          </li>
+          <li
+            className="flex w-32 cursor-pointer items-center justify-center rounded-full bg-[#1C1B54] px-4 py-2 text-white hover:bg-white hover:text-[#1C1B54]"
             onClick={onClickLogOn}
           >
-            Log in
+            Sign Up
           </li>
         </ul>
-      </div>
-
-      <div className="flex w-full items-center px-[105px] py-6">
-        <Icon icon="hsbc-uk" size={185} className="!h-auto"/>
-
-        <div className="flex w-full justify-between">
-          {items.map((item, index) => (
-            <div
-              key={index}
-              className={`ml-10 w-full px-6 ${
-                index === items.length - 1 ? "" : "border-r"
-              }`}
-            >
-              <h3 className="text-lg">{item.title}</h3>
-              <p className="text-xs">{item.subtitle}</p>
-            </div>
-          ))}
-          <div className="w-14" />
-        </div>
       </div>
     </div>
   );

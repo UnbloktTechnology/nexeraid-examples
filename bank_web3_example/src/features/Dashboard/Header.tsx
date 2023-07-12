@@ -36,20 +36,21 @@ export const Header = () => {
           item.type === "up"
             ? "#98d674"
             : item.type === "down"
-              ? "#FF0000"
-              : "#adadad";
+            ? "#2849F5"
+            : "#adadad";
         const icon =
           item.type === "up"
             ? "up-balance"
             : item.type === "down"
-              ? "down-balance"
-              : "arrow-right";
+            ? "down-balance"
+            : "arrow-right";
 
         return (
           <div
             key={index}
-            className={`flex w-full flex-col gap-2 px-6 text-center ${index === items.length - 1 ? "" : "border-r"
-              }`}
+            className={`flex w-full flex-col gap-2 px-6 text-center ${
+              index === items.length - 1 ? "" : "border-r"
+            }`}
           >
             <h3 className="text-[30px] font-medium leading-[40px]">
               <>
@@ -61,10 +62,7 @@ export const Header = () => {
             <p className="opacity-80">{item.description}</p>
 
             <div className="flex items-center justify-center space-x-1 font-semibold">
-              <Icon
-                icon={icon}
-                color={color}
-              />
+              <Icon icon={icon} color={color} />
               <span className={`text-[${color}]`}>{`${item.percentage}%`}</span>
             </div>
           </div>

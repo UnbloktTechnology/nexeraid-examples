@@ -29,7 +29,7 @@ export const CenterModal = ({
           )}
           <div className="fixed inset-0 m-[16px] flex items-center justify-center">
             <div
-              className={`relative flex min-h-[200px] w-full max-w-[480px] flex-col items-center justify-center gap-4 p-5 border border-[#4A4D5F] rounded-3xl ${clasName}`}
+              className={`relative flex min-h-[200px] w-full max-w-[480px] flex-col items-center justify-center gap-4 rounded-3xl border border-[#4A4D5F] bg-[#000] p-5 ${clasName}`}
             >
               <Icon
                 className="absolute right-4 top-4 cursor-pointer"

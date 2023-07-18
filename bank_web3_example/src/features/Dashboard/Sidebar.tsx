@@ -3,6 +3,8 @@ import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
 import { KYC_CLIENTS } from "@/features/kyc/KycClient";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useSignMessage } from "wagmi";
+import { Icon } from "../Components/Icon";
+import Link from "next/link";
 
 interface ItemGroup {
   name: string;
@@ -24,15 +26,13 @@ const UserOptions = () => {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex h-auto w-full items-center justify-between px-3 py-2 shadow-sm"
+        className="flex h-auto w-full items-center justify-between gap-4 px-3 py-2 shadow-sm"
       >
         <div className="flex w-full cursor-pointer items-center space-x-4">
           <ConnectButton />
         </div>
 
-        <button color="#000" className="ml-2 mt-2">
-          {"expand"}
-        </button>
+        <Icon icon="expand" />
       </button>
       {isOpen && (
         <div className="absolute bottom-[0px] z-10 w-full border bg-white shadow-xl">
@@ -71,14 +71,12 @@ const MenuItems = ({ itemGroup }: { itemGroup: ItemGroup[] }) => {
             item.name === "Manage identity" ? "kyc-btn-management" : item.name
           }
           key={item.name + index.toString()}
-          className={`flex h-14 w-full cursor-pointer items-center space-x-4 rounded-lg p-5 font-semibold hover:bg-[#DB0011] hover:text-white ${
-            item.name === "Overview" ? "bg-[#DB0011] text-white" : ""
+          className={`flex h-14 w-full cursor-pointer items-center space-x-4 rounded-lg p-5 font-semibold hover:bg-[#2849F5] hover:text-white ${
+            item.name === "Overview" ? "bg-[#2849F5] text-white" : ""
           }`}
           onClick={item.onClick}
         >
-          <button color={item.name === "Overview" ? "white" : "#c1c1c1"}>
-            {item.icon}
-          </button>
+          <Icon icon={item.icon} size={24} />
           <span>{item.name}</span>
         </li>
       ))}
@@ -179,8 +177,15 @@ export const Sidebar = () => {
 
   return (
     <div className="relative w-1/5">
-      <div className="fixed flex flex-col gap-10">
-        <button className="!h-auto">{"hsbc-uk"}</button>
+      <div className="flex flex-col gap-10">
+        <div className="relative flex h-32 max-w-[240px] items-center justify-center">
+          <Link href="/" className="text-5xl">
+            💰
+          </Link>
+          <Link href="/" className="ml-4 text-xl font-bold">
+            Payee
+          </Link>
+        </div>
 
         <div className="flex w-full flex-col gap-4 rounded-lg border bg-white p-5">
           <MenuItems itemGroup={menuItems.main} />

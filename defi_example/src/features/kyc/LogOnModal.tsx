@@ -11,7 +11,7 @@ export const LogOnModal = () => {
   return (
     <div className="flex w-full flex-col items-center gap-10">
       <div className="flex w-full flex-col gap-4">
-        <h3 className="text-2xl">Verify your identity to be able to swap</h3>
+        <h3 className="text-2xl text-white">Verify your identity to be able to swap</h3>
       </div>
 
       <div className="flex w-full flex-col items-center">
@@ -29,7 +29,7 @@ export const LogOnModal = () => {
             authenticate.mutate({ user: account.address });
           }}
         >
-          Log on
+          Log in
         </button>
       )}
       {account.address && isAuthenticated && <KycVerifyButton />}

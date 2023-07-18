@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { type ICenterModal } from "@/features/Modals/Hooks/useGlobalModals";
+import { Icon } from "../Components/Icon";
 
 export const CenterModal = ({
   isOpen,
@@ -16,7 +17,7 @@ export const CenterModal = ({
   }, [isOpen]);
 
   const modalStyle = style === "default" ? "rounded-0" : "rounded-2xl";
-  const modalBg = bg === "default" ? "!bg-white" : "!bg-bg-muted";
+  const modalBg = bg === "default" ? "!bg-[#0D111C]" : "!bg-bg-muted";
   const clasName = `${modalStyle} ${modalBg}`;
 
   return (
@@ -28,14 +29,13 @@ export const CenterModal = ({
           )}
           <div className="fixed inset-0 m-[16px] flex items-center justify-center">
             <div
-              className={`relative flex min-h-[200px] w-full max-w-[480px] flex-col items-center justify-center gap-4 p-5 ${clasName}`}
+              className={`relative flex min-h-[200px] w-full max-w-[480px] flex-col items-center justify-center gap-4 rounded-3xl border border-[#4A4D5F] bg-[#000] p-5 ${clasName}`}
             >
-              <button
+              <Icon
                 className="absolute right-4 top-4 cursor-pointer"
+                icon="exit"
                 onClick={onClose}
-              >
-                exit
-              </button>
+              />
               {children}
             </div>
           </div>

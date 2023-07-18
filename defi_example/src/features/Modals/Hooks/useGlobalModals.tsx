@@ -41,7 +41,7 @@ interface ModalData {
 
 interface IModalStore {
   isOpen: boolean;
-  view?: "KycModal" | "LogOnModal" | "AbnModal";
+  view?: "LogOnModal";
   attributes?: ModalStoreAttributes;
   data?: ModalData;
   open: (

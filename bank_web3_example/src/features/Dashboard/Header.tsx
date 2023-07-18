@@ -1,4 +1,5 @@
 import React from "react";
+import { Icon } from "../Components/Icon";
 
 export const Header = () => {
   const items = [
@@ -35,7 +36,7 @@ export const Header = () => {
           item.type === "up"
             ? "#98d674"
             : item.type === "down"
-            ? "#FF0000"
+            ? "#2849F5"
             : "#adadad";
         const icon =
           item.type === "up"
@@ -61,7 +62,7 @@ export const Header = () => {
             <p className="opacity-80">{item.description}</p>
 
             <div className="flex items-center justify-center space-x-1 font-semibold">
-              <button color={color}>{icon}</button>
+              <Icon icon={icon} color={color} />
               <span className={`text-[${color}]`}>{`${item.percentage}%`}</span>
             </div>
           </div>

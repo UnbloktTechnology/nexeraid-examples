@@ -1,4 +1,4 @@
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useAccount } from "wagmi";
 import { Inter } from "next/font/google";
 import styles from "./client.module.css";
 import { KYCFlow } from "./KYCFlow";

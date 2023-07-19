@@ -31,7 +31,7 @@ export const complianceRouter = createTRPCRouter({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        inputData: { credentials: redisData.data.credentials },
+        inputData: { credentials: redisData?.data?.credentials },
         scenarioId: env.NEXERA_SCENARIO_ID,
       };
       console.log(`Got ${redisKey} from redis`, {

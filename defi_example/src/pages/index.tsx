@@ -16,10 +16,35 @@ const Home = () => {
   }));
   const address = useAccount();
   const { accessToken, signingMessage, signature } = useKycAuthentication();
-  const { checkCompliance } = useCheckCompliance();
+  const [kycCompletion, setKycCompletion] = useState(false);
+  const { checkCompliance } = useCheckCompliance(kycCompletion);
+  const [isCompliance, setIsCompliance] = useState(false);
   const kycClient = KYC_CLIENTS.verify;
   const signMessage = useSignMessage();
   const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    console.log("result kyc compliance", checkCompliance);
+
+    if (checkCompliance.data !== undefined) {
+      if (checkCompliance.data) {
+        toast(`Your identity has been verified`);
+        setKycCompletion(false);
+        setIsCompliance(true);
+      } else {
+        toast(`Your identity has not been verified`);
+        setIsCompliance(false);
+      }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkCompliance]);
+
+  useEffect(() => {
+    if (isCompliance) {
+      close();
+    }
+  }, [isCompliance]);
 
   useEffect(() => {
     console.log("accessToken", accessToken);
@@ -43,16 +68,9 @@ const Home = () => {
         });
       });
       kycClient.onKycCompletion((data) => {
-        void (async () => {
+        void (() => {
           console.log("on kyc completion", data);
-          const result = await checkCompliance.mutateAsync();
-          console.log("result", result);
-          if (result) {
-            toast(`Your identity has been verified`);
-            close();
-          } else {
-            toast(`Your identity has not been verified`);
-          }
+          setKycCompletion(true);
         })();
       });
       kycClient.init({
@@ -69,8 +87,8 @@ const Home = () => {
   return (
     <Layout header={<Header />} bg={"defi"}>
       <>
-        <Swap isCompliant={checkCompliance?.data} />
-        {!checkCompliance?.data && !started && (
+        <Swap isCompliant={isCompliance} />
+        {!isCompliance && !started && (
           <>
             <div className="absolute left-1/2 top-24 z-0 h-1/2 w-[480px] -translate-x-1/2 rounded-3xl bg-gradient-to-t from-[#ff57db95] to-[#a697ff00]" />
             <div className="absolute top-0 z-20 h-screen w-screen bg-gradient-to-t from-[#080A18] from-50% to-transparent to-95%">

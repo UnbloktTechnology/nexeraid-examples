@@ -5,10 +5,11 @@ import { useAccount, useSignMessage } from "wagmi";
 import { getAccessToken } from "../apiClient";
 import { WebHooks } from "../webhooks/WebHooks";
 import { KYC_CLIENT } from "../../appConfig";
+import styles from "./client.module.css";
 
 export const KYCFlow = () => {
   const signMessage = useSignMessage();
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
   const [auth, setAuth] = useState<{
     accessToken: string;
     signingMessage: string;
@@ -38,24 +39,21 @@ export const KYCFlow = () => {
         <div>
           <h2>Not Authenticated</h2>
           <button
-            style={{
-              padding: "16px 24px",
-              borderRadius: 16,
-              cursor: "pointer",
-              backgroundColor: "#0258FD",
-              color: "white",
-              fontWeight: "bold",
-              fontSize: "16px",
-              border: "none",
-            }}
-            onClick={configKYCClient}>Authenticate</button>
+            className={styles.authenticateButton}
+            disabled={!address || !isConnected}
+            onClick={configKYCClient}
+          >
+            Authenticate
+          </button>
         </div>
       )}
       {auth && (
-        <div style={{
-          display: "flex",
-          justifyContent: "center",
-        }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <button
             style={{
               padding: "16px 24px",

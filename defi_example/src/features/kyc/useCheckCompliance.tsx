@@ -1,27 +1,28 @@
 import { api } from "@/utils/api";
-import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
-import { useAccount } from "wagmi";
+import { useQuery } from "@tanstack/react-query";
+import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
 
-export const useCheckCompliance = () => {
-  const { address } = useAccount();
+export const useCheckCompliance = (enabled: boolean) => {
+  const { user } = useKycAuthentication();
   const mutation = api.compliance.executeRule.useMutation();
 
-  const checkCompliance = useMutation({
-    mutationFn: async () => {
-      if (!address) return Promise.resolve(false);
-      console.log("isCompliant", address);
+  const checkCompliance = useQuery({
+    queryKey: ["checkCompliance", enabled],
+    queryFn: async () => {
+      if (!user) return Promise.resolve(false);
+      console.log("isCompliant", user);
       const result = await mutation.mutateAsync({
-        address: address as string,
+        address: user,
       });
       console.log("isCompliant result", result);
-      const _isCompliant = result.every((compliant) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        return compliant.result?.result?.validate?.[0].is_valid as boolean;
-      });
-
-      return _isCompliant;
+      return result
+        ? result.every((compliant) => {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            return compliant.result.result.validate?.[0].is_valid as boolean;
+          })
+        : false;
     },
+    enabled,
   });
 
   return { checkCompliance };

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Dashboard } from "@/features/Dashboard";
 
 import { Content, Header, Layout } from "@/features/Layout";
@@ -17,9 +17,34 @@ const Home = () => {
   }));
   const { accessToken, signingMessage, signature, user } =
     useKycAuthentication();
-  const { checkCompliance } = useCheckCompliance();
   const kycClient = KYC_CLIENTS.verify;
   const signMessage = useSignMessage();
+  const [kycCompletion, setKycCompletion] = useState(false);
+  const { checkCompliance } = useCheckCompliance(kycCompletion);
+  const [isCompliance, setIsCompliance] = useState(false);
+
+  useEffect(() => {
+    console.log("result kyc compliance", checkCompliance);
+
+    if (checkCompliance.data !== undefined) {
+      if (checkCompliance.data) {
+        toast(`Your identity has been verified`);
+        setKycCompletion(false);
+        setIsCompliance(true);
+      } else {
+        toast(`Your identity has not been verified`);
+        setIsCompliance(false);
+      }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkCompliance]);
+
+  useEffect(() => {
+    if (isCompliance) {
+      close();
+    }
+  }, [isCompliance]);
 
   useEffect(() => {
     if (user && accessToken && signingMessage && signature && kycClient) {
@@ -35,16 +60,9 @@ const Home = () => {
         });
       });
       kycClient.onKycCompletion((data) => {
-        void (async () => {
+        void (() => {
           console.log("on kyc completion", data);
-          const result = await checkCompliance.mutateAsync();
-          console.log("result", result);
-          if (result) {
-            toast(`Your identity has been verified`);
-            close();
-          } else {
-            toast(`Your identity has not been verified`);
-          }
+          setKycCompletion(true);
         })();
       });
       kycClient.init({
@@ -77,16 +95,10 @@ const Home = () => {
 
   return (
     <Layout
-      header={
-        !checkCompliance.data ? <Header onClickLogOn={onClickLogOn} /> : <></>
-      }
-      className={!checkCompliance.data ? "px-[105px]" : "bg-[#F2F2F2]"}
+      header={!isCompliance ? <Header onClickLogOn={onClickLogOn} /> : <></>}
+      className={!isCompliance ? "px-[105px]" : "bg-[#F2F2F2]"}
     >
-      {!checkCompliance.data ? (
-        <Content onClickLogOn={onClickLogOn} />
-      ) : (
-        <Dashboard />
-      )}
+      {!isCompliance ? <Content onClickLogOn={onClickLogOn} /> : <Dashboard />}
     </Layout>
   );
 };

@@ -36,7 +36,7 @@ export const complianceRouter = createTRPCRouter({
       };
       console.log(`Got ${redisKey} from redis`, {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        body: body.inputData.credentials[0].type,
+        body: body.inputData.credentials?.[0].type,
       });
       const result = await fetch(
         `${

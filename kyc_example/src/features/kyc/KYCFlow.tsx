@@ -66,10 +66,7 @@ export const KYCFlow = () => {
               border: "none",
             }}
             onClick={() => {
-              KYC_CLIENT.init({
-                auth,
-                initOnFlow: "REQUEST",
-              });
+              KYC_CLIENT.startVerification(auth);
             }}
             id="kyc-btn"
           >

@@ -9,7 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@nexeraid/kyc-sdk": "^0.2.12",
+    "@nexeraid/kyc-sdk": "^0.3.1",
     "@t3-oss/env-nextjs": "^0.3.1",
     "@tanstack/react-query": "^4.29.7",
     "@tanstack/react-query-devtools": "^4.29.19",

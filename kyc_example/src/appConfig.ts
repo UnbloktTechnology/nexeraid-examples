@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { Redis } from "@upstash/redis";
 import KycClient from "@nexeraid/kyc-sdk/client";
 
 export const ENVS = ["local", "dev", "stage", "prod"] as const;

@@ -53,7 +53,6 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
         overlayType: "dark",
       },
       {
-        initOnFlow: "REQUEST",
         basicData: {
           text: "Verify your identity on-chain to be able to swap assets on our Protocol",
           icon: "kyc",

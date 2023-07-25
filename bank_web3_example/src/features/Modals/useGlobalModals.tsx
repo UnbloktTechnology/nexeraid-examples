@@ -1,6 +1,5 @@
 import { type ReactNode } from "react";
 import { type BackgroundType } from "@/features/Layout";
-import { type AvailableFlow } from "@nexeraid/kyc-sdk/client";
 import { create } from "zustand";
 
 export type CenterModalStyle = "default" | "rounded";
@@ -36,7 +35,6 @@ interface ModalData {
     textButton?: string;
     onClick?: () => void;
   };
-  initOnFlow?: AvailableFlow;
   isCompliant?: boolean;
 }
 

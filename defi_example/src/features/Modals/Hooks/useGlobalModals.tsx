@@ -1,5 +1,4 @@
 import { type ReactNode } from "react";
-import { type AvailableFlow } from "@nexeraid/kyc-sdk/client";
 import { create } from "zustand";
 import { type BackgroundType } from "@/features/Layout/Layout";
 
@@ -36,7 +35,6 @@ interface ModalData {
     textButton?: string;
     onClick?: () => void;
   };
-  initOnFlow?: AvailableFlow;
 }
 
 interface IModalStore {

@@ -6,7 +6,7 @@ import { Banner, Content, Header, Layout } from "@/features/Layout";
 import { useGlobalModals } from "@/features/Modals/useGlobalModals";
 import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
 import { useCheckCompliance } from "@/features/kyc/useCheckCompliance";
-import { KYC_CLIENTS } from "@/features/kyc/KycClient";
+import { KYC_CLIENT } from "@/features/kyc/KycClient";
 import { getSigner } from "@/appConfig";
 import { toast } from "react-toastify";
 
@@ -21,7 +21,6 @@ const Home = () => {
   const [kycCompletion, setKycCompletion] = useState(false);
   const { checkCompliance } = useCheckCompliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
-  const kycClient = KYC_CLIENTS.verify;
 
   useEffect(() => {
     console.log("result kyc compliance", checkCompliance);
@@ -47,30 +46,28 @@ const Home = () => {
   }, [isCompliance]);
 
   useEffect(() => {
-    if (user && accessToken && signingMessage && signature && kycClient) {
+    if (user && accessToken && signingMessage && signature) {
       console.log("init kyc client", {
         accessToken,
         signingMessage,
         signature,
       });
-      kycClient.onSignPersonalData(async (data: string) => {
+      KYC_CLIENT.onSignPersonalData(async (data: string) => {
         console.log("on sign personal data");
         const signer = getSigner(user);
         return await signer.signMessage(data);
       });
-      kycClient.onKycCompletion((data) => {
+      KYC_CLIENT.onKycCompletion((data) => {
         void (() => {
           console.log("on kyc completion", data);
           setKycCompletion(true);
         })();
       });
-      kycClient.init({
-        auth: {
-          accessToken,
-          signingMessage,
-          signature,
-        },
-        initOnFlow: "REQUEST",
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      KYC_CLIENT.startVerification({
+        accessToken,
+        signingMessage,
+        signature,
       });
     }
   }, [user, accessToken, signingMessage, signature]);

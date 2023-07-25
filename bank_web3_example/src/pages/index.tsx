@@ -5,7 +5,7 @@ import { Content, Header, Layout } from "@/features/Layout";
 import { useGlobalModals } from "@/features/Modals/useGlobalModals";
 import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
 import { useCheckCompliance } from "@/features/kyc/useCheckCompliance";
-import { KYC_CLIENTS } from "@/features/kyc/KycClient";
+import { KYC_CLIENT } from "@/features/kyc/KycClient";
 import { toast } from "react-toastify";
 import { useSignMessage } from "wagmi";
 
@@ -17,7 +17,6 @@ const Home = () => {
   }));
   const { accessToken, signingMessage, signature, user } =
     useKycAuthentication();
-  const kycClient = KYC_CLIENTS.verify;
   const signMessage = useSignMessage();
   const [kycCompletion, setKycCompletion] = useState(false);
   const { checkCompliance } = useCheckCompliance(kycCompletion);
@@ -47,31 +46,28 @@ const Home = () => {
   }, [isCompliance]);
 
   useEffect(() => {
-    if (user && accessToken && signingMessage && signature && kycClient) {
+    if (user && accessToken && signingMessage && signature) {
       console.log("init kyc client", {
         accessToken,
         signingMessage,
         signature,
       });
-      kycClient.onSignPersonalData(async (data: string) => {
+      KYC_CLIENT.onSignPersonalData(async (data: string) => {
         console.log("on sign personal data");
         return await signMessage.signMessageAsync({
           message: data,
         });
       });
-      kycClient.onKycCompletion((data) => {
+      KYC_CLIENT.onKycCompletion((data) => {
         void (() => {
           console.log("on kyc completion", data);
           setKycCompletion(true);
         })();
       });
-      kycClient.init({
-        auth: {
-          accessToken,
-          signingMessage,
-          signature,
-        },
-        initOnFlow: "REQUEST",
+      KYC_CLIENT.startVerification({
+        accessToken,
+        signingMessage,
+        signature,
       });
     }
   }, [user, accessToken, signingMessage, signature]);

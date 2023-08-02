@@ -44,12 +44,7 @@ const Home = () => {
   }, [isCompliance]);
 
   useEffect(() => {
-    console.log("address", address.address);
-    console.log("client", IDENTITY_CLIENT);
-    if (
-      address.address &&
-      IDENTITY_CLIENT
-    ) {
+    if (address.address) {
       IDENTITY_CLIENT.onSignPersonalData(async (data: string) => {
         console.log("on sign personal data");
         return await signMessage.signMessageAsync({

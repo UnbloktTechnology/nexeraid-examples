@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { UsersDropDown } from "../Components/UsersDropDown";
 import { IdentityVerifyButton } from "@/features/identity/IdentityVerifyButton";
 import { TEST_USERS, type TestUser } from "@/appConfig";
-import { useIdentityAuthentication } from "@/features/identity/useKycAuthenticate";
+import { useKycAuthentication } from "@/features/identity/useKycAuthenticate";
 import { toast } from "react-toastify";
 import { Icon } from "../Components/Icon";
 import { Button } from "../Components/Button";
@@ -14,7 +14,7 @@ export const LogOnModal = () => {
     "To open an HSBC account you will need to verify your identity first"
   );
   const [userSelected, setUserSelected] = useState<TestUser>();
-  const { authenticate, user, isAuthenticated } = useIdentityAuthentication();
+  const { authenticate, user, isAuthenticated } = useKycAuthentication();
 
   const handleUserSelected = (user: TestUser) => {
     setUserSelected(user);

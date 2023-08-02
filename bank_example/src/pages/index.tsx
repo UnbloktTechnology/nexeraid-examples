@@ -4,7 +4,7 @@ import { Dashboard } from "@/features/Dashboard";
 
 import { Banner, Content, Header, Layout } from "@/features/Layout";
 import { useGlobalModals } from "@/features/Modals/useGlobalModals";
-import { useIdentityAuthentication } from "@/features/identity/useKycAuthenticate";
+import { useKycAuthentication } from "@/features/identity/useKycAuthenticate";
 import { useCheckCompliance } from "@/features/identity/useCheckCompliance";
 import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
 import { getSigner } from "@/appConfig";
@@ -16,8 +16,7 @@ const Home = () => {
     close: state.close,
     data: state.data,
   }));
-  const { accessToken, signingMessage, signature, user } =
-    useIdentityAuthentication();
+  const { user } = useKycAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
   const { checkCompliance } = useCheckCompliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
@@ -46,12 +45,7 @@ const Home = () => {
   }, [isCompliance]);
 
   useEffect(() => {
-    if (user && accessToken && signingMessage && signature) {
-      console.log("init kyc client", {
-        accessToken,
-        signingMessage,
-        signature,
-      });
+    if (user) {
       IDENTITY_CLIENT.onSignPersonalData(async (data: string) => {
         console.log("on sign personal data");
         const signer = getSigner(user);
@@ -63,14 +57,8 @@ const Home = () => {
           setKycCompletion(true);
         })();
       });
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      IDENTITY_CLIENT.startVerification({
-        accessToken,
-        signingMessage,
-        signature,
-      });
     }
-  }, [user, accessToken, signingMessage, signature]);
+  }, [user]);
 
   const onClickLogOn = () => {
     openModal(

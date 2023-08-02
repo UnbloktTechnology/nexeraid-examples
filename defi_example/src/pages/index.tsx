@@ -3,7 +3,6 @@ import { useCheckCompliance } from "@/features/identity/useCheckCompliance";
 import { Header } from "@/features/Layout/Header";
 import { Layout } from "@/features/Layout/Layout";
 import { useGlobalModals } from "@/features/Modals/Hooks/useGlobalModals";
-import { useKycAuthentication } from "@/features/identity/useKycAuthenticate";
 import { useEffect, useState } from "react";
 import { useAccount, useSignMessage } from "wagmi";
 import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
@@ -15,7 +14,6 @@ const Home = () => {
     close: state.close,
   }));
   const address = useAccount();
-  const { accessToken, signingMessage, signature } = useKycAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
   const { checkCompliance } = useCheckCompliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
@@ -46,20 +44,7 @@ const Home = () => {
   }, [isCompliance]);
 
   useEffect(() => {
-    console.log("accessToken", accessToken);
-
-    if (
-      address.address &&
-      accessToken &&
-      signingMessage &&
-      signature &&
-      IDENTITY_CLIENT
-    ) {
-      console.log("init kyc client", {
-        accessToken,
-        signingMessage,
-        signature,
-      });
+    if (address.address) {
       IDENTITY_CLIENT.onSignPersonalData(async (data: string) => {
         console.log("on sign personal data");
         return await signMessage.signMessageAsync({
@@ -72,13 +57,8 @@ const Home = () => {
           setKycCompletion(true);
         })();
       });
-      IDENTITY_CLIENT.startVerification({
-        accessToken,
-        signingMessage,
-        signature,
-      });
     }
-  }, [address.address, accessToken, signingMessage, signature]);
+  }, [address.address]);
 
   return (
     <Layout header={<Header />} bg={"defi"}>

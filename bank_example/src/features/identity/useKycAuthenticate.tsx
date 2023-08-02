@@ -4,9 +4,9 @@ import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { api } from "@/utils/api";
-import { getSigner, TestUser } from "@/appConfig";
+import { getSigner, type TestUser } from "@/appConfig";
 
-export const useIdentityAuthentication = () => {
+export const useKycAuthentication = () => {
   const authStore = useAuthStore((state) => state);
   const getAccessToken = api.access.accessToken.useMutation();
 

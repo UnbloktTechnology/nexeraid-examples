@@ -1,9 +1,9 @@
 import { api } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
-import { useIdentityAuthentication } from "@/features/identity/useKycAuthenticate";
+import { useKycAuthentication } from "@/features/identity/useKycAuthenticate";
 
 export const useCheckCompliance = (enabled: boolean) => {
-  const { user } = useIdentityAuthentication();
+  const { user } = useKycAuthentication();
   const mutation = api.compliance.executeRule.useMutation();
 
   const checkCompliance = useQuery({

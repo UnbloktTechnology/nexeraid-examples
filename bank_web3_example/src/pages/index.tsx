@@ -15,8 +15,7 @@ const Home = () => {
     close: state.close,
     data: state.data,
   }));
-  const { accessToken, signingMessage, signature, user } =
-    useKycAuthentication();
+  const { user } = useKycAuthentication();
   const signMessage = useSignMessage();
   const [kycCompletion, setKycCompletion] = useState(false);
   const { checkCompliance } = useCheckCompliance(kycCompletion);
@@ -46,12 +45,7 @@ const Home = () => {
   }, [isCompliance]);
 
   useEffect(() => {
-    if (user && accessToken && signingMessage && signature) {
-      console.log("init kyc client", {
-        accessToken,
-        signingMessage,
-        signature,
-      });
+    if (user) {
       IDENTITY_CLIENT.onSignPersonalData(async (data: string) => {
         console.log("on sign personal data");
         return await signMessage.signMessageAsync({
@@ -64,13 +58,8 @@ const Home = () => {
           setKycCompletion(true);
         })();
       });
-      IDENTITY_CLIENT.startVerification({
-        accessToken,
-        signingMessage,
-        signature,
-      });
     }
-  }, [user, accessToken, signingMessage, signature]);
+  }, [user]);
 
   const onClickLogOn = () => {
     openModal(

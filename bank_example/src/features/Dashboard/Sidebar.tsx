@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useIdentityAuthentication } from "@/features/identity/useKycAuthenticate";
+import { useKycAuthentication } from "@/features/identity/useKycAuthenticate";
 import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
 import { getSigner } from "@/appConfig";
 import { Icon } from "../Components/Icon";
@@ -12,7 +12,7 @@ interface ItemGroup {
 
 const UserOptions = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { logout, user } = useIdentityAuthentication();
+  const { logout, user } = useKycAuthentication();
 
   if (!user) return <></>;
 
@@ -88,7 +88,7 @@ const MenuItems = ({ itemGroup }: { itemGroup: ItemGroup[] }) => {
 
 export const Sidebar = () => {
   const { accessToken, signingMessage, signature, user } =
-    useIdentityAuthentication();
+    useKycAuthentication();
 
   const menuItems = {
     main: [

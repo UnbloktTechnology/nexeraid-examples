@@ -4,7 +4,7 @@ import { SwapInput } from "./SwapInput";
 import { type ITokenInfo } from "@/features/Components/TokenDropDown";
 import { Icon } from "./Icon";
 import { useAccount, useNetwork } from "wagmi";
-import { useKycAuthentication } from "../kyc/useKycAuthenticate";
+import { useKycAuthentication } from "../identity/useKycAuthenticate";
 import { SwapButton } from "@/features/Components/SwapButton";
 import { useState } from "react";
 import { type ChainOptions, SwapOptions } from "@/features/SwapOptionsDemoData";

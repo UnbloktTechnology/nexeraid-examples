@@ -4,9 +4,9 @@ import { Dashboard } from "@/features/Dashboard";
 
 import { Banner, Content, Header, Layout } from "@/features/Layout";
 import { useGlobalModals } from "@/features/Modals/useGlobalModals";
-import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
-import { useCheckCompliance } from "@/features/kyc/useCheckCompliance";
-import { KYC_CLIENT } from "@/features/kyc/KycClient";
+import { useIdentityAuthentication } from "@/features/identity/useKycAuthenticate";
+import { useCheckCompliance } from "@/features/identity/useCheckCompliance";
+import { IDENTITY_CLIENT } from "@/features/identity/KycClient";
 import { getSigner } from "@/appConfig";
 import { toast } from "react-toastify";
 
@@ -17,7 +17,7 @@ const Home = () => {
     data: state.data,
   }));
   const { accessToken, signingMessage, signature, user } =
-    useKycAuthentication();
+    useIdentityAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
   const { checkCompliance } = useCheckCompliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
@@ -52,19 +52,19 @@ const Home = () => {
         signingMessage,
         signature,
       });
-      KYC_CLIENT.onSignPersonalData(async (data: string) => {
+      IDENTITY_CLIENT.onSignPersonalData(async (data: string) => {
         console.log("on sign personal data");
         const signer = getSigner(user);
         return await signer.signMessage(data);
       });
-      KYC_CLIENT.onKycCompletion((data) => {
+      IDENTITY_CLIENT.onKycCompletion((data) => {
         void (() => {
           console.log("on kyc completion", data);
           setKycCompletion(true);
         })();
       });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      KYC_CLIENT.startVerification({
+      IDENTITY_CLIENT.startVerification({
         accessToken,
         signingMessage,
         signature,

@@ -1,6 +1,6 @@
-# NexeraID KYC-SDK
+# NexeraID Identity-SDK
 
-This repo shows how to use a NexeraID KYC-SDK to integrate a KYC flow in your application. 
+This repo shows how to use a NexeraID Identity-SDK to integrate a Identity flow in your application. 
 This example uses Nextjs and React.
 
 ## Getting Started
@@ -23,17 +23,17 @@ npm run dev
 
 5. Open [http://localhost:3012](http://localhost:3012) with your browser to see the result.
 
-6. You could go through "Get Started with KYC Flow" or visit directly [http://localhost:3006/client](http://localhost:3006/client)
+6. You could go through "Get Started with Identity Flow" or visit directly [http://localhost:3006/client](http://localhost:3006/client)
 
-## KYC FLOW
+## Identity FLOW
 
-1. Let's start the KYC flow by connecting to a supported wallet.
+1. Let's start the Identity flow by connecting to a supported wallet.
 
 2. Be sure that you're connected to `Mumbai` testnet on your wallet, if not, add the network to your wallet with: [ChainList Mumbai](https://chainlist.org/chain/80001)
 
 3. Await until the connection process starts.
 
-4. Sign the KYC Client initialization.
+4. Sign the Identity Client initialization.
 
 5. Let the signing end to press the button `Start KYC`
 
@@ -53,6 +53,6 @@ npm run dev
 
 2. The Access Token call is provided by the endpoint in [src/pages/api/access_token](src/pages/api/access_token.tsx)
 
-3. The SDK of KYC Client is initialized in [src/features/client/KYCFlow.tsx](src/features/kyc/KYCFlow.tsx)
+3. The SDK of Identity Client is initialized in [src/features/client/IdentityFlow.tsx](src/features/identity/IdentityFlow.tsx)
 
-4. The KYC Client binding button is placed on [src/features/kyc/Client.tsx](src/features/kyc/Client.tsx)
+4. The Identity Client binding button is placed on [src/features/identity/Client.tsx](src/features/identity/Client.tsx)

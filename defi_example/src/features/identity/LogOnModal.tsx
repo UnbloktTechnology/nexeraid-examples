@@ -1,5 +1,5 @@
-import { KycVerifyButton } from "@/features/kyc/KycVerifyButton";
-import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
+import { IdentityVerifyButton } from "@/features/identity/IdentityVerifyButton";
+import { useKycAuthentication } from "@/features/identity/useKycAuthenticate";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import { toast } from "react-toastify";
@@ -32,7 +32,7 @@ export const LogOnModal = () => {
           Log in
         </button>
       )}
-      {account.address && isAuthenticated && <KycVerifyButton />}
+      {account.address && isAuthenticated && <IdentityVerifyButton />}
     </div>
   );
 };

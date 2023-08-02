@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
-import { KYC_CLIENT } from "@/features/kyc/KycClient";
+import { useIdentityAuthentication } from "@/features/identity/useKycAuthenticate";
+import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
 import { getSigner } from "@/appConfig";
 import { Icon } from "../Components/Icon";
 
@@ -12,7 +12,7 @@ interface ItemGroup {
 
 const UserOptions = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { logout, user } = useKycAuthentication();
+  const { logout, user } = useIdentityAuthentication();
 
   if (!user) return <></>;
 
@@ -88,7 +88,7 @@ const MenuItems = ({ itemGroup }: { itemGroup: ItemGroup[] }) => {
 
 export const Sidebar = () => {
   const { accessToken, signingMessage, signature, user } =
-    useKycAuthentication();
+    useIdentityAuthentication();
 
   const menuItems = {
     main: [
@@ -152,16 +152,16 @@ export const Sidebar = () => {
   useEffect(() => {
     console.log("USER", user, accessToken, signingMessage, signature);
     if (user && accessToken && signingMessage && signature) {
-      KYC_CLIENT.onSignPersonalData(async (data: string) => {
+      IDENTITY_CLIENT.onSignPersonalData(async (data: string) => {
         console.log("on sign personal data");
         const signer = getSigner(user);
         return await signer.signMessage(data);
       });
-      KYC_CLIENT.onKycCompletion(() => {
+      IDENTITY_CLIENT.onKycCompletion(() => {
         console.log("onKycCompletion");
       });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      KYC_CLIENT.startManagement({
+      IDENTITY_CLIENT.startManagement({
         accessToken,
         signingMessage,
         signature,

@@ -1,13 +1,13 @@
 import React from "react";
 import { useCallback, useState } from "react";
-import KycClient from "@nexeraid/kyc-sdk/client";
+import IdentityClient from "@nexeraid/identity-sdk/client";
 import { useAccount, useSignMessage } from "wagmi";
 import { getAccessToken } from "../apiClient";
 import { WebHooks } from "../webhooks/WebHooks";
-import { KYC_CLIENT } from "../../appConfig";
+import { IDENTITY_CLIENT } from "../../appConfig";
 import styles from "./client.module.css";
 
-export const KYCFlow = () => {
+export const IdentityFlow = () => {
   const signMessage = useSignMessage();
   const { address, isConnected } = useAccount();
   const [auth, setAuth] = useState<{
@@ -16,11 +16,11 @@ export const KYCFlow = () => {
     signature: string;
   }>();
 
-  const configKYCClient = useCallback(async () => {
-    KYC_CLIENT.onSignPersonalData(async (data: string) => {
+  const configIdentityClient = useCallback(async () => {
+    IDENTITY_CLIENT.onSignPersonalData(async (data: string) => {
       return await signMessage.signMessageAsync({ message: data });
     });
-    const signingMessage = KycClient.buildSignatureMessage(address as string);
+    const signingMessage = IdentityClient.buildSignatureMessage(address as string);
     const signature = await signMessage.signMessageAsync({
       message: signingMessage,
     });
@@ -34,14 +34,14 @@ export const KYCFlow = () => {
 
   return (
     <div>
-      <h1>KYC Flow</h1>
+      <h1>Identity Flow</h1>
       {!auth && (
         <div>
           <h2>Not Authenticated</h2>
           <button
             className={styles.authenticateButton}
             disabled={!address || !isConnected}
-            onClick={configKYCClient}
+            onClick={configIdentityClient}
           >
             Authenticate
           </button>
@@ -66,9 +66,9 @@ export const KYCFlow = () => {
               border: "none",
             }}
             onClick={() => {
-              KYC_CLIENT.startVerification(auth);
+              IDENTITY_CLIENT.startVerification(auth);
             }}
-            id="kyc-btn"
+            id="identity-btn"
           >
             Start KYC
           </button>

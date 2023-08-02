@@ -1,6 +1,6 @@
 import { api } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
-import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
+import { useKycAuthentication } from "@/features/identity/useKycAuthenticate";
 
 export const useCheckCompliance = (enabled: boolean) => {
   const { user } = useKycAuthentication();

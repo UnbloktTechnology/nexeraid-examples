@@ -1,4 +1,4 @@
-export const KycVerifyButton = () => {
+export const IdentityVerifyButton = () => {
   return (
     <button
       id="kyc-btn-verify"

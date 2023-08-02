@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
 import { UsersDropDown } from "../Components/UsersDropDown";
-import { KycVerifyButton } from "@/features/kyc/KycVerifyButton";
+import { IdentityVerifyButton } from "@/features/identity/IdentityVerifyButton";
 import { TEST_USERS, type TestUser } from "@/appConfig";
-import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
+import { useIdentityAuthentication } from "@/features/identity/useKycAuthenticate";
 import { toast } from "react-toastify";
 import { Icon } from "../Components/Icon";
 import { Button } from "../Components/Button";
@@ -14,7 +14,7 @@ export const LogOnModal = () => {
     "To open an HSBC account you will need to verify your identity first"
   );
   const [userSelected, setUserSelected] = useState<TestUser>();
-  const { authenticate, user, isAuthenticated } = useKycAuthentication();
+  const { authenticate, user, isAuthenticated } = useIdentityAuthentication();
 
   const handleUserSelected = (user: TestUser) => {
     setUserSelected(user);
@@ -79,7 +79,7 @@ export const LogOnModal = () => {
           Log in
         </Button>
       )}
-      {user?.id === userSelected?.id && isAuthenticated && <KycVerifyButton />}
+      {user?.id === userSelected?.id && isAuthenticated && <IdentityVerifyButton />}
 
       <div className="flex w-full flex-col justify-start gap-2 text-base">
         <button className="flex flex-row !text-cta-black w-fit text-base font-normal">

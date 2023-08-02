@@ -1,9 +1,9 @@
 import { api } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
-import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
+import { useIdentityAuthentication } from "@/features/identity/useKycAuthenticate";
 
 export const useCheckCompliance = (enabled: boolean) => {
-  const { user } = useKycAuthentication();
+  const { user } = useIdentityAuthentication();
   const mutation = api.compliance.executeRule.useMutation();
 
   const checkCompliance = useQuery({
@@ -12,7 +12,7 @@ export const useCheckCompliance = (enabled: boolean) => {
       if (!user) return Promise.resolve(false);
       console.log("isCompliant", user);
       const result = await mutation.mutateAsync({
-        address: user,
+        address: user.walletAddress,
       });
       console.log("isCompliant result", result);
       return result

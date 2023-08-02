@@ -1,11 +1,14 @@
-import KycClient from "@nexeraid/kyc-sdk/client";
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+import IdentityClient from "@nexeraid/identity-sdk/client";
 import { useMutation } from "@tanstack/react-query";
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { api } from "@/utils/api";
 import { useSignMessage } from "wagmi";
-import { Address } from "viem";
+import { type Address } from "viem";
 
 export const useKycAuthentication = () => {
   const authStore = useAuthStore((state) => state);
@@ -18,12 +21,16 @@ export const useKycAuthentication = () => {
 
   const authenticate = useMutation(
     async (variables: { user: Address }) => {
-      const signingMessage = KycClient.buildSignatureMessage(variables.user);
+      const signingMessage = IdentityClient.buildSignatureMessage(variables.user);
       const signature = await signMessageAsync({ message: signingMessage });
       const response = await getAccessToken.mutateAsync({
         address: variables.user,
       });
+
+      console.log("RESPONSE", response);
+
       const { accessToken } = response;
+
       return {
         accessToken,
         signingMessage,

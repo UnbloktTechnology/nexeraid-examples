@@ -1,6 +1,6 @@
 import { Button } from "../Components/Button";
 
-export const KycVerifyButton = () => {
+export const IdentityVerifyButton = () => {
   return (
     <Button
       id="kyc-btn-verify"

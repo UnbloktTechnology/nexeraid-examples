@@ -1,5 +1,5 @@
 import { z } from "zod";
-import KycClient from "@nexeraid/kyc-sdk/client";
+import IdentityClient from "@nexeraid/identity-sdk/client";
 
 export const ENVS = ["local", "dev", "stage", "prod"] as const;
 export const ENVSchema = z.enum(ENVS);
@@ -19,6 +19,6 @@ export const appConfig = {
   },
 } as const;
 
-export const KYC_CLIENT = new KycClient({
+export const IDENTITY_CLIENT = new IdentityClient({
   env: ENVSchema.parse(process.env.NEXT_PUBLIC_ENVIRONMENT),
 });

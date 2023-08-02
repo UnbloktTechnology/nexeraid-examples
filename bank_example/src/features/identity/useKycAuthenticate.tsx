@@ -1,4 +1,4 @@
-import KycClient from "@nexeraid/kyc-sdk/client";
+import IdentityClient from "@nexeraid/identity-sdk/client";
 import { useMutation } from "@tanstack/react-query";
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
@@ -6,7 +6,7 @@ import { immer } from "zustand/middleware/immer";
 import { api } from "@/utils/api";
 import { getSigner, TestUser } from "@/appConfig";
 
-export const useKycAuthentication = () => {
+export const useIdentityAuthentication = () => {
   const authStore = useAuthStore((state) => state);
   const getAccessToken = api.access.accessToken.useMutation();
 
@@ -18,7 +18,7 @@ export const useKycAuthentication = () => {
     async (variables: { user: TestUser }) => {
       if (!variables.user.walletAddress)
         throw new Error("Missing data to authenticate");
-      const signingMessage = KycClient.buildSignatureMessage(
+      const signingMessage = IdentityClient.buildSignatureMessage(
         variables.user.walletAddress
       );
       const signer = getSigner(variables.user);

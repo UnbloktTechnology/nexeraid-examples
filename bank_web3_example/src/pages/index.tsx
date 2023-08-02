@@ -3,9 +3,9 @@ import { Dashboard } from "@/features/Dashboard";
 
 import { Content, Header, Layout } from "@/features/Layout";
 import { useGlobalModals } from "@/features/Modals/useGlobalModals";
-import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
-import { useCheckCompliance } from "@/features/kyc/useCheckCompliance";
-import { KYC_CLIENT } from "@/features/kyc/KycClient";
+import { useKycAuthentication } from "@/features/identity/useKycAuthenticate";
+import { useCheckCompliance } from "@/features/identity/useCheckCompliance";
+import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
 import { toast } from "react-toastify";
 import { useSignMessage } from "wagmi";
 
@@ -52,19 +52,19 @@ const Home = () => {
         signingMessage,
         signature,
       });
-      KYC_CLIENT.onSignPersonalData(async (data: string) => {
+      IDENTITY_CLIENT.onSignPersonalData(async (data: string) => {
         console.log("on sign personal data");
         return await signMessage.signMessageAsync({
           message: data,
         });
       });
-      KYC_CLIENT.onKycCompletion((data) => {
+      IDENTITY_CLIENT.onKycCompletion((data) => {
         void (() => {
           console.log("on kyc completion", data);
           setKycCompletion(true);
         })();
       });
-      KYC_CLIENT.startVerification({
+      IDENTITY_CLIENT.startVerification({
         accessToken,
         signingMessage,
         signature,

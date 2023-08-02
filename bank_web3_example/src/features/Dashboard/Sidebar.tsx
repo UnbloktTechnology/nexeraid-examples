@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
-import { KYC_CLIENT } from "@/features/kyc/KycClient";
+import { useKycAuthentication } from "@/features/identity/useKycAuthenticate";
+import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useSignMessage } from "wagmi";
 import { Icon } from "../Components/Icon";
@@ -151,16 +151,16 @@ export const Sidebar = () => {
   useEffect(() => {
     console.log("USER", user, accessToken, signingMessage, signature);
     if (user && accessToken && signingMessage && signature) {
-      KYC_CLIENT.onSignPersonalData(async (data: string) => {
+      IDENTITY_CLIENT.onSignPersonalData(async (data: string) => {
         console.log("on sign personal data");
         return await signMessage.signMessageAsync({
           message: data,
         });
       });
-      KYC_CLIENT.onKycCompletion(() => {
+      IDENTITY_CLIENT.onKycCompletion(() => {
         console.log("onKycCompletion");
       });
-      KYC_CLIENT.startManagement({
+      IDENTITY_CLIENT.startManagement({
         accessToken,
         signingMessage,
         signature,

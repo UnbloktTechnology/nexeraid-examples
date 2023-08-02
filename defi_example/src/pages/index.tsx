@@ -1,12 +1,12 @@
 import { Swap } from "@/features/Components/Swap";
-import { useCheckCompliance } from "@/features/kyc/useCheckCompliance";
+import { useCheckCompliance } from "@/features/identity/useCheckCompliance";
 import { Header } from "@/features/Layout/Header";
 import { Layout } from "@/features/Layout/Layout";
 import { useGlobalModals } from "@/features/Modals/Hooks/useGlobalModals";
-import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
+import { useKycAuthentication } from "@/features/identity/useKycAuthenticate";
 import { useEffect, useState } from "react";
 import { useAccount, useSignMessage } from "wagmi";
-import { KYC_CLIENT } from "@/features/kyc/KycClient";
+import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
 import { toast } from "react-toastify";
 
 const Home = () => {
@@ -53,26 +53,26 @@ const Home = () => {
       accessToken &&
       signingMessage &&
       signature &&
-      KYC_CLIENT
+      IDENTITY_CLIENT
     ) {
       console.log("init kyc client", {
         accessToken,
         signingMessage,
         signature,
       });
-      KYC_CLIENT.onSignPersonalData(async (data: string) => {
+      IDENTITY_CLIENT.onSignPersonalData(async (data: string) => {
         console.log("on sign personal data");
         return await signMessage.signMessageAsync({
           message: data,
         });
       });
-      KYC_CLIENT.onKycCompletion((data) => {
+      IDENTITY_CLIENT.onKycCompletion((data) => {
         void (() => {
           console.log("on kyc completion", data);
           setKycCompletion(true);
         })();
       });
-      KYC_CLIENT.startVerification({
+      IDENTITY_CLIENT.startVerification({
         accessToken,
         signingMessage,
         signature,

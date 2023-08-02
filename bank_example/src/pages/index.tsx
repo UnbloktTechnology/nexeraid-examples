@@ -6,7 +6,7 @@ import { Banner, Content, Header, Layout } from "@/features/Layout";
 import { useGlobalModals } from "@/features/Modals/useGlobalModals";
 import { useIdentityAuthentication } from "@/features/identity/useKycAuthenticate";
 import { useCheckCompliance } from "@/features/identity/useCheckCompliance";
-import { IDENTITY_CLIENT } from "@/features/identity/KycClient";
+import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
 import { getSigner } from "@/appConfig";
 import { toast } from "react-toastify";
 

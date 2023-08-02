@@ -6,7 +6,7 @@ import { useGlobalModals } from "@/features/Modals/Hooks/useGlobalModals";
 import { useKycAuthentication } from "@/features/identity/useKycAuthenticate";
 import { useEffect, useState } from "react";
 import { useAccount, useSignMessage } from "wagmi";
-import { IDENTITY_CLIENT } from "@/features/identity/KycClient";
+import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
 import { toast } from "react-toastify";
 
 const Home = () => {

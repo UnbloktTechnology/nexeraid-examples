@@ -6,9 +6,9 @@ export const IdentityVerifyButton = () => {
   const { accessToken, signingMessage, signature } = useKycAuthentication();
   return <Button id="identity-btn-verify" onClick={() => {
     IDENTITY_CLIENT.startVerification({
-      accessToken,
-      signingMessage,
-      signature,
+      accessToken: accessToken as string,
+      signingMessage: signingMessage as string,
+      signature: signature as string,
     });
   }}>Verify</Button>;
 };

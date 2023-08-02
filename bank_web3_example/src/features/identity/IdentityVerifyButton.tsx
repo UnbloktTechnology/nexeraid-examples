@@ -10,9 +10,9 @@ export const IdentityVerifyButton = () => {
       className={`ml-auto px-6 py-4 text-base font-bold text-white`}
       onClick={() => {
         IDENTITY_CLIENT.startVerification({
-          accessToken,
-          signingMessage,
-          signature,
+          accessToken: accessToken as string,
+          signingMessage: signingMessage as string,
+          signature: signature as string,
         });
       }}
     >

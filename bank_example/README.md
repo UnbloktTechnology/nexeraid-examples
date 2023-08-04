@@ -15,3 +15,9 @@ This is an example bank app that does not require signer interaction with web3 m
 ## Run
 
 `npm run dev`
+
+## Deployed environment URLS
+
+- [Production](https://banking.nexera.id/)
+- [Staging](https://banking-staging.nexera.id/)
+- [Dev](https://banking-dev.nexera.id/)

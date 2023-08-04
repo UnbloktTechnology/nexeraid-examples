@@ -15,3 +15,9 @@ This is an example bank web3 app that requires signer interaction with web3 moda
 ## Run
 
 `npm run dev`
+
+## Deployed environment URLS
+
+- [Production](https://banking-web3.nexera.id/)
+- [Staging](https://banking-web3-staging.nexera.id/)
+- [Dev](https://banking-web3-dev.nexera.id/)

@@ -15,3 +15,9 @@ This is the most basic KYC example flow that uses the SDK of NexeraID
 ## Run
 
 `npm run dev`
+
+## Deployed environment URLS
+
+- [Production](https://kyc-example.nexera.id/)
+- [Staging](https://kyc-example-staging.nexera.id/)
+- [Dev](https://kyc-example-dev.nexera.id/)

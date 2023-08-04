@@ -15,3 +15,9 @@ This is an example defi app that requires signer interaction with web3 modal and
 ## Run
 
 `npm run dev`
+
+## Deployed environment URLS
+
+- [Production](https://defi.nexera.id/)
+- [Staging](https://defi-staging.nexera.id/)
+- [Dev](https://defi-dev.nexera.id/)

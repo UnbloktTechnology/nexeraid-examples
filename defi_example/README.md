@@ -1,6 +1,6 @@
-# DEFi Example App
+# DeFi Example App
 
-This is an example defi app that requires signer interaction with web3 modal and has swapping example process
+This is an example DeFi app that requires signer interaction with a Web3 modal and has a swapping example process.
 
 ## Requirements
 

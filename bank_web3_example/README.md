@@ -21,3 +21,7 @@ This is an example bank web3 app that requires signer interaction with web3 moda
 - [Production](https://banking-web3.nexera.id/)
 - [Staging](https://banking-web3-staging.nexera.id/)
 - [Dev](https://banking-web3-dev.nexera.id/)
+
+## Documentation
+
+See <https://docs.nexera.id/exampleapps/web3bankexampleapp>.

@@ -21,3 +21,7 @@ This is an example defi app that requires signer interaction with web3 modal and
 - [Production](https://defi.nexera.id/)
 - [Staging](https://defi-staging.nexera.id/)
 - [Dev](https://defi-dev.nexera.id/)
+
+## Documentation
+
+See <https://docs.nexera.id/exampleapps/defiexampleapp>.

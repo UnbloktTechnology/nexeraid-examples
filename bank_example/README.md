@@ -21,3 +21,7 @@ This is an example bank app that does not require signer interaction with web3 m
 - [Production](https://banking.nexera.id/)
 - [Staging](https://banking-staging.nexera.id/)
 - [Dev](https://banking-dev.nexera.id/)
+
+## Documentation
+
+See <https://docs.nexera.id/exampleapps/bankexampleapp>.

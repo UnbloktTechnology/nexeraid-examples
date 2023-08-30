@@ -152,16 +152,21 @@ export const Sidebar = () => {
   useEffect(() => {
     console.log("USER", user, accessToken, signingMessage, signature);
     if (user && accessToken && signingMessage && signature) {
-      IDENTITY_CLIENT.onSignPersonalData(async (data: string) => {
+      IDENTITY_CLIENT.onSignMessage(async (data) => {
         console.log("on sign personal data");
         const signer = getSigner(user);
-        return await signer.signMessage(data);
+        return await signer.signMessage(data.message);
       });
       IDENTITY_CLIENT.onKycCompletion(() => {
         console.log("onKycCompletion");
       });
+
+      IDENTITY_CLIENT.onSdkReady(() => {
+        IDENTITY_CLIENT.startManagement();
+      });
+
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      IDENTITY_CLIENT.startManagement({
+      IDENTITY_CLIENT.init({
         accessToken,
         signingMessage,
         signature,

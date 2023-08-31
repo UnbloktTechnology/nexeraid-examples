@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
-import { KYC_CLIENTS } from "@/features/kyc/KycClient";
+import { useKycAuthentication } from "@/features/identity/useKycAuthenticate";
+import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
 import { getSigner } from "@/appConfig";
 import { Icon } from "../Components/Icon";
 
@@ -31,9 +31,7 @@ const UserOptions = () => {
           <span className="font-semibold">{user.name}</span>
         </div>
 
-        <Icon
-          icon="expand"
-        />
+        <Icon icon="expand" />
       </button>
       {isOpen && (
         <div className="absolute bottom-[0px] z-10 w-full border bg-white shadow-xl">
@@ -75,14 +73,12 @@ const MenuItems = ({ itemGroup }: { itemGroup: ItemGroup[] }) => {
             item.name === "Manage identity" ? "kyc-btn-management" : item.name
           }
           key={item.name + index.toString()}
-          className={`flex h-14 w-full cursor-pointer items-center space-x-4 rounded-lg p-5 font-semibold hover:bg-[#DB0011] hover:text-white ${item.name === "Overview" ? "bg-[#DB0011] text-white" : ""
-            }`}
+          className={`flex h-14 w-full cursor-pointer items-center space-x-4 rounded-lg p-5 font-semibold hover:bg-[#DB0011] hover:text-white ${
+            item.name === "Overview" ? "bg-[#DB0011] text-white" : ""
+          }`}
           onClick={item.onClick}
         >
-          <Icon
-            icon={item.icon}
-            size={24}
-          />
+          <Icon icon={item.icon} size={24} />
           <span>{item.name}</span>
         </li>
       ))}
@@ -93,7 +89,6 @@ const MenuItems = ({ itemGroup }: { itemGroup: ItemGroup[] }) => {
 export const Sidebar = () => {
   const { accessToken, signingMessage, signature, user } =
     useKycAuthentication();
-  const kycClient = KYC_CLIENTS.management;
 
   const menuItems = {
     main: [
@@ -156,28 +151,28 @@ export const Sidebar = () => {
 
   useEffect(() => {
     console.log("USER", user, accessToken, signingMessage, signature);
-    if (user && accessToken && signingMessage && signature && kycClient) {
-      kycClient.onInitKycData((data) => {
-        return data;
-      });
-      kycClient.onSignPersonalData(async (data: string) => {
+    if (user && accessToken && signingMessage && signature) {
+      IDENTITY_CLIENT.onSignMessage(async (data) => {
         console.log("on sign personal data");
         const signer = getSigner(user);
-        return await signer.signMessage(data);
+        return await signer.signMessage(data.message);
       });
-      kycClient.onKycCompletion(() => {
+      IDENTITY_CLIENT.onKycCompletion(() => {
         console.log("onKycCompletion");
       });
-      kycClient.init({
-        auth: {
-          accessToken,
-          signingMessage,
-          signature,
-        },
-        initOnFlow: "MANAGEMENT",
+
+      IDENTITY_CLIENT.onSdkReady(() => {
+        IDENTITY_CLIENT.startManagement();
+      });
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      IDENTITY_CLIENT.init({
+        accessToken,
+        signingMessage,
+        signature,
       });
     }
-  }, [user, accessToken, signingMessage, signature, kycClient]);
+  }, [user, accessToken, signingMessage, signature]);
 
   return (
     <div className="w-1/5">

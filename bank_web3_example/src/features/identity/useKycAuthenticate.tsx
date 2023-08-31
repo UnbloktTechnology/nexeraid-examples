@@ -1,30 +1,27 @@
-import KycClient from "@nexeraid/kyc-sdk/client";
 import { useMutation } from "@tanstack/react-query";
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { api } from "@/utils/api";
-import { getSigner, TestUser } from "@/appConfig";
+import { useSignMessage } from "wagmi";
+import { type Address } from "viem";
+import { buildSignatureMessage } from "@nexeraid/identity-sdk";
 
 export const useKycAuthentication = () => {
   const authStore = useAuthStore((state) => state);
   const getAccessToken = api.access.accessToken.useMutation();
+  const { signMessageAsync } = useSignMessage();
 
   const logout = useMutation(async () => {
     await Promise.resolve(authStore.logout());
   });
 
   const authenticate = useMutation(
-    async (variables: { user: TestUser }) => {
-      if (!variables.user.walletAddress)
-        throw new Error("Missing data to authenticate");
-      const signingMessage = KycClient.buildSignatureMessage(
-        variables.user.walletAddress
-      );
-      const signer = getSigner(variables.user);
-      const signature = await signer.signMessage(signingMessage);
+    async (variables: { user: Address }) => {
+      const signingMessage = buildSignatureMessage(variables.user);
+      const signature = await signMessageAsync({ message: signingMessage });
       const response = await getAccessToken.mutateAsync({
-        address: variables.user.walletAddress,
+        address: variables.user,
       });
       const { accessToken } = response;
       return {
@@ -65,12 +62,12 @@ interface IAuthStore {
   signingMessage?: string;
   signature?: string;
   isAuthenticated: boolean;
-  user?: TestUser;
+  user?: Address;
   authenticate: (
     accessToken: string,
     signingMessage: string,
     signature: string,
-    user: TestUser
+    user: Address
   ) => void;
   logout: () => void;
 }
@@ -83,12 +80,7 @@ const useAuthStore = create<IAuthStore>()(
         signature: undefined,
         signingMessage: undefined,
         isAuthenticated: false,
-        authenticate: (
-          accessToken: string,
-          signingMessage: string,
-          signature: string,
-          user: TestUser
-        ) => {
+        authenticate: (accessToken, signingMessage, signature, user) => {
           set((state) => {
             state.accessToken = accessToken;
             state.signingMessage = signingMessage;

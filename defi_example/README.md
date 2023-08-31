@@ -1,30 +1,27 @@
-# Create T3 App
+# DEFi Example App
 
-# For DEFI App
+This is an example DeFi app that requires signer interaction with a Web3 modal, and has an example swapping process.
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## Requirements
 
-## What's next? How do I make an app with this?
+- Node JS/NPM
+- Environment variables as in /.env.example in your own /.env
+- To run in local configurations you need to have the Nexera ID API, CMS, KYC and OPAL apps and services running
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Installation
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+`npm install`
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Run
 
-## Learn More
+`npm run dev`
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## Deployed environment URLS
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+- [Production](https://defi.nexera.id/)
+- [Staging](https://defi-staging.nexera.id/)
+- [Dev](https://defi-dev.nexera.id/)
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+## Documentation
 
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+See <https://docs.nexera.id/exampleapps/defiexampleapp>.

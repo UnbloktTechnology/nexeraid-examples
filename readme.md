@@ -1,11 +1,7 @@
 # NexeraID ComplianceSDK examples
 
-## Bank example
+## Bank Example
 
 ## KYC example
 
-## Polygon id example
-
-
-
-
+## Web3 Bank Example

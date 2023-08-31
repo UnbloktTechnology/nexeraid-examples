@@ -1,12 +1,11 @@
 import { Swap } from "@/features/Components/Swap";
-import { useCheckCompliance } from "@/features/kyc/useCheckCompliance";
+import { useCheckCompliance } from "@/features/identity/useCheckCompliance";
 import { Header } from "@/features/Layout/Header";
 import { Layout } from "@/features/Layout/Layout";
 import { useGlobalModals } from "@/features/Modals/Hooks/useGlobalModals";
-import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
 import { useEffect, useState } from "react";
 import { useAccount, useSignMessage } from "wagmi";
-import { KYC_CLIENTS } from "@/features/kyc/KycClient";
+import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
 import { toast } from "react-toastify";
 
 const Home = () => {
@@ -15,11 +14,9 @@ const Home = () => {
     close: state.close,
   }));
   const address = useAccount();
-  const { accessToken, signingMessage, signature } = useKycAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
   const { checkCompliance } = useCheckCompliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
-  const kycClient = KYC_CLIENTS.verify;
   const signMessage = useSignMessage();
   const [started, setStarted] = useState(false);
 
@@ -47,42 +44,21 @@ const Home = () => {
   }, [isCompliance]);
 
   useEffect(() => {
-    console.log("accessToken", accessToken);
-
-    if (
-      address.address &&
-      accessToken &&
-      signingMessage &&
-      signature &&
-      kycClient
-    ) {
-      console.log("init kyc client", {
-        accessToken,
-        signingMessage,
-        signature,
-      });
-      kycClient.onSignPersonalData(async (data: string) => {
+    if (address.address) {
+      IDENTITY_CLIENT.onSignMessage(async (data) => {
         console.log("on sign personal data");
         return await signMessage.signMessageAsync({
-          message: data,
+          message: data.message,
         });
       });
-      kycClient.onKycCompletion((data) => {
+      IDENTITY_CLIENT.onKycCompletion((data) => {
         void (() => {
           console.log("on kyc completion", data);
           setKycCompletion(true);
         })();
       });
-      kycClient.init({
-        auth: {
-          accessToken,
-          signingMessage,
-          signature,
-        },
-        initOnFlow: "REQUEST",
-      });
     }
-  }, [address.address, accessToken, signingMessage, signature]);
+  }, [address.address]);
 
   return (
     <Layout header={<Header />} bg={"defi"}>

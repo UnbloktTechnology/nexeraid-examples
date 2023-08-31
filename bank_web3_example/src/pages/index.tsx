@@ -3,9 +3,9 @@ import { Dashboard } from "@/features/Dashboard";
 
 import { Content, Header, Layout } from "@/features/Layout";
 import { useGlobalModals } from "@/features/Modals/useGlobalModals";
-import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
-import { useCheckCompliance } from "@/features/kyc/useCheckCompliance";
-import { KYC_CLIENTS } from "@/features/kyc/KycClient";
+import { useKycAuthentication } from "@/features/identity/useKycAuthenticate";
+import { useCheckCompliance } from "@/features/identity/useCheckCompliance";
+import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
 import { toast } from "react-toastify";
 import { useSignMessage } from "wagmi";
 
@@ -15,9 +15,7 @@ const Home = () => {
     close: state.close,
     data: state.data,
   }));
-  const { accessToken, signingMessage, signature, user } =
-    useKycAuthentication();
-  const kycClient = KYC_CLIENTS.verify;
+  const { user } = useKycAuthentication();
   const signMessage = useSignMessage();
   const [kycCompletion, setKycCompletion] = useState(false);
   const { checkCompliance } = useCheckCompliance(kycCompletion);
@@ -47,34 +45,21 @@ const Home = () => {
   }, [isCompliance]);
 
   useEffect(() => {
-    if (user && accessToken && signingMessage && signature && kycClient) {
-      console.log("init kyc client", {
-        accessToken,
-        signingMessage,
-        signature,
-      });
-      kycClient.onSignPersonalData(async (data: string) => {
+    if (user) {
+      IDENTITY_CLIENT.onSignMessage(async (data) => {
         console.log("on sign personal data");
         return await signMessage.signMessageAsync({
-          message: data,
+          message: data.message,
         });
       });
-      kycClient.onKycCompletion((data) => {
+      IDENTITY_CLIENT.onKycCompletion((data) => {
         void (() => {
           console.log("on kyc completion", data);
           setKycCompletion(true);
         })();
       });
-      kycClient.init({
-        auth: {
-          accessToken,
-          signingMessage,
-          signature,
-        },
-        initOnFlow: "REQUEST",
-      });
     }
-  }, [user, accessToken, signingMessage, signature]);
+  }, [user]);
 
   const onClickLogOn = () => {
     openModal(

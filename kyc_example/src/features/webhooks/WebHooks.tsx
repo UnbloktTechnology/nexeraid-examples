@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import styles from "./styles.module.css";
 import { getDataWebHook, getScenarioWebhook } from "../apiClient";
 import { useEffect } from "react";
-import { KYC_CLIENT } from "../../appConfig";
+import { IDENTITY_CLIENT } from "../../appConfig";
 
 const formatResponse = (res?: unknown) => {
   if (!res) return "";
@@ -18,7 +18,7 @@ export const WebHooks = () => {
   useEffect(() => {
     // Get Off Chain Completition process event response
     if (address) {
-      KYC_CLIENT.onKycCompletion(async (data) => {
+      IDENTITY_CLIENT.onKycCompletion(async (data) => {
         console.log("KYC COMPLETION", data);
         dataWebhook.mutate(address);
         scenarioWebhook.mutate(address);

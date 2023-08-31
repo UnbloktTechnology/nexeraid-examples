@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
-import { KYC_CLIENTS } from "@/features/kyc/KycClient";
+import { useKycAuthentication } from "@/features/identity/useKycAuthenticate";
+import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useSignMessage } from "wagmi";
 import { Icon } from "../Components/Icon";
@@ -88,7 +88,6 @@ export const Sidebar = () => {
   const { accessToken, signingMessage, signature, user } =
     useKycAuthentication();
   const signMessage = useSignMessage();
-  const kycClient = KYC_CLIENTS.management;
 
   const menuItems = {
     main: [
@@ -151,29 +150,28 @@ export const Sidebar = () => {
 
   useEffect(() => {
     console.log("USER", user, accessToken, signingMessage, signature);
-    if (user && accessToken && signingMessage && signature && kycClient) {
-      kycClient.onInitKycData((data) => {
-        return data;
-      });
-      kycClient.onSignPersonalData(async (data: string) => {
+    if (user && accessToken && signingMessage && signature) {
+      IDENTITY_CLIENT.onSignMessage(async (data) => {
         console.log("on sign personal data");
         return await signMessage.signMessageAsync({
-          message: data,
+          message: data.message,
         });
       });
-      kycClient.onKycCompletion(() => {
+      IDENTITY_CLIENT.onKycCompletion(() => {
         console.log("onKycCompletion");
       });
-      kycClient.init({
-        auth: {
-          accessToken,
-          signingMessage,
-          signature,
-        },
-        initOnFlow: "MANAGEMENT",
+
+      IDENTITY_CLIENT.onSdkReady(() => {
+        IDENTITY_CLIENT.startManagement();
+      })
+
+      IDENTITY_CLIENT.init({
+        accessToken,
+        signingMessage,
+        signature,
       });
     }
-  }, [user, accessToken, signingMessage, signature, kycClient]);
+  }, [user, accessToken, signingMessage, signature]);
 
   return (
     <div className="relative w-1/5">

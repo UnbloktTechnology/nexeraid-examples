@@ -12,7 +12,7 @@
     "prettier:fix": "prettier 'src/' --write"
   },
   "dependencies": {
-    "@nexeraid/kyc-sdk": "^0.2.11",
+    "@nexeraid/identity-sdk": "^1.1.31",
     "@rainbow-me/rainbowkit": "^1.0.4",
     "@t3-oss/env-nextjs": "^0.4.0",
     "@types/node": "20.2.5",

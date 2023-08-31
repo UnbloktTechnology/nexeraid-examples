@@ -4,7 +4,7 @@ import { SwapInput } from "./SwapInput";
 import { type ITokenInfo } from "@/features/Components/TokenDropDown";
 import { Icon } from "./Icon";
 import { useAccount, useNetwork } from "wagmi";
-import { useKycAuthentication } from "../kyc/useKycAuthenticate";
+import { useKycAuthentication } from "../identity/useKycAuthenticate";
 import { SwapButton } from "@/features/Components/SwapButton";
 import { useState } from "react";
 import { type ChainOptions, SwapOptions } from "@/features/SwapOptionsDemoData";
@@ -53,7 +53,6 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
         overlayType: "dark",
       },
       {
-        initOnFlow: "REQUEST",
         basicData: {
           text: "Verify your identity on-chain to be able to swap assets on our Protocol",
           icon: "kyc",

@@ -1,13 +1,13 @@
 import React from "react";
 import { useCallback, useState } from "react";
-import KycClient from "@nexeraid/kyc-sdk/client";
+import { buildSignatureMessage } from "@nexeraid/identity-sdk";
 import { useAccount, useSignMessage } from "wagmi";
 import { getAccessToken } from "../apiClient";
 import { WebHooks } from "../webhooks/WebHooks";
-import { KYC_CLIENT } from "../../appConfig";
+import { IDENTITY_CLIENT } from "../../appConfig";
 import styles from "./client.module.css";
 
-export const KYCFlow = () => {
+export const IdentityFlow = () => {
   const signMessage = useSignMessage();
   const { address, isConnected } = useAccount();
   const [auth, setAuth] = useState<{
@@ -16,11 +16,13 @@ export const KYCFlow = () => {
     signature: string;
   }>();
 
-  const configKYCClient = useCallback(async () => {
-    KYC_CLIENT.onSignPersonalData(async (data: string) => {
-      return await signMessage.signMessageAsync({ message: data });
+  const configIdentityClient = useCallback(async () => {
+    IDENTITY_CLIENT.onSignMessage(async (data) => {
+      return (await signMessage.signMessageAsync({
+        message: data.message,
+      })) as string;
     });
-    const signingMessage = KycClient.buildSignatureMessage(address as string);
+    const signingMessage = buildSignatureMessage(address as string);
     const signature = await signMessage.signMessageAsync({
       message: signingMessage,
     });
@@ -30,18 +32,23 @@ export const KYCFlow = () => {
       signingMessage,
       signature,
     });
+    IDENTITY_CLIENT.init({
+      accessToken: accessToken,
+      signature: signature,
+      signingMessage: signingMessage,
+    });
   }, [address, signMessage]);
 
   return (
     <div>
-      <h1>KYC Flow</h1>
+      <h1>Identity Flow</h1>
       {!auth && (
         <div>
           <h2>Not Authenticated</h2>
           <button
             className={styles.authenticateButton}
             disabled={!address || !isConnected}
-            onClick={configKYCClient}
+            onClick={configIdentityClient}
           >
             Authenticate
           </button>
@@ -66,12 +73,9 @@ export const KYCFlow = () => {
               border: "none",
             }}
             onClick={() => {
-              KYC_CLIENT.init({
-                auth,
-                initOnFlow: "REQUEST",
-              });
+              IDENTITY_CLIENT.startVerification();
             }}
-            id="kyc-btn"
+            id="identity-btn"
           >
             Start KYC
           </button>

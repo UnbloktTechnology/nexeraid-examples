@@ -1,5 +1,5 @@
 import { z } from "zod";
-import IdentityClient from "@nexeraid/identity-sdk/client";
+import { IdentityClient } from "@nexeraid/identity-sdk";
 
 export const ENVS = ["local", "dev", "stage", "prod"] as const;
 export const ENVSchema = z.enum(ENVS);

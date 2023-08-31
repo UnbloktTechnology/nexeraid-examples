@@ -1,6 +1,6 @@
 import React from "react";
 import { useCallback, useState } from "react";
-import IdentityClient from "@nexeraid/identity-sdk/client";
+import { buildSignatureMessage } from "@nexeraid/identity-sdk";
 import { useAccount, useSignMessage } from "wagmi";
 import { getAccessToken } from "../apiClient";
 import { WebHooks } from "../webhooks/WebHooks";
@@ -17,10 +17,12 @@ export const IdentityFlow = () => {
   }>();
 
   const configIdentityClient = useCallback(async () => {
-    IDENTITY_CLIENT.onSignPersonalData(async (data: string) => {
-      return await signMessage.signMessageAsync({ message: data });
+    IDENTITY_CLIENT.onSignMessage(async (data) => {
+      return (await signMessage.signMessageAsync({
+        message: data.message,
+      })) as string;
     });
-    const signingMessage = IdentityClient.buildSignatureMessage(address as string);
+    const signingMessage = buildSignatureMessage(address as string);
     const signature = await signMessage.signMessageAsync({
       message: signingMessage,
     });
@@ -29,6 +31,11 @@ export const IdentityFlow = () => {
       accessToken,
       signingMessage,
       signature,
+    });
+    IDENTITY_CLIENT.init({
+      accessToken: accessToken,
+      signature: signature,
+      signingMessage: signingMessage,
     });
   }, [address, signMessage]);
 
@@ -66,7 +73,7 @@ export const IdentityFlow = () => {
               border: "none",
             }}
             onClick={() => {
-              IDENTITY_CLIENT.startVerification(auth);
+              IDENTITY_CLIENT.startVerification();
             }}
             id="identity-btn"
           >

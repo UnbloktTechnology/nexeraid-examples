@@ -4,8 +4,8 @@ import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { api } from "@/utils/api";
 import { useSignMessage } from "wagmi";
-import { Address } from "viem";
-import IdentityClient from "@nexeraid/identity-sdk/client";
+import { type Address } from "viem";
+import { buildSignatureMessage } from "@nexeraid/identity-sdk";
 
 export const useKycAuthentication = () => {
   const authStore = useAuthStore((state) => state);
@@ -18,7 +18,7 @@ export const useKycAuthentication = () => {
 
   const authenticate = useMutation(
     async (variables: { user: Address }) => {
-      const signingMessage = IdentityClient.buildSignatureMessage(variables.user);
+      const signingMessage = buildSignatureMessage(variables.user);
       const signature = await signMessageAsync({ message: signingMessage });
       const response = await getAccessToken.mutateAsync({
         address: variables.user,

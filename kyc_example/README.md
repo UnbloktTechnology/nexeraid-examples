@@ -1,6 +1,6 @@
 # KYC Example App
 
-This is the most basic KYC example flow that uses the SDK of NexeraID
+This is a simple KYC example flow, using the NexeraID Identity SDK.
 
 ## Requirements
 

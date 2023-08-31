@@ -1,6 +1,6 @@
 # Bank Example App
 
-This is an example bank app that does not require signer interaction with web3 modal
+This is an example bank app that does not require signer interaction with a Web3 modal.
 
 ## Requirements
 

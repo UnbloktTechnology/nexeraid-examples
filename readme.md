@@ -4,4 +4,4 @@
 
 ## KYC example
 
-## Bank web3 example
+## Web3 Bank Example

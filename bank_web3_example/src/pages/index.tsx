@@ -46,10 +46,10 @@ const Home = () => {
 
   useEffect(() => {
     if (user) {
-      IDENTITY_CLIENT.onSignPersonalData(async (data: string) => {
+      IDENTITY_CLIENT.onSignMessage(async (data) => {
         console.log("on sign personal data");
         return await signMessage.signMessageAsync({
-          message: data,
+          message: data.message,
         });
       });
       IDENTITY_CLIENT.onKycCompletion((data) => {

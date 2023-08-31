@@ -21,3 +21,7 @@ This is a simple KYC example flow, using the NexeraID Identity SDK.
 - [Production](https://kyc-example.nexera.id/)
 - [Staging](https://kyc-example-staging.nexera.id/)
 - [Dev](https://kyc-example-dev.nexera.id/)
+
+## Documentation
+
+See <https://docs.nexera.id/exampleapps/kycexampleapp>.

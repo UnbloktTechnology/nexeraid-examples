@@ -1,6 +1,6 @@
 # Bank Web3 Example App
 
-This is an example Web3 bank app that requires signer interaction with a Web3 modal.
+This is an example bank Web3 app that requires signer interaction with a Web3 modal.
 
 ## Requirements
 
@@ -21,3 +21,7 @@ This is an example Web3 bank app that requires signer interaction with a Web3 mo
 - [Production](https://banking-web3.nexera.id/)
 - [Staging](https://banking-web3-staging.nexera.id/)
 - [Dev](https://banking-web3-dev.nexera.id/)
+
+## Documentation
+
+See <https://docs.nexera.id/exampleapps/web3bankexampleapp>.

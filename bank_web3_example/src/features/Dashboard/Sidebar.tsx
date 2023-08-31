@@ -151,16 +151,21 @@ export const Sidebar = () => {
   useEffect(() => {
     console.log("USER", user, accessToken, signingMessage, signature);
     if (user && accessToken && signingMessage && signature) {
-      IDENTITY_CLIENT.onSignPersonalData(async (data: string) => {
+      IDENTITY_CLIENT.onSignMessage(async (data) => {
         console.log("on sign personal data");
         return await signMessage.signMessageAsync({
-          message: data,
+          message: data.message,
         });
       });
       IDENTITY_CLIENT.onKycCompletion(() => {
         console.log("onKycCompletion");
       });
-      IDENTITY_CLIENT.startManagement({
+
+      IDENTITY_CLIENT.onSdkReady(() => {
+        IDENTITY_CLIENT.startManagement();
+      })
+
+      IDENTITY_CLIENT.init({
         accessToken,
         signingMessage,
         signature,

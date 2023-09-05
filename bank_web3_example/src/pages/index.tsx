@@ -72,7 +72,7 @@ const Home = () => {
         signature,
       });
     }
-  }, [user, accessToken, signingMessage, signature]);
+  }, [user]);
 
   const onClickLogOn = () => {
     openModal(

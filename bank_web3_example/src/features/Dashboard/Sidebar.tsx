@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useKycAuthentication } from "@/features/identity/useKycAuthenticate";
 import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useSignMessage } from "wagmi";
 import { Icon } from "../Components/Icon";
 import Link from "next/link";
 
@@ -87,7 +86,6 @@ const MenuItems = ({ itemGroup }: { itemGroup: ItemGroup[] }) => {
 export const Sidebar = () => {
   const { accessToken, signingMessage, signature, user } =
     useKycAuthentication();
-  const signMessage = useSignMessage();
 
   const menuItems = {
     main: [
@@ -151,25 +149,14 @@ export const Sidebar = () => {
   useEffect(() => {
     console.log("USER", user, accessToken, signingMessage, signature);
     if (user && accessToken && signingMessage && signature) {
-      IDENTITY_CLIENT.onSignMessage(async (data) => {
-        console.log("on sign personal data");
-        return await signMessage.signMessageAsync({
-          message: data.message,
-        });
-      });
-      IDENTITY_CLIENT.onKycCompletion(() => {
-        console.log("onKycCompletion");
-      });
-
-      IDENTITY_CLIENT.onSdkReady(() => {
-        IDENTITY_CLIENT.startManagement();
-      })
-
-      IDENTITY_CLIENT.init({
+      console.log(
+        "Ready to configure start management",
+        user,
         accessToken,
         signingMessage,
-        signature,
-      });
+        signature
+      );
+      IDENTITY_CLIENT.startManagement();
     }
   }, [user, accessToken, signingMessage, signature]);
 

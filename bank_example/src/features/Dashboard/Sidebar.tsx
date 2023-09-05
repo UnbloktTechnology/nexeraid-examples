@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useKycAuthentication } from "@/features/identity/useKycAuthenticate";
 import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
-import { getSigner } from "@/appConfig";
 import { Icon } from "../Components/Icon";
 
 interface ItemGroup {
@@ -150,27 +149,15 @@ export const Sidebar = () => {
   };
 
   useEffect(() => {
-    console.log("USER", user, accessToken, signingMessage, signature);
     if (user && accessToken && signingMessage && signature) {
-      IDENTITY_CLIENT.onSignMessage(async (data) => {
-        console.log("on sign personal data");
-        const signer = getSigner(user);
-        return await signer.signMessage(data.message);
-      });
-      IDENTITY_CLIENT.onKycCompletion(() => {
-        console.log("onKycCompletion");
-      });
-
-      IDENTITY_CLIENT.onSdkReady(() => {
-        IDENTITY_CLIENT.startManagement();
-      });
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      IDENTITY_CLIENT.init({
+      console.log(
+        "Ready to configure start management",
+        user,
         accessToken,
         signingMessage,
-        signature,
-      });
+        signature
+      );
+      IDENTITY_CLIENT.startManagement();
     }
   }, [user, accessToken, signingMessage, signature]);
 

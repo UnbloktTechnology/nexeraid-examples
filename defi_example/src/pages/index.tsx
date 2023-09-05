@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useAccount, useSignMessage } from "wagmi";
 import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
 import { toast } from "react-toastify";
+import { useKycAuthentication } from "../features/identity/useKycAuthenticate";
 
 const Home = () => {
   const { close } = useGlobalModals((state) => ({
@@ -14,6 +15,7 @@ const Home = () => {
     close: state.close,
   }));
   const address = useAccount();
+  const { accessToken, signingMessage, signature } = useKycAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
   const { checkCompliance } = useCheckCompliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
@@ -44,7 +46,7 @@ const Home = () => {
   }, [isCompliance]);
 
   useEffect(() => {
-    if (address.address) {
+    if (address.address && accessToken && signingMessage && signature) {
       IDENTITY_CLIENT.onSignMessage(async (data) => {
         console.log("on sign personal data");
         return await signMessage.signMessageAsync({
@@ -57,8 +59,13 @@ const Home = () => {
           setKycCompletion(true);
         })();
       });
+      IDENTITY_CLIENT.init({
+        accessToken,
+        signingMessage,
+        signature,
+      });
     }
-  }, [address.address]);
+  }, [address.address, accessToken, signingMessage, signature]);
 
   return (
     <Layout header={<Header />} bg={"defi"}>

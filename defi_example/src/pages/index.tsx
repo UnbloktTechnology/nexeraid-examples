@@ -15,6 +15,7 @@ const Home = () => {
     close: state.close,
   }));
   const address = useAccount();
+  const { accessToken, signingMessage, signature } = useKycAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
   const { checkCompliance } = useCheckCompliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
@@ -64,7 +65,7 @@ const Home = () => {
         signature,
       });
     }
-  }, [address.address]);
+  }, [address.address, accessToken, signingMessage, signature]);
 
   return (
     <Layout header={<Header />} bg={"defi"}>

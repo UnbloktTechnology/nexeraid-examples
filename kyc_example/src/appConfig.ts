@@ -9,7 +9,7 @@ export const appConfig = {
     api: "http://localhost:3001/",
   },
   [ENVSchema.enum.dev]: {
-    api: "https://api-dev-k8s.nexera.id/",
+    api: "https://api-dev.nexera.id/",
   },
   [ENVSchema.enum.stage]: {
     api: "https://api-staging.nexera.id/",

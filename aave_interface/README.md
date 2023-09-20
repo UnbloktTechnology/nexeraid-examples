@@ -31,10 +31,6 @@ yarn
 yarn dev
 ```
 
-# IMPORTANT
-
-To activate Testnet mode you should set `testnetsEnabled` localStorage variable to `true`, if not exist, you'll need to create it.
-
 ## Contribution
 
 For instructions on local development, deployment, configurations & feature proposals, see [Contributing](./CONTRIBUTING.md)

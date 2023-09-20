@@ -12,6 +12,7 @@ import { CapsHint } from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
 import { ListColumn } from '../../../../components/lists/ListColumn';
 import { Link, ROUTES } from '../../../../components/primitives/Link';
+import { useWeb3Context } from '../../../../libs/hooks/useWeb3Context';
 import { ListAPRColumn } from '../ListAPRColumn';
 import { ListButtonsColumn } from '../ListButtonsColumn';
 import { ListItemCanBeCollateral } from '../ListItemCanBeCollateral';
@@ -37,13 +38,16 @@ export const SupplyAssetsListItem = ({
 }: DashboardReserve) => {
   const { currentMarket } = useProtocolDataContext();
   const { openSupply } = useModalContext();
+  const { isWhitelisted } = useWeb3Context();
 
   // Disable the asset to prevent it from being supplied if supply cap has been reached
   const { supplyCap: supplyCapUsage, debtCeiling } = useAssetCaps();
   const isMaxCapReached = supplyCapUsage.isMaxed;
 
   const trackEvent = useRootStore((store) => store.trackEvent);
-  const disableSupply = !isActive || isFreezed || Number(walletBalance) <= 0 || isMaxCapReached;
+
+  const disableSupply =
+    !isActive || isFreezed || Number(walletBalance) <= 0 || isMaxCapReached || !isWhitelisted;
 
   return (
     <ListItemWrapper
@@ -92,7 +96,7 @@ export const SupplyAssetsListItem = ({
             openSupply(underlyingAsset, currentMarket, name, 'dashboard');
           }}
         >
-          <Trans>Supply</Trans>
+          {isWhitelisted ? <Trans>Supply</Trans> : <Trans>Not whitelisted</Trans>}
         </Button>
         <Button
           variant="outlined"

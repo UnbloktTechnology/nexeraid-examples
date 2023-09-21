@@ -5,6 +5,8 @@ import {
   TransactionResponse,
   // Web3Provider,
 } from '@ethersproject/providers';
+// PREVIOUS implementation (don't delete until the team take this to another approach)
+// import useSimpleWhitelistContract from '../hooks/useSimpleWhitelistContract';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { useWeb3React } from '@web3-react/core';
 import { TorusConnector } from '@web3-react/torus-connector';
@@ -16,8 +18,8 @@ import { getNetworkConfig } from 'src/utils/marketsAndNetworksConfig';
 import { hexToAscii } from 'src/utils/utils';
 import { isLedgerDappBrowserProvider } from 'web3-ledgerhq-frame-connector';
 
-import useSimpleWhitelistContract from '../hooks/useSimpleWhitelistContract';
 import { Web3Context } from '../hooks/useWeb3Context';
+import { IDENTITY_CLIENT } from '../IdentityClient';
 import { WalletConnectConnector } from './WalletConnectConnector';
 import { getWallet, ReadOnlyModeConnector, WalletType } from './WalletOptions';
 
@@ -81,7 +83,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const setAccountLoading = useRootStore((store) => store.setAccountLoading);
   const setWalletType = useRootStore((store) => store.setWalletType);
 
-  const simpleWhitelistContract = useSimpleWhitelistContract(provider);
+  // const simpleWhitelistContract = useSimpleWhitelistContract(provider);
 
   const [isWhitelisted, setIsWhitelisted] = useState(false);
 
@@ -202,14 +204,17 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   useEffect(() => {
     (async () => {
-      try {
-        const res = await simpleWhitelistContract?.whitelist(account);
-        setIsWhitelisted(res);
-      } catch (e) {
-        setIsWhitelisted(false);
+      if (account) {
+        try {
+          // const res = await simpleWhitelistContract?.whitelist(account);
+          const res = await IDENTITY_CLIENT.isWhitelisted(account);
+          setIsWhitelisted(res);
+        } catch (e) {
+          setIsWhitelisted(false);
+        }
       }
     })();
-  }, [account, simpleWhitelistContract]);
+  }, [account]);
 
   // third, try connecting to ledger
   useEffect(() => {

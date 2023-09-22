@@ -20,10 +20,10 @@ import {
   DashboardReserve,
   handleSortDashboardReserves,
 } from '../../../../utils/dashboardSortUtils';
-import { ListTopInfoItem } from '../ListTopInfoItem';
 import { DashboardContentNoData } from '../../DashboardContentNoData';
 import { ListButtonsColumn } from '../ListButtonsColumn';
 import { ListLoader } from '../ListLoader';
+import { ListTopInfoItem } from '../ListTopInfoItem';
 import { SuppliedPositionsListItem } from './SuppliedPositionsListItem';
 import { SuppliedPositionsListMobileItem } from './SuppliedPositionsListMobileItem';
 

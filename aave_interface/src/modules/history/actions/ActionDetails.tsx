@@ -7,10 +7,10 @@ import { DarkTooltip } from 'src/components/infoTooltips/DarkTooltip';
 import { FormattedNumber } from 'src/components/primitives/FormattedNumber';
 import { TokenIcon } from 'src/components/primitives/TokenIcon';
 
-import { BorrowRateModeBlock } from './BorrowRateModeBlock';
 import { fetchIconSymbolAndNameHistorical } from '../helpers';
 import { PriceUnavailable } from '../PriceUnavailable';
 import { ActionFields, TransactionHistoryItem } from '../types';
+import { BorrowRateModeBlock } from './BorrowRateModeBlock';
 
 export const ActionTextMap = ({ action }: { action: string }) => {
   switch (action) {

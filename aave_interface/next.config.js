@@ -31,4 +31,5 @@ module.exports = withBundleAnalyzer({
   // assetPrefix: "./",
   trailingSlash: true,
   pageExtensions,
+  ignoreDuringBuilds: true,
 });

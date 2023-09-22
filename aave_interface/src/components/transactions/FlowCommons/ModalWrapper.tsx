@@ -16,9 +16,9 @@ import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
 import { getNetworkConfig, isFeatureEnabled } from 'src/utils/marketsAndNetworksConfig';
 import { GENERAL } from 'src/utils/mixPanelEvents';
 
-import { TxModalTitle } from './TxModalTitle';
 import { ChangeNetworkWarning } from '../Warnings/ChangeNetworkWarning';
 import { TxErrorView } from './Error';
+import { TxModalTitle } from './TxModalTitle';
 
 export interface ModalWrapperProps {
   underlyingAsset: string;

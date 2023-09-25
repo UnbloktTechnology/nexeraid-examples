@@ -12,6 +12,7 @@ import { CapsHint } from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
 import { ListColumn } from '../../../../components/lists/ListColumn';
 import { Link, ROUTES } from '../../../../components/primitives/Link';
+import { useKycAuthentication } from '../../../../libs/hooks/useKycAuthenticate';
 import { useWeb3Context } from '../../../../libs/hooks/useWeb3Context';
 import { ListAPRColumn } from '../ListAPRColumn';
 import { ListButtonsColumn } from '../ListButtonsColumn';
@@ -38,7 +39,8 @@ export const SupplyAssetsListItem = ({
 }: DashboardReserve) => {
   const { currentMarket } = useProtocolDataContext();
   const { openSupply } = useModalContext();
-  const { isWhitelisted } = useWeb3Context();
+  const { isWhitelisted, currentAccount } = useWeb3Context();
+  const { isAuthenticated, authenticate } = useKycAuthentication();
 
   // Disable the asset to prevent it from being supplied if supply cap has been reached
   const { supplyCap: supplyCapUsage, debtCeiling } = useAssetCaps();
@@ -93,10 +95,22 @@ export const SupplyAssetsListItem = ({
           disabled={disableSupply}
           variant="contained"
           onClick={() => {
-            openSupply(underlyingAsset, currentMarket, name, 'dashboard');
+            if (isAuthenticated) {
+              openSupply(underlyingAsset, currentMarket, name, 'dashboard');
+            } else {
+              authenticate.mutate({ user: currentAccount });
+            }
           }}
         >
-          {isWhitelisted ? <Trans>Supply</Trans> : <Trans>Not whitelisted</Trans>}
+          {isWhitelisted ? (
+            isAuthenticated ? (
+              <Trans>Supply</Trans>
+            ) : (
+              <Trans>Authenticate to Supply</Trans>
+            )
+          ) : (
+            <Trans>Not whitelisted</Trans>
+          )}
         </Button>
         <Button
           variant="outlined"

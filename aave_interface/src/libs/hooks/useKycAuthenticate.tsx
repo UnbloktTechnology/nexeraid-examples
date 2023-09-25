@@ -1,26 +1,27 @@
 import { buildSignatureMessage } from '@nexeraid/identity-sdk';
 import { useMutation } from '@tanstack/react-query';
 import { Signer } from 'ethers';
-import type { Address } from 'viem';
 import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 import { getNexeraIDAccessToken } from '../../services/NexeraIDAccessToken';
+import { useWeb3Context } from './useWeb3Context';
 
 export const useKycAuthentication = () => {
   const authStore = useAuthStore((state) => state);
+  const { provider } = useWeb3Context();
 
   const logout = useMutation(async () => {
     await Promise.resolve(authStore.logout());
   });
 
   const authenticate = useMutation(
-    async (variables: { user: Address }) => {
-      const signer: Signer = window.signer;
+    async (variables: { user: string }) => {
+      const signer = provider?.getSigner();
 
       const signingMessage = buildSignatureMessage(variables.user);
-      const signature = await signer.signMessage(signingMessage);
+      const signature = (await signer?.signMessage(signingMessage)) as string;
       const response = await getNexeraIDAccessToken(variables.user);
 
       console.log('RESPONSE', response);
@@ -65,12 +66,12 @@ interface IAuthStore {
   signingMessage?: string;
   signature?: string;
   isAuthenticated: boolean;
-  user?: Address;
+  user?: string;
   authenticate: (
     accessToken: string,
     signingMessage: string,
     signature: string,
-    user: Address
+    user: string
   ) => void;
   logout: () => void;
 }

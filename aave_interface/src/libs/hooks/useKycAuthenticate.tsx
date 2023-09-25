@@ -75,7 +75,7 @@ interface IAuthStore {
   logout: () => void;
 }
 
-const useAuthStore = create<IAuthStore>()(
+export const useAuthStore = create<IAuthStore>()(
   devtools(
     persist(
       immer((set) => ({

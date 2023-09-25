@@ -18,6 +18,7 @@ import { getNetworkConfig } from 'src/utils/marketsAndNetworksConfig';
 import { hexToAscii } from 'src/utils/utils';
 import { isLedgerDappBrowserProvider } from 'web3-ledgerhq-frame-connector';
 
+import { useAuthStore } from '../hooks/useKycAuthenticate';
 import { Web3Context } from '../hooks/useWeb3Context';
 import { IDENTITY_CLIENT } from '../IdentityClient';
 import { WalletConnectConnector } from './WalletConnectConnector';
@@ -86,6 +87,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   // const simpleWhitelistContract = useSimpleWhitelistContract(provider);
 
   const [isWhitelisted, setIsWhitelisted] = useState(false);
+  const { isAuthenticated, logout } = useAuthStore((state) => state);
 
   // for now we use network changed as it returns the chain string instead of hex
   // const handleChainChanged = (chainId: number) => {
@@ -204,7 +206,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   useEffect(() => {
     (async () => {
-      if (account) {
+      if (account && isAuthenticated) {
         try {
           // const res = await simpleWhitelistContract?.whitelist(account);
           const res = await IDENTITY_CLIENT.isWhitelisted(account);
@@ -214,7 +216,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
         }
       }
     })();
-  }, [account]);
+  }, [account, isAuthenticated]);
 
   // third, try connecting to ledger
   useEffect(() => {
@@ -447,6 +449,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   // inject account into zustand as long as aave itnerface is using old web3 providers
   useEffect(() => {
+    logout();
     setAccount(account?.toLowerCase());
   }, [account]);
 

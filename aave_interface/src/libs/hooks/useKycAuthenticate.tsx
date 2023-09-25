@@ -1,6 +1,5 @@
 import { buildSignatureMessage } from '@nexeraid/identity-sdk';
 import { useMutation } from '@tanstack/react-query';
-import { Signer } from 'ethers';
 import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';

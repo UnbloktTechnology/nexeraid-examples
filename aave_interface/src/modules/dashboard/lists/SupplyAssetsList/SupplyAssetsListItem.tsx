@@ -49,7 +49,11 @@ export const SupplyAssetsListItem = ({
   const trackEvent = useRootStore((store) => store.trackEvent);
 
   const disableSupply =
-    !isActive || isFreezed || Number(walletBalance) <= 0 || isMaxCapReached || !isWhitelisted;
+    !isActive ||
+    isFreezed ||
+    Number(walletBalance) <= 0 ||
+    isMaxCapReached ||
+    (isAuthenticated && !isWhitelisted);
 
   return (
     <ListItemWrapper
@@ -102,14 +106,14 @@ export const SupplyAssetsListItem = ({
             }
           }}
         >
-          {isWhitelisted ? (
-            isAuthenticated ? (
+          {isAuthenticated ? (
+            isWhitelisted ? (
               <Trans>Supply</Trans>
             ) : (
-              <Trans>Authenticate to Supply</Trans>
+              <Trans>Not whitelisted</Trans>
             )
           ) : (
-            <Trans>Not whitelisted</Trans>
+            <Trans>Authenticate to Supply</Trans>
           )}
         </Button>
         <Button

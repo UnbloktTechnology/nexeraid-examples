@@ -31,6 +31,13 @@ yarn
 yarn dev
 ```
 
+## Configure Testnet and Polygon/Mumbai environment
+
+1. In up/right corner select the Settings icon.
+2. Switch to Testnet ON.
+3. In the Dashboard page, click on the selector for the chain by Default: Ethereum v3.
+4. Select Polygon (M), it's the Mumbai Network.
+
 ## Contribution
 
 For instructions on local development, deployment, configurations & feature proposals, see [Contributing](./CONTRIBUTING.md)

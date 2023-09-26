@@ -6,8 +6,6 @@
     ":dependencyDashboard",
     ":rebaseStalePrs"
   ],
-  "compatibility": { "pnpm": "^8.7.5" },
-  "constraints": { "pnpm": "^8.7.5" },
   "baseBranches": [
     "development"
   ],
@@ -109,7 +107,6 @@
     "krisgrm",
     "markoftw",
     "joelamouche",
-    "Ljrr3045",
     "cbarrilab"
   ]
 }

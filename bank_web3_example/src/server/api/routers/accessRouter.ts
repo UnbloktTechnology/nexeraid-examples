@@ -17,7 +17,7 @@ export const accessRouter = createTRPCRouter({
     .input(
       z.object({
         address: z.string(),
-      })
+      }),
     )
     .output(z.any())
     .mutation(async ({ input }) => {

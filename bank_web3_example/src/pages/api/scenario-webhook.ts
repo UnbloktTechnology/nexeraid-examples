@@ -11,7 +11,7 @@ export const getScenarioWebhookRedisKey = (address: string) => {
 
 const scenarioWebHookPost = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   if (req.method === "POST") {
     console.log("scenarioWebHookPost req.body", req.body);

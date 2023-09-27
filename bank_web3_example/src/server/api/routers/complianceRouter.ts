@@ -10,7 +10,7 @@ export const complianceRouter = createTRPCRouter({
     .input(
       z.object({
         address: z.string(),
-      })
+      }),
     )
     .output(
       z.array(
@@ -20,8 +20,8 @@ export const complianceRouter = createTRPCRouter({
           address: z.string(),
           result: z.any(),
           scenarioExecutionId: z.string(),
-        })
-      )
+        }),
+      ),
     )
     .mutation(async ({ input }) => {
       const redisKey = getDataWebhookRedisKey(input.address);
@@ -52,7 +52,7 @@ export const complianceRouter = createTRPCRouter({
               Authorization: `Bearer ${env.NEXERA_ID_API_KEY}`,
             },
             body: JSON.stringify(body),
-          }
+          },
         );
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const json = await result.json();
@@ -63,7 +63,7 @@ export const complianceRouter = createTRPCRouter({
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return json;
       }
-      
+
       return undefined;
     }),
 });

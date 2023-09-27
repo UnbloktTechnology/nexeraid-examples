@@ -44,13 +44,13 @@ export const useKycAuthentication = () => {
           data.accessToken,
           data.signingMessage,
           data.signature,
-          data.testUser
+          data.testUser,
         );
       },
       onError: (error) => {
         console.error(error);
       },
-    }
+    },
   );
 
   return {
@@ -74,7 +74,7 @@ interface IAuthStore {
     accessToken: string,
     signingMessage: string,
     signature: string,
-    user: Address
+    user: Address,
   ) => void;
   logout: () => void;
 }
@@ -109,7 +109,7 @@ const useAuthStore = create<IAuthStore>()(
       {
         name: "bank-demo-auth-store",
         storage: createJSONStorage(() => sessionStorage),
-      }
-    )
-  )
+      },
+    ),
+  ),
 );

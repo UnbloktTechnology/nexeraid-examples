@@ -9,9 +9,21 @@ export const env = createEnv({
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
     NEXERA_SCENARIO_ID: z.string().describe("Specific Scenario ID for the APP"),
-    UPSTASH_REDIS_REST_TOKEN: z.string().describe("The token for the Upstash Redis REST API -> https://console.upstash.com/redis/"),
-    UPSTASH_REDIS_REST_URL: z.string().describe("The URL for the Upstash Redis REST API -> https://console.upstash.com/redis/"),
-    NEXERA_ID_API_KEY: z.string().describe("The API key for the Nexera ID API -> https://cms.nexera.id/: Nexera Example Dapp"),
+    UPSTASH_REDIS_REST_TOKEN: z
+      .string()
+      .describe(
+        "The token for the Upstash Redis REST API -> https://console.upstash.com/redis/",
+      ),
+    UPSTASH_REDIS_REST_URL: z
+      .string()
+      .describe(
+        "The URL for the Upstash Redis REST API -> https://console.upstash.com/redis/",
+      ),
+    NEXERA_ID_API_KEY: z
+      .string()
+      .describe(
+        "The API key for the Nexera ID API -> https://cms.nexera.id/: Nexera Example Dapp",
+      ),
   },
 
   /**
@@ -20,7 +32,9 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    NEXT_PUBLIC_ENVIRONMENT: z.enum(["local", "dev", "stage", "prod"]).describe("The environment the app is running in"),
+    NEXT_PUBLIC_ENVIRONMENT: z
+      .enum(["local", "dev", "stage", "prod"])
+      .describe("The environment the app is running in"),
   },
 
   /**
@@ -33,7 +47,7 @@ export const env = createEnv({
     NEXERA_ID_API_KEY: process.env.NEXERA_ID_API_KEY,
     NEXERA_SCENARIO_ID: process.env.NEXERA_SCENARIO_ID,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
-    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL
+    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

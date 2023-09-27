@@ -11,7 +11,7 @@ import { Button } from "../Components/Button";
 export const LogOnModal = () => {
   const [showMsg, setShowMsg] = useState(true);
   const [helpMsg, setHelpMsg] = useState(
-    "To open an account you will need to verify your identity first"
+    "To open an account you will need to verify your identity first",
   );
   const account = useAccount();
   const { authenticate, isAuthenticated } = useKycAuthentication();
@@ -19,11 +19,11 @@ export const LogOnModal = () => {
   const changeHelperText = () => {
     if (helpMsg.includes("verify your identity")) {
       setHelpMsg(
-        "We've made some exciting changes to your log on screen. If you can't remember your username, select 'Forgotten username' for more help."
+        "We've made some exciting changes to your log on screen. If you can't remember your username, select 'Forgotten username' for more help.",
       );
     } else {
       setHelpMsg(
-        "To open an account you will need to verify your identity first"
+        "To open an account you will need to verify your identity first",
       );
     }
   };

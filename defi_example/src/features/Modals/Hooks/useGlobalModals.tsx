@@ -45,7 +45,7 @@ interface IModalStore {
   open: (
     view: IModalStore["view"],
     attributes?: ModalStoreAttributes,
-    data?: ModalData
+    data?: ModalData,
   ) => void;
   close: () => void;
 }
@@ -66,7 +66,7 @@ export const useGlobalModals = create<IModalStore>((set) => ({
       modalType: "center",
       overlayType: "base",
     },
-    data?: ModalData
+    data?: ModalData,
   ) => {
     set({
       isOpen: true,

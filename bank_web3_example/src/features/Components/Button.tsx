@@ -22,7 +22,7 @@ export const Button: React.FC<IButton> = forwardRef<HTMLButtonElement, IButton>(
         {props.children}
       </button>
     );
-  }
+  },
 );
 
 Button.displayName = "Button";

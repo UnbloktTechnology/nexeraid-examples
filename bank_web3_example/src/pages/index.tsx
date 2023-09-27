@@ -52,7 +52,7 @@ const Home = () => {
         user,
         accessToken,
         signingMessage,
-        signature
+        signature,
       );
       IDENTITY_CLIENT.onSignMessage(async (data) => {
         console.log("on sign personal data");
@@ -87,7 +87,7 @@ const Home = () => {
           icon: "help",
           textButton: "Verify Identity",
         },
-      }
+      },
     );
   };
 

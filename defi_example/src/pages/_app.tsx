@@ -14,7 +14,7 @@ import { polygonMumbai } from "viem/chains";
 
 const { chains, publicClient } = configureChains(
   [polygonMumbai],
-  [publicProvider()]
+  [publicProvider()],
 );
 
 const { connectors } = getDefaultWallets({

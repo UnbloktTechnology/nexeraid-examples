@@ -29,7 +29,7 @@ const { chains, publicClient } = configureChains(
     arbitrumGoerli,
     avalancheFuji,
   ],
-  [publicProvider()]
+  [publicProvider()],
 );
 
 const { connectors } = getDefaultWallets({

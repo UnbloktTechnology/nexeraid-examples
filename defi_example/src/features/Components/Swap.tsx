@@ -26,7 +26,7 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
       label: "Select Token",
       address: "",
       pairs: [],
-    }
+    },
   );
   const [toAmount, setToAmount] = useState("0");
   const [toToken, setToToken] = useState<ITokenInfo>({
@@ -61,7 +61,7 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
             close();
           },
         },
-      }
+      },
     );
   };
 

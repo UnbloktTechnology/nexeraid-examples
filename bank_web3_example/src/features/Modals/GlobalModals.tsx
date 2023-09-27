@@ -12,7 +12,7 @@ export const GlobalModals = () => {
       close: state.close,
       attributes: state.attributes,
     }),
-    shallow
+    shallow,
   );
 
   switch (attributes?.modalType) {

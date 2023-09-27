@@ -154,7 +154,7 @@ export const Sidebar = () => {
         user,
         accessToken,
         signingMessage,
-        signature
+        signature,
       );
       IDENTITY_CLIENT.startManagement();
     }

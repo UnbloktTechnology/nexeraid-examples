@@ -5001,6 +5001,13 @@
   resolved "https://registry.yarnpkg.com/@web3-react/types/-/types-6.0.7.tgz#34a6204224467eedc6123abaf55fbb6baeb2809f"
   integrity sha512-ofGmfDhxmNT1/P/MgVa8IKSkCStFiyvXe+U5tyZurKdrtTDFU+wJ/LxClPDtFerWpczNFPUSrKcuhfPX1sI6+A==
 
+"@web3-react/types@^8.2.2":
+  version "8.2.2"
+  resolved "https://registry.yarnpkg.com/@web3-react/types/-/types-8.2.2.tgz#1ae7f11069d9a9c711aa4152f95331747fb1e551"
+  integrity sha512-PrPrJNjJhUX3lL/365llAZwY0bpUm9N52OjGMFyzCIX7IR13f7WLUk/LyQa9ALneCBu3cJUVTZANuFdqdREuvw==
+  dependencies:
+    zustand "4.4.0"
+
 "@web3-react/walletlink-connector@^6.2.14":
   version "6.2.14"
   resolved "https://registry.yarnpkg.com/@web3-react/walletlink-connector/-/walletlink-connector-6.2.14.tgz#4adf7b94de5d7018a9fc9e3b6009e78cd33d6e15"
@@ -14522,6 +14529,13 @@ zod@^3.22.2:
   version "3.22.2"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.2.tgz#3add8c682b7077c05ac6f979fea6998b573e157b"
   integrity sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==
+
+zustand@4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.4.0.tgz#13b3e8ca959dd53d536034440aec382ff91b65c3"
+  integrity sha512-2dq6wq4dSxbiPTamGar0NlIG/av0wpyWZJGeQYtUOLegIUvhM2Bf86ekPlmgpUtS5uR7HyetSiktYrGsdsyZgQ==
+  dependencies:
+    use-sync-external-store "1.2.0"
 
 zustand@^4.3.8:
   version "4.4.1"

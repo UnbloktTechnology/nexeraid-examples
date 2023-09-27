@@ -2018,10 +2018,10 @@
   dependencies:
     cross-fetch "^3.1.5"
 
-"@heroicons/react@^2.0.18":
-  version "2.0.18"
-  resolved "https://registry.yarnpkg.com/@heroicons/react/-/react-2.0.18.tgz#f80301907c243df03c7e9fd76c0286e95361f7c1"
-  integrity sha512-7TyMjRrZZMBPa+/5Y8lN0iyvUU/01PeMGX2+RE7cQWpEUIcb4QotzUObFkJDejj/HUH4qjP/eQ0gzzKs2f+6Yw==
+"@heroicons/react@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@heroicons/react/-/react-1.0.6.tgz#35dd26987228b39ef2316db3b1245c42eb19e324"
+  integrity sha512-JJCXydOFWMDpCP4q13iEplA503MQO3xLoZiKum+955ZCtHINWnx26CUxVxxFQu/uLb4LW3ge15ZpzIkXKkJ8oQ==
 
 "@humanwhocodes/config-array@^0.11.11":
   version "0.11.11"
@@ -2673,19 +2673,19 @@
     react-is "^18.2.0"
 
 "@nexeraid/identity-sdk@^1.1.79":
-  version "1.1.79"
-  resolved "https://registry.yarnpkg.com/@nexeraid/identity-sdk/-/identity-sdk-1.1.79.tgz#6acae3eb680e97648178f14a5446726c7015363b"
-  integrity sha512-DDyIa9Bh6ZUA7rPuEo29Rrom/A302cAX3gvMmFqabJqQnq41z+kNoyeBQKLcU3HM9Ppn/xBcHKfibgPS+1r2YQ==
+  version "1.1.80"
+  resolved "https://registry.yarnpkg.com/@nexeraid/identity-sdk/-/identity-sdk-1.1.80.tgz#4479293dc88977f6ecce7fd965cd95add78f6308"
+  integrity sha512-C+Nzh73rJvPHon1aKLsxuvtX02UdtI/A/4bsPqzw1k1SLcoBAv0CwlsD7C8aA6M3hv3eXboGj+CLAPNs/34PkA==
   dependencies:
-    "@nexeraprotocol/nexera-id-schemas" "1.8.36"
+    "@nexeraprotocol/nexera-id-schemas" "1.8.37"
     viem "^1.12.2"
     zod "^3.22.2"
     zod-validation-error "^1.5.0"
 
-"@nexeraprotocol/nexera-id-schemas@1.8.36":
-  version "1.8.36"
-  resolved "https://registry.yarnpkg.com/@nexeraprotocol/nexera-id-schemas/-/nexera-id-schemas-1.8.36.tgz#3b07b528a4b49fc4ddd7822d61b7ae4dd58a9237"
-  integrity sha512-2JAS6t1p3yNUbTPCqUrHgdwm2nuRMs5OqOt1qRAMC8QzbY3hUv86oJJv2DnpHTk+v1UFY1ZrzZIUJWiQN6QOUA==
+"@nexeraprotocol/nexera-id-schemas@1.8.37":
+  version "1.8.37"
+  resolved "https://registry.yarnpkg.com/@nexeraprotocol/nexera-id-schemas/-/nexera-id-schemas-1.8.37.tgz#033f448361581ff3ee73553c5208639b6868938b"
+  integrity sha512-fyUca+JAZy8pMAlNkW3zb08QKdUyz9GKvFA7psp3HO//62P33Dbw2Q4pHVtUB8QPRIa1RUBbNsUxraWcSz4seg==
   dependencies:
     "@0xpolygonid/js-sdk" "^1.1.0"
     "@iden3/js-jwz" "^1.0.2"
@@ -3535,9 +3535,9 @@
     "@types/react" "*"
 
 "@types/react-transition-group@^4.4.6":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-4.4.6.tgz#18187bcda5281f8e10dfc48f0943e2fdf4f75e2e"
-  integrity sha512-VnCdSxfcm08KjsJVQcfBmhEQAPnLB8G08hAxn39azX1qYBQ/5RVQuoHuKIcfKOdncuaUvEpFKFzEvbtIMsfVew==
+  version "4.4.7"
+  resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-4.4.7.tgz#bf69f269d74aa78b99097673ca6dd6824a68ef1c"
+  integrity sha512-ICCyBl5mvyqYp8Qeq9B5G/fyBSRC0zx3XM3sCC6KkcMsNeAHqXBKkmat4GqdJET5jtYUpZXrxI5flve5qhi2Eg==
   dependencies:
     "@types/react" "*"
 

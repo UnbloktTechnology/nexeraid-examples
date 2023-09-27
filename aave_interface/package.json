@@ -39,7 +39,7 @@
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@gnosis.pm/safe-apps-web3-react": "^1.5.3",
-    "@heroicons/react": "^2.0.18",
+    "@heroicons/react": "^1.0.6",
     "@lingui/react": "^4.5.0",
     "@mui/icons-material": "^5.14.11",
     "@mui/material": "^5.14.11",

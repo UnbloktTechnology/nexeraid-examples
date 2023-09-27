@@ -109,7 +109,7 @@
     "@types/d3-time-format": "^4.0.0",
     "@types/lodash": "^4.14.189",
     "@types/mixpanel-browser": "^2.38.1",
-    "@types/react": "^18.2.23",
+    "@types/react": "latest",
     "@types/react-infinite-scroller": "^1.2.3",
     "@typescript-eslint/eslint-plugin": "^5.38.1",
     "axios": "^1.5.1",
@@ -131,7 +131,7 @@
     "jest-environment-jsdom": "^29.2.0",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
-    "typescript": "^5.2.2"
+    "typescript": "^4.9.4"
   },
   "resolutions": {
     "@web3-react/walletlink-connector/@coinbase/wallet-sdk": "3.1.0"

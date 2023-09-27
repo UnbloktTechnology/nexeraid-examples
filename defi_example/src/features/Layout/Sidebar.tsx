@@ -1,4 +1,3 @@
-import { useAccountModal } from "@rainbow-me/rainbowkit";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 import { useAccount } from "wagmi";
 import { Icon } from "../Components/Icon";
@@ -9,7 +8,6 @@ export type IWalletSidebar = {
 };
 
 export const WalletSidebar = ({ isOpen, onClose }: IWalletSidebar) => {
-  const { openAccountModal } = useAccountModal();
   const { address } = useAccount();
 
   return (

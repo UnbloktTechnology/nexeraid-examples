@@ -24,7 +24,7 @@
   "dependencyDashboard": true,
   "commitBody": "See associated pull request for more information.",
   "separateMajorMinor": false,
-  "prHourlyLimit": 1,
+  "prHourlyLimit": 5,
   "updateInternalDeps": true,
   "lockFileMaintenance": {
     "enabled": true

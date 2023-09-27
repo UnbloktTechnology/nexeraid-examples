@@ -35,7 +35,6 @@ export const NexeraIDInit = () => {
         })();
       });
 
-      console.log('ACCESSSS: ', accessToken, signingMessage, signature);
       IDENTITY_CLIENT.init({
         accessToken,
         signingMessage,

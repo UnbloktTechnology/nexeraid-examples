@@ -14,6 +14,7 @@ import { ListColumn } from '../../../../components/lists/ListColumn';
 import { Link, ROUTES } from '../../../../components/primitives/Link';
 import { useKycAuthentication } from '../../../../libs/hooks/useKycAuthenticate';
 import { useWeb3Context } from '../../../../libs/hooks/useWeb3Context';
+import { IDENTITY_CLIENT } from '../../../../libs/IdentityClient';
 import { ListAPRColumn } from '../ListAPRColumn';
 import { ListButtonsColumn } from '../ListButtonsColumn';
 import { ListItemCanBeCollateral } from '../ListItemCanBeCollateral';
@@ -48,12 +49,17 @@ export const SupplyAssetsListItem = ({
 
   const trackEvent = useRootStore((store) => store.trackEvent);
 
-  const disableSupply =
-    !isActive ||
-    isFreezed ||
-    Number(walletBalance) <= 0 ||
-    isMaxCapReached ||
-    (isAuthenticated && !isWhitelisted);
+  const disableSupply = !isActive || isFreezed || Number(walletBalance) <= 0 || isMaxCapReached;
+
+  const handleListButton = () => {
+    if (isWhitelisted) {
+      openSupply(underlyingAsset, currentMarket, name, 'dashboard');
+    } else if (isAuthenticated) {
+      IDENTITY_CLIENT.startVerification();
+    } else {
+      authenticate.mutate({ user: currentAccount });
+    }
+  };
 
   return (
     <ListItemWrapper
@@ -97,14 +103,9 @@ export const SupplyAssetsListItem = ({
       <ListButtonsColumn>
         <Button
           disabled={disableSupply}
+          id={isAuthenticated ? `identity-btn-verify` : undefined}
           variant="contained"
-          onClick={() => {
-            if (isAuthenticated) {
-              openSupply(underlyingAsset, currentMarket, name, 'dashboard');
-            } else {
-              authenticate.mutate({ user: currentAccount });
-            }
-          }}
+          onClick={handleListButton}
         >
           {isAuthenticated ? (
             isWhitelisted ? (
@@ -113,7 +114,7 @@ export const SupplyAssetsListItem = ({
               <Trans>Not whitelisted</Trans>
             )
           ) : (
-            <Trans>Authenticate to Supply</Trans>
+            <Trans>Need authenticate</Trans>
           )}
         </Button>
         <Button

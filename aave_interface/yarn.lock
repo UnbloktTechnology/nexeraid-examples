@@ -3347,20 +3347,20 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@nexeraid/identity-sdk@^1.1.70":
-  version "1.1.70"
-  resolved "https://registry.yarnpkg.com/@nexeraid/identity-sdk/-/identity-sdk-1.1.70.tgz#cf5eed8fb2098a34d2a8e42c4bd3e32abfea85c5"
-  integrity sha512-qK7vMUr/7XQRoqyWHjn1BzP4viFE/C8wsIWOfOnz93hZWNDPgsPatoimWY+ujjIdTkO3rJ9CqTDomoQu+H3fMA==
+"@nexeraid/identity-sdk@^1.1.81":
+  version "1.1.81"
+  resolved "https://registry.yarnpkg.com/@nexeraid/identity-sdk/-/identity-sdk-1.1.81.tgz#baf451c428f974bff6d818fa0b9ed85acaa72614"
+  integrity sha512-yKfAhKnDJxPw35ZRKlGlzi9UFWguMT1Z7wVu9y47oUELDiKeMR5rlvYpV6PRSS31mOc4oTJWKU1NAAN/JZnITw==
   dependencies:
-    "@nexeraprotocol/nexera-id-schemas" "1.8.31"
-    viem "^1.11.0"
+    "@nexeraprotocol/nexera-id-schemas" "1.8.38"
+    viem "^1.12.2"
     zod "^3.22.2"
     zod-validation-error "^1.5.0"
 
-"@nexeraprotocol/nexera-id-schemas@1.8.31":
-  version "1.8.31"
-  resolved "https://registry.yarnpkg.com/@nexeraprotocol/nexera-id-schemas/-/nexera-id-schemas-1.8.31.tgz#3e6b3072fdc14ec502a28a6be1d511aaa72ab971"
-  integrity sha512-xwF8JCnmmwKJSY3khIttidaOR8ZECU/3XeqGfTTaKng/NrocjlZJsbD1TxVO+JebVQDtGzqcvut2iqX86ZJi/Q==
+"@nexeraprotocol/nexera-id-schemas@1.8.38":
+  version "1.8.38"
+  resolved "https://registry.yarnpkg.com/@nexeraprotocol/nexera-id-schemas/-/nexera-id-schemas-1.8.38.tgz#e1f139cd922e0d208ea5f3b0966d09dee26e9a91"
+  integrity sha512-PGAKBdlRtYRhwgtyRKylGngZyM2kSUCd1K10UjpKiseQjG0tDD+FyzkiGPjzWsDP77aheuK2tvG4NB94WkiHXw==
   dependencies:
     "@0xpolygonid/js-sdk" "^1.1.0"
     "@iden3/js-jwz" "^1.0.2"
@@ -13974,10 +13974,10 @@ vfile@^5.0.0:
     unist-util-stringify-position "^3.0.0"
     vfile-message "^3.0.0"
 
-viem@^1.11.0:
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/viem/-/viem-1.11.1.tgz#30531740eb52e5d1ff1167d8df462d1a8d45afb8"
-  integrity sha512-PPNsPacRS7nryakQQJ9PjYGjUa0QgV8lbERhRuJm8X4kGUzSAsTQaQmy4hvV0cRAEHg8tG0TMD+GTCfwzZM3Yw==
+viem@^1.12.2:
+  version "1.12.2"
+  resolved "https://registry.yarnpkg.com/viem/-/viem-1.12.2.tgz#f698f5a57567ec81472aacc6801cf6eae9d41ce3"
+  integrity sha512-aCaUCyg72ES+jK4s6tVYOMnOt4if71RwzgiUAUpAuaCgvHFfh9DCnwuEfwkxEZLE2vafOsirgJ3fcn7nsDVQoQ==
   dependencies:
     "@adraffy/ens-normalize" "1.9.4"
     "@noble/curves" "1.2.0"

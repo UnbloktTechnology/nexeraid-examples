@@ -31,6 +31,14 @@ yarn
 yarn dev
 ```
 
+## How to configure Testnet and Polygon/Mumbai
+
+1. In the right/up corner select the settings icon.
+2. Switch Testnet to ON.
+3. In dashboard page, locate the Chain selector (Ethereum v3 by default).
+4. Select Polygon Mumbai.
+5. If you doesn't have enough MATIC, go to any faucet of Polygon Mumbai and get some tokens.
+
 ## Contribution
 
 For instructions on local development, deployment, configurations & feature proposals, see [Contributing](./CONTRIBUTING.md)

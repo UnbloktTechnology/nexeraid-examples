@@ -9,21 +9,32 @@ export const NexeraIDInit = () => {
   const { provider, currentAccount } = useWeb3Context();
 
   useEffect(() => {
-    if (currentAccount && accessToken && signingMessage && signature) {
-      const signer = provider?.getSigner();
+    const signer = provider?.getSigner();
 
-      if (signer) {
-        IDENTITY_CLIENT.onSignMessage(async (data) => {
-          console.log('on sign personal data');
-          return await signer.signMessage(data.message);
+    if (currentAccount && accessToken && signingMessage && signature && signer) {
+      IDENTITY_CLIENT.onSignMessage(async (data) => {
+        console.log('on sign personal data');
+        return await signer.signMessage(data.message);
+      });
+
+      IDENTITY_CLIENT.onSendTransaction(async (data) => {
+        const res = await signer.sendTransaction({
+          from: data.accountAddress,
+          to: data.to,
+          data: data.data,
+          value: data.value,
         });
-      }
+        const receipt = await res.wait();
+
+        return receipt.transactionHash;
+      });
 
       IDENTITY_CLIENT.onKycCompletion((data) => {
         void (() => {
           console.log('on kyc completion', data);
         })();
       });
+
       IDENTITY_CLIENT.init({
         accessToken,
         signingMessage,

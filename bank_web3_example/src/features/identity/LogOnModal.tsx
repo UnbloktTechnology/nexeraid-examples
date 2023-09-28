@@ -14,7 +14,7 @@ export const LogOnModal = () => {
     "To open an account you will need to verify your identity first"
   );
   const account = useAccount();
-  const { authenticate, user, isAuthenticated } = useKycAuthentication();
+  const { authenticate, isAuthenticated } = useKycAuthentication();
 
   const changeHelperText = () => {
     if (helpMsg.includes("verify your identity")) {

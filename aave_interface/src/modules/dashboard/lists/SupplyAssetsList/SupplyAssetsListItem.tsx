@@ -51,13 +51,13 @@ export const SupplyAssetsListItem = ({
 
   const disableSupply = !isActive || isFreezed || Number(walletBalance) <= 0 || isMaxCapReached;
 
-  const handleListButton = () => {
+  const handleListButton = async () => {
     if (isWhitelisted) {
       openSupply(underlyingAsset, currentMarket, name, 'dashboard');
     } else if (isAuthenticated) {
       IDENTITY_CLIENT.startVerification();
     } else {
-      authenticate.mutate({ user: currentAccount });
+      await authenticate.mutateAsync({ user: currentAccount });
     }
   };
 

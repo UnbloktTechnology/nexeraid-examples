@@ -34,8 +34,8 @@ export const NexeraIDInit = () => {
           console.log('on kyc completion', data);
         })();
       });
-
-      IDENTITY_CLIENT.init({
+      // TODO: properly wait for init resolve
+      void IDENTITY_CLIENT.init({
         accessToken,
         signingMessage,
         signature,

@@ -52,7 +52,7 @@ const Home = () => {
         user,
         accessToken,
         signingMessage,
-        signature
+        signature,
       );
       IDENTITY_CLIENT.onSignMessage(async (data) => {
         console.log("on sign personal data");
@@ -66,7 +66,8 @@ const Home = () => {
           setKycCompletion(true);
         })();
       });
-      IDENTITY_CLIENT.init({
+      // TODO: properly wait for init resolve
+      void IDENTITY_CLIENT.init({
         accessToken,
         signingMessage,
         signature,
@@ -87,7 +88,7 @@ const Home = () => {
           icon: "help",
           textButton: "Verify Identity",
         },
-      }
+      },
     );
   };
 

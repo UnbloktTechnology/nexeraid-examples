@@ -32,7 +32,8 @@ export const IdentityFlow = () => {
       signingMessage,
       signature,
     });
-    IDENTITY_CLIENT.init({
+    // TODO: properly wait for init resolve
+    void IDENTITY_CLIENT.init({
       accessToken: accessToken,
       signature: signature,
       signingMessage: signingMessage,

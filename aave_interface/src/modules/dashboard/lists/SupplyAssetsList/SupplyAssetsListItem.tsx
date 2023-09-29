@@ -12,6 +12,9 @@ import { CapsHint } from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
 import { ListColumn } from '../../../../components/lists/ListColumn';
 import { Link, ROUTES } from '../../../../components/primitives/Link';
+import { useKycAuthentication } from '../../../../libs/hooks/useKycAuthenticate';
+import { useWeb3Context } from '../../../../libs/hooks/useWeb3Context';
+import { IDENTITY_CLIENT } from '../../../../libs/IdentityClient';
 import { ListAPRColumn } from '../ListAPRColumn';
 import { ListButtonsColumn } from '../ListButtonsColumn';
 import { ListItemCanBeCollateral } from '../ListItemCanBeCollateral';
@@ -37,13 +40,26 @@ export const SupplyAssetsListItem = ({
 }: DashboardReserve) => {
   const { currentMarket } = useProtocolDataContext();
   const { openSupply } = useModalContext();
+  const { isWhitelisted, currentAccount } = useWeb3Context();
+  const { isAuthenticated, authenticate } = useKycAuthentication();
 
   // Disable the asset to prevent it from being supplied if supply cap has been reached
   const { supplyCap: supplyCapUsage, debtCeiling } = useAssetCaps();
   const isMaxCapReached = supplyCapUsage.isMaxed;
 
   const trackEvent = useRootStore((store) => store.trackEvent);
+
   const disableSupply = !isActive || isFreezed || Number(walletBalance) <= 0 || isMaxCapReached;
+
+  const handleListButton = () => {
+    if (isWhitelisted) {
+      openSupply(underlyingAsset, currentMarket, name, 'dashboard');
+    } else if (isAuthenticated) {
+      IDENTITY_CLIENT.startVerification();
+    } else {
+      authenticate.mutate({ user: currentAccount });
+    }
+  };
 
   return (
     <ListItemWrapper
@@ -87,12 +103,19 @@ export const SupplyAssetsListItem = ({
       <ListButtonsColumn>
         <Button
           disabled={disableSupply}
+          id={isAuthenticated ? `identity-btn-verify` : undefined}
           variant="contained"
-          onClick={() => {
-            openSupply(underlyingAsset, currentMarket, name, 'dashboard');
-          }}
+          onClick={handleListButton}
         >
-          <Trans>Supply</Trans>
+          {isAuthenticated ? (
+            isWhitelisted ? (
+              <Trans>Supply</Trans>
+            ) : (
+              <Trans>Not whitelisted</Trans>
+            )
+          ) : (
+            <Trans>Need authenticate</Trans>
+          )}
         </Button>
         <Button
           variant="outlined"

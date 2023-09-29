@@ -5,6 +5,8 @@ import {
   TransactionResponse,
   // Web3Provider,
 } from '@ethersproject/providers';
+// PREVIOUS implementation (don't delete until the team take this to another approach)
+// import useSimpleWhitelistContract from '../hooks/useSimpleWhitelistContract';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { useWeb3React } from '@web3-react/core';
 import { TorusConnector } from '@web3-react/torus-connector';
@@ -16,7 +18,9 @@ import { getNetworkConfig } from 'src/utils/marketsAndNetworksConfig';
 import { hexToAscii } from 'src/utils/utils';
 import { isLedgerDappBrowserProvider } from 'web3-ledgerhq-frame-connector';
 
+import { useAuthStore } from '../hooks/useKycAuthenticate';
 import { Web3Context } from '../hooks/useWeb3Context';
+import { IDENTITY_CLIENT } from '../IdentityClient';
 import { WalletConnectConnector } from './WalletConnectConnector';
 import { getWallet, ReadOnlyModeConnector, WalletType } from './WalletOptions';
 
@@ -48,6 +52,7 @@ export type Web3Data = {
   setSwitchNetworkError: (err: Error | undefined) => void;
   readOnlyModeAddress: string | undefined;
   readOnlyMode: boolean;
+  isWhitelisted: boolean;
 };
 
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
@@ -78,6 +83,12 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   ]);
   const setAccountLoading = useRootStore((store) => store.setAccountLoading);
   const setWalletType = useRootStore((store) => store.setWalletType);
+
+  // const simpleWhitelistContract = useSimpleWhitelistContract(provider);
+
+  const [isWhitelisted, setIsWhitelisted] = useState(false);
+  const { isAuthenticated, logout } = useAuthStore((state) => state);
+
   // for now we use network changed as it returns the chain string instead of hex
   // const handleChainChanged = (chainId: number) => {
   //   console.log('chainChanged', chainId);
@@ -158,7 +169,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
         setLoading(false);
       }
     },
-    [disconnectWallet, currentChainId]
+    [chainId, currentChainId, activate, setWalletType, setError]
   );
 
   const activateInjectedProvider = (providerName: string | 'MetaMask' | 'CoinBase') => {
@@ -192,6 +203,19 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
     return false;
   };
+
+  useEffect(() => {
+    (async () => {
+      if (account && isAuthenticated) {
+        try {
+          const res = await IDENTITY_CLIENT.isWhitelisted(account as `0x${string}`);
+          setIsWhitelisted(res as boolean);
+        } catch (e) {
+          setIsWhitelisted(false);
+        }
+      }
+    })();
+  }, [account, isAuthenticated]);
 
   // third, try connecting to ledger
   useEffect(() => {
@@ -424,6 +448,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   // inject account into zustand as long as aave itnerface is using old web3 providers
   useEffect(() => {
+    logout();
     setAccount(account?.toLowerCase());
   }, [account]);
 
@@ -453,6 +478,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
           setSwitchNetworkError,
           readOnlyModeAddress: readOnlyMode ? account?.toLowerCase() : undefined,
           readOnlyMode,
+          isWhitelisted,
         },
       }}
     >

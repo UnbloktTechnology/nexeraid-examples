@@ -34,6 +34,7 @@ import { Web3ContextProvider } from 'src/libs/web3-data-provider/Web3Provider';
 import { useRootStore } from 'src/store/root';
 import { SharedDependenciesProvider } from 'src/ui-config/SharedDependenciesProvider';
 
+import { NexeraIDInit } from '../src/components/NexeraIDInit';
 import createEmotionCache from '../src/createEmotionCache';
 import { AppGlobalStyles } from '../src/layouts/AppGlobalStyles';
 import { LanguageProvider } from '../src/libs/LanguageProvider';
@@ -97,6 +98,7 @@ export default function MyApp(props: MyAppProps) {
                           <GasStationProvider>
                             <SharedDependenciesProvider>
                               {getLayout(<Component {...pageProps} />)}
+                              <NexeraIDInit />
                               <SupplyModal />
                               <WithdrawModal />
                               <BorrowModal />

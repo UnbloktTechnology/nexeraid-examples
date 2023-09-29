@@ -10,7 +10,7 @@
 
 # review when someone opens a pull request.
 
--         @krisgrm @cbarrilab @fgregoribattista @MrRaccxxn @Ljrr3045 @Eveelin @bogdancirlugea2 @markoftw @LizanLycan @joelamouche
+-         @krisgrm @cbarrilab @fgregoribattista @MrRaccxxn @Eveelin @markoftw @LizanLycan @joelamouche
   .github/\* @markoftw
 
 # Order is important; the last matching pattern takes the most

@@ -19,14 +19,14 @@ export const NexeraIDInit = () => {
 
       IDENTITY_CLIENT.onSendTransaction(async (data) => {
         const res = await signer.sendTransaction({
-          from: data.accountAddress,
-          to: data.to,
-          data: data.data,
+          from: data.accountAddress as `0x${string}`,
+          to: data.to as `0x${string}`,
+          data: data.data as `0x${string}`,
           value: data.value,
         });
         const receipt = await res.wait();
 
-        return receipt.transactionHash;
+        return receipt.transactionHash as `0x${string}`;
       });
 
       IDENTITY_CLIENT.onKycCompletion((data) => {

@@ -17,16 +17,15 @@ const Home = () => {
   const address = useAccount();
   const { accessToken, signingMessage, signature } = useKycAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
-  const { checkCompliance } = useCheckCompliance(kycCompletion);
+  const { data } = useCheckCompliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
   const signMessage = useSignMessage();
   const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    console.log("result kyc compliance", checkCompliance);
-
-    if (checkCompliance.data !== undefined) {
-      if (checkCompliance.data) {
+    console.log("EXECUTING CHECK COMPLIANCE: ", data);
+    if (data !== undefined) {
+      if (data) {
         toast(`Your identity has been verified`);
         setKycCompletion(false);
         setIsCompliance(true);
@@ -35,9 +34,8 @@ const Home = () => {
         setIsCompliance(false);
       }
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [checkCompliance]);
+  }, [data]);
 
   useEffect(() => {
     if (isCompliance) {
@@ -59,7 +57,13 @@ const Home = () => {
           setKycCompletion(true);
         })();
       });
-      IDENTITY_CLIENT.init({
+      IDENTITY_CLIENT.onCloseScreen(async () => {
+        setKycCompletion(true);
+        return new Promise((resolve) => resolve(""));
+      });
+
+      // TODO: properly wait for init resolve
+      void IDENTITY_CLIENT.init({
         accessToken,
         signingMessage,
         signature,

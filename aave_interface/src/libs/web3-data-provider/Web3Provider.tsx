@@ -169,7 +169,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
         setLoading(false);
       }
     },
-    [disconnectWallet, currentChainId]
+    [chainId, currentChainId, activate, setWalletType, setError]
   );
 
   const activateInjectedProvider = (providerName: string | 'MetaMask' | 'CoinBase') => {
@@ -208,9 +208,8 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     (async () => {
       if (account && isAuthenticated) {
         try {
-          // const res = await simpleWhitelistContract?.whitelist(account);
-          const res = await IDENTITY_CLIENT.isWhitelisted(account);
-          setIsWhitelisted(res);
+          const res = await IDENTITY_CLIENT.isWhitelisted(account as `0x${string}`);
+          setIsWhitelisted(res as boolean);
         } catch (e) {
           setIsWhitelisted(false);
         }

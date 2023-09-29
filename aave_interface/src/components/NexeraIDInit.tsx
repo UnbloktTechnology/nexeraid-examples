@@ -35,7 +35,8 @@ export const NexeraIDInit = () => {
         })();
       });
 
-      IDENTITY_CLIENT.init({
+      // TODO: properly wait for init resolve
+      void IDENTITY_CLIENT.init({
         accessToken,
         signingMessage,
         signature,

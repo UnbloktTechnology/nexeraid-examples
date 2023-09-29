@@ -59,7 +59,8 @@ const Home = () => {
           setKycCompletion(true);
         })();
       });
-      IDENTITY_CLIENT.init({
+      // TODO: properly wait for init resolve
+      void IDENTITY_CLIENT.init({
         accessToken,
         signingMessage,
         signature,

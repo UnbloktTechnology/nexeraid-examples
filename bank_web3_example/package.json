@@ -9,7 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@nexeraid/identity-sdk": "^1.1.66",
+    "@nexeraid/identity-sdk": "^1.1.85",
     "@rainbow-me/rainbowkit": "^1.0.4",
     "@t3-oss/env-nextjs": "^0.3.1",
     "@tanstack/react-query": "^4.29.7",

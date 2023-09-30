@@ -10,6 +10,15 @@ export const NexeraIDInit = () => {
 
   useEffect(() => {
     const signer = provider?.getSigner();
+    const init = async (accessToken: string, signingMessage: string, signature: string) => {
+      console.log('INIT!');
+      await IDENTITY_CLIENT.init({
+        accessToken,
+        signingMessage,
+        signature,
+      });
+      console.log('DONE!');
+    };
 
     if (currentAccount && accessToken && signingMessage && signature && signer) {
       IDENTITY_CLIENT.onSignMessage(async (data) => {
@@ -35,11 +44,7 @@ export const NexeraIDInit = () => {
         })();
       });
 
-      IDENTITY_CLIENT.init({
-        accessToken,
-        signingMessage,
-        signature,
-      });
+      void init(accessToken, signingMessage, signature);
     }
   }, [accessToken, signingMessage, signature, currentAccount, provider]);
 

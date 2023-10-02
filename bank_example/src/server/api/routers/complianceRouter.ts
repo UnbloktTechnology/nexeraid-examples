@@ -27,7 +27,8 @@ export const complianceRouter = createTRPCRouter({
       const redisKey = getDataWebhookRedisKey(input.address);
       const redisData = await redis.get(redisKey);
 
-      if (redisData) {
+      //TODO remove, this is not ok for zk flows
+      if (redisData && false) {
         const body = {
           address: input.address,
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment

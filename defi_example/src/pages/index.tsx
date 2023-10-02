@@ -32,6 +32,7 @@ const Home = () => {
       } else {
         toast(`Your identity has not been verified`);
         setIsCompliance(false);
+        setKycCompletion(false);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

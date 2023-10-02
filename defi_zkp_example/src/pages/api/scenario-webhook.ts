@@ -14,11 +14,12 @@ const scenarioWebHookPost = async (
   res: NextApiResponse
 ) => {
   if (req.method === "POST") {
-    console.log("scenarioWebHookPost req.body", req.body);
+    console.log("===scenarioWebHookPost req.body===", req.body);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const body = req.body;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const key = getScenarioWebhookRedisKey(body.address as string);
+    console.log('key', key)
     await redis.set(key, JSON.stringify(body));
     res.status(200).json({ response: "ok" });
   }

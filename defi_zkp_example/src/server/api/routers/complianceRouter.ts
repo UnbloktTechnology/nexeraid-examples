@@ -1,7 +1,5 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import { env } from "@/env.mjs";
-import { appConfig } from "@/appConfig";
 import { redis } from "@/server/redis";
 import { getScenarioWebhookRedisKey } from "@/pages/api/scenario-webhook";
 

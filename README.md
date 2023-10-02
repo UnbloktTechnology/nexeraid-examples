@@ -50,6 +50,12 @@ https://defi-staging.nexera.id/
 
 https://defi.nexera.id/
 
+## Defi ZKP example
+
+An example dApp to demonstrate the use of the NexeraID KYC Verification Identity process with client-blockchain direct interaction and Web3 interface.
+
+#### URLs
+
 ##### Off-chain ZKP validation:
 
 https://defi-offchain-zkp-dev.nexera.id/

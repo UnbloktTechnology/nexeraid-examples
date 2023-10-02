@@ -3,8 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { SwapInput } from "./SwapInput";
 import { type ITokenInfo } from "@/features/Components/TokenDropDown";
 import { Icon } from "./Icon";
-import { useAccount, useNetwork } from "wagmi";
-import { useKycAuthentication } from "../identity/useKycAuthenticate";
+import { useNetwork } from "wagmi";
 import { SwapButton } from "@/features/Components/SwapButton";
 import { useState } from "react";
 import { type ChainOptions, SwapOptions } from "@/features/SwapOptionsDemoData";
@@ -26,7 +25,7 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
       label: "Select Token",
       address: "",
       pairs: [],
-    }
+    },
   );
   const [toAmount, setToAmount] = useState("0");
   const [toToken, setToToken] = useState<ITokenInfo>({
@@ -40,10 +39,6 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
     close: state.close,
   }));
   const queryClient = useQueryClient();
-  const account = useAccount();
-  const { isAuthenticated } = useKycAuthentication();
-
-  const isAuthOK = account.address && isAuthenticated;
 
   const verifyUser = () => {
     openModal(
@@ -61,7 +56,7 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
             close();
           },
         },
-      }
+      },
     );
   };
 
@@ -136,8 +131,8 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
         {!isCompliant && (
           <button
             className="mt-3 h-14 w-full rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]"
-            id={isAuthOK ? "kyc-btn-verify" : ""}
-            onClick={isAuthOK ? undefined : verifyUser}
+            id={"kyc-btn-verify"}
+            onClick={verifyUser}
           >
             Verify
           </button>

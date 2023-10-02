@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 import { GlobalModals } from "@/features/Modals/GlobalModals";
 
 export type BackgroundType = "default" | "defi";

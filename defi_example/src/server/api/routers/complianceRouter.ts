@@ -6,7 +6,7 @@ import { getScenarioWebhookRedisKey } from "../../../pages/api/scenario-webhook"
 type IComplianceResult = {
   result: {
     result: {
-      isValid: boolean,
+      is_valid: boolean,
       reasons: string[]
     }
   }
@@ -33,7 +33,7 @@ export const complianceRouter = createTRPCRouter({
       console.log("REDIS DATA: ", JSON.stringify(redisData));
 
       if (redisData) {
-        const isNotValid = redisData.scenarioResponses.find((_curr) => _curr.find((curr) => !curr.result.result.isValid))
+        const isNotValid = redisData.scenarioResponses.find((_curr) => _curr.find((curr) => !curr.result.result.is_valid))
 
         return !isNotValid
       }

@@ -18,9 +18,9 @@ This is an example DeFi app that requires signer interaction with a Web3 modal, 
 
 ## Deployed environment URLS
 
-- [Production](https://defi-offchain-zkp.nexera.id/)
-- [Staging](https://defi-offchain-zkp-staging.nexera.id/)
-- [Dev](https://defi-offchain-zkp-dev.nexera.id/)
+- [Production](https://defi.nexera.id/)
+- [Staging](https://defi-staging.nexera.id/)
+- [Dev](https://defi-dev.nexera.id/)
 
 ## Documentation
 

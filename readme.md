@@ -42,11 +42,21 @@ An example dApp to demonstrate the use of the NexeraID KYC Verification Identity
 
 #### URLs
 
+##### Regular nexera VC validation:
+
 https://defi-dev.nexera.id/
 
 https://defi-staging.nexera.id/
 
 https://defi.nexera.id/
+
+##### Off-chain ZKP validation:
+
+https://defi-offchain-zkp-dev.nexera.id/
+
+https://defi-offchain-zkp-staging.nexera.id/
+
+https://defi-offchain-zkp.nexera.id/
 
 ## Custom Aave Interface
 

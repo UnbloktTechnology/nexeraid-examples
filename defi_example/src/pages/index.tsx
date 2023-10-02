@@ -17,15 +17,15 @@ const Home = () => {
   const address = useAccount();
   const { accessToken, signingMessage, signature } = useKycAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
-  const { data } = useCheckCompliance(kycCompletion);
+  const { data: isVerified } = useCheckCompliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
   const signMessage = useSignMessage();
   const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    console.log("EXECUTING CHECK COMPLIANCE: ", data);
-    if (data !== undefined) {
-      if (data) {
+    console.log("EXECUTING isVerified check compliance: ", isVerified);
+    if (isVerified !== undefined) {
+      if (isVerified) {
         toast(`Your identity has been verified`);
         setKycCompletion(false);
         setIsCompliance(true);
@@ -35,7 +35,7 @@ const Home = () => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [isVerified]);
 
   useEffect(() => {
     if (isCompliance) {

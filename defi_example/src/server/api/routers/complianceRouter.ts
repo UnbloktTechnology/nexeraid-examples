@@ -37,7 +37,7 @@ export const complianceRouter = createTRPCRouter({
 
       console.log("REDIS DATA: ", JSON.stringify(redisData));
 
-      if (redisData) {
+      if (redisData && redisData.scenarioResponses) {
         const isNotValid = redisData.scenarioResponses.find((_curr) => _curr.find((curr) => !curr.result.result.is_valid))
 
         return {

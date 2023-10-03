@@ -23,19 +23,20 @@ const Home = () => {
   const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    console.log("exec Check Compliance", data);
-
+    console.log("EXECUTING isVerified check compliance ZK: ", data);
     if (data !== undefined) {
-      if (data) {
+      if (data.isValid) {
         toast(`Your identity has been verified`);
         setKycCompletion(false);
         setIsCompliance(true);
+      } else if (data.data === "not_received") {
+        setKycCompletion(true);
       } else {
         toast(`Your identity has not been verified`);
+        setKycCompletion(false);
         setIsCompliance(false);
       }
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
@@ -54,14 +55,14 @@ const Home = () => {
         });
       });
       IDENTITY_CLIENT.onKycCompletion((data) => {
-        void (() => {
-          console.log("on kyc completion", data);
-          setKycCompletion(true);
-        })();
+        console.log("on kyc completion", data);
+        setKycCompletion(true);
       });
       IDENTITY_CLIENT.onCloseScreen(async () => {
-        setKycCompletion(true);
-        return new Promise((resolve) => resolve(""));
+        return new Promise((resolve) => {
+          setKycCompletion(true);
+          resolve("");
+        });
       });
       void IDENTITY_CLIENT.init({
         accessToken,

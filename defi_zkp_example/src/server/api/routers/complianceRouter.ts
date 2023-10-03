@@ -3,6 +3,7 @@ import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { redis } from "@/server/redis";
 import { getScenarioWebhookRedisKey } from "@/pages/api/scenario-webhook";
 
+export const DATA_STATUS = z.enum(['received', 'not_received'])
 
 export const complianceRouter = createTRPCRouter({
   executeRule: publicProcedure
@@ -12,7 +13,10 @@ export const complianceRouter = createTRPCRouter({
       })
     )
     .output(
-      z.any()
+      z.object({
+        data: DATA_STATUS,
+        isValid: z.boolean()
+      })
     )
     .mutation(async ({ input }) => {
 
@@ -21,7 +25,17 @@ export const complianceRouter = createTRPCRouter({
       const redisData = await redis.get(redisKey);
 
       console.log("REDIS DATA: ", redisData)
-      return redisData
+      if (redisData) {
+        return {
+          data: 'received',
+          isValid: true
+        }
+      }
+
+      return {
+        data: 'not_received',
+        isValid: false
+      }
     }),
 });
 

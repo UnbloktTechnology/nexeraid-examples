@@ -1,6 +1,5 @@
 import { z } from "zod";
-import { Redis } from "@upstash/redis";
-import KycClient from "@nexeraid/kyc-sdk/client";
+import { IdentityClient } from "@nexeraid/identity-sdk";
 
 export const ENVS = ["local", "dev", "stage", "prod"] as const;
 export const ENVSchema = z.enum(ENVS);
@@ -10,7 +9,7 @@ export const appConfig = {
     api: "http://localhost:3001/",
   },
   [ENVSchema.enum.dev]: {
-    api: "https://api-dev-k8s.nexera.id/",
+    api: "https://api-dev.nexera.id/",
   },
   [ENVSchema.enum.stage]: {
     api: "https://api-staging.nexera.id/",
@@ -20,6 +19,6 @@ export const appConfig = {
   },
 } as const;
 
-export const KYC_CLIENT = new KycClient({
+export const IDENTITY_CLIENT = new IdentityClient({
   env: ENVSchema.parse(process.env.NEXT_PUBLIC_ENVIRONMENT),
 });

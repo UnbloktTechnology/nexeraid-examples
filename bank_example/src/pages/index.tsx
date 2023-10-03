@@ -4,9 +4,9 @@ import { Dashboard } from "@/features/Dashboard";
 
 import { Banner, Content, Header, Layout } from "@/features/Layout";
 import { useGlobalModals } from "@/features/Modals/useGlobalModals";
-import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
-import { useCheckCompliance } from "@/features/kyc/useCheckCompliance";
-import { KYC_CLIENTS } from "@/features/kyc/KycClient";
+import { useKycAuthentication } from "@/features/identity/useKycAuthenticate";
+import { useCheckCompliance } from "@/features/identity/useCheckCompliance";
+import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
 import { getSigner } from "@/appConfig";
 import { toast } from "react-toastify";
 
@@ -16,12 +16,11 @@ const Home = () => {
     close: state.close,
     data: state.data,
   }));
-  const { accessToken, signingMessage, signature, user } =
+  const { user, accessToken, signingMessage, signature } =
     useKycAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
   const { checkCompliance } = useCheckCompliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
-  const kycClient = KYC_CLIENTS.verify;
 
   useEffect(() => {
     console.log("result kyc compliance", checkCompliance);
@@ -47,33 +46,33 @@ const Home = () => {
   }, [isCompliance]);
 
   useEffect(() => {
-    if (user && accessToken && signingMessage && signature && kycClient) {
-      console.log("init kyc client", {
+    if (user && accessToken && signingMessage && signature) {
+      console.log(
+        "Ready to init: ",
+        user,
         accessToken,
         signingMessage,
         signature,
-      });
-      kycClient.onSignPersonalData(async (data: string) => {
+      );
+      IDENTITY_CLIENT.onSignMessage(async (data) => {
         console.log("on sign personal data");
         const signer = getSigner(user);
-        return await signer.signMessage(data);
+        return await signer.signMessage(data.message);
       });
-      kycClient.onKycCompletion((data) => {
+      IDENTITY_CLIENT.onKycCompletion((data) => {
         void (() => {
           console.log("on kyc completion", data);
           setKycCompletion(true);
         })();
       });
-      kycClient.init({
-        auth: {
-          accessToken,
-          signingMessage,
-          signature,
-        },
-        initOnFlow: "REQUEST",
+      // TODO: properly wait for init resolve
+      void IDENTITY_CLIENT.init({
+        accessToken,
+        signingMessage,
+        signature,
       });
     }
-  }, [user, accessToken, signingMessage, signature]);
+  }, [user]);
 
   const onClickLogOn = () => {
     openModal(
@@ -88,7 +87,7 @@ const Home = () => {
           icon: "help",
           textButton: "Verify Identity",
         },
-      }
+      },
     );
   };
 

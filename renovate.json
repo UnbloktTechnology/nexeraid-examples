@@ -1,0 +1,112 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "group:monorepos",
+    ":dependencyDashboard",
+    ":rebaseStalePrs"
+  ],
+  "baseBranches": [
+    "development"
+  ],
+  "enabledManagers": [
+    "npm",
+    "dockerfile",
+    "github-actions",
+    "kubernetes"
+  ],
+  "stopUpdatingLabel": "stop-updating",
+  "rangeStrategy": "bump",
+  "pinDigests": false,
+  "semanticCommits": "enabled",
+  "semanticCommitScope": "dependencies",
+  "semanticCommitType": "chore",
+  "dependencyDashboard": true,
+  "commitBody": "See associated pull request for more information.",
+  "separateMajorMinor": false,
+  "prHourlyLimit": 5,
+  "updateInternalDeps": true,
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "vulnerabilityAlerts": {
+    "commitMessagePrefix": "chore(renovate): Security update"
+  },
+  "ignorePaths": [
+    ".nvmrc",
+    "**/node_modules/**",
+    "archive/**"
+  ],
+  "ignoreDeps": [
+    "pnpm"
+  ],
+  "packageRules": [
+    {
+      "description": "Link private dependencies to different registry",
+      "matchDatasources": [
+        "npm"
+      ],
+      "matchPackagePatterns": [
+        "@nexeraprotocol/*",
+        "@stichting-allianceblock-foundation/*"
+      ],
+      "registryUrls": [
+        "https://npm.pkg.github.com"
+      ]
+    },
+    {
+      "description": "Updates all minor and patch versions",
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "all non-major dependencies",
+      "schedule": [
+        "before 4am"
+      ]
+    },
+    {
+      "description": "Prevent updating node in Dockerfiles",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackagePatterns": [
+        "node"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "List of disabled dependencies",
+      "groupName": "bot: disabled dependencies",
+      "matchPackageNames": [],
+      "enabled": false
+    },
+    {
+      "description": "Automerge non-major updates",
+      "matchUpdateTypes": ["minor", "patch", "digest", "lockFileMaintenance"],
+      "automerge": false
+    }
+  ],
+  "ignoreUnstable": true,
+  "labels": [
+    "renovate-bot"
+  ],
+  "hostRules": [
+    {
+      "hostType": "npm",
+      "matchHost": "https://npm.pkg.github.com/",
+      "encrypted": {
+        "token": "wcFMA/xDdHCJBTolARAAieIu8Rb2VAZ3q1B5IUoYueItx9Fpmf+twt10VOw4npFEv8J1t9E2f8Gh4u5KLe0KiiBfsBOjuxetEL114MfY0fr7nwLdcYaaXiPPIpTxpxokQK82tbu0ygl8Ult7FurPx4QJ82XT0lTH0xyC/3EyRNj/Vyymkm2W/01GWVsKMynaB0t33U4JaUpJs9E7iJDGWAmTDMh7DaAOXWSSr4MjxX/ltSUS63qfGsVxR6oDIxRyuTcDmOSqbSg/iiwiR5Bx+jb+8iLD6RQW540Np1dUM9SOTaJHRyG4VTgpMf+06X7nF/xBJCvZarqxwGUPX84h/3yQ6DWXyGQ23QssXfKrz1TKyVn+54cN7rd/pIV3z1wdSY5Aj2J8oNr/3ri1Er0NeYssgRE/TxYRMbv8QLeK5tLFubUxqVdecUT7rHLIVVRP581uRbmoruhtOkIstQ4ZM+TkictftF+dXXKACuBe3sRl4PzOwtSac3GQFLfrhhDHOzNNxiaCsg3L4NF/z//a+8qO9TNDY/9qApFcCFvjsqbJS8GvwN8rxoXMRPghFdIW05Wvm6EF6aWIKDCBEY7/xrZIFw2yJR5hzF7mVivZYcwxW0Biox4aIIl8A8S5ilZUsJjtZyLLxwbC8b0DgnQHMxc5mjxXz+CvUw5iax16MJHYvIdPHdK395zsbdGmhcvSfQGZEvxlj+QkYbY0vSu2OpBa0hOa2mgaheTp169v02F2Jz6fgK+zAkemM0mggUhJG2O5bP+cNlZI+gCYliuwLfyQoPcUOPEvkCf5F1vlkGPzyqeGD8wrMIOk7LnT/GdzJIaF3S9QJsYNXeUkK/KzhFoylW+SvLExTbVUGdSa"
+      }
+    }
+  ],
+  "assignees": [
+    "krisgrm",
+    "markoftw",
+    "joelamouche",
+    "cbarrilab"
+  ]
+}

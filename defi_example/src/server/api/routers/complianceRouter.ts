@@ -1,9 +1,22 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import { env } from "@/env.mjs";
-import { appConfig } from "@/appConfig";
 import { redis } from "@/server/redis";
-import { getDataWebhookRedisKey } from "@/pages/api/data-webhook";
+import { getScenarioWebhookRedisKey } from "../../../pages/api/scenario-webhook";
+
+type IComplianceResult = {
+  result: {
+    result: {
+      is_valid: boolean,
+      reasons: string[]
+    }
+  }
+}
+export interface IComplianceResponse {
+  address: string
+  scenarioResponses: IComplianceResult[][]
+}
+
+export const DATA_STATUS = z.enum(['received', 'not_received'])
 
 export const complianceRouter = createTRPCRouter({
   executeRule: publicProcedure
@@ -13,52 +26,29 @@ export const complianceRouter = createTRPCRouter({
       })
     )
     .output(
-      z.array(
-        z.object({
-          ruleId: z.string(),
-          ruleName: z.string(),
-          address: z.string(),
-          result: z.any(),
-          scenarioExecutionId: z.string(),
-        })
-      )
+      z.object({
+        data: DATA_STATUS,
+        isValid: z.boolean()
+      })
     )
     .mutation(async ({ input }) => {
-      const redisKey = getDataWebhookRedisKey(input.address);
-      const redisData = await redis.get(redisKey);
-      const body = {
-        address: input.address,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        inputData: { credentials: redisData?.data?.credentials || '' },
-        scenarioId: env.NEXERA_SCENARIO_ID,
-      };
-      console.log(`Got ${redisKey} from redis`, {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        body: body.inputData.credentials[0].type,
-      });
-      const result = await fetch(
-        `${
-          appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api
-        }compliance/scenario/execute`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${env.NEXERA_ID_API_KEY}`,
-          },
-          body: JSON.stringify(body),
+      const redisKey = getScenarioWebhookRedisKey(input.address);
+      const redisData = await redis.get<IComplianceResponse>(redisKey);
+
+      console.log("REDIS DATA: ", JSON.stringify(redisData));
+
+      if (redisData && redisData.scenarioResponses) {
+        const isNotValid = redisData.scenarioResponses.find((_curr) => _curr.find((curr) => !curr.result.result.is_valid))
+
+        return {
+          data: 'received',
+          isValid: !isNotValid
         }
-      );
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const json = await result.json();
-      console.log(`Got result from Nexera`, {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        json,
-      });
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return json;
+      }
+      
+      return {
+        data: 'not_received',
+        isValid: false
+      }
     }),
 });

@@ -10,6 +10,7 @@ const getAccessToken = async (req: NextApiRequest, res: NextApiResponse) => {
   const query = req.query;
   const { address } = query;
   const apiHost = appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api;
+
   const response = await fetch(`${apiHost}kyc/auth/access-token`, {
     body: JSON.stringify({ address: address }),
     headers: {
@@ -18,6 +19,7 @@ const getAccessToken = async (req: NextApiRequest, res: NextApiResponse) => {
     },
     method: "POST",
   });
+
   const { accessToken } = await response.json();
   res.status(200).json({ accessToken });
 };

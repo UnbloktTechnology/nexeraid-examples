@@ -1,44 +1,41 @@
 import { Swap } from "@/features/Components/Swap";
-import { useCheckCompliance } from "@/features/kyc/useCheckCompliance";
+import { useCheckCompliance } from "@/features/identity/useCheckCompliance";
 import { Header } from "@/features/Layout/Header";
 import { Layout } from "@/features/Layout/Layout";
 import { useGlobalModals } from "@/features/Modals/Hooks/useGlobalModals";
-import { useKycAuthentication } from "@/features/kyc/useKycAuthenticate";
 import { useEffect, useState } from "react";
 import { useAccount, useSignMessage } from "wagmi";
-import { KYC_CLIENTS } from "@/features/kyc/KycClient";
+import { IDENTITY_CLIENT } from "@/features/identity/IdentityClient";
 import { toast } from "react-toastify";
+import { useKycAuthentication } from "../features/identity/useKycAuthenticate";
 
 const Home = () => {
-  const { close } = useGlobalModals((state) => ({
-    openModal: state.open,
-    close: state.close,
-  }));
+  const close = useGlobalModals((state) => state.close);
   const address = useAccount();
   const { accessToken, signingMessage, signature } = useKycAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
-  const { checkCompliance } = useCheckCompliance(kycCompletion);
+  const { data } = useCheckCompliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
-  const kycClient = KYC_CLIENTS.verify;
   const signMessage = useSignMessage();
   const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    console.log("result kyc compliance", checkCompliance);
-
-    if (checkCompliance.data !== undefined) {
-      if (checkCompliance.data) {
+    console.log("EXECUTING isVerified check compliance: ", data);
+    if (data !== undefined) {
+      if (data.isValid) {
         toast(`Your identity has been verified`);
         setKycCompletion(false);
         setIsCompliance(true);
+      } else if (data.data === "not_received") {
+        setKycCompletion(true);
       } else {
         toast(`Your identity has not been verified`);
+        setKycCompletion(false);
         setIsCompliance(false);
       }
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [checkCompliance]);
+  }, [data]);
 
   useEffect(() => {
     if (isCompliance) {
@@ -47,39 +44,30 @@ const Home = () => {
   }, [isCompliance]);
 
   useEffect(() => {
-    console.log("accessToken", accessToken);
+    if (address.address && accessToken && signingMessage && signature) {
+      IDENTITY_CLIENT.onSignMessage(async (data) => {
+        console.log("On sign personal data");
+        return await signMessage.signMessageAsync({
+          message: data.message,
+        });
+      });
+      IDENTITY_CLIENT.onKycCompletion((data) => {
+        console.log("On kyc completion", data);
+        setKycCompletion(true);
+      });
+      IDENTITY_CLIENT.onCloseScreen(async () => {
+        return new Promise((resolve) => {
+          console.log("On Close Screen callback");
+          setKycCompletion(true);
+          resolve("");
+        });
+      });
 
-    if (
-      address.address &&
-      accessToken &&
-      signingMessage &&
-      signature &&
-      kycClient
-    ) {
-      console.log("init kyc client", {
+      // TODO: properly wait for init resolve
+      void IDENTITY_CLIENT.init({
         accessToken,
         signingMessage,
         signature,
-      });
-      kycClient.onSignPersonalData(async (data: string) => {
-        console.log("on sign personal data");
-        return await signMessage.signMessageAsync({
-          message: data,
-        });
-      });
-      kycClient.onKycCompletion((data) => {
-        void (() => {
-          console.log("on kyc completion", data);
-          setKycCompletion(true);
-        })();
-      });
-      kycClient.init({
-        auth: {
-          accessToken,
-          signingMessage,
-          signature,
-        },
-        initOnFlow: "REQUEST",
       });
     }
   }, [address.address, accessToken, signingMessage, signature]);

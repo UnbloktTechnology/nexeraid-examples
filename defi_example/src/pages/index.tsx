@@ -10,33 +10,32 @@ import { toast } from "react-toastify";
 import { useKycAuthentication } from "../features/identity/useKycAuthenticate";
 
 const Home = () => {
-  const { close } = useGlobalModals((state) => ({
-    openModal: state.open,
-    close: state.close,
-  }));
+  const close = useGlobalModals((state) => state.close);
   const address = useAccount();
   const { accessToken, signingMessage, signature } = useKycAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
-  const { data: isVerified } = useCheckCompliance(kycCompletion);
+  const { data } = useCheckCompliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
   const signMessage = useSignMessage();
   const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    console.log("EXECUTING isVerified check compliance: ", isVerified);
-    if (isVerified !== undefined) {
-      if (isVerified) {
+    console.log("EXECUTING isVerified check compliance: ", data);
+    if (data !== undefined) {
+      if (data.isValid) {
         toast(`Your identity has been verified`);
         setKycCompletion(false);
         setIsCompliance(true);
+      } else if (data.data === "not_received") {
+        setKycCompletion(true);
       } else {
         toast(`Your identity has not been verified`);
-        setIsCompliance(false);
         setKycCompletion(false);
+        setIsCompliance(false);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isVerified]);
+  }, [data]);
 
   useEffect(() => {
     if (isCompliance) {
@@ -47,20 +46,21 @@ const Home = () => {
   useEffect(() => {
     if (address.address && accessToken && signingMessage && signature) {
       IDENTITY_CLIENT.onSignMessage(async (data) => {
-        console.log("on sign personal data");
+        console.log("On sign personal data");
         return await signMessage.signMessageAsync({
           message: data.message,
         });
       });
       IDENTITY_CLIENT.onKycCompletion((data) => {
-        void (() => {
-          console.log("on kyc completion", data);
-          setKycCompletion(true);
-        })();
+        console.log("On kyc completion", data);
+        setKycCompletion(true);
       });
       IDENTITY_CLIENT.onCloseScreen(async () => {
-        setKycCompletion(true);
-        return new Promise((resolve) => resolve(""));
+        return new Promise((resolve) => {
+          console.log("On Close Screen callback");
+          setKycCompletion(true);
+          resolve("");
+        });
       });
 
       // TODO: properly wait for init resolve

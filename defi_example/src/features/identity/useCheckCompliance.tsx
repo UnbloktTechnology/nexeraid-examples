@@ -9,7 +9,11 @@ export const useCheckCompliance = (enabled: boolean) => {
   return useQuery({
     queryKey: ["checkCompliance", enabled],
     queryFn: async () => {
-      if (!user) return Promise.resolve(false);
+      if (!user)
+        return Promise.resolve({
+          data: "not_received",
+          isValid: false,
+        });
       const result = await mutation.mutateAsync({
         address: user,
       });

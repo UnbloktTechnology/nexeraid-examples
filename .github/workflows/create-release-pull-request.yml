@@ -1,0 +1,60 @@
+name: Create pull request
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_branch:
+        type: choice
+        description: Source branch
+        options:
+          - development
+          - staging
+        default: development
+      target_branch:
+        type: choice
+        description: Target branch
+        options:
+          - staging
+          - master
+        default: staging
+
+jobs:
+  create-pull-request:
+    name: Create pull request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate parameters
+        shell: bash
+        run: |
+          if [ ${{ inputs.source_branch }} == 'staging' ] && [ ${{ inputs.target_branch }} == 'staging' ]; then
+            echo "You cannot merge staging into staging"
+            exit 1
+          elif [ ${{ inputs.source_branch }} == 'development' ] && [ ${{ inputs.target_branch }} == 'master' ]; then
+            echo "You cannot merge development to master"
+            exit 1
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.MERGE_BOT_APP_ID }}
+          private_key: ${{ secrets.MERGE_BOT_PRIVATE_KEY }}
+
+      - name: Run the Action
+        uses: devops-infra/action-pull-request@v0.5.5
+        with:
+          github_token: ${{ steps.generate_token.outputs.token }}
+          source_branch: ${{ inputs.source_branch }}
+          target_branch: ${{ inputs.target_branch }}
+          title: ${{ inputs.source_branch }} to ${{ inputs.target_branch }}
+          body: "**Automated pull request**"
+          assignee: markoftw,krisgrm
+          label: automerge,${{ inputs.target_branch == 'staging' && 'STAGING' || 'PRODUCTION' }}
+          draft: false
+          ignore_users: "dependabot,renovate"

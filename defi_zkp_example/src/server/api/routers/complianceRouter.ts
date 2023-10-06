@@ -24,7 +24,7 @@ export const complianceRouter = createTRPCRouter({
     )
     .mutation(async ({ input }) => {
       const redisKey = getScenarioWebhookRedisKey(input.address);
-      const redisData: keyable = (await redis.get(redisKey)) as keyable;
+      const redisData = await redis.get<keyable>(redisKey);
 
       console.log("REDIS DATA: ", redisData);
       Object.keys({ asd: "asd" }).length;

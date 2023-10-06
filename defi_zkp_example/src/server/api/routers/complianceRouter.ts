@@ -5,6 +5,7 @@ import { getScenarioWebhookRedisKey } from "@/pages/api/scenario-webhook";
 
 export const DATA_STATUS = z.enum(["received", "not_received"]);
 interface keyable {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
@@ -23,7 +24,7 @@ export const complianceRouter = createTRPCRouter({
     )
     .mutation(async ({ input }) => {
       const redisKey = getScenarioWebhookRedisKey(input.address);
-      const redisData: keyable = (await redis.get(redisKey)) as Object;
+      const redisData: keyable = (await redis.get(redisKey)) as keyable;
 
       console.log("REDIS DATA: ", redisData);
       Object.keys({ asd: "asd" }).length;

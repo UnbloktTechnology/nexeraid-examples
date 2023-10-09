@@ -8,7 +8,6 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
-    NEXERA_SCENARIO_ID: z.string().describe("Specific Scenario ID for the APP"),
     UPSTASH_REDIS_REST_TOKEN: z.string().describe("The token for the Upstash Redis REST API -> https://console.upstash.com/redis/"),
     UPSTASH_REDIS_REST_URL: z.string().describe("The URL for the Upstash Redis REST API -> https://console.upstash.com/redis/"),
     NEXERA_ID_API_KEY: z.string().describe("The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Example Dapp"),
@@ -31,7 +30,6 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_ENVIRONMENT: process.env.NEXT_PUBLIC_ENVIRONMENT,
     NEXERA_ID_API_KEY: process.env.NEXERA_ID_API_KEY,
-    NEXERA_SCENARIO_ID: process.env.NEXERA_SCENARIO_ID,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL
   },

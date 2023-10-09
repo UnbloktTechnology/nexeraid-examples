@@ -8,6 +8,14 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
+    UPSTASH_REDIS_REST_TOKEN: z.string().describe("The token for the Upstash Redis REST API -> https://console.upstash.com/redis/"),
+    UPSTASH_REDIS_REST_URL: z.string().describe("The URL for the Upstash Redis REST API -> https://console.upstash.com/redis/"),
+
+    NEXERA_ID_API_KEY_DEFI_RULE_ENGINE: z.string().describe("The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Defi Rule Engine Example dApp"),
+    NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP: z.string().describe("The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Defi Offchain ZKP Example dApp"),
+    NEXERA_ID_API_KEY_BANK: z.string().describe("The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank App"),
+    NEXERA_ID_API_KEY_BANK_WEB3: z.string().describe("The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank Web3 dApp"),
+    NEXERA_ID_API_KEY_KYC: z.string().describe("The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera KYC dApp"),
   },
 
   /**
@@ -16,7 +24,7 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+    NEXT_PUBLIC_ENVIRONMENT: z.enum(["local", "dev", "stage", "prod"]).describe("The environment the app is running in"),
   },
 
   /**
@@ -25,7 +33,15 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
-    // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+    NEXT_PUBLIC_ENVIRONMENT: process.env.NEXT_PUBLIC_ENVIRONMENT,
+    UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
+    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
+
+    NEXERA_ID_API_KEY_DEFI_RULE_ENGINE: process.env.NEXERA_ID_API_KEY_DEFI_RULE_ENGINE,
+    NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP: process.env.NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP,
+    NEXERA_ID_API_KEY_BANK: process.env.NEXERA_ID_API_KEY_BANK,
+    NEXERA_ID_API_KEY_BANK_WEB3: process.env.NEXERA_ID_API_KEY_BANK_WEB3,
+    NEXERA_ID_API_KEY_KYC: process.env.NEXERA_ID_API_KEY_KYC,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

@@ -7,7 +7,7 @@ export const useCheckCompliance = (enabled: boolean) => {
   const mutation = api.compliance.executeDefiOffchainZKP.useMutation();
 
   return useQuery({
-    queryKey: ["checkCompliance", enabled],
+    queryKey: ["checkDefiOffChainZKPCompliance", enabled],
     queryFn: async () => {
       if (!user)
         return Promise.resolve({

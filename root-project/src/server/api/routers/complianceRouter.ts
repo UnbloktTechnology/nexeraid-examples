@@ -2,9 +2,10 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { redis } from "@/server/redis";
 import { getScenarioWebhookDefiRuleEngineRedisKey } from "@/pages/api/defi-rule-engine/scenario-webhook";
-import { getScenarioWebhookDefiOffchainZKPRedisKey } from "../../../pages/api/defi-offchain-zkp/scenario-webhook";
+import { getScenarioWebhookDefiOffchainZKPRedisKey } from "@/pages/api/defi-offchain-zkp/scenario-webhook";
+import { getScenarioWebhookBankRedisKey } from "@/pages/api/bank/scenario-webhook";
 
-type IDefiRuleEngineComplianceResult = {
+type IRuleEngineComplianceResult = {
   result: {
     result: {
       is_valid: boolean,
@@ -12,9 +13,9 @@ type IDefiRuleEngineComplianceResult = {
     }
   }
 }
-export interface IDefiRuleEngineComplianceResponse {
+export interface IRuleEngineComplianceResponse {
   address: string
-  scenarioResponses: IDefiRuleEngineComplianceResult[][]
+  scenarioResponses: IRuleEngineComplianceResult[][]
 }
 
 type keyable = Record<string, unknown>;
@@ -36,7 +37,7 @@ export const complianceRouter = createTRPCRouter({
     )
     .mutation(async ({ input }) => {
       const redisKey = getScenarioWebhookDefiRuleEngineRedisKey(input.address);
-      const redisData = await redis.get<IDefiRuleEngineComplianceResponse>(redisKey);
+      const redisData = await redis.get<IRuleEngineComplianceResponse>(redisKey);
 
       console.log("REDIS DATA: ", JSON.stringify(redisData));
 
@@ -84,4 +85,36 @@ export const complianceRouter = createTRPCRouter({
       isValid: false,
     };
   }),
+  executeBankEngine: publicProcedure
+    .input(
+      z.object({
+        address: z.string(),
+      })
+    )
+    .output(
+      z.object({
+        data: DATA_STATUS,
+        isValid: z.boolean()
+      })
+    )
+    .mutation(async ({ input }) => {
+      const redisKey = getScenarioWebhookBankRedisKey(input.address);
+      const redisData = await redis.get<IRuleEngineComplianceResponse>(redisKey);
+
+      console.log("REDIS DATA: ", JSON.stringify(redisData));
+
+      if (redisData?.scenarioResponses) {
+        const isNotValid = redisData.scenarioResponses.find((_curr) => _curr.find((curr) => !curr.result.result.is_valid))
+
+        return {
+          data: 'received',
+          isValid: !isNotValid
+        }
+      }
+      
+      return {
+        data: 'not_received',
+        isValid: false
+      }
+    }),
 });

@@ -1,27 +1,30 @@
-import { Swap } from "@/features/defi-rule-engine/Components/Swap";
-import { useCheckDefiRuleEngineCompliance } from "@/features/defi-rule-engine/identity/useCheckDefiRuleEngineCompliance";
-import { Header } from "@/features/defi-rule-engine/Layout/Header";
-import { Layout } from "@/features/defi-rule-engine/Layout/Layout";
-import { useGlobalModals } from "@/features/defi-rule-engine/Modals/Hooks/useGlobalModals";
+import { Swap } from "@/features/defi-offchain-zkp/Components/Swap";
+import { useCheckCompliance } from "@/features/defi-offchain-zkp/identity/useCheckDefiOffchainZKPCompliance";
+import { Header } from "@/features/defi-offchain-zkp/Layout/Header";
+import { Layout } from "@/features/defi-offchain-zkp/Layout/Layout";
+import { useGlobalModals } from "@/features/defi-offchain-zkp/Modals/Hooks/useGlobalModals";
 import { useEffect, useState } from "react";
 import { useAccount, useSignMessage } from "wagmi";
-import { IDENTITY_CLIENT } from "@/features/defi-rule-engine/identity/IdentityClient";
+import { IDENTITY_CLIENT } from "@/features/defi-offchain-zkp/identity/IdentityClient";
 import { toast } from "react-toastify";
-import { useDefiRuleEngineKycAuthentication } from "@/features/defi-rule-engine/identity/useDefiOffChainZKPKycAuthenticate";
+import { useDefiOffchainZKPKycAuthentication } from "@/features/defi-offchain-zkp/identity/useDefiOffChainZKPKycAuthenticate";
 
-const DefiRuleEngine = () => {
-  const close = useGlobalModals((state) => state.close);
+const Home = () => {
+  const { close } = useGlobalModals((state) => ({
+    openModal: state.open,
+    close: state.close,
+  }));
   const address = useAccount();
   const { accessToken, signingMessage, signature } =
-    useDefiRuleEngineKycAuthentication();
+    useDefiOffchainZKPKycAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
-  const { data } = useCheckDefiRuleEngineCompliance(kycCompletion);
+  const { data } = useCheckCompliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
   const signMessage = useSignMessage();
   const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    console.log("EXECUTING isVerified check compliance: ", data);
+    console.log("EXECUTING isVerified check compliance ZK: ", data);
     if (data !== undefined) {
       if (data.isValid) {
         toast(`Your identity has been verified`);
@@ -47,24 +50,21 @@ const DefiRuleEngine = () => {
   useEffect(() => {
     if (address.address && accessToken && signingMessage && signature) {
       IDENTITY_CLIENT.onSignMessage(async (data) => {
-        console.log("On sign personal data");
+        console.log("on sign personal data");
         return await signMessage.signMessageAsync({
           message: data.message,
         });
       });
       IDENTITY_CLIENT.onKycCompletion((data) => {
-        console.log("On kyc completion", data);
+        console.log("on kyc completion", data);
         setKycCompletion(true);
       });
       IDENTITY_CLIENT.onCloseScreen(async () => {
         return new Promise((resolve) => {
-          console.log("On Close Screen callback");
           setKycCompletion(true);
           resolve("");
         });
       });
-
-      // TODO: properly wait for init resolve
       void IDENTITY_CLIENT.init({
         accessToken,
         signingMessage,
@@ -84,7 +84,7 @@ const DefiRuleEngine = () => {
               <div className="fixed bottom-32 w-full text-center">
                 <div className="mx-auto flex w-[800px] flex-col gap-4 text-center">
                   <h1 className="bg-gradient-to-t from-[#FFF4CF] to-[#FF57DA] bg-clip-text text-[64px] font-bold leading-[72px] text-transparent">
-                    Welcome to the new Institutional Uniswap dApp
+                    Welcome to the new Institutional Uniswap app
                   </h1>
 
                   <div className="text-[#98A1C0]">
@@ -107,4 +107,4 @@ const DefiRuleEngine = () => {
   );
 };
 
-export default DefiRuleEngine;
+export default Home;

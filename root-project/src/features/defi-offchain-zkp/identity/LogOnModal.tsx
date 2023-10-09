@@ -1,13 +1,13 @@
-import { IdentityVerifyButton } from "@/features/defi-rule-engine/identity/IdentityVerifyButton";
+import { IdentityVerifyButton } from "@/features/defi-offchain-zkp/identity/IdentityVerifyButton";
+import { useDefiOffchainZKPKycAuthentication } from "@/features/defi-offchain-zkp/identity/useDefiOffChainZKPKycAuthenticate";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import { toast } from "react-toastify";
-import { useDefiRuleEngineKycAuthentication } from "./useDefiOffChainZKPKycAuthenticate";
 
 export const LogOnModal = () => {
   const account = useAccount();
   const { authenticate, isAuthenticated } =
-    useDefiRuleEngineKycAuthentication();
+    useDefiOffchainZKPKycAuthentication();
 
   return (
     <div className="flex w-full flex-col items-center gap-10">

@@ -10,9 +10,9 @@ import { api } from "@/utils/api";
 import { useSignMessage } from "wagmi";
 import { type Address } from "viem";
 
-export const useKycAuthentication = () => {
+export const useDefiRuleEngineKycAuthentication = () => {
   const authStore = useAuthStore((state) => state);
-  const getAccessToken = api.access.accessToken.useMutation();
+  const getAccessToken = api.access.defiRuleEngineAccessToken.useMutation();
   const { signMessageAsync } = useSignMessage();
 
   const logout = useMutation(async () => {
@@ -108,7 +108,7 @@ const useAuthStore = create<IAuthStore>()(
         },
       })),
       {
-        name: "bank-demo-auth-store",
+        name: "defi-rule-engine",
         storage: createJSONStorage(() => sessionStorage),
       },
     ),

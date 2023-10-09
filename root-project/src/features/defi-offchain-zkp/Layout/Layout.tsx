@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import { GlobalModals } from "@/features/defi-rule-engine/Modals/GlobalModals";
+import { GlobalModals } from "@/features/defi-offchain-zkp/Modals/GlobalModals";
 
 export type BackgroundType = "default" | "defi";
 

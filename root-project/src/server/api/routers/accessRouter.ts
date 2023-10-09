@@ -5,15 +5,7 @@ import { z } from "zod";
 import { appConfig } from "@/appConfig";
 
 export const accessRouter = createTRPCRouter({
-  accessToken: publicProcedure
-    .meta({
-      openapi: {
-        path: "/access-token",
-        method: "GET",
-        description: "Get user access token.",
-        summary: "Endpoint for getting the access token of the KYC Client",
-      },
-    })
+  defiRuleEngineAccessToken: publicProcedure
     .input(
       z.object({
         address: z.string(),
@@ -27,7 +19,103 @@ export const accessRouter = createTRPCRouter({
         body: JSON.stringify({ address: input.address }),
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${env.NEXERA_ID_API_KEY}`,
+          Authorization: `Bearer ${env.NEXERA_ID_API_KEY_DEFI_RULE_ENGINE}`,
+        },
+        method: "POST",
+      });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const { accessToken } = await response.json();
+      console.log("response", accessToken);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      return { accessToken: accessToken as string };
+    }),
+  defiOffChainZKPAccessToken: publicProcedure
+    .input(
+      z.object({
+        address: z.string(),
+      })
+    )
+    .output(z.any())
+    .mutation(async ({ input }) => {
+      const apiHost = appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api;
+      console.log("apiHost", apiHost);
+      const response = await fetch(`${apiHost}kyc/auth/access-token`, {
+        body: JSON.stringify({ address: input.address }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${env.NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP}`,
+        },
+        method: "POST",
+      });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const { accessToken } = await response.json();
+      console.log("response", accessToken);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      return { accessToken: accessToken as string };
+    }),
+  bankAccessToken: publicProcedure
+    .input(
+      z.object({
+        address: z.string(),
+      })
+    )
+    .output(z.any())
+    .mutation(async ({ input }) => {
+      const apiHost = appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api;
+      console.log("apiHost", apiHost);
+      const response = await fetch(`${apiHost}kyc/auth/access-token`, {
+        body: JSON.stringify({ address: input.address }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${env.NEXERA_ID_API_KEY_BANK}`,
+        },
+        method: "POST",
+      });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const { accessToken } = await response.json();
+      console.log("response", accessToken);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      return { accessToken: accessToken as string };
+    }),
+  bankWeb3AccessToken: publicProcedure
+    .input(
+      z.object({
+        address: z.string(),
+      })
+    )
+    .output(z.any())
+    .mutation(async ({ input }) => {
+      const apiHost = appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api;
+      console.log("apiHost", apiHost);
+      const response = await fetch(`${apiHost}kyc/auth/access-token`, {
+        body: JSON.stringify({ address: input.address }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${env.NEXERA_ID_API_KEY_BANK_WEB3}`,
+        },
+        method: "POST",
+      });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const { accessToken } = await response.json();
+      console.log("response", accessToken);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      return { accessToken: accessToken as string };
+    }),
+  kycAccessToken: publicProcedure
+    .input(
+      z.object({
+        address: z.string(),
+      })
+    )
+    .output(z.any())
+    .mutation(async ({ input }) => {
+      const apiHost = appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api;
+      console.log("apiHost", apiHost);
+      const response = await fetch(`${apiHost}kyc/auth/access-token`, {
+        body: JSON.stringify({ address: input.address }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${env.NEXERA_ID_API_KEY_KYC}`,
         },
         method: "POST",
       });

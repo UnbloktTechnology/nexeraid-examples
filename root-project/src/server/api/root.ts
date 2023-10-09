@@ -1,5 +1,7 @@
-import { exampleRouter } from "@/server/api/routers/example";
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { createTRPCRouter } from "@/server/api/trpc";
+import { complianceRouter } from "@/server/api/routers/complianceRouter";
+import { accessRouter } from "@/server/api/routers/accessRouter";
 
 /**
  * This is the primary router for your server.
@@ -7,7 +9,8 @@ import { createTRPCRouter } from "@/server/api/trpc";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  example: exampleRouter,
+  compliance: complianceRouter,
+  access: accessRouter,
 });
 
 // export type definition of API

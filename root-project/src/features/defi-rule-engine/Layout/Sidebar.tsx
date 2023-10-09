@@ -23,6 +23,7 @@ export const WalletSidebar = ({ isOpen, onClose }: IWalletSidebar) => {
               <div className="flex items-center space-x-2">
                 <Jazzicon
                   diameter={35}
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
                   seed={jsNumberForAddress(address as string)}
                 />
                 <span>{`${(address as string)?.slice(0, 5)}...${(
@@ -46,19 +47,18 @@ export const WalletSidebar = ({ isOpen, onClose }: IWalletSidebar) => {
             </div>
 
             <div className="flex w-full flex-col justify-center gap-2">
-              <button className="p-4 rounded-xl border-none !bg-[#1F2538]">
+              <button className="rounded-xl border-none !bg-[#1F2538] p-4">
                 View and sell NFTs
               </button>
-              <button className="p-4 rounded-xl border-none !bg-[#1F2538]">
-                <span className="flex items-center justify-center space-x-1 gap-2">
-                  <Icon
-                    icon="buy"
-                    className="text-white"
-                  />
+              <button className="rounded-xl border-none !bg-[#1F2538] p-4">
+                <span className="flex items-center justify-center gap-2 space-x-1">
+                  <Icon icon="buy" className="text-white" />
                   <span>Buy crypto</span>
                 </span>
               </button>
-              <button className="p-4 rounded-xl border-none !bg-[#1F2538]">Review KYC</button>
+              <button className="rounded-xl border-none !bg-[#1F2538] p-4">
+                Review KYC
+              </button>
             </div>
           </div>
         </div>

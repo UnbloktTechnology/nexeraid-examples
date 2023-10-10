@@ -1,0 +1,19 @@
+.responseColumns {
+  display: flex;
+  gap: 24px;
+}
+
+.responseColumns div {
+  min-width: 400px;
+}
+
+.responseColumns div pre {
+  background-color: aliceblue;
+  border: 2px solid grey;
+  border-radius: 16px;
+  min-height: 600px;
+  padding: 1rem;
+  width: 500px;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}

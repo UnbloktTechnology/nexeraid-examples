@@ -29,11 +29,6 @@ export const WebHooks = () => {
   return (
     <div className={styles.responseColumns}>
       <div>
-        <h4>DATA: </h4>
-        {dataWebhook.isLoading && <p>loading...</p>}
-        <pre>{formatResponse(dataWebhook.data)}</pre>
-      </div>
-      <div>
         <h4>RULE:</h4>
         {scenarioWebhook.isLoading && <p>loading...</p>}
         <pre>{formatResponse(scenarioWebhook.data)}</pre>

@@ -63,7 +63,7 @@ https://defi-offchain-zkp.nexera.id/
 
 ## Custom Aave Interface
 
-Aave clonned interface to demonstrate the KYC Identity Flow in a Web3 interface and interaction, and a whitelisted custom verification.
+Aave cloned interface to demonstrate the KYC Identity Flow in a Web3 interface and interaction, and a whitelisted custom verification.
 
 #### URLs
 

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@0xpolygonid/js-sdk@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@0xpolygonid/js-sdk/-/js-sdk-1.1.0.tgz#e2560685bdb666f9d73a4f33e267e3d2bd7456b6"
-  integrity sha512-nG7zYR4f5MAvywUIuxC7GEuISu54/9LqTZY43L5ObhhZai7jkohuGBmp4fU1o58aGLTZGKD4ggJCnqpDuBINyQ==
+"@0xpolygonid/js-sdk@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@0xpolygonid/js-sdk/-/js-sdk-1.2.2.tgz#77ecd48ff9ff06075e0c4bed1b27e0c4a7194d7f"
+  integrity sha512-vGnk3HrZSwe6+qZQuHKJCKgQZ1+Dy4EeBdaIDg9wnv2INr1AgY6ias/wGDX0Cr4wfkGrrPemQi8ztLFz82trdA==
   dependencies:
     "@iden3/js-crypto" "1.0.1"
     "@iden3/js-iden3-core" "1.0.2"
@@ -3342,24 +3342,24 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@nexeraid/identity-sdk@1.1.85":
-  version "1.1.85"
-  resolved "https://registry.yarnpkg.com/@nexeraid/identity-sdk/-/identity-sdk-1.1.85.tgz#0ee513a699cf576004417338e5a3511f47879b31"
-  integrity sha512-lPeztBubp3Jwu4VU5qBSHK4MgfsHsTBXR/5v+40ssOweymsqtq9qipL+SxiXKs9dE3AcJPpWiufP2ERlPNjKEw==
+"@nexeraid/identity-sdk@^1.1.105":
+  version "1.1.105"
+  resolved "https://registry.yarnpkg.com/@nexeraid/identity-sdk/-/identity-sdk-1.1.105.tgz#04944dae71bb29b0f758f580e577fb2f8bd425c5"
+  integrity sha512-56KXxiZqW2KcuL3G2PDKR+xXJyLv3KVuaP/LEfNOtSj91I7vQ5xVKCbj0vNz7kIYtINSQr8d6rRuxqSWfY2aEA==
   dependencies:
-    "@nexeraprotocol/nexera-id-schemas" "1.8.41"
-    zod "^3.22.2"
+    "@nexeraprotocol/nexera-id-schemas" "1.8.60"
+    zod "^3.22.4"
     zod-validation-error "^1.5.0"
 
-"@nexeraprotocol/nexera-id-schemas@1.8.41":
-  version "1.8.41"
-  resolved "https://registry.yarnpkg.com/@nexeraprotocol/nexera-id-schemas/-/nexera-id-schemas-1.8.41.tgz#5bf224b3f4ad9d3d1c9ac6cb5aa9ca5007b39baa"
-  integrity sha512-di1brF1zN4973SMhD4Tex+1fhQdr/siHyiy3myUz6Kabl6nrNnIx4mueZgiDFW8/xxsmH0iH6lYBPUhOO/XjVw==
+"@nexeraprotocol/nexera-id-schemas@1.8.60":
+  version "1.8.60"
+  resolved "https://registry.yarnpkg.com/@nexeraprotocol/nexera-id-schemas/-/nexera-id-schemas-1.8.60.tgz#334ab14783b853a4c44f9ec7c8b82200db54fc62"
+  integrity sha512-5/0zJKjdmcAopbzFXv6F/ZjqtECGakB0aai861/7rzzqGCWSvKq1E8MZMdI8KR2dajrHmJgqj2Wzm5uAuwDpmg==
   dependencies:
-    "@0xpolygonid/js-sdk" "^1.1.0"
+    "@0xpolygonid/js-sdk" "^1.2.2"
     "@iden3/js-jwz" "^1.0.2"
     i18n-iso-countries "^7.7.0"
-    zod "^3.22.2"
+    zod "^3.22.4"
 
 "@next/bundle-analyzer@^12.1.0":
   version "12.1.0"
@@ -14441,10 +14441,10 @@ zod-validation-error@^1.5.0:
   resolved "https://registry.yarnpkg.com/zod-validation-error/-/zod-validation-error-1.5.0.tgz#2b355007a1c3b7fb04fa476bfad4e7b3fd5491e3"
   integrity sha512-/7eFkAI4qV0tcxMBB/3+d2c1P6jzzZYdYSlBuAklzMuCrJu5bzJfHS0yVAS87dRHVlhftd6RFJDIvv03JgkSbw==
 
-zod@^3.22.2:
-  version "3.22.2"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.2.tgz#3add8c682b7077c05ac6f979fea6998b573e157b"
-  integrity sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==
+zod@^3.22.4:
+  version "3.22.4"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
+  integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
 
 zustand@^4.3.8:
   version "4.4.1"

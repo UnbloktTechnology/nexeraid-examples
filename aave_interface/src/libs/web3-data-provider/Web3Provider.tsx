@@ -53,6 +53,7 @@ export type Web3Data = {
   readOnlyModeAddress: string | undefined;
   readOnlyMode: boolean;
   isWhitelisted: boolean;
+  setIsWhitelisted: (isWhitelisted: boolean) => void;
 };
 
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
@@ -479,6 +480,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
           readOnlyModeAddress: readOnlyMode ? account?.toLowerCase() : undefined,
           readOnlyMode,
           isWhitelisted,
+          setIsWhitelisted,
         },
       }}
     >

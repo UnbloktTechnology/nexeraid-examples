@@ -209,8 +209,10 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     (async () => {
       if (account && isAuthenticated) {
         try {
-          const res = await IDENTITY_CLIENT.isWhitelisted(account as `0x${string}`);
-          setIsWhitelisted(res as boolean);
+          const res = (await IDENTITY_CLIENT.isWhitelisted(account as `0x${string}`)) as {
+            isVerified: boolean;
+          };
+          setIsWhitelisted(res?.isVerified as boolean);
         } catch (e) {
           setIsWhitelisted(false);
         }

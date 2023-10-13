@@ -121,7 +121,7 @@ export const SupplyAssetsListMobileItem = ({
               <Trans>Not whitelisted</Trans>
             )
           ) : (
-            <Trans>Need authenticate</Trans>
+            <Trans>Need Auth</Trans>
           )}
         </Button>
         <Button

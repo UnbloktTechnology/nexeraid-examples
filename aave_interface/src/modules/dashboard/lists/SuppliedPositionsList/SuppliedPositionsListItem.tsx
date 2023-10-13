@@ -136,7 +136,7 @@ export const SuppliedPositionsListItem = ({
                 <Trans>Not whitelisted</Trans>
               )
             ) : (
-              <Trans>Need authenticate</Trans>
+              <Trans>Need Auth</Trans>
             )}
           </Button>
         )}

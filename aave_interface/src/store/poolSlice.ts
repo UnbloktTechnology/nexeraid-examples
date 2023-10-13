@@ -154,18 +154,21 @@ export const createPoolSlice: StateCreator<
       });
     }
   }
-  function getCorrectPoolBundle() {
+  function getCorrectPoolBundle(proxyAavePool?: boolean) {
     const currentMarketData = get().currentMarketData;
     const provider = get().jsonRpcProvider();
+    const proxyAavePoolAddress = '0x2fb5C2eE1527c89D35Df7D0B7bA9128afe0162AB';
     if (currentMarketData.v3) {
       return new PoolBundle(provider, {
-        POOL: currentMarketData.addresses.LENDING_POOL,
+        POOL: proxyAavePool ? proxyAavePoolAddress : currentMarketData.addresses.LENDING_POOL,
         WETH_GATEWAY: currentMarketData.addresses.WETH_GATEWAY,
         L2_ENCODER: currentMarketData.addresses.L2_ENCODER,
       });
     } else {
       return new LendingPoolBundle(provider, {
-        LENDING_POOL: currentMarketData.addresses.LENDING_POOL,
+        LENDING_POOL: proxyAavePool
+          ? proxyAavePoolAddress
+          : currentMarketData.addresses.LENDING_POOL,
         WETH_GATEWAY: currentMarketData.addresses.WETH_GATEWAY,
       });
     }
@@ -280,9 +283,13 @@ export const createPoolSlice: StateCreator<
       get().refreshPoolData(v3MarketData);
     },
     generateApproval: (args: ApproveType) => {
+      console.log('args', args);
+      const realAavePool = '0xcC6114B983E4Ed2737E9BD3961c9924e6216c704';
+      const argsWithPool = { ...args, spender: realAavePool };
+      console.log('argsWithPool', argsWithPool);
       const provider = get().jsonRpcProvider();
       const tokenERC20Service = new ERC20Service(provider);
-      return tokenERC20Service.approveTxData({ ...args, amount: MAX_UINT_AMOUNT });
+      return tokenERC20Service.approveTxData({ ...argsWithPool, amount: MAX_UINT_AMOUNT });
     },
     supply: (args: Omit<LPSupplyParamsType, 'user'>) => {
       const poolBundle = getCorrectPoolBundle();
@@ -317,6 +324,7 @@ export const createPoolSlice: StateCreator<
       });
     },
     getApprovedAmount: async (args: { token: string }) => {
+      // calling the real pool approved amount here
       const poolBundle = getCorrectPoolBundle();
       const user = get().account;
       if (poolBundle instanceof PoolBundle) {

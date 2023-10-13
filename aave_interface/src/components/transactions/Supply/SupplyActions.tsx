@@ -96,6 +96,8 @@ export const SupplyActions = React.memo(
         // Check approved amount on-chain on first load or if an action triggers a re-check such as an approval being confirmed
         if (!approvedAmount || forceApprovalCheck) {
           setLoadingTxns(true);
+          // console.log(' token: poolAddress', poolAddress);
+          // const realAavePool = '0xcC6114B983E4Ed2737E9BD3961c9924e6216c704';
           const approvedAmount = await getApprovedAmount({ token: poolAddress });
           setApprovedAmount(approvedAmount);
         }
@@ -145,9 +147,9 @@ export const SupplyActions = React.memo(
     }, [requiresApproval, approvalTxState, usePermit, setGasLimit]);
 
     useEffect(() => {
-      const preferPermit =
-        permitAvailable && walletApprovalMethodPreference === ApprovalMethod.PERMIT;
-      setUsePermit(preferPermit);
+      // const preferPermit =
+      //   permitAvailable && walletApprovalMethodPreference === ApprovalMethod.PERMIT;
+      // setUsePermit(preferPermit);
     }, [permitAvailable, walletApprovalMethodPreference]);
 
     const approval = async () => {

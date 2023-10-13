@@ -581,8 +581,8 @@ export const marketsData: {
     addresses: {
       LENDING_POOL_ADDRESS_PROVIDER: AaveV3Mumbai.POOL_ADDRESSES_PROVIDER,
       // LENDING_POOL: AaveV3Mumbai.POOL,
-      // NEXERAID - Aave Pool Proxy
-      LENDING_POOL: '0x2fb5C2eE1527c89D35Df7D0B7bA9128afe0162AB',
+      // NEXERAID - Aave Pool Proxy not actually the real one
+      LENDING_POOL: '0xcC6114B983E4Ed2737E9BD3961c9924e6216c704',
       WETH_GATEWAY: AaveV3Mumbai.WETH_GATEWAY,
       FAUCET: AaveV3Mumbai.FAUCET,
       WALLET_BALANCE_PROVIDER: AaveV3Mumbai.WALLET_BALANCE_PROVIDER,

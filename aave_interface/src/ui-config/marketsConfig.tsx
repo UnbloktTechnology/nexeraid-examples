@@ -580,9 +580,7 @@ export const marketsData: {
     //  subgraphUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v3-mumbai',  needs re-deployment
     addresses: {
       LENDING_POOL_ADDRESS_PROVIDER: AaveV3Mumbai.POOL_ADDRESSES_PROVIDER,
-      // LENDING_POOL: AaveV3Mumbai.POOL,
-      // NEXERAID - Aave Pool Proxy
-      LENDING_POOL: '0x2fb5C2eE1527c89D35Df7D0B7bA9128afe0162AB',
+      LENDING_POOL: AaveV3Mumbai.POOL,
       WETH_GATEWAY: AaveV3Mumbai.WETH_GATEWAY,
       FAUCET: AaveV3Mumbai.FAUCET,
       WALLET_BALANCE_PROVIDER: AaveV3Mumbai.WALLET_BALANCE_PROVIDER,

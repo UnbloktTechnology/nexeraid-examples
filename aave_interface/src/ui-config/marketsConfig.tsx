@@ -28,7 +28,6 @@ import { ReactNode } from 'react';
 
 // Enable for premissioned market
 // import { PermissionView } from 'src/components/transactions/FlowCommons/PermissionView';
-
 export type MarketDataType = {
   v3?: boolean;
   marketTitle: string;
@@ -583,7 +582,7 @@ export const marketsData: {
       LENDING_POOL_ADDRESS_PROVIDER: AaveV3Mumbai.POOL_ADDRESSES_PROVIDER,
       // LENDING_POOL: AaveV3Mumbai.POOL,
       // NEXERAID - Aave Pool Proxy
-      LENDING_POOL: '0x9DdB97038C49cb93285fEE5c0d6823C3708Ed968',
+      LENDING_POOL: '0x2fb5C2eE1527c89D35Df7D0B7bA9128afe0162AB',
       WETH_GATEWAY: AaveV3Mumbai.WETH_GATEWAY,
       FAUCET: AaveV3Mumbai.FAUCET,
       WALLET_BALANCE_PROVIDER: AaveV3Mumbai.WALLET_BALANCE_PROVIDER,

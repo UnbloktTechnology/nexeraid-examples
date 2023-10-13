@@ -28,7 +28,6 @@ import { ReactNode } from 'react';
 
 // Enable for premissioned market
 // import { PermissionView } from 'src/components/transactions/FlowCommons/PermissionView';
-
 export type MarketDataType = {
   v3?: boolean;
   marketTitle: string;

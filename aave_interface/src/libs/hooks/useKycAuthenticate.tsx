@@ -19,7 +19,7 @@ export const useKycAuthentication = () => {
     async (variables: { user: string }) => {
       const signer = provider?.getSigner();
 
-      const signingMessage = buildSignatureMessage(variables.user);
+      const signingMessage = buildSignatureMessage(variables.user as `0x${string}`);
       const signature = (await signer?.signMessage(signingMessage)) as string;
       const response = await getNexeraIDAccessToken(variables.user);
 

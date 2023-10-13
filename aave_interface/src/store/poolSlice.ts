@@ -283,13 +283,9 @@ export const createPoolSlice: StateCreator<
       get().refreshPoolData(v3MarketData);
     },
     generateApproval: (args: ApproveType) => {
-      console.log('args', args);
-      const realAavePool = '0xcC6114B983E4Ed2737E9BD3961c9924e6216c704';
-      const argsWithPool = { ...args, spender: realAavePool };
-      console.log('argsWithPool', argsWithPool);
       const provider = get().jsonRpcProvider();
       const tokenERC20Service = new ERC20Service(provider);
-      return tokenERC20Service.approveTxData({ ...argsWithPool, amount: MAX_UINT_AMOUNT });
+      return tokenERC20Service.approveTxData({ ...args, amount: MAX_UINT_AMOUNT });
     },
     supply: (args: Omit<LPSupplyParamsType, 'user'>) => {
       const poolBundle = getCorrectPoolBundle();

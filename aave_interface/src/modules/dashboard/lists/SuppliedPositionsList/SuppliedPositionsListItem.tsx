@@ -9,6 +9,9 @@ import { GENERAL } from 'src/utils/mixPanelEvents';
 
 import { ListColumn } from '../../../../components/lists/ListColumn';
 import { useProtocolDataContext } from '../../../../hooks/useProtocolDataContext';
+import { useKycAuthentication } from '../../../../libs/hooks/useKycAuthenticate';
+import { useWeb3Context } from '../../../../libs/hooks/useWeb3Context';
+import { IDENTITY_CLIENT } from '../../../../libs/IdentityClient';
 import { isFeatureEnabled } from '../../../../utils/marketsAndNetworksConfig';
 import { ListAPRColumn } from '../ListAPRColumn';
 import { ListButtonsColumn } from '../ListButtonsColumn';
@@ -30,6 +33,8 @@ export const SuppliedPositionsListItem = ({
   const { debtCeiling } = useAssetCaps();
   const isSwapButton = isFeatureEnabled.liquiditySwap(currentMarketData);
   const trackEvent = useRootStore((store) => store.trackEvent);
+  const { isWhitelisted, currentAccount } = useWeb3Context();
+  const { isAuthenticated, authenticate } = useKycAuthentication();
 
   const canBeEnabledAsCollateral =
     !debtCeiling.isMaxed &&
@@ -41,6 +46,16 @@ export const SuppliedPositionsListItem = ({
   const disableSwap = !isActive || reserve.symbol == 'stETH';
   const disableWithdraw = !isActive;
   const disableSupply = !isActive || isFrozen;
+
+  const handleListButton = () => {
+    if (isWhitelisted) {
+      openSupply(underlyingAsset, currentMarket, reserve.name, 'dashboard');
+    } else if (isAuthenticated) {
+      IDENTITY_CLIENT.startVerification();
+    } else {
+      authenticate.mutate({ user: currentAccount });
+    }
+  };
 
   return (
     <ListItemWrapper
@@ -111,9 +126,18 @@ export const SuppliedPositionsListItem = ({
           <Button
             disabled={disableSupply}
             variant="contained"
-            onClick={() => openSupply(underlyingAsset, currentMarket, reserve.name, 'dashboard')}
+            id={isAuthenticated ? `identity-btn-verify` : undefined}
+            onClick={handleListButton}
           >
-            <Trans>Supply</Trans>
+            {isAuthenticated ? (
+              isWhitelisted ? (
+                <Trans>Supply</Trans>
+              ) : (
+                <Trans>Not whitelisted</Trans>
+              )
+            ) : (
+              <Trans>Need Auth</Trans>
+            )}
           </Button>
         )}
         <Button

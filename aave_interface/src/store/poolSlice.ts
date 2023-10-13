@@ -154,18 +154,21 @@ export const createPoolSlice: StateCreator<
       });
     }
   }
-  function getCorrectPoolBundle() {
+  function getCorrectPoolBundle(proxyAavePool?: boolean) {
     const currentMarketData = get().currentMarketData;
     const provider = get().jsonRpcProvider();
+    const proxyAavePoolAddress = '0x2fb5C2eE1527c89D35Df7D0B7bA9128afe0162AB';
     if (currentMarketData.v3) {
       return new PoolBundle(provider, {
-        POOL: currentMarketData.addresses.LENDING_POOL,
+        POOL: proxyAavePool ? proxyAavePoolAddress : currentMarketData.addresses.LENDING_POOL,
         WETH_GATEWAY: currentMarketData.addresses.WETH_GATEWAY,
         L2_ENCODER: currentMarketData.addresses.L2_ENCODER,
       });
     } else {
       return new LendingPoolBundle(provider, {
-        LENDING_POOL: currentMarketData.addresses.LENDING_POOL,
+        LENDING_POOL: proxyAavePool
+          ? proxyAavePoolAddress
+          : currentMarketData.addresses.LENDING_POOL,
         WETH_GATEWAY: currentMarketData.addresses.WETH_GATEWAY,
       });
     }
@@ -317,6 +320,7 @@ export const createPoolSlice: StateCreator<
       });
     },
     getApprovedAmount: async (args: { token: string }) => {
+      // calling the real pool approved amount here
       const poolBundle = getCorrectPoolBundle();
       const user = get().account;
       if (poolBundle instanceof PoolBundle) {

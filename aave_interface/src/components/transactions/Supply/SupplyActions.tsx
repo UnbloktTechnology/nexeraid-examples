@@ -16,7 +16,7 @@ import { useBackgroundDataProvider } from 'src/hooks/app-data-provider/Backgroun
 import { useModalContext } from 'src/hooks/useModal';
 import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
 import { useRootStore } from 'src/store/root';
-import { ApprovalMethod } from 'src/store/walletSlice';
+//import { ApprovalMethod } from 'src/store/walletSlice';
 import { getErrorTextFromError, TxAction } from 'src/ui-config/errorMapping';
 import { QueryKeys } from 'src/ui-config/queries';
 
@@ -85,7 +85,8 @@ export const SupplyActions = React.memo(
     const permitAvailable = tryPermit(poolAddress);
     const { signTxData, sendTx } = useWeb3Context();
 
-    const [usePermit, setUsePermit] = useState(false);
+    //const [usePermit, setUsePermit] = useState(false);
+    const usePermit = false;
     const [approvedAmount, setApprovedAmount] = useState<ApproveType | undefined>();
     const [requiresApproval, setRequiresApproval] = useState<boolean>(false);
     const [signatureParams, setSignatureParams] = useState<SignedParams | undefined>();
@@ -145,9 +146,10 @@ export const SupplyActions = React.memo(
     }, [requiresApproval, approvalTxState, usePermit, setGasLimit]);
 
     useEffect(() => {
-      const preferPermit =
-        permitAvailable && walletApprovalMethodPreference === ApprovalMethod.PERMIT;
-      setUsePermit(preferPermit);
+      // Diable this because withPermit doesn't work with proxy
+      // const preferPermit =
+      //   permitAvailable && walletApprovalMethodPreference === ApprovalMethod.PERMIT;
+      // setUsePermit(preferPermit);
     }, [permitAvailable, walletApprovalMethodPreference]);
 
     const approval = async () => {

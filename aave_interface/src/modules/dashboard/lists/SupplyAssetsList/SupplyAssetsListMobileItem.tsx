@@ -10,6 +10,9 @@ import { IncentivesCard } from '../../../../components/incentives/IncentivesCard
 import { Link, ROUTES } from '../../../../components/primitives/Link';
 import { Row } from '../../../../components/primitives/Row';
 import { useModalContext } from '../../../../hooks/useModal';
+import { useKycAuthentication } from '../../../../libs/hooks/useKycAuthenticate';
+import { useWeb3Context } from '../../../../libs/hooks/useWeb3Context';
+import { IDENTITY_CLIENT } from '../../../../libs/IdentityClient';
 import { ListItemCanBeCollateral } from '../ListItemCanBeCollateral';
 import { ListMobileItemWrapper } from '../ListMobileItemWrapper';
 import { ListValueRow } from '../ListValueRow';
@@ -33,12 +36,24 @@ export const SupplyAssetsListMobileItem = ({
 }: DashboardReserve) => {
   const { currentMarket } = useProtocolDataContext();
   const { openSupply } = useModalContext();
+  const { isWhitelisted, currentAccount } = useWeb3Context();
+  const { isAuthenticated, authenticate } = useKycAuthentication();
 
   // Disable the asset to prevent it from being supplied if supply cap has been reached
   const { supplyCap: supplyCapUsage } = useAssetCaps();
   const isMaxCapReached = supplyCapUsage.isMaxed;
 
   const disableSupply = !isActive || isFreezed || Number(walletBalance) <= 0 || isMaxCapReached;
+
+  const handleListButton = () => {
+    if (isWhitelisted) {
+      openSupply(underlyingAsset, currentMarket, name, 'dashboard');
+    } else if (isAuthenticated) {
+      IDENTITY_CLIENT.startVerification();
+    } else {
+      authenticate.mutate({ user: currentAccount });
+    }
+  };
 
   return (
     <ListMobileItemWrapper
@@ -93,12 +108,21 @@ export const SupplyAssetsListMobileItem = ({
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 5 }}>
         <Button
           disabled={disableSupply}
+          id={isAuthenticated ? `identity-btn-verify` : undefined}
           variant="contained"
-          onClick={() => openSupply(underlyingAsset, currentMarket, name, 'dashboard')}
+          onClick={handleListButton}
           sx={{ mr: 1.5 }}
           fullWidth
         >
-          <Trans>Supply</Trans>
+          {isAuthenticated ? (
+            isWhitelisted ? (
+              <Trans>Supply</Trans>
+            ) : (
+              <Trans>Not whitelisted</Trans>
+            )
+          ) : (
+            <Trans>Need Auth</Trans>
+          )}
         </Button>
         <Button
           variant="outlined"

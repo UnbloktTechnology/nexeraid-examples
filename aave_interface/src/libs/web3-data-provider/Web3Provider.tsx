@@ -53,6 +53,7 @@ export type Web3Data = {
   readOnlyModeAddress: string | undefined;
   readOnlyMode: boolean;
   isWhitelisted: boolean;
+  setIsWhitelisted: (isWhitelisted: boolean) => void;
 };
 
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
@@ -208,9 +209,12 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     (async () => {
       if (account && isAuthenticated) {
         try {
-          const res = await IDENTITY_CLIENT.isWhitelisted(account as `0x${string}`);
-          setIsWhitelisted(res as boolean);
+          console.log('WHITELISTED PREV');
+          const res = (await IDENTITY_CLIENT.isWhitelisted(account as `0x${string}`)) as boolean;
+          console.log('WHITELISTED RES: ', res);
+          setIsWhitelisted(res);
         } catch (e) {
+          console.log('WHITELISTED ERROR: ', e);
           setIsWhitelisted(false);
         }
       }
@@ -479,6 +483,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
           readOnlyModeAddress: readOnlyMode ? account?.toLowerCase() : undefined,
           readOnlyMode,
           isWhitelisted,
+          setIsWhitelisted,
         },
       }}
     >

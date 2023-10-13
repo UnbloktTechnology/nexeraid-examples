@@ -6,7 +6,7 @@ import { IDENTITY_CLIENT } from '../libs/IdentityClient';
 
 export const NexeraIDInit = () => {
   const { accessToken, signingMessage, signature } = useKycAuthentication();
-  const { provider, currentAccount } = useWeb3Context();
+  const { provider, currentAccount, setIsWhitelisted } = useWeb3Context();
 
   useEffect(() => {
     const signer = provider?.getSigner();
@@ -29,6 +29,11 @@ export const NexeraIDInit = () => {
         return receipt.transactionHash as `0x${string}`;
       });
 
+      IDENTITY_CLIENT.onVerification((isVerified) => {
+        console.log('NexeraKyc.tsx onVerification', isVerified);
+        setIsWhitelisted(isVerified);
+      });
+
       IDENTITY_CLIENT.onKycCompletion((data) => {
         void (() => {
           console.log('on kyc completion', data);
@@ -41,7 +46,7 @@ export const NexeraIDInit = () => {
         signature,
       });
     }
-  }, [accessToken, signingMessage, signature, currentAccount, provider]);
+  }, [accessToken, signingMessage, signature, currentAccount, provider, setIsWhitelisted]);
 
   return null;
 };

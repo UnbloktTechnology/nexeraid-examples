@@ -3,14 +3,22 @@ import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { api } from "@/utils/api";
-import { useSignMessage } from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
 import { type Address } from "viem";
 import { buildSignatureMessage } from "@nexeraid/identity-sdk";
+import { useEffect } from "react";
 
 export const useKycAuthentication = () => {
   const authStore = useAuthStore((state) => state);
   const getAccessToken = api.access.accessToken.useMutation();
   const { signMessageAsync } = useSignMessage();
+  const account = useAccount();
+
+  useEffect(() => {
+    if (account?.address) {
+      logout.mutate();
+    }
+  }, [account]);
 
   const logout = useMutation(async () => {
     await Promise.resolve(authStore.logout());

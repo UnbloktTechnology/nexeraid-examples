@@ -45,6 +45,8 @@ export const complianceRouter = createTRPCRouter({
       if (redisData?.scenarioResponses) {
         const isNotValid = redisData.scenarioResponses.find((_curr) => _curr.find((curr) => !curr.result.result.is_valid))
 
+        await redis.del(redisKey);
+
         return {
           data: 'received',
           isValid: !isNotValid
@@ -76,6 +78,8 @@ export const complianceRouter = createTRPCRouter({
     console.log("REDIS DATA DEFI OFFCHAIN ZKP: ", redisData);
 
     if (Object.keys(redisData?.result as object).length > 0) {
+      await redis.del(redisKey);
+
       return {
         data: "received",
         isValid: true,
@@ -106,6 +110,8 @@ export const complianceRouter = createTRPCRouter({
 
       if (redisData?.scenarioResponses) {
         const isNotValid = redisData.scenarioResponses.find((_curr) => _curr.find((curr) => !curr.result.result.is_valid))
+
+        await redis.del(redisKey);
 
         return {
           data: 'received',
@@ -139,6 +145,8 @@ export const complianceRouter = createTRPCRouter({
       if (redisData?.scenarioResponses) {
         const isNotValid = redisData.scenarioResponses.find((_curr) => _curr.find((curr) => !curr.result.result.is_valid))
 
+        await redis.del(redisKey);
+        
         return {
           data: 'received',
           isValid: !isNotValid

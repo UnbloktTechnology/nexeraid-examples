@@ -40,6 +40,8 @@ export const complianceRouter = createTRPCRouter({
       if (redisData && redisData.scenarioResponses) {
         const isNotValid = redisData.scenarioResponses.find((_curr) => _curr.find((curr) => !curr.result.result.is_valid))
 
+        await redis.del(redisKey);
+        
         return {
           data: 'received',
           isValid: !isNotValid

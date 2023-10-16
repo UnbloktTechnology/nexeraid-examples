@@ -29,6 +29,8 @@ export const complianceRouter = createTRPCRouter({
       console.log("REDIS DATA: ", redisData);
 
       if (Object.keys(redisData?.result as object).length > 0) {
+        await redis.del(redisKey);
+        
         return {
           data: "received",
           isValid: true,

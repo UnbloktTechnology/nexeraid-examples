@@ -7,7 +7,7 @@ import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { api } from "@/utils/api";
-import { useAccount, useSignMessage } from "wagmi";
+import { type ConnectorData, useAccount, useSignMessage } from "wagmi";
 import { type Address } from "viem";
 import { useEffect } from "react";
 
@@ -15,13 +15,28 @@ export const useKycAuthentication = () => {
   const authStore = useAuthStore((state) => state);
   const getAccessToken = api.access.accessToken.useMutation();
   const { signMessageAsync } = useSignMessage();
-  const account = useAccount();
+  const { connector: activeConnector } = useAccount();
 
   useEffect(() => {
-    if (account?.address) {
-      logout.mutate();
+    const handleConnectorUpdate = ({ account, chain }: ConnectorData) => {
+      if (account) {
+        console.log("new account", account);
+        logout.mutate();
+        window.location.reload();
+      } else if (chain) {
+        console.log("new chain", chain);
+        logout.mutate();
+      }
+    };
+
+    if (activeConnector) {
+      activeConnector.on("change", handleConnectorUpdate);
     }
-  }, [account]);
+
+    return () => {
+      activeConnector?.off("change", handleConnectorUpdate);
+    };
+  }, [activeConnector]);
 
   const logout = useMutation(async () => {
     await Promise.resolve(authStore.logout());

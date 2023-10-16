@@ -7,13 +7,36 @@ import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { api } from "@/utils/api";
-import { useSignMessage } from "wagmi";
+import { type ConnectorData, useAccount, useSignMessage } from "wagmi";
 import { type Address } from "viem";
+import { useEffect } from "react";
 
 export const useKycAuthentication = () => {
   const authStore = useAuthStore((state) => state);
   const getAccessToken = api.access.accessToken.useMutation();
   const { signMessageAsync } = useSignMessage();
+  const { connector: activeConnector } = useAccount();
+
+  useEffect(() => {
+    const handleConnectorUpdate = ({ account, chain }: ConnectorData) => {
+      if (account) {
+        console.log("new account", account);
+        logout.mutate();
+        window.location.reload();
+      } else if (chain) {
+        console.log("new chain", chain);
+        logout.mutate();
+      }
+    };
+
+    if (activeConnector) {
+      activeConnector.on("change", handleConnectorUpdate);
+    }
+
+    return () => {
+      activeConnector?.off("change", handleConnectorUpdate);
+    };
+  }, [activeConnector]);
 
   const logout = useMutation(async () => {
     await Promise.resolve(authStore.logout());
@@ -44,13 +67,13 @@ export const useKycAuthentication = () => {
           data.accessToken,
           data.signingMessage,
           data.signature,
-          data.testUser
+          data.testUser,
         );
       },
       onError: (error) => {
         console.error(error);
       },
-    }
+    },
   );
 
   return {
@@ -74,7 +97,7 @@ interface IAuthStore {
     accessToken: string,
     signingMessage: string,
     signature: string,
-    user: Address
+    user: Address,
   ) => void;
   logout: () => void;
 }
@@ -109,7 +132,7 @@ const useAuthStore = create<IAuthStore>()(
       {
         name: "bank-demo-auth-store",
         storage: createJSONStorage(() => sessionStorage),
-      }
-    )
-  )
+      },
+    ),
+  ),
 );

@@ -35,8 +35,6 @@ export const NexeraIDInit = () => {
         setIsWhitelisted(isVerified);
       });
       IDENTITY_CLIENT.onSdkReady(async () => {
-        console.log('sdk ready');
-        console.log('currentAccount', currentAccount);
         const isWhitelistedStatus = (await IDENTITY_CLIENT.isWhitelisted(
           currentAccount as `0x${string}`
         )) as boolean;

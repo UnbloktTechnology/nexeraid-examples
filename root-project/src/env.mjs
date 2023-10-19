@@ -16,6 +16,7 @@ export const env = createEnv({
     NEXERA_ID_API_KEY_BANK: z.string().describe("The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank App"),
     NEXERA_ID_API_KEY_BANK_WEB3: z.string().describe("The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank Web3 dApp"),
     NEXERA_ID_API_KEY_KYC: z.string().describe("The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera KYC dApp"),
+    NEXERA_ID_API_KEY_BANK_SYGNUM_WEB3: z.string().describe("The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank Sygnum Web3 dApp"),
   },
 
   /**
@@ -42,6 +43,7 @@ export const env = createEnv({
     NEXERA_ID_API_KEY_BANK: process.env.NEXERA_ID_API_KEY_BANK,
     NEXERA_ID_API_KEY_BANK_WEB3: process.env.NEXERA_ID_API_KEY_BANK_WEB3,
     NEXERA_ID_API_KEY_KYC: process.env.NEXERA_ID_API_KEY_KYC,
+    NEXERA_ID_API_KEY_BANK_SYGNUM_WEB3: process.env.NEXERA_ID_API_KEY_BANK_SYGNUM_WEB3,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

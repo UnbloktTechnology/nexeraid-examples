@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useKycBankWeb3Authentication } from "@/features/sygnum-web3/identity/useKycBankWeb3Authenticate";
+import { useKycSygnumWeb3Authentication } from "@/features/sygnum-web3/identity/useKycSygnumWeb3Authentication";
 import { IDENTITY_CLIENT } from "@/features/sygnum-web3/identity/IdentityClient";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Icon } from "../Components/Icon";
@@ -15,7 +15,7 @@ interface ItemGroup {
 
 const UserOptions = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { logout, user } = useKycBankWeb3Authentication();
+  const { logout, user } = useKycSygnumWeb3Authentication();
 
   if (!user) return <></>;
 
@@ -87,7 +87,7 @@ const MenuItems = ({ itemGroup }: { itemGroup: ItemGroup[] }) => {
 
 export const Sidebar = () => {
   const { accessToken, signingMessage, signature, user } =
-    useKycBankWeb3Authentication();
+  useKycSygnumWeb3Authentication();
 
   const menuItems = {
     main: [

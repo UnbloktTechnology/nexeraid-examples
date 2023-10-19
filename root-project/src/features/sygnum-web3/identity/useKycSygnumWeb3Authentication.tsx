@@ -7,7 +7,7 @@ import { useSignMessage } from "wagmi";
 import { type Address } from "viem";
 import { buildSignatureMessage } from "@nexeraid/identity-sdk";
 
-export const useKycBankWeb3Authentication = () => {
+export const useKycSygnumWeb3Authentication = () => {
   const authStore = useAuthStore((state) => state);
   //
   const getAccessToken = api.access.bankSygnumWeb3AccessToken.useMutation();

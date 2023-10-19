@@ -6,8 +6,8 @@ import { useGlobalModals } from "@/features/sygnum-web3/Modals/useGlobalModals";
 import { IDENTITY_CLIENT } from "@/features/sygnum-web3/identity/IdentityClient";
 import { toast } from "react-toastify";
 import { useSignMessage } from "wagmi";
-import { useKycBankWeb3Authentication } from "@/features/sygnum-web3/identity/useKycBankWeb3Authenticate";
-import { useCheckBankWeb3Compliance } from "@/features/sygnum-web3/identity/useCheckBankWeb3Compliance";
+import { useKycSygnumWeb3Authentication } from "@/features/sygnum-web3/identity/useKycSygnumWeb3Authentication";
+import { useCheckSygnumWeb3Compliance } from "@/features/sygnum-web3/identity/useCheckSygnumWeb3Compliance";
 
 const Home = () => {
   const { openModal, close } = useGlobalModals((state) => ({
@@ -16,10 +16,10 @@ const Home = () => {
     data: state.data,
   }));
   const { user, accessToken, signingMessage, signature } =
-    useKycBankWeb3Authentication();
+  useKycSygnumWeb3Authentication();
   const signMessage = useSignMessage();
   const [kycCompletion, setKycCompletion] = useState(false);
-  const { data } = useCheckBankWeb3Compliance(kycCompletion);
+  const { data } = useCheckSygnumWeb3Compliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
 
   useEffect(() => {

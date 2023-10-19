@@ -6,7 +6,7 @@ import { useAccount } from "wagmi";
 import { toast } from "react-toastify";
 import { Icon } from "../Components/Icon";
 import { Button } from "../Components/Button";
-import { useKycBankWeb3Authentication } from "./useKycBankWeb3Authenticate";
+import { useKycSygnumWeb3Authentication } from "./useKycSygnumWeb3Authentication";
 
 export const LogOnModal = () => {
   const [showMsg, setShowMsg] = useState(true);
@@ -14,7 +14,7 @@ export const LogOnModal = () => {
     "To open an account you will need to verify your identity first",
   );
   const account = useAccount();
-  const { authenticate, isAuthenticated } = useKycBankWeb3Authentication();
+  const { authenticate, isAuthenticated } = useKycSygnumWeb3Authentication();
 
   const changeHelperText = () => {
     if (helpMsg.includes("verify your identity")) {

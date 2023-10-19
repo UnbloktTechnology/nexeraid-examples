@@ -1,13 +1,13 @@
 import { api } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
-import { useKycBankWeb3Authentication } from "@/features/sygnum-web3/identity/useKycBankWeb3Authenticate";
+import { useKycSygnumWeb3Authentication } from "@/features/sygnum-web3/identity/useKycSygnumWeb3Authentication";
 
-export const useCheckBankWeb3Compliance = (enabled: boolean) => {
-  const { user } = useKycBankWeb3Authentication();
+export const useCheckSygnumWeb3Compliance = (enabled: boolean) => {
+  const { user } = useKycSygnumWeb3Authentication();
   const mutation = api.compliance.executeBankWeb3Engine.useMutation();
 
   return useQuery({
-    queryKey: ["checkBankWeb3Compliance", enabled],
+    queryKey: ["checkSygnumWeb3Compliance", enabled],
     queryFn: async () => {
       if (!user)
         return Promise.resolve({

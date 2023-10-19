@@ -6,7 +6,8 @@ import { IDENTITY_CLIENT } from '../libs/IdentityClient';
 
 export const NexeraIDInit = () => {
   const { accessToken, signingMessage, signature } = useKycAuthentication();
-  const { provider, currentAccount, setIsWhitelisted } = useWeb3Context();
+  const { provider, currentAccount, setIsWhitelisted, setWhitelistStatusLoading } =
+    useWeb3Context();
 
   useEffect(() => {
     const signer = provider?.getSigner();
@@ -36,16 +37,11 @@ export const NexeraIDInit = () => {
       IDENTITY_CLIENT.onSdkReady(async () => {
         console.log('sdk ready');
         console.log('currentAccount', currentAccount);
-        // const isit1 = (await IDENTITY_CLIENT.isWhitelisted(
-        //   currentAccount as `0x${string}`
-        // )) as boolean;
-        // console.log('isit1', isit1);
-        // await new Promise<void>((res) => setTimeout(res, 60000));
-        const isit = (await IDENTITY_CLIENT.isWhitelisted(
+        const isWhitelistedStatus = (await IDENTITY_CLIENT.isWhitelisted(
           currentAccount as `0x${string}`
         )) as boolean;
-        console.log('isit', isit);
-        setIsWhitelisted(isit);
+        setWhitelistStatusLoading(false);
+        setIsWhitelisted(isWhitelistedStatus);
       });
 
       IDENTITY_CLIENT.onKycCompletion((data) => {
@@ -60,7 +56,15 @@ export const NexeraIDInit = () => {
         signature,
       });
     }
-  }, [accessToken, signingMessage, signature, currentAccount, provider, setIsWhitelisted]);
+  }, [
+    accessToken,
+    signingMessage,
+    signature,
+    currentAccount,
+    provider,
+    setIsWhitelisted,
+    setWhitelistStatusLoading,
+  ]);
 
   return null;
 };

@@ -40,7 +40,7 @@ export const SupplyAssetsListItem = ({
 }: DashboardReserve) => {
   const { currentMarket } = useProtocolDataContext();
   const { openSupply } = useModalContext();
-  const { isWhitelisted, currentAccount } = useWeb3Context();
+  const { isWhitelisted, whitelistStatusLoading, currentAccount } = useWeb3Context();
   const { isAuthenticated, authenticate } = useKycAuthentication();
 
   // Disable the asset to prevent it from being supplied if supply cap has been reached
@@ -108,7 +108,9 @@ export const SupplyAssetsListItem = ({
           onClick={handleListButton}
         >
           {isAuthenticated ? (
-            isWhitelisted ? (
+            whitelistStatusLoading ? (
+              <Trans>Loading Whitelist...</Trans>
+            ) : isWhitelisted ? (
               <Trans>Supply</Trans>
             ) : (
               <Trans>Not whitelisted</Trans>

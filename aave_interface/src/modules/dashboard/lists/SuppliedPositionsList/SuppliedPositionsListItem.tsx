@@ -33,7 +33,7 @@ export const SuppliedPositionsListItem = ({
   const { debtCeiling } = useAssetCaps();
   const isSwapButton = isFeatureEnabled.liquiditySwap(currentMarketData);
   const trackEvent = useRootStore((store) => store.trackEvent);
-  const { isWhitelisted, currentAccount } = useWeb3Context();
+  const { isWhitelisted, whitelistStatusLoading, currentAccount } = useWeb3Context();
   const { isAuthenticated, authenticate } = useKycAuthentication();
 
   const canBeEnabledAsCollateral =
@@ -130,7 +130,9 @@ export const SuppliedPositionsListItem = ({
             onClick={handleListButton}
           >
             {isAuthenticated ? (
-              isWhitelisted ? (
+              whitelistStatusLoading ? (
+                <Trans>Loading Whitelist...</Trans>
+              ) : isWhitelisted ? (
                 <Trans>Supply</Trans>
               ) : (
                 <Trans>Not whitelisted</Trans>

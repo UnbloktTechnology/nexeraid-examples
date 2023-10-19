@@ -20,7 +20,6 @@ import { isLedgerDappBrowserProvider } from 'web3-ledgerhq-frame-connector';
 
 import { useAuthStore } from '../hooks/useKycAuthenticate';
 import { Web3Context } from '../hooks/useWeb3Context';
-import { IDENTITY_CLIENT } from '../IdentityClient';
 import { WalletConnectConnector } from './WalletConnectConnector';
 import { getWallet, ReadOnlyModeConnector, WalletType } from './WalletOptions';
 
@@ -52,6 +51,8 @@ export type Web3Data = {
   setSwitchNetworkError: (err: Error | undefined) => void;
   readOnlyModeAddress: string | undefined;
   readOnlyMode: boolean;
+  whitelistStatusLoading: boolean;
+  setWhitelistStatusLoading: (whitelistStatusLoading: boolean) => void;
   isWhitelisted: boolean;
   setIsWhitelisted: (isWhitelisted: boolean) => void;
 };
@@ -88,7 +89,8 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   // const simpleWhitelistContract = useSimpleWhitelistContract(provider);
 
   const [isWhitelisted, setIsWhitelisted] = useState(false);
-  const { isAuthenticated, logout } = useAuthStore((state) => state);
+  const [whitelistStatusLoading, setWhitelistStatusLoading] = useState(true);
+  const { logout } = useAuthStore((state) => state);
 
   // for now we use network changed as it returns the chain string instead of hex
   // const handleChainChanged = (chainId: number) => {
@@ -204,22 +206,6 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
     return false;
   };
-
-  useEffect(() => {
-    (async () => {
-      if (account && isAuthenticated) {
-        try {
-          console.log('WHITELISTED PREV');
-          const res = (await IDENTITY_CLIENT.isWhitelisted(account as `0x${string}`)) as boolean;
-          console.log('WHITELISTED RES: ', res);
-          setIsWhitelisted(res);
-        } catch (e) {
-          console.log('WHITELISTED ERROR: ', e);
-          setIsWhitelisted(false);
-        }
-      }
-    })();
-  }, [account, isAuthenticated]);
 
   // third, try connecting to ledger
   useEffect(() => {
@@ -482,8 +468,10 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
           setSwitchNetworkError,
           readOnlyModeAddress: readOnlyMode ? account?.toLowerCase() : undefined,
           readOnlyMode,
+          whitelistStatusLoading,
           isWhitelisted,
           setIsWhitelisted,
+          setWhitelistStatusLoading,
         },
       }}
     >

@@ -28,6 +28,11 @@ const PROJECTS = [
     name: "KYC",
     image: "/images/kyc.webp",
   },
+  {
+    url: "/sygnum-web3",
+    name: "SYGNUM",
+    image: "/images/sygnum.png",
+  },
 ];
 
 export default function Home() {

@@ -46,7 +46,7 @@ export const SuppliedPositionsListItem = ({
 
   const disableSwap = !isActive || reserve.symbol == 'stETH';
   const disableWithdraw = !isActive;
-  const disableSupply = !isActive || isFrozen;
+  const disableSupply = !isActive || isFrozen || (whitelistStatusLoading && isAuthenticated);
 
   const handleListButton = () => {
     if (isWhitelisted) {

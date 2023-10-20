@@ -44,7 +44,12 @@ export const SupplyAssetsListMobileItem = ({
   const { supplyCap: supplyCapUsage } = useAssetCaps();
   const isMaxCapReached = supplyCapUsage.isMaxed;
 
-  const disableSupply = !isActive || isFreezed || Number(walletBalance) <= 0 || isMaxCapReached;
+  const disableSupply =
+    !isActive ||
+    isFreezed ||
+    (whitelistStatusLoading && isAuthenticated) ||
+    Number(walletBalance) <= 0 ||
+    isMaxCapReached;
 
   const handleListButton = () => {
     if (isWhitelisted) {

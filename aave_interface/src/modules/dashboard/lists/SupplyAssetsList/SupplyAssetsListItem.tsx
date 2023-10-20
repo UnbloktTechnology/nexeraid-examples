@@ -50,7 +50,12 @@ export const SupplyAssetsListItem = ({
 
   const trackEvent = useRootStore((store) => store.trackEvent);
 
-  const disableSupply = !isActive || isFreezed || Number(walletBalance) <= 0 || isMaxCapReached;
+  const disableSupply =
+    !isActive ||
+    isFreezed ||
+    (whitelistStatusLoading && isAuthenticated) ||
+    Number(walletBalance) <= 0 ||
+    isMaxCapReached;
 
   const handleListButton = () => {
     if (isWhitelisted) {

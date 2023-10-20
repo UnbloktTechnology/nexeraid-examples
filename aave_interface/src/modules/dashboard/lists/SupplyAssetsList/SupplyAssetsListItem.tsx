@@ -107,13 +107,15 @@ export const SupplyAssetsListItem = ({
       </ListColumn>
 
       <ListButtonsColumn>
-        {SupplyButton({
-          disableSupply,
-          isAuthenticated,
-          whitelistStatusLoading,
-          isWhitelisted,
-          handleListButton,
-        })}
+        {
+          <SupplyButton
+            disableSupply={disableSupply}
+            isAuthenticated={isAuthenticated}
+            whitelistStatusLoading={whitelistStatusLoading}
+            isWhitelisted={isWhitelisted}
+            handleListButton={handleListButton}
+          />
+        }
         <Button
           variant="outlined"
           component={Link}

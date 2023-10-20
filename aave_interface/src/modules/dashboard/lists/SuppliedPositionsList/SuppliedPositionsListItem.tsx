@@ -124,13 +124,13 @@ export const SuppliedPositionsListItem = ({
             <Trans>Switch</Trans>
           </Button>
         ) : (
-          SupplyButton({
-            disableSupply,
-            isAuthenticated,
-            whitelistStatusLoading,
-            isWhitelisted,
-            handleListButton,
-          })
+          <SupplyButton
+            disableSupply={disableSupply}
+            isAuthenticated={isAuthenticated}
+            whitelistStatusLoading={whitelistStatusLoading}
+            isWhitelisted={isWhitelisted}
+            handleListButton={handleListButton}
+          />
         )}
         <Button
           disabled={disableWithdraw}

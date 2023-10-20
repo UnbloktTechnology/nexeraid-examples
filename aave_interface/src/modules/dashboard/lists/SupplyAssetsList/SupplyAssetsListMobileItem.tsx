@@ -120,13 +120,13 @@ export const SupplyAssetsListMobileItem = ({
           sx={{ mr: 1.5 }}
           fullWidth
         >
-          {SupplyButton({
-            disableSupply,
-            isAuthenticated,
-            whitelistStatusLoading,
-            isWhitelisted,
-            handleListButton,
-          })}
+          <SupplyButton
+            disableSupply={disableSupply}
+            isAuthenticated={isAuthenticated}
+            whitelistStatusLoading={whitelistStatusLoading}
+            isWhitelisted={isWhitelisted}
+            handleListButton={handleListButton}
+          />
         </Button>
         <Button
           variant="outlined"

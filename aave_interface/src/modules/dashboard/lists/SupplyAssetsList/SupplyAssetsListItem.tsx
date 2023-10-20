@@ -20,6 +20,7 @@ import { ListButtonsColumn } from '../ListButtonsColumn';
 import { ListItemCanBeCollateral } from '../ListItemCanBeCollateral';
 import { ListItemWrapper } from '../ListItemWrapper';
 import { ListValueColumn } from '../ListValueColumn';
+import { SupplyButton } from '../SupplyButton';
 
 export const SupplyAssetsListItem = ({
   symbol,
@@ -101,24 +102,13 @@ export const SupplyAssetsListItem = ({
       </ListColumn>
 
       <ListButtonsColumn>
-        <Button
-          disabled={disableSupply}
-          id={isAuthenticated ? `identity-btn-verify` : undefined}
-          variant="contained"
-          onClick={handleListButton}
-        >
-          {isAuthenticated ? (
-            whitelistStatusLoading ? (
-              <Trans>Loading Whitelist...</Trans>
-            ) : isWhitelisted ? (
-              <Trans>Supply</Trans>
-            ) : (
-              <Trans>Not whitelisted</Trans>
-            )
-          ) : (
-            <Trans>Need Auth</Trans>
-          )}
-        </Button>
+        {SupplyButton({
+          disableSupply,
+          isAuthenticated,
+          whitelistStatusLoading,
+          isWhitelisted,
+          handleListButton,
+        })}
         <Button
           variant="outlined"
           component={Link}

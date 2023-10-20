@@ -18,6 +18,7 @@ import { ListButtonsColumn } from '../ListButtonsColumn';
 import { ListItemUsedAsCollateral } from '../ListItemUsedAsCollateral';
 import { ListItemWrapper } from '../ListItemWrapper';
 import { ListValueColumn } from '../ListValueColumn';
+import { SupplyButton } from '../SupplyButton';
 
 export const SuppliedPositionsListItem = ({
   reserve,
@@ -123,24 +124,13 @@ export const SuppliedPositionsListItem = ({
             <Trans>Switch</Trans>
           </Button>
         ) : (
-          <Button
-            disabled={disableSupply}
-            variant="contained"
-            id={isAuthenticated ? `identity-btn-verify` : undefined}
-            onClick={handleListButton}
-          >
-            {isAuthenticated ? (
-              whitelistStatusLoading ? (
-                <Trans>Loading Whitelist...</Trans>
-              ) : isWhitelisted ? (
-                <Trans>Supply</Trans>
-              ) : (
-                <Trans>Not whitelisted</Trans>
-              )
-            ) : (
-              <Trans>Need Auth</Trans>
-            )}
-          </Button>
+          SupplyButton({
+            disableSupply,
+            isAuthenticated,
+            whitelistStatusLoading,
+            isWhitelisted,
+            handleListButton,
+          })
         )}
         <Button
           disabled={disableWithdraw}

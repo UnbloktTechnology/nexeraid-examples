@@ -16,6 +16,7 @@ import { IDENTITY_CLIENT } from '../../../../libs/IdentityClient';
 import { ListItemCanBeCollateral } from '../ListItemCanBeCollateral';
 import { ListMobileItemWrapper } from '../ListMobileItemWrapper';
 import { ListValueRow } from '../ListValueRow';
+import { SupplyButton } from '../SupplyButton';
 
 export const SupplyAssetsListMobileItem = ({
   symbol,
@@ -114,17 +115,13 @@ export const SupplyAssetsListMobileItem = ({
           sx={{ mr: 1.5 }}
           fullWidth
         >
-          {isAuthenticated ? (
-            whitelistStatusLoading ? (
-              <Trans>Loading Whitelist...</Trans>
-            ) : isWhitelisted ? (
-              <Trans>Supply</Trans>
-            ) : (
-              <Trans>Not whitelisted</Trans>
-            )
-          ) : (
-            <Trans>Need Auth</Trans>
-          )}
+          {SupplyButton({
+            disableSupply,
+            isAuthenticated,
+            whitelistStatusLoading,
+            isWhitelisted,
+            handleListButton,
+          })}
         </Button>
         <Button
           variant="outlined"

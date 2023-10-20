@@ -1,24 +1,24 @@
 import { Trans } from '@lingui/macro';
 import { Button } from '@mui/material';
 
-type SupplyButtonInputs = {
+type SupplyButtonprops = {
   disableSupply: boolean;
   isAuthenticated: boolean;
   whitelistStatusLoading: boolean;
   isWhitelisted: boolean;
   handleListButton: () => void;
 };
-export const SupplyButton = (inputs: SupplyButtonInputs) => (
+export const SupplyButton = (props: SupplyButtonprops) => (
   <Button
-    disabled={inputs.disableSupply}
+    disabled={props.disableSupply}
     variant="contained"
-    id={inputs.isAuthenticated ? `identity-btn-verify` : undefined}
-    onClick={inputs.handleListButton}
+    id={props.isAuthenticated ? `identity-btn-verify` : undefined}
+    onClick={props.handleListButton}
   >
-    {inputs.isAuthenticated ? (
-      inputs.whitelistStatusLoading ? (
+    {props.isAuthenticated ? (
+      props.whitelistStatusLoading ? (
         <Trans>Loading Whitelist...</Trans>
-      ) : inputs.isWhitelisted ? (
+      ) : props.isWhitelisted ? (
         <Trans>Supply</Trans>
       ) : (
         <Trans>Not whitelisted</Trans>

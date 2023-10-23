@@ -54,7 +54,6 @@ An example dApp to demonstrate the use of the NexeraID KYC Verification Identity
 
 #### URLs
 
-
 https://defi-offchain-zkp-dev.nexera.id/
 
 https://defi-offchain-zkp-staging.nexera.id/
@@ -72,3 +71,5 @@ https://aave-onchain-verification-dev.nexera.id
 https://aave-onchain-verification-staging.nexera.id
 
 https://aave-onchain-verification.nexera.id
+
+## Root Examples

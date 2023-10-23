@@ -20,6 +20,7 @@ import { ListButtonsColumn } from '../ListButtonsColumn';
 import { ListItemCanBeCollateral } from '../ListItemCanBeCollateral';
 import { ListItemWrapper } from '../ListItemWrapper';
 import { ListValueColumn } from '../ListValueColumn';
+import { SupplyButton } from '../SupplyButton';
 
 export const SupplyAssetsListItem = ({
   symbol,
@@ -40,7 +41,7 @@ export const SupplyAssetsListItem = ({
 }: DashboardReserve) => {
   const { currentMarket } = useProtocolDataContext();
   const { openSupply } = useModalContext();
-  const { isWhitelisted, currentAccount } = useWeb3Context();
+  const { isWhitelisted, whitelistStatusLoading, currentAccount } = useWeb3Context();
   const { isAuthenticated, authenticate } = useKycAuthentication();
 
   // Disable the asset to prevent it from being supplied if supply cap has been reached
@@ -49,7 +50,12 @@ export const SupplyAssetsListItem = ({
 
   const trackEvent = useRootStore((store) => store.trackEvent);
 
-  const disableSupply = !isActive || isFreezed || Number(walletBalance) <= 0 || isMaxCapReached;
+  const disableSupply =
+    !isActive ||
+    isFreezed ||
+    (whitelistStatusLoading && isAuthenticated) ||
+    Number(walletBalance) <= 0 ||
+    isMaxCapReached;
 
   const handleListButton = () => {
     if (isWhitelisted) {
@@ -101,22 +107,15 @@ export const SupplyAssetsListItem = ({
       </ListColumn>
 
       <ListButtonsColumn>
-        <Button
-          disabled={disableSupply}
-          id={isAuthenticated ? `identity-btn-verify` : undefined}
-          variant="contained"
-          onClick={handleListButton}
-        >
-          {isAuthenticated ? (
-            isWhitelisted ? (
-              <Trans>Supply</Trans>
-            ) : (
-              <Trans>Not whitelisted</Trans>
-            )
-          ) : (
-            <Trans>Need Auth</Trans>
-          )}
-        </Button>
+        {
+          <SupplyButton
+            disableSupply={disableSupply}
+            isAuthenticated={isAuthenticated}
+            whitelistStatusLoading={whitelistStatusLoading}
+            isWhitelisted={isWhitelisted}
+            handleListButton={handleListButton}
+          />
+        }
         <Button
           variant="outlined"
           component={Link}

@@ -1,27 +1,32 @@
 import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
+import AppCard, { type AppCardProps } from "../features/root/AppCard";
+import { appConfig } from "../appConfig";
+import { env } from "@/env.mjs";
 
-const PROJECTS = [
+const PROJECTS: AppCardProps[] = [
   {
     url: "/defi-rule-engine",
-    name: "Defi Rule Engine",
+    name: "Compliant Uniswap",
     image: "/images/defi.png",
+    tags: ["VC verification", "Off-chain verification", "External wallet"],
   },
   {
     url: "/defi-offchain-zkp",
-    name: "Defi Off Chain ZKP",
+    name: "Gated Uniswap",
     image: "/images/defi.png",
+    tags: ["ZKP verification", "Off-chain verification", "External wallet"],
   },
   {
     url: "/bank",
-    name: "Bank",
+    name: "Banking",
     image: "/images/bank.png",
+    tags: ["VC verification", "Off-chain verification", "Abstracted signer"],
   },
   {
     url: "/bank-web3",
-    name: "Bank Web3",
+    name: "Banking Web3",
     image: "/images/bank-web3.png",
+    tags: ["VC verification", "Off-chain verification", "External wallet"],
   },
   {
     url: "/kyc",
@@ -29,10 +34,17 @@ const PROJECTS = [
     image: "/images/kyc.webp",
   },
   {
-    url: "/sygnum-web3",
-    name: "SYGNUM",
-    image: "/images/sygnum.png",
+    url: appConfig[env.NEXT_PUBLIC_ENVIRONMENT].aaveDemo,
+    name: "Gated Aave",
+    image: "/images/aave.svg",
+    tags: ["ZKP verification", "On-chain verification", "External wallet"],
   },
+  // TODO - Not activated for now
+  // {
+  //   url: "/sygnum-web3",
+  //   name: "SYGNUM",
+  //   image: "/images/sygnum.png",
+  // },
 ];
 
 export default function Home() {
@@ -46,27 +58,25 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <div className="container grid gap-6 lg:grid-cols-3 lg:gap-x-12">
+      <main className="flex min-h-screen flex-col items-center bg-white">
+        <div className="mb-12 mt-24 flex w-full flex-col items-center text-center">
+          <h1 className="mb-4 text-5xl font-bold">
+            NexeraID Example Applications
+          </h1>
+          <p className="w-[450px] text-[#6e6d7a]">
+            The following examples demonstrate the usage of NexeraID Identity
+            verification process working in different circunstances
+          </p>
+        </div>
+        <div className="container grid gap-24 lg:grid-cols-4 lg:gap-x-12">
           {PROJECTS.map((project) => (
-            <Link key={project.url} href={project.url}>
-              <div className="mb-6 h-full lg:mb-0">
-                <div className="block h-full rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
-                  <div className="flex h-full flex-col items-center justify-between gap-4 p-6 text-center dark:border-opacity-10">
-                    <Image
-                      src={project.image}
-                      alt={project.name}
-                      width={250}
-                      height={400}
-                    />
-
-                    <h3 className="mb-6 text-3xl">
-                      <strong className="text-white">{project.name}</strong>
-                    </h3>
-                  </div>
-                </div>
-              </div>
-            </Link>
+            <AppCard
+              url={project.url}
+              image={project.image}
+              name={project.name}
+              key={project.name}
+              tags={project.tags}
+            />
           ))}
         </div>
       </main>

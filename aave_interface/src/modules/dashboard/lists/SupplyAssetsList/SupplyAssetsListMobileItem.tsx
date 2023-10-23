@@ -16,6 +16,7 @@ import { IDENTITY_CLIENT } from '../../../../libs/IdentityClient';
 import { ListItemCanBeCollateral } from '../ListItemCanBeCollateral';
 import { ListMobileItemWrapper } from '../ListMobileItemWrapper';
 import { ListValueRow } from '../ListValueRow';
+import { SupplyButton } from '../SupplyButton';
 
 export const SupplyAssetsListMobileItem = ({
   symbol,
@@ -36,14 +37,19 @@ export const SupplyAssetsListMobileItem = ({
 }: DashboardReserve) => {
   const { currentMarket } = useProtocolDataContext();
   const { openSupply } = useModalContext();
-  const { isWhitelisted, currentAccount } = useWeb3Context();
+  const { isWhitelisted, whitelistStatusLoading, currentAccount } = useWeb3Context();
   const { isAuthenticated, authenticate } = useKycAuthentication();
 
   // Disable the asset to prevent it from being supplied if supply cap has been reached
   const { supplyCap: supplyCapUsage } = useAssetCaps();
   const isMaxCapReached = supplyCapUsage.isMaxed;
 
-  const disableSupply = !isActive || isFreezed || Number(walletBalance) <= 0 || isMaxCapReached;
+  const disableSupply =
+    !isActive ||
+    isFreezed ||
+    (whitelistStatusLoading && isAuthenticated) ||
+    Number(walletBalance) <= 0 ||
+    isMaxCapReached;
 
   const handleListButton = () => {
     if (isWhitelisted) {
@@ -114,15 +120,13 @@ export const SupplyAssetsListMobileItem = ({
           sx={{ mr: 1.5 }}
           fullWidth
         >
-          {isAuthenticated ? (
-            isWhitelisted ? (
-              <Trans>Supply</Trans>
-            ) : (
-              <Trans>Not whitelisted</Trans>
-            )
-          ) : (
-            <Trans>Need Auth</Trans>
-          )}
+          <SupplyButton
+            disableSupply={disableSupply}
+            isAuthenticated={isAuthenticated}
+            whitelistStatusLoading={whitelistStatusLoading}
+            isWhitelisted={isWhitelisted}
+            handleListButton={handleListButton}
+          />
         </Button>
         <Button
           variant="outlined"

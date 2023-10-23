@@ -18,6 +18,7 @@ import { ListButtonsColumn } from '../ListButtonsColumn';
 import { ListItemUsedAsCollateral } from '../ListItemUsedAsCollateral';
 import { ListItemWrapper } from '../ListItemWrapper';
 import { ListValueColumn } from '../ListValueColumn';
+import { SupplyButton } from '../SupplyButton';
 
 export const SuppliedPositionsListItem = ({
   reserve,
@@ -33,7 +34,7 @@ export const SuppliedPositionsListItem = ({
   const { debtCeiling } = useAssetCaps();
   const isSwapButton = isFeatureEnabled.liquiditySwap(currentMarketData);
   const trackEvent = useRootStore((store) => store.trackEvent);
-  const { isWhitelisted, currentAccount } = useWeb3Context();
+  const { isWhitelisted, whitelistStatusLoading, currentAccount } = useWeb3Context();
   const { isAuthenticated, authenticate } = useKycAuthentication();
 
   const canBeEnabledAsCollateral =
@@ -45,7 +46,7 @@ export const SuppliedPositionsListItem = ({
 
   const disableSwap = !isActive || reserve.symbol == 'stETH';
   const disableWithdraw = !isActive;
-  const disableSupply = !isActive || isFrozen;
+  const disableSupply = !isActive || isFrozen || (whitelistStatusLoading && isAuthenticated);
 
   const handleListButton = () => {
     if (isWhitelisted) {
@@ -123,22 +124,13 @@ export const SuppliedPositionsListItem = ({
             <Trans>Switch</Trans>
           </Button>
         ) : (
-          <Button
-            disabled={disableSupply}
-            variant="contained"
-            id={isAuthenticated ? `identity-btn-verify` : undefined}
-            onClick={handleListButton}
-          >
-            {isAuthenticated ? (
-              isWhitelisted ? (
-                <Trans>Supply</Trans>
-              ) : (
-                <Trans>Not whitelisted</Trans>
-              )
-            ) : (
-              <Trans>Need Auth</Trans>
-            )}
-          </Button>
+          <SupplyButton
+            disableSupply={disableSupply}
+            isAuthenticated={isAuthenticated}
+            whitelistStatusLoading={whitelistStatusLoading}
+            isWhitelisted={isWhitelisted}
+            handleListButton={handleListButton}
+          />
         )}
         <Button
           disabled={disableWithdraw}

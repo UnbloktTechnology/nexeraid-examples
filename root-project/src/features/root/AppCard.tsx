@@ -6,7 +6,7 @@ export type AppCardProps = {
   url: string;
   name: string;
   image: string;
-  tags?: string[];
+  tags?: { text: string; color: string }[];
 };
 
 export default function AppCard(props: AppCardProps) {
@@ -28,17 +28,13 @@ export default function AppCard(props: AppCardProps) {
             />
           </div>
         </div>
-        <div className="mb-4 mt-1 flex w-full flex-wrap items-center gap-2">
-          <p className="text-md w-56 flex-initial font-bold">{props.name}</p>
-          {props.tags?.map((tag) => <AppTag text={tag} key={tag} />)}
-          {/* <div>
+        <div className="mb-4 mt-1 flex w-full flex-wrap items-center justify-between gap-2">
+          <p className="text-md w-56 font-bold">{props.name}</p>
+          <div className="flex items-center justify-center gap-1">
+            {props.tags?.map((tag) => (
+              <AppTag text={tag.text} color={tag.color} key={tag.text} />
+            ))}
           </div>
-          <Image
-            src={"/icons/search.svg"}
-            alt={props.name}
-            width={25}
-            height={25}
-          /> */}
         </div>
       </div>
     </Link>

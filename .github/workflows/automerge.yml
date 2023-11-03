@@ -68,15 +68,15 @@ jobs:
           app_id: ${{ secrets.MERGE_BOT_APP_ID }}
           private_key: ${{ secrets.MERGE_BOT_PRIVATE_KEY }}
 
-#      - name: Enable merge commits
-#        run: |
-#          curl -L \
-#            -H "Accept: application/vnd.github+json" \
-#            -H "Authorization: token ${{ secrets.MERGE_BOT_ACCESS_TOKEN }}"\
-#            -H "X-GitHub-Api-Version: 2022-11-28" \
-#            https://api.github.com/repos/NexeraProtocol/nexeraid-examples \
-#            -d '{"allow_merge_commit":true}' \
-#            --output /dev/null
+      - name: Enable merge commits
+        run: |
+          curl -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: token ${{ secrets.MERGE_BOT_ACCESS_TOKEN }}"\
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/NexeraProtocol/nexeraid-examples \
+            -d '{"allow_merge_commit":true}' \
+            --output /dev/null
 
       - name: Automatic merge
         id: auto-merge
@@ -88,12 +88,12 @@ jobs:
           MERGE_RETRIES: 60 # Attempts to merge 60 times every 20 seconds (so workflows can finish)
           MERGE_RETRY_SLEEP: 20000 # Milliseconds
 
-#      - name: Disable merge commits
-#        run: |
-#          curl -L \
-#            -H "Accept: application/vnd.github+json" \
-#            -H "Authorization: token ${{ secrets.MERGE_BOT_ACCESS_TOKEN }}"\
-#            -H "X-GitHub-Api-Version: 2022-11-28" \
-#            https://api.github.com/repos/NexeraProtocol/nexeraid-examples \
-#            -d '{"allow_merge_commit":false}' \
-#            --output /dev/null
+      - name: Disable merge commits
+        run: |
+          curl -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: token ${{ secrets.MERGE_BOT_ACCESS_TOKEN }}"\
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/NexeraProtocol/nexeraid-examples \
+            -d '{"allow_merge_commit":false}' \
+            --output /dev/null

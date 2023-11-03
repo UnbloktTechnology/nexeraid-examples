@@ -1,0 +1,116 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+import { buildSignatureMessage } from "@nexeraid/identity-sdk";
+import { useMutation } from "@tanstack/react-query";
+import { create } from "zustand";
+import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { immer } from "zustand/middleware/immer";
+import { api } from "@/utils/api";
+import { useSignMessage } from "wagmi";
+import { type Address } from "viem";
+
+export const useDefiRuleEngineKycAuthentication = () => {
+  const authStore = useAuthStore((state) => state);
+  const getAccessToken = api.access.defiRuleEngineAccessToken.useMutation();
+  const { signMessageAsync } = useSignMessage();
+
+  const logout = useMutation(async () => {
+    await Promise.resolve(authStore.logout());
+  });
+
+  const authenticate = useMutation(
+    async (variables: { user: Address }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      const signingMessage = buildSignatureMessage(variables.user);
+      const signature = await signMessageAsync({ message: signingMessage });
+      const response = await getAccessToken.mutateAsync({
+        address: variables.user,
+      });
+
+      console.log("RESPONSE", response);
+
+      const { accessToken } = response;
+
+      return {
+        accessToken,
+        signingMessage,
+        signature,
+        testUser: variables.user,
+      };
+    },
+    {
+      onSuccess: (data) => {
+        authStore.authenticate(
+          data.accessToken,
+          data.signingMessage,
+          data.signature,
+          data.testUser,
+        );
+      },
+      onError: (error) => {
+        console.error(error);
+      },
+    },
+  );
+
+  return {
+    authenticate,
+    logout,
+    accessToken: authStore.accessToken,
+    signingMessage: authStore.signingMessage,
+    signature: authStore.signature,
+    isAuthenticated: authStore.isAuthenticated,
+    user: authStore.user,
+  };
+};
+
+interface IAuthStore {
+  accessToken?: string;
+  signingMessage?: string;
+  signature?: string;
+  isAuthenticated: boolean;
+  user?: Address;
+  authenticate: (
+    accessToken: string,
+    signingMessage: string,
+    signature: string,
+    user: Address,
+  ) => void;
+  logout: () => void;
+}
+
+const useAuthStore = create<IAuthStore>()(
+  devtools(
+    persist(
+      immer((set) => ({
+        accessToken: undefined,
+        signature: undefined,
+        signingMessage: undefined,
+        isAuthenticated: false,
+        authenticate: (accessToken, signingMessage, signature, user) => {
+          set((state) => {
+            state.accessToken = accessToken;
+            state.signingMessage = signingMessage;
+            state.signature = signature;
+            state.isAuthenticated = true;
+            state.user = user;
+          });
+        },
+        logout: () => {
+          set((state) => {
+            state.accessToken = undefined;
+            state.signingMessage = undefined;
+            state.signature = undefined;
+            state.isAuthenticated = false;
+            state.user = undefined;
+          });
+        },
+      })),
+      {
+        name: "defi-rule-engine",
+        storage: createJSONStorage(() => sessionStorage),
+      },
+    ),
+  ),
+);

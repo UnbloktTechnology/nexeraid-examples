@@ -27,6 +27,9 @@ export const accessRouter = createTRPCRouter({
       const { accessToken } = await response.json();
       console.log("response", accessToken);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      if (!accessToken) {
+        throw new Error("No access token");
+      }
       return { accessToken: accessToken as string };
     }),
   defiOffChainZKPAccessToken: publicProcedure

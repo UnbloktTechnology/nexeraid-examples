@@ -17,7 +17,7 @@ export interface ITokensPair {
 }
 
 export interface IDropDown {
-  items: readonly ITokenInfo[];
+  items: ITokenInfo[];
   selected?: ITokenInfo;
   className?: string;
   classNameButton?: string;
@@ -75,7 +75,7 @@ export const TokenDropDown = ({
           className={`absolute top-[68px] z-40 w-full rounded-md shadow-lg ${classNameList}`}
         >
           <ul className="max-h-52 overflow-y-auto scroll-auto py-1">
-            {items.map((item) => (
+            {items?.map((item) => (
               <li
                 key={item.value}
                 className="flex cursor-pointer items-center px-3 py-2 text-sm hover:bg-gray-100"

@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { useSignMessage } from "wagmi";
 import { useKycBankWeb3Authentication } from "@/features/bank-web3/identity/useKycBankWeb3Authenticate";
 import { useCheckBankWeb3Compliance } from "@/features/bank-web3/identity/useCheckBankWeb3Compliance";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Home = () => {
   const { openModal, close } = useGlobalModals((state) => ({
@@ -18,33 +19,34 @@ const Home = () => {
   const { user, accessToken, signingMessage, signature } =
     useKycBankWeb3Authentication();
   const signMessage = useSignMessage();
-  const [kycCompletion, setKycCompletion] = useState(false);
-  const { data } = useCheckBankWeb3Compliance(kycCompletion);
-  const [isCompliance, setIsCompliance] = useState(false);
+  const [isKycComplete, setIsKycComplete] = useState(false);
+  const [isCompliant, setIsCompliant] = useState(false);
+  const { data } = useCheckBankWeb3Compliance(isKycComplete);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     console.log("EXECUTING isVerified check compliance: ", data);
-    if (data !== undefined) {
+    if (!!data) {
       if (data.isValid) {
         toast(`Your identity has been verified`);
-        setKycCompletion(false);
-        setIsCompliance(true);
+        setIsKycComplete(false);
+        setIsCompliant(true);
       } else if (data.data === "not_received") {
-        setKycCompletion(true);
+        setIsKycComplete(true);
       } else {
         toast(`Your identity has not been verified`);
-        setKycCompletion(false);
-        setIsCompliance(false);
+        setIsKycComplete(false);
+        setIsCompliant(false);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   useEffect(() => {
-    if (isCompliance) {
+    if (isCompliant) {
       close();
     }
-  }, [isCompliance]);
+  }, [isCompliant]);
 
   useEffect(() => {
     if (user && accessToken && signingMessage && signature) {
@@ -62,10 +64,12 @@ const Home = () => {
         });
       });
       IDENTITY_CLIENT.onKycCompletion((data) => {
-        void (() => {
-          console.log("on kyc completion", data);
-          setKycCompletion(true);
-        })();
+        console.log("on kyc completion", data);
+        setIsKycComplete(true);
+      });
+      IDENTITY_CLIENT.onCloseScreen(() => {
+        queryClient.invalidateQueries();
+        setIsKycComplete(true);
       });
       // TODO: properly wait for init resolve
       void IDENTITY_CLIENT.init({
@@ -95,10 +99,10 @@ const Home = () => {
 
   return (
     <Layout
-      header={!isCompliance ? <Header onClickLogOn={onClickLogOn} /> : <></>}
-      className={!isCompliance ? "px-[105px]" : "bg-[#F2F2F2]"}
+      header={!isCompliant ? <Header onClickLogOn={onClickLogOn} /> : <></>}
+      className={!isCompliant ? "px-[105px]" : "bg-[#F2F2F2]"}
     >
-      {!isCompliance ? <Content onClickLogOn={onClickLogOn} /> : <Dashboard />}
+      {!isCompliant ? <Content onClickLogOn={onClickLogOn} /> : <Dashboard />}
     </Layout>
   );
 };

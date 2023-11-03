@@ -9,6 +9,7 @@ import { getSigner } from "@/appConfig";
 import { toast } from "react-toastify";
 import { useBankKycAuthentication } from "@/features/bank/identity/useBankKycAuthenticate";
 import { useCheckBankCompliance } from "@/features/bank/identity/useCheckBankCompliance";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Home = () => {
   const { openModal, close } = useGlobalModals((state) => ({
@@ -16,11 +17,12 @@ const Home = () => {
     close: state.close,
     data: state.data,
   }));
+  const queryClient = useQueryClient();
   const { user, accessToken, signingMessage, signature } =
     useBankKycAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
-  const { data } = useCheckBankCompliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
+  const { data } = useCheckBankCompliance(kycCompletion);
 
   useEffect(() => {
     console.log("EXECUTING isVerified check compliance: ", data);
@@ -61,12 +63,16 @@ const Home = () => {
         return await signer.signMessage(data.message);
       });
       IDENTITY_CLIENT.onKycCompletion((data) => {
-        void (() => {
-          console.log("on kyc completion", data);
-          setKycCompletion(true);
-        })();
+        console.log("on kyc completion", data);
+        setKycCompletion(true);
       });
-      // TODO: properly wait for init resolve
+      IDENTITY_CLIENT.onCloseScreen(async () => {
+        console.log("on kyc completion", data);
+        setKycCompletion(true);
+        await queryClient.invalidateQueries();
+        return "ok";
+      });
+
       void IDENTITY_CLIENT.init({
         accessToken,
         signingMessage,

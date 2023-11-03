@@ -17,7 +17,7 @@ export interface ITokensPair {
 }
 
 export interface IDropDown {
-  items: ITokenInfo[];
+  items: readonly ITokenInfo[];
   selected?: ITokenInfo;
   className?: string;
   classNameButton?: string;

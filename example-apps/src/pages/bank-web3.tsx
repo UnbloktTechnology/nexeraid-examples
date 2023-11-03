@@ -67,9 +67,10 @@ const Home = () => {
         console.log("on kyc completion", data);
         setIsKycComplete(true);
       });
-      IDENTITY_CLIENT.onCloseScreen(() => {
-        queryClient.invalidateQueries();
+      IDENTITY_CLIENT.onCloseScreen(async () => {
         setIsKycComplete(true);
+        await queryClient.invalidateQueries();
+        return "ok";
       });
       // TODO: properly wait for init resolve
       void IDENTITY_CLIENT.init({

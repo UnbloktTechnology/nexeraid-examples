@@ -12,7 +12,7 @@ import {
 } from "@/features/defi-rule-engine/SwapOptionsDemoData";
 
 const optionsToSwap = (options: ITokenInfo[], tokenInfo: ITokenInfo) => {
-  return options.filter((token) => token.value !== tokenInfo.value);
+  return options?.filter((token) => token.value !== tokenInfo.value);
 };
 
 export const Swap: React.FC<{
@@ -23,7 +23,7 @@ export const Swap: React.FC<{
   console.log(options, network.chain?.name);
   const [fromAmount, setFromAmount] = useState("0");
   const [fromToken, setFromToken] = useState<ITokenInfo>(
-    options[0] ?? {
+    options?.[0] ?? {
       value: "select",
       label: "Select Token",
       address: "",

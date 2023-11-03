@@ -10,10 +10,10 @@ import dynamic from "next/dynamic";
 import { api } from "@/utils/api";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
-import { polygonMumbai } from "viem/chains";
+import { polygon } from "viem/chains";
 
 const { chains, publicClient } = configureChains(
-  [polygonMumbai],
+  [polygon],
   [publicProvider()],
 );
 

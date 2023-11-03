@@ -23,7 +23,7 @@ export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
   console.log(options, network.chain?.name);
   const [fromAmount, setFromAmount] = useState("0");
   const [fromToken, setFromToken] = useState<ITokenInfo>(
-    options[0] ?? {
+    options?.[0] ?? {
       value: "select",
       label: "Select Token",
       address: "",

@@ -4,7 +4,7 @@ import { redis } from "@/server/redis";
 import { getScenarioWebhookDefiRuleEngineRedisKey } from "@/pages/api/defi-rule-engine/scenario-webhook";
 import { getScenarioWebhookDefiOffchainZKPRedisKey } from "@/pages/api/defi-offchain-zkp/scenario-webhook";
 import { getScenarioWebhookBankRedisKey } from "@/pages/api/bank/scenario-webhook";
-import { getScenarioWebhookBankWeb3RedisKey } from "../../../pages/api/bank-web3/scenario-webhook";
+import { getScenarioWebhookBankWeb3RedisKey } from "@/pages/api/bank-web3/scenario-webhook";
 
 type IRuleEngineComplianceResult = {
   result: {
@@ -52,7 +52,7 @@ export const complianceRouter = createTRPCRouter({
           isValid: !isNotValid
         }
       }
-      
+
       return {
         data: 'not_received',
         isValid: false
@@ -118,7 +118,7 @@ export const complianceRouter = createTRPCRouter({
           isValid: !isNotValid
         }
       }
-      
+
       return {
         data: 'not_received',
         isValid: false
@@ -146,13 +146,13 @@ export const complianceRouter = createTRPCRouter({
         const isNotValid = redisData.scenarioResponses.find((_curr) => _curr.find((curr) => !curr.result.result.is_valid))
 
         await redis.del(redisKey);
-        
+
         return {
           data: 'received',
           isValid: !isNotValid
         }
       }
-      
+
       return {
         data: 'not_received',
         isValid: false

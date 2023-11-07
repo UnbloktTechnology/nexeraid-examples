@@ -81,7 +81,7 @@ const PROJECTS: AppCardProps[] = [
   },
   {
     url: "/bank-web3",
-    name: "Banking Web3",
+    name: "Web3 Banking",
     image: "/images/bank-web3.png",
     tags: [VCV_TAG, OFF_TAG, EW_TAG],
   },
@@ -108,10 +108,10 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>NEXERA ID Examples Root Portfolio</title>
+        <title>NexeraID Examples Root Portfolio</title>
         <meta
           name="description"
-          content="NEXERA ID Examples Root Portfolio page"
+          content="NexeraID Examples Root Portfolio page"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -121,8 +121,8 @@ export default function Home() {
             NexeraID Example Applications
           </h1>
           <p className="w-[450px] text-[#6e6d7a]">
-            The following examples demonstrate the usage of NexeraID Identity
-            verification process working in different circunstances
+            These examples demonstrate the NexeraID identity
+            verification process working in different circumstances.
           </p>
           <div className="mt-2 flex flex-wrap gap-4">
             {LEGEND_TAG.map((tag) => (

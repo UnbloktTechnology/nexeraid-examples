@@ -1,32 +1,45 @@
-# Create T3 App
+# Example apps
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This repo contains several example apps that illustrate how to use the NexeraID Identity SDK. You can safely interact with them to get to know NexeraID. There are live versions of the apps on <https://examples.nexera.id>.
 
-## What's next? How do I make an app with this?
+* Compliant Uniswap: An example DeFi app that requires signer interaction with a Web3 modal, and has an example swapping process.
+* Gated Uniswap: An example DeFi app that uses ZKPs and requires signer interaction with a Web3 modal, and has an example swapping process. Off-chain verification.
+* Banking:  An example bank app that does not require signer interaction with a Web3 modal.
+* Web3 Banking: An example Web3 bank app that requires signer interaction with a Web3 modal.
+* KYC: A simple KYC example flow, using the NexeraID Identity SDK.
+* Gated Aave: Aave-cloned interface to demonstrate the KYC Identity Flow in a Web3 interface and interaction, and a whitelisted custom verification.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+Follow these steps to run the example apps locally.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+1. Copy `example-apps/.env.local` to `example-apps/.env`.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+2. Edit `example-apps/.env` as described in the following table.
 
-## Learn More
+   | Variable                              | Description                                    |
+   |---------------------------------------|------------------------------------------------|
+   | `NODE_ENV`                            | Set to `production`                            |
+   | `NEXT_PUBLIC_ENVIRONMENT`             | Set to `prod`                                  |
+   | `UPSTASH_REDIS_REST_TOKEN`            | The token for the Upstash Redis REST API       |
+   | `UPSTASH_REDIS_REST_URL`              | The URL of the Upstash Redis REST API          |
+   | `NEXERA_ID_API_KEY_DEFI_RULE_ENGINE`  | NexeraID API key for the compliant Uniswap app |
+   | `NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP` | NexeraID API key for the gated Uniswap app     |
+   | `NEXERA_ID_API_KEY_BANK`              | NexeraID API key for the banking app           |
+   | `NEXERA_ID_API_KEY_BANK_WEB3`         | NexeraID key for the Web3 banking app          |
+   | `NEXERA_ID_API_KEY_KYC`               | NexeraID API key for the KYC app               |
+   | `NEXERA_ID_API_KEY_BANK_SYGNUM_WEB3`  | NexeraID API key for the Sygnum Web3 app       |
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+   You can get the NexeraID API keys for your apps by following the instructions on [Deploying the NexeraID Identity Widget](../using/setup/application.md#deploying-the-nexeraid-identity-widget). You need to set each of the `API_KEY` variables, even if you only want to use one of the example apps. If necessary, you can set them all to the same value.
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+   You can get the values for `UPSTASH_REDIS_REST_TOKEN` and `UPSTASH_REDIS_REST_URL` from <https://console.upstash.com/redis/>.
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+   :::note
+   For more information about these variables, see `example-apps/src/env.mjs`.
+   :::
 
-## How do I deploy this?
+3. Run `npm install` in `example-apps`.
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+4. Run `npm run dev` in `example-apps`.
 
-## Running these apps locally
+The example apps can now be accessed at <http://localhost:3020>.
 
-For instructions about running these apps locally, see [Running the example apps locally](https://docs.nexera.id/exampleapps/local).
+For instructions on running the gated Aave app, see [its dedicated README](../example-aave/README.md)

@@ -9,7 +9,7 @@ export const env = createEnv({
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
     UPSTASH_REDIS_REST_TOKEN: z.string().describe("The token for the Upstash Redis REST API -> https://console.upstash.com/redis/"),
-    UPSTASH_REDIS_REST_URL: z.string().describe("The URL for the Upstash Redis REST API -> https://console.upstash.com/redis/"),
+    UPSTASH_REDIS_REST_URL: z.string().describe("The URL of the Upstash Redis REST API -> https://console.upstash.com/redis/"),
 
     NEXERA_ID_API_KEY_DEFI_RULE_ENGINE: z.string().describe("The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Defi Rule Engine Example dApp"),
     NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP: z.string().describe("The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Defi Offchain ZKP Example dApp"),

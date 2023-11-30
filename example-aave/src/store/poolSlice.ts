@@ -157,7 +157,7 @@ export const createPoolSlice: StateCreator<
   function getCorrectPoolBundle(proxyAavePool?: boolean) {
     const currentMarketData = get().currentMarketData;
     const provider = get().jsonRpcProvider();
-    const proxyAavePoolAddress = '0x2fb5C2eE1527c89D35Df7D0B7bA9128afe0162AB';
+    const proxyAavePoolAddress = '0xf32f3B6fE17381516853853e1b23f237D8387405';
     if (currentMarketData.v3) {
       return new PoolBundle(provider, {
         POOL: proxyAavePool ? proxyAavePoolAddress : currentMarketData.addresses.LENDING_POOL,

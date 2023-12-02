@@ -1,39 +1,53 @@
 import { useEffect, useRef, useState } from "react";
 import QRCode from "react-qr-code";
 import { QRCode as QRCodeLogo } from "react-qrcode-logo";
-import QRCodeStyling from "qr-code-styling";
+import type QRCodeStyling from "qr-code-styling";
+import { type Options as QRCodeStylingOptions } from "qr-code-styling";
 
 /**
  *
  * URL: https://qr-code-styling.com/
  *
  */
-const qrCode = new QRCodeStyling({
-  width: 318,
-  height: 318,
-  image: "https://www.nexera.id/images/logo.svg",
-  dotsOptions: {
-    color: "#4267b2",
-    type: "rounded",
-  },
-  imageOptions: {
-    crossOrigin: "anonymous",
-    margin: 20,
-  },
-});
+const useQRCodeStyling = (
+  options: QRCodeStylingOptions,
+): QRCodeStyling | null => {
+  //Only do this on the client
+  if (typeof window !== "undefined") {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+    const QRCodeStylingLib = require("qr-code-styling");
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+    const qrCodeStyling: QRCodeStyling = new QRCodeStylingLib(options);
+    return qrCodeStyling;
+  }
+  return null;
+};
 
 const QrCodeStyled = (props: { value: string }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const qrCode = useQRCodeStyling({
+    width: 318,
+    height: 318,
+    image: "https://www.nexera.id/images/logo.svg",
+    dotsOptions: {
+      color: "#4267b2",
+      type: "rounded",
+    },
+    imageOptions: {
+      crossOrigin: "anonymous",
+      margin: 20,
+    },
+  });
 
   useEffect(() => {
-    qrCode.append(ref.current!);
-  }, []);
+    qrCode?.append(ref.current!);
+  }, [qrCode]);
 
   useEffect(() => {
-    qrCode.update({
+    qrCode?.update({
       data: props.value,
     });
-  }, [props.value]);
+  }, [qrCode, props.value]);
 
   return <div ref={ref} />;
 };

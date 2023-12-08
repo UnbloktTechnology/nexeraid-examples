@@ -35,9 +35,11 @@ export const NexeraIDInit = () => {
         setIsWhitelisted(isVerified);
       });
       IDENTITY_CLIENT.onSdkReady(async () => {
-        const isWhitelistedStatus = (await IDENTITY_CLIENT.isWhitelisted(
+        console.log('sdk ready');
+        const isWhitelistedStatus = (await IDENTITY_CLIENT.isUserAllowedForEntrypoint(
           currentAccount as `0x${string}`
         )) as boolean;
+        console.log('isWhitelistedStatus', isWhitelistedStatus);
         setWhitelistStatusLoading(false);
         setIsWhitelisted(isWhitelistedStatus);
       });
@@ -48,6 +50,7 @@ export const NexeraIDInit = () => {
         })();
       });
       // TODO: properly wait for init resolve
+      console.log('init', accessToken, signingMessage, signature);
       void IDENTITY_CLIENT.init({
         accessToken,
         signingMessage,

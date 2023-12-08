@@ -2888,19 +2888,19 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@nexeraid/identity-sdk@^1.1.180":
-  version "1.1.180"
-  resolved "https://registry.yarnpkg.com/@nexeraid/identity-sdk/-/identity-sdk-1.1.180.tgz#bcb2559014b713b2705112d4353f3229ba133590"
-  integrity sha512-IG+n7u2vUrc3UtefEUySg4mkPTrlhnOyvl+07eC5n+htOyMnETSeaY3Ifru747y/pNt6gDQQe/EPkjA+MINhXA==
+"@nexeraid/identity-sdk@^1.1.192":
+  version "1.1.192"
+  resolved "https://registry.yarnpkg.com/@nexeraid/identity-sdk/-/identity-sdk-1.1.192.tgz#f61d6d525b7bba1a7c0eadae1668cbf9d346fc5a"
+  integrity sha512-o5+mMQEkTpwyHYLDK7abIXXr6eN9wrB5pIXwcVnXCg6dwV8pIc6bvTJHLjhMCLcVBPl0cbc03TwGyZijFOR8oQ==
   dependencies:
-    "@nexeraprotocol/nexera-id-schemas" "1.9.47"
+    "@nexeraprotocol/nexera-id-schemas" "1.10.1"
     zod "^3.22.4"
     zod-validation-error "^2.1.0"
 
-"@nexeraprotocol/nexera-id-schemas@1.9.47":
-  version "1.9.47"
-  resolved "https://registry.yarnpkg.com/@nexeraprotocol/nexera-id-schemas/-/nexera-id-schemas-1.9.47.tgz#c801409b404da3919d787d3d60219e15e67582d3"
-  integrity sha512-vlI+ZcecUwS1oJdR2mWR8RW1GGYKB6+iRmJfiCPOt62Jn32iNYz5XWHw7UqLgS4uFYUkxpl0WqbR+gExTZIVPQ==
+"@nexeraprotocol/nexera-id-schemas@1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@nexeraprotocol/nexera-id-schemas/-/nexera-id-schemas-1.10.1.tgz#785e60fcfb7929c50d3ce9d6dd3a75d830f0d1e4"
+  integrity sha512-+612cxUcMhjo/uHDKUUF0+g7w2CzffkIk4FHdKuPXhfV3YLmbvCOEYFsxVDgB7sgrqpLEocKfJvg6B9TNpr62w==
   dependencies:
     zod "^3.22.4"
 

@@ -10,7 +10,10 @@ interface TestNetModeSwitcherProps {
 
 export const TestNetModeSwitcher = ({ component = ListItem }: TestNetModeSwitcherProps) => {
   const testnetsEnabledId = 'testnetsEnabled';
-  const testnetsEnabledLocalstorage = localStorage.getItem(testnetsEnabledId) === 'true' || false;
+  // True by default
+  const testnetsEnabledLocalstorage = localStorage.getItem(testnetsEnabledId)
+    ? localStorage.getItem(testnetsEnabledId) === 'true' || false
+    : true;
   const [testnetsEnabled, setTestnetsMode] = useState(testnetsEnabledLocalstorage);
   const trackEvent = useRootStore((store) => store.trackEvent);
 

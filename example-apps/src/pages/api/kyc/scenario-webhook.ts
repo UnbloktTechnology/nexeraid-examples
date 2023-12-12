@@ -1,6 +1,7 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
-import { redis } from "./index";
 import { env } from "@/env.mjs";
+import { redis } from "@/server/redis";
+import { type ScenarioWebhookPayload } from "../../../server/api/routers/complianceRouter";
 
 export const getScenarioWebhookKYCRedisKey = (address: string) => {
   return (
@@ -11,16 +12,17 @@ export const getScenarioWebhookKYCRedisKey = (address: string) => {
 
 const scenarioWebHookPost = async (
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse
 ) => {
   if (req.method === "POST") {
+    console.log("=== scenarioWebHookPost KYC req.body===", req.body);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const body = req.body;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const key = getScenarioWebhookKYCRedisKey(body.address as string);
-    console.log("scenarioWebHookPost key", key);
-    const response = await redis.set(key, JSON.stringify(body));
-    console.log("scenarioWebHookPost rule webhook post response", response);
+    const body: ScenarioWebhookPayload = req.body;
+    const key = getScenarioWebhookKYCRedisKey(body.address);
+    await redis.set(key, JSON.stringify(body));
+    res.status(200).json({ response: "ok" });
+  }
+  if (req.method === "GET") {
     res.status(200).json({ response: "ok" });
   }
 };

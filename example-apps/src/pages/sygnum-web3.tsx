@@ -16,17 +16,16 @@ const Home = () => {
     data: state.data,
   }));
   const { user, accessToken, signingMessage, signature } =
-  useKycSygnumWeb3Authentication();
+    useKycSygnumWeb3Authentication();
   const signMessage = useSignMessage();
   const [kycCompletion, setKycCompletion] = useState(false);
   const { data } = useCheckSygnumWeb3Compliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
 
   useEffect(() => {
-    if (document.readyState === "complete" && typeof window !== 'undefined') {
-      const loader = document.getElementById('globalLoader');
-      if (loader)
-        loader.remove();
+    if (document.readyState === "complete" && typeof window !== "undefined") {
+      const loader = document.getElementById("globalLoader");
+      if (loader) loader.remove();
     }
   }, []);
 
@@ -34,13 +33,13 @@ const Home = () => {
     console.log("EXECUTING isVerified check compliance: ", data);
     if (data !== undefined) {
       if (data.isValid) {
-        toast(`Your identity has been verified`);
+        toast(`Compliance Verification: Your identity has been verified`);
         setKycCompletion(false);
         setIsCompliance(true);
-      } else if (data.data === "not_received") {
+      } else if (data.data === "unknown") {
         setKycCompletion(true);
       } else {
-        toast(`Your identity has not been verified`);
+        toast(`Compliance Verification: Your identity has not been verified`);
         setKycCompletion(false);
         setIsCompliance(false);
       }
@@ -110,9 +109,13 @@ const Home = () => {
         header={!isCompliance ? <Header onClickLogOn={onClickLogOn} /> : <></>}
         className={!isCompliance ? "px-[105px]" : "bg-[#F2F2F2]"}
       >
-        {!isCompliance ? <Content onClickLogOn={onClickLogOn} /> : <Dashboard />}
+        {!isCompliance ? (
+          <Content onClickLogOn={onClickLogOn} />
+        ) : (
+          <Dashboard />
+        )}
       </Layout>
-        {!isCompliance ? <Footer onClickLogOn={onClickLogOn} /> : <></>}
+      {!isCompliance ? <Footer onClickLogOn={onClickLogOn} /> : <></>}
     </>
   );
 };

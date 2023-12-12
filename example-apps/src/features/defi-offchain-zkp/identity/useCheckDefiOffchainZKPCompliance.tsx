@@ -11,7 +11,7 @@ export const useCheckCompliance = (enabled: boolean) => {
     queryFn: async () => {
       if (!user)
         return Promise.resolve({
-          data: "not_received",
+          data: "unknown",
           isValid: false,
         });
       console.log("isCompliant", user);

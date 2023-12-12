@@ -24,13 +24,13 @@ const DefiRuleEngine = () => {
     console.log("EXECUTING isVerified check compliance: ", data);
     if (data !== undefined) {
       if (data.isValid) {
-        toast(`Your identity has been verified`);
+        toast(`Compliance Verification: Your identity has been verified`);
         setKycCompletion(false);
         setIsCompliance(true);
-      } else if (data.data === "not_received") {
+      } else if (data.data === "unknown") {
         setKycCompletion(true);
       } else {
-        toast(`Your identity has not been verified`);
+        toast(`Compliance Verification: Your identity has not been verified`);
         setKycCompletion(false);
         setIsCompliance(false);
       }

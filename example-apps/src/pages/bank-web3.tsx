@@ -28,13 +28,13 @@ const Home = () => {
     console.log("EXECUTING isVerified check compliance: ", data);
     if (!!data) {
       if (data.isValid) {
-        toast(`Your identity has been verified`);
+        toast(`Compliance Verification: Your identity has been verified`);
         setIsKycComplete(false);
         setIsCompliant(true);
-      } else if (data.data === "not_received") {
+      } else if (data.data === "unknown") {
         setIsKycComplete(true);
       } else {
-        toast(`Your identity has not been verified`);
+        toast(`Compliance Verification: Your identity has not been verified`);
         setIsKycComplete(false);
         setIsCompliant(false);
       }

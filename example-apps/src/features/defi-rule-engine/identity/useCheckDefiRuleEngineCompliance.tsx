@@ -11,7 +11,7 @@ export const useCheckDefiRuleEngineCompliance = (enabled: boolean) => {
     queryFn: async () => {
       if (!user)
         return Promise.resolve({
-          data: "not_received",
+          data: "unknown",
           isValid: false,
         });
       const result = await mutation.mutateAsync({

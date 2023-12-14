@@ -18,7 +18,7 @@ export const appConfig = {
     aaveDemo: 'https://aave-onchain-verification-staging.nexera.id/'
   },
   [ENVSchema.enum.prod]: {
-    api: "https://api.nexera.id/",
+    api: "https://api-new.nexera.id/",
     aaveDemo: 'https://aave-onchain-verification.nexera.id/'
   },
 } as const;

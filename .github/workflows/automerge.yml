@@ -87,6 +87,7 @@ jobs:
           LOG: DEBUG
           MERGE_RETRIES: 60 # Attempts to merge 60 times every 20 seconds (so workflows can finish)
           MERGE_RETRY_SLEEP: 20000 # Milliseconds
+          UPDATE_LABELS: none
 
       - name: Disable merge commits
         run: |

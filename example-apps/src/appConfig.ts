@@ -7,19 +7,19 @@ export const ENVSchema = z.enum(ENVS);
 export const appConfig = {
   [ENVSchema.enum.local]: {
     api: "http://localhost:3001/",
-    aaveDemo: "http://localhost:3006/"
+    aaveDemo: "http://localhost:3006/",
   },
   [ENVSchema.enum.dev]: {
     api: "https://api-dev.nexera.id/",
-    aaveDemo: "https://aave-onchain-verification-dev.nexera.id/"
+    aaveDemo: "https://aave-onchain-verification-dev.nexera.id/",
   },
   [ENVSchema.enum.stage]: {
     api: "https://api-staging.nexera.id/",
-    aaveDemo: 'https://aave-onchain-verification-staging.nexera.id/'
+    aaveDemo: "https://aave-onchain-verification-staging.nexera.id/",
   },
   [ENVSchema.enum.prod]: {
-    api: "https://api-new.nexera.id/",
-    aaveDemo: 'https://aave-onchain-verification.nexera.id/'
+    api: "https://api.nexera.id/",
+    aaveDemo: "https://aave-onchain-verification.nexera.id/",
   },
 } as const;
 
@@ -63,7 +63,7 @@ export type TestUser = (typeof TEST_USERS)[number];
 export const getSigner = (user: TestUser) => {
   const provider = new ethers.providers.JsonRpcProvider(
     "https://ava-testnet.public.blastapi.io/ext/bc/C/rpc",
-    43113
+    43113,
   );
   return new ethers.Wallet(user.privateKey, provider);
 };

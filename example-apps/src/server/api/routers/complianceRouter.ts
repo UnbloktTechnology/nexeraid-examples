@@ -5,157 +5,144 @@ import { getScenarioWebhookDefiRuleEngineRedisKey } from "@/pages/api/defi-rule-
 import { getScenarioWebhookDefiOffchainZKPRedisKey } from "@/pages/api/defi-offchain-zkp/scenario-webhook";
 import { getScenarioWebhookBankRedisKey } from "@/pages/api/bank/scenario-webhook";
 import { getScenarioWebhookBankWeb3RedisKey } from "@/pages/api/bank-web3/scenario-webhook";
+import {
+  GenericVerifiableCredentialSchema,
+  RuleResultStatus,
+} from "@nexeraprotocol/nexera-id-schemas";
 
-type IRuleEngineComplianceResult = {
-  result: {
-    result: {
-      is_valid: boolean,
-      reasons: string[]
-    }
-  }
-}
-export interface IRuleEngineComplianceResponse {
-  address: string
-  scenarioResponses: IRuleEngineComplianceResult[][]
-}
+export const ScenarioWebhookPayloadSchema = z.object({
+  customerId: z.string(),
+  address: z.string(),
+  result: RuleResultStatus,
+  executionId: z.string(),
+  scenarios: z
+    .object({
+      scenarioId: z.string(),
+      result: z
+        .object({
+          objectId: z.string(),
+          result: z.object({
+            is_valid: z.boolean(),
+            reasons: z.array(z.unknown()),
+          }),
+        })
+        .array(),
+    })
+    .array(),
+  data: GenericVerifiableCredentialSchema.array(),
+});
+export type ScenarioWebhookPayload = z.infer<
+  typeof ScenarioWebhookPayloadSchema
+>;
 
-type keyable = Record<string, unknown>;
-
-export const DATA_STATUS = z.enum(['received', 'not_received'])
+export const ScenariosWebhookResponse = z.object({
+  data: RuleResultStatus,
+  isValid: z.boolean(),
+});
+export type ScenariosWebhookResponse = z.infer<typeof ScenariosWebhookResponse>;
 
 export const complianceRouter = createTRPCRouter({
   executeDefiRuleEngine: publicProcedure
     .input(
       z.object({
         address: z.string(),
-      })
+      }),
     )
-    .output(
-      z.object({
-        data: DATA_STATUS,
-        isValid: z.boolean()
-      })
-    )
+    .output(ScenariosWebhookResponse)
     .mutation(async ({ input }) => {
       const redisKey = getScenarioWebhookDefiRuleEngineRedisKey(input.address);
-      const redisData = await redis.get<IRuleEngineComplianceResponse>(redisKey);
+      const redisData = await redis.get<ScenarioWebhookPayload>(redisKey);
 
       console.log("REDIS DATA DEFI RULE ENGINE: ", JSON.stringify(redisData));
-
-      if (redisData?.scenarioResponses) {
-        const isNotValid = redisData.scenarioResponses.find((_curr) => _curr.find((curr) => !curr.result.result.is_valid))
-
+      if (redisData?.result) {
         await redis.del(redisKey);
 
         return {
-          data: 'received',
-          isValid: !isNotValid
-        }
+          data: redisData.result,
+          isValid: redisData?.result === "valid",
+        };
       }
 
       return {
-        data: 'not_received',
-        isValid: false
-      }
+        data: "unknown",
+        isValid: false,
+      };
     }),
   executeDefiOffchainZKP: publicProcedure
-  .input(
-    z.object({
-      address: z.string(),
-    }),
-  )
-  .output(
-    z.object({
-      data: DATA_STATUS,
-      isValid: z.boolean(),
-    }),
-  )
-  .mutation(async ({ input }) => {
-    const redisKey = getScenarioWebhookDefiOffchainZKPRedisKey(input.address);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const redisData = await redis.get<keyable>(redisKey);
+    .input(
+      z.object({
+        address: z.string(),
+      }),
+    )
+    .output(ScenariosWebhookResponse)
+    .mutation(async ({ input }) => {
+      const redisKey = getScenarioWebhookDefiOffchainZKPRedisKey(input.address);
+      const redisData = await redis.get<ScenarioWebhookPayload>(redisKey);
 
-    console.log("REDIS DATA DEFI OFFCHAIN ZKP: ", redisData);
+      console.log("REDIS DATA DEFI OFFCHAIN ZKP: ", redisData);
+      if (redisData?.result) {
+        await redis.del(redisKey);
 
-    if (Object.keys(redisData?.result as object).length > 0) {
-      await redis.del(redisKey);
-
+        return {
+          data: redisData.result,
+          isValid: redisData.result === "valid",
+        };
+      }
       return {
-        data: "received",
-        isValid: true,
+        data: "unknown",
+        isValid: false,
       };
-    }
-    return {
-      data: "not_received",
-      isValid: false,
-    };
-  }),
+    }),
   executeBankEngine: publicProcedure
     .input(
       z.object({
         address: z.string(),
-      })
+      }),
     )
-    .output(
-      z.object({
-        data: DATA_STATUS,
-        isValid: z.boolean()
-      })
-    )
+    .output(ScenariosWebhookResponse)
     .mutation(async ({ input }) => {
       const redisKey = getScenarioWebhookBankRedisKey(input.address);
-      const redisData = await redis.get<IRuleEngineComplianceResponse>(redisKey);
+      const redisData = await redis.get<ScenarioWebhookPayload>(redisKey);
 
       console.log("REDIS DATA BANK: ", JSON.stringify(redisData));
-
-      if (redisData?.scenarioResponses) {
-        const isNotValid = redisData.scenarioResponses.find((_curr) => _curr.find((curr) => !curr.result.result.is_valid))
-
+      if (redisData?.result) {
         await redis.del(redisKey);
 
         return {
-          data: 'received',
-          isValid: !isNotValid
-        }
+          data: redisData.result,
+          isValid: redisData.result === "valid",
+        };
       }
 
       return {
-        data: 'not_received',
-        isValid: false
-      }
+        data: "unknown",
+        isValid: false,
+      };
     }),
-    executeBankWeb3Engine: publicProcedure
+  executeBankWeb3Engine: publicProcedure
     .input(
       z.object({
         address: z.string(),
-      })
+      }),
     )
-    .output(
-      z.object({
-        data: DATA_STATUS,
-        isValid: z.boolean()
-      })
-    )
+    .output(ScenariosWebhookResponse)
     .mutation(async ({ input }) => {
       const redisKey = getScenarioWebhookBankWeb3RedisKey(input.address);
-      const redisData = await redis.get<IRuleEngineComplianceResponse>(redisKey);
+      const redisData = await redis.get<ScenarioWebhookPayload>(redisKey);
 
       console.log("REDIS DATA BANK WEB3: ", JSON.stringify(redisData));
-
-      if (redisData?.scenarioResponses) {
-        const isNotValid = redisData.scenarioResponses.find((_curr) => _curr.find((curr) => !curr.result.result.is_valid))
-
+      if (redisData?.result) {
         await redis.del(redisKey);
 
         return {
-          data: 'received',
-          isValid: !isNotValid
-        }
+          data: redisData.result,
+          isValid: redisData.result === "valid",
+        };
       }
 
       return {
-        data: 'not_received',
-        isValid: false
-      }
+        data: "unknown",
+        isValid: false,
+      };
     }),
 });

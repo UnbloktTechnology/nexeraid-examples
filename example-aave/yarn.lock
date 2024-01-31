@@ -2888,19 +2888,18 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@nexeraid/identity-sdk@^1.1.192":
-  version "1.1.192"
-  resolved "https://registry.yarnpkg.com/@nexeraid/identity-sdk/-/identity-sdk-1.1.192.tgz#f61d6d525b7bba1a7c0eadae1668cbf9d346fc5a"
-  integrity sha512-o5+mMQEkTpwyHYLDK7abIXXr6eN9wrB5pIXwcVnXCg6dwV8pIc6bvTJHLjhMCLcVBPl0cbc03TwGyZijFOR8oQ==
+"@nexeraid/identity-sdk@1.1.236-dev":
+  version "1.1.236-dev"
+  resolved "https://registry.yarnpkg.com/@nexeraid/identity-sdk/-/identity-sdk-1.1.236-dev.tgz#3145f461c76b7891771e748281d0b1a16fc89e90"
+  integrity sha512-mztQCbPj3+F7uHQAS3pFrfTlC93Nudmed0oYbzi1YLUPDZvg/dW8Hrnj5ogr7DVLtTzoFiF6AUWXa58Mu6zJ2Q==
   dependencies:
-    "@nexeraprotocol/nexera-id-schemas" "1.10.1"
+    "@nexeraprotocol/nexera-id-schemas" "1.10.38-dev"
     zod "^3.22.4"
-    zod-validation-error "^2.1.0"
 
-"@nexeraprotocol/nexera-id-schemas@1.10.1":
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/@nexeraprotocol/nexera-id-schemas/-/nexera-id-schemas-1.10.1.tgz#785e60fcfb7929c50d3ce9d6dd3a75d830f0d1e4"
-  integrity sha512-+612cxUcMhjo/uHDKUUF0+g7w2CzffkIk4FHdKuPXhfV3YLmbvCOEYFsxVDgB7sgrqpLEocKfJvg6B9TNpr62w==
+"@nexeraprotocol/nexera-id-schemas@1.10.38-dev":
+  version "1.10.38-dev"
+  resolved "https://registry.yarnpkg.com/@nexeraprotocol/nexera-id-schemas/-/nexera-id-schemas-1.10.38-dev.tgz#33de52bbcca9378fd1dbd92369771aa1167ac4dc"
+  integrity sha512-MqIjUlvEICA2pt7qt2BhrwELi1gF34QYvL0/CYOJsXqGu1sbNEh5GcqBTdSuFeEI5tpVorpeGAm/73Y0Norj1w==
   dependencies:
     zod "^3.22.4"
 
@@ -13338,11 +13337,6 @@ yocto-queue@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-1.0.0.tgz#7f816433fb2cbc511ec8bf7d263c3b58a1a3c251"
   integrity sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==
-
-zod-validation-error@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/zod-validation-error/-/zod-validation-error-2.1.0.tgz#208eac75237dfed47c0018d2fe8fd03501bfc9ac"
-  integrity sha512-VJh93e2wb4c3tWtGgTa0OF/dTt/zoPCPzXq4V11ZjxmEAFaPi/Zss1xIZdEB5RD8GD00U0/iVXgqkF77RV7pdQ==
 
 zod@^3.22.4:
   version "3.22.4"

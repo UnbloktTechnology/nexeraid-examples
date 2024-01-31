@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-
 export const getAccessToken = async (address: string) => {
   const response = await fetch(`/api/kyc/access-token?address=${address}`, {
     headers: {
@@ -9,7 +7,7 @@ export const getAccessToken = async (address: string) => {
   });
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { accessToken } = await response.json();
-  return accessToken;
+  return accessToken as string;
 };
 
 export const getScenarioWebhook = async (address: string) => {
@@ -21,5 +19,5 @@ export const getScenarioWebhook = async (address: string) => {
     },
     method: "GET",
   });
-  return await response.json();
+  return await response.json() as unknown;
 };

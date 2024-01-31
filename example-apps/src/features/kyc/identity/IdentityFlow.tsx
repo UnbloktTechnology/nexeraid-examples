@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from "react";
 import { useCallback, useState } from "react";
 import { buildSignatureMessage } from "@nexeraid/identity-sdk";
@@ -23,13 +22,13 @@ export const IdentityFlow = () => {
       IDENTITY_CLIENT.onSignMessage(async (data) => {
         return (await signMessage.signMessageAsync({
           message: data.message,
-        })) as string;
+        }));
       });
       const signingMessage = buildSignatureMessage(address);
       const signature = await signMessage.signMessageAsync({
         message: signingMessage,
       });
-      const accessToken = await getAccessToken(address as string);
+      const accessToken = await getAccessToken(address);
       setAuth({
         accessToken,
         signingMessage,
@@ -53,8 +52,7 @@ export const IdentityFlow = () => {
           <button
             className={styles.authenticateButton}
             disabled={!address || !isConnected}
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            onClick={configIdentityClient}
+            onClick={() => void configIdentityClient()}
           >
             Authenticate
           </button>

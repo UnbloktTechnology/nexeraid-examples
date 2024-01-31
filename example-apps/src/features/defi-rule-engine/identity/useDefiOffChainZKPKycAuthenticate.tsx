@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { buildSignatureMessage } from "@nexeraid/identity-sdk";
 import { useMutation } from "@tanstack/react-query";
 import { create } from "zustand";

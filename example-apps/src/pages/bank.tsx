@@ -60,7 +60,7 @@ const Home = () => {
       IDENTITY_CLIENT.onSignMessage(async (data) => {
         console.log("on sign personal data");
         const signer = getSigner(user);
-        return await signer.signMessage(data.message);
+        return await signer.signMessage(data.message) as `0x${string}`;
       });
       IDENTITY_CLIENT.onKycCompletion((data) => {
         console.log("on kyc completion", data);

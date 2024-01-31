@@ -43,7 +43,7 @@
     "@lingui/react": "^3.14.0",
     "@mui/icons-material": "^5.10.14",
     "@mui/material": "^5.10.9",
-    "@nexeraid/identity-sdk": "^1.1.192",
+    "@nexeraid/identity-sdk": "1.1.236-dev",
     "@paraswap/sdk": "6.2.2",
     "@tanstack/react-query": "^4.28.0",
     "@visx/axis": "^3.3.0",

@@ -15,7 +15,7 @@ export const NexeraIDInit = () => {
     if (currentAccount && accessToken && signingMessage && signature && signer) {
       IDENTITY_CLIENT.onSignMessage(async (data) => {
         console.log('on sign personal data');
-        return await signer.signMessage(data.message);
+        return (await signer.signMessage(data.message)) as `0x${string}`;
       });
 
       IDENTITY_CLIENT.onSendTransaction(async (data) => {

@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useKycSygnumWeb3Authentication } from "@/features/sygnum-web3/identity/useKycSygnumWeb3Authentication";
-import { IDENTITY_CLIENT } from "@/features/sygnum-web3/identity/IdentityClient";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Icon } from "../Components/Icon";
 import Link from "next/link";
 import Image from "next/image";
-
 
 interface ItemGroup {
   name: string;
@@ -86,9 +84,6 @@ const MenuItems = ({ itemGroup }: { itemGroup: ItemGroup[] }) => {
 };
 
 export const Sidebar = () => {
-  const { accessToken, signingMessage, signature, user } =
-  useKycSygnumWeb3Authentication();
-
   const menuItems = {
     main: [
       {
@@ -148,32 +143,17 @@ export const Sidebar = () => {
     ],
   };
 
-  useEffect(() => {
-    console.log("USER", user, accessToken, signingMessage, signature);
-    if (user && accessToken && signingMessage && signature) {
-      console.log(
-        "Ready to configure start management",
-        user,
-        accessToken,
-        signingMessage,
-        signature,
-      );
-      IDENTITY_CLIENT.startManagement();
-    }
-  }, [user, accessToken, signingMessage, signature]);
-
   return (
     <div className="relative w-1/5">
       <div className="flex flex-col gap-10">
         <div className="relative flex h-32 max-w-[240px] items-center justify-center">
           <Link href="/" className="text-5xl">
-          <Image
-                      src='/images/sygnum.svg'
-                      alt='SYGNUM'
-                      width={250}
-                      height={400}
-                    />
-            
+            <Image
+              src="/images/sygnum.svg"
+              alt="SYGNUM"
+              width={250}
+              height={400}
+            />
           </Link>
         </div>
 

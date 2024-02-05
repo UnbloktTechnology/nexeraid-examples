@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Icon } from "../Components/Icon";
 import { useBankKycAuthentication } from "@/features/bank/identity/useBankKycAuthenticate";
-import { IDENTITY_CLIENT } from "@/features/bank/identity/IdentityClient";
-
 interface ItemGroup {
   name: string;
   icon: string;
@@ -86,9 +84,6 @@ const MenuItems = ({ itemGroup }: { itemGroup: ItemGroup[] }) => {
 };
 
 export const Sidebar = () => {
-  const { accessToken, signingMessage, signature, user } =
-    useBankKycAuthentication();
-
   const menuItems = {
     main: [
       {
@@ -147,19 +142,6 @@ export const Sidebar = () => {
       },
     ],
   };
-
-  useEffect(() => {
-    if (user && accessToken && signingMessage && signature) {
-      console.log(
-        "Ready to configure start management",
-        user,
-        accessToken,
-        signingMessage,
-        signature,
-      );
-      IDENTITY_CLIENT.startManagement();
-    }
-  }, [user, accessToken, signingMessage, signature]);
 
   return (
     <div className="w-1/5">

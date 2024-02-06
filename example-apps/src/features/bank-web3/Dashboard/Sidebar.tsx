@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useKycBankWeb3Authentication } from "@/features/bank-web3/identity/useKycBankWeb3Authenticate";
-import { IDENTITY_CLIENT } from "@/features/bank-web3/identity/IdentityClient";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Icon } from "../Components/Icon";
 import Link from "next/link";
@@ -84,9 +83,6 @@ const MenuItems = ({ itemGroup }: { itemGroup: ItemGroup[] }) => {
 };
 
 export const Sidebar = () => {
-  const { accessToken, signingMessage, signature, user } =
-    useKycBankWeb3Authentication();
-
   const menuItems = {
     main: [
       {
@@ -145,20 +141,6 @@ export const Sidebar = () => {
       },
     ],
   };
-
-  useEffect(() => {
-    console.log("USER", user, accessToken, signingMessage, signature);
-    if (user && accessToken && signingMessage && signature) {
-      console.log(
-        "Ready to configure start management",
-        user,
-        accessToken,
-        signingMessage,
-        signature,
-      );
-      IDENTITY_CLIENT.startManagement();
-    }
-  }, [user, accessToken, signingMessage, signature]);
 
   return (
     <div className="relative w-1/5">

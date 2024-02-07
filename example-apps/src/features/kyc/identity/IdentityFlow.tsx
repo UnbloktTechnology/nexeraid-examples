@@ -11,6 +11,7 @@ import { IDENTITY_CLIENT } from "./IdentityClient";
 export const IdentityFlow = () => {
   const signMessage = useSignMessage();
   const { address, isConnected } = useAccount();
+  const [isIdentityClientInit, setIsIdentityClientInit] = useState(false);
   const [auth, setAuth] = useState<{
     accessToken: string;
     signingMessage: string;
@@ -20,25 +21,25 @@ export const IdentityFlow = () => {
   const configIdentityClient = useCallback(async () => {
     if (address) {
       IDENTITY_CLIENT.onSignMessage(async (data) => {
-        return (await signMessage.signMessageAsync({
+        return await signMessage.signMessageAsync({
           message: data.message,
-        }));
+        });
       });
       const signingMessage = buildSignatureMessage(address);
       const signature = await signMessage.signMessageAsync({
         message: signingMessage,
       });
       const accessToken = await getAccessToken(address);
+      await IDENTITY_CLIENT.init({
+        accessToken: accessToken,
+        signature: signature,
+        signingMessage: signingMessage,
+      });
+      setIsIdentityClientInit(true);
       setAuth({
         accessToken,
         signingMessage,
         signature,
-      });
-      // TODO: properly wait for init resolve
-      void IDENTITY_CLIENT.init({
-        accessToken: accessToken,
-        signature: signature,
-        signingMessage: signingMessage,
       });
     }
   }, [address, signMessage]);
@@ -58,33 +59,36 @@ export const IdentityFlow = () => {
           </button>
         </div>
       )}
-      {auth && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <button
+      {auth &&
+        (isIdentityClientInit ? (
+          <div
             style={{
-              padding: "16px 24px",
-              borderRadius: 16,
-              cursor: "pointer",
-              backgroundColor: "#0258FD",
-              color: "white",
-              fontWeight: "bold",
-              fontSize: "16px",
-              border: "none",
+              display: "flex",
+              justifyContent: "center",
             }}
-            onClick={() => {
-              IDENTITY_CLIENT.startVerification();
-            }}
-            id="identity-btn"
           >
-            Start KYC
-          </button>
-        </div>
-      )}
+            <button
+              style={{
+                padding: "16px 24px",
+                borderRadius: 16,
+                cursor: "pointer",
+                backgroundColor: "#0258FD",
+                color: "white",
+                fontWeight: "bold",
+                fontSize: "16px",
+                border: "none",
+              }}
+              onClick={() => {
+                IDENTITY_CLIENT.startVerification();
+              }}
+              id="identity-btn"
+            >
+              Start KYC
+            </button>
+          </div>
+        ) : (
+          "Awaiting identity client initialization..."
+        ))}
 
       {auth && <WebHooks />}
     </div>

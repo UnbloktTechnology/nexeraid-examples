@@ -54,6 +54,8 @@ export const useKycBankWeb3Authentication = () => {
     signature: authStore.signature,
     isAuthenticated: authStore.isAuthenticated,
     user: authStore.user,
+    isIdentityClientInit: authStore.isIdentityClientInit,
+    setIsIdentityClientInit: authStore.setIsIdentityClientInit,
   };
 };
 
@@ -62,7 +64,9 @@ interface IAuthStore {
   signingMessage?: string;
   signature?: string;
   isAuthenticated: boolean;
+  isIdentityClientInit: boolean;
   user?: Address;
+  setIsIdentityClientInit: (isInit: boolean) => void;
   authenticate: (
     accessToken: string,
     signingMessage: string,
@@ -80,6 +84,12 @@ const useAuthStore = create<IAuthStore>()(
         signature: undefined,
         signingMessage: undefined,
         isAuthenticated: false,
+        isIdentityClientInit: false,
+        setIsIdentityClientInit: (isInit) => {
+          set((state) => {
+            state.isIdentityClientInit = isInit;
+          });
+        },
         authenticate: (accessToken, signingMessage, signature, user) => {
           set((state) => {
             state.accessToken = accessToken;

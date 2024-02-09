@@ -2888,18 +2888,18 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@nexeraid/identity-sdk@1.1.236-dev":
-  version "1.1.236-dev"
-  resolved "https://registry.yarnpkg.com/@nexeraid/identity-sdk/-/identity-sdk-1.1.236-dev.tgz#3145f461c76b7891771e748281d0b1a16fc89e90"
-  integrity sha512-mztQCbPj3+F7uHQAS3pFrfTlC93Nudmed0oYbzi1YLUPDZvg/dW8Hrnj5ogr7DVLtTzoFiF6AUWXa58Mu6zJ2Q==
+"@nexeraid/identity-sdk@^1.1.249":
+  version "1.1.249"
+  resolved "https://registry.yarnpkg.com/@nexeraid/identity-sdk/-/identity-sdk-1.1.249.tgz#d6cfb25829deaa9edca4d09fc80a652a4a8f1497"
+  integrity sha512-Ye55XBwLudbeMtg/cOhP25TTxwgfOZa4pPnp8KqIXi/IG30F5n/f1JoasURzF/ppvD5LrPvFw30KTBXLCTHLZw==
   dependencies:
-    "@nexeraprotocol/nexera-id-schemas" "1.10.38-dev"
+    "@nexeraprotocol/nexera-id-schemas" "1.10.51"
     zod "^3.22.4"
 
-"@nexeraprotocol/nexera-id-schemas@1.10.38-dev":
-  version "1.10.38-dev"
-  resolved "https://registry.yarnpkg.com/@nexeraprotocol/nexera-id-schemas/-/nexera-id-schemas-1.10.38-dev.tgz#33de52bbcca9378fd1dbd92369771aa1167ac4dc"
-  integrity sha512-MqIjUlvEICA2pt7qt2BhrwELi1gF34QYvL0/CYOJsXqGu1sbNEh5GcqBTdSuFeEI5tpVorpeGAm/73Y0Norj1w==
+"@nexeraprotocol/nexera-id-schemas@1.10.51":
+  version "1.10.51"
+  resolved "https://registry.yarnpkg.com/@nexeraprotocol/nexera-id-schemas/-/nexera-id-schemas-1.10.51.tgz#07a015346aac5858962f53933bad74c225d05330"
+  integrity sha512-kpP+BOkwgfj04h5ZT3W5W0zIoSBA33J88LITRg4uXRnpttEMr1DS5tOGmD3BPiRxxPHQrhihRy6hRZ4RHVmDwg==
   dependencies:
     zod "^3.22.4"
 

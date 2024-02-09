@@ -12,14 +12,19 @@ export const getScenarioWebhookDefiRuleEngineRedisKey = (address: string) => {
 
 const scenarioWebHookPost = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   if (req.method === "POST") {
-    console.log("=== scenarioWebHookPost DEFI RULENGINE req.body ===", req.body);
+    console.log(
+      "=== scenarioWebHookPost DEFI RULENGINE req.body ===",
+      req.body,
+    );
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const body: ScenarioWebhookPayload = req.body;
-    const key = getScenarioWebhookDefiRuleEngineRedisKey(body.address );
-    await redis.set(key, JSON.stringify(body));
+    if (!((body.result as unknown) instanceof Array)) {
+      const key = getScenarioWebhookDefiRuleEngineRedisKey(body.address);
+      await redis.set(key, JSON.stringify(body));
+    }
     res.status(200).json({ response: "ok" });
   }
   if (req.method === "GET") {

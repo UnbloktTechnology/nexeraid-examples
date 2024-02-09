@@ -12,14 +12,16 @@ export const getScenarioWebhookBankRedisKey = (address: string) => {
 
 const scenarioWebHookPost = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   if (req.method === "POST") {
     console.log("=== scenarioWebHookPost BANK req.body ===", req.body);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const body: ScenarioWebhookPayload = req.body;
-    const key = getScenarioWebhookBankRedisKey(body.address);
-    await redis.set(key, JSON.stringify(body));
+    if (!((body.result as unknown) instanceof Array)) {
+      const key = getScenarioWebhookBankRedisKey(body.address);
+      await redis.set(key, JSON.stringify(body));
+    }
     res.status(200).json({ response: "ok" });
   }
   if (req.method === "GET") {

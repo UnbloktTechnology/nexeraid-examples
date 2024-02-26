@@ -73,8 +73,8 @@ const DefiRuleEngine = () => {
         });
         setIsIdentityClientInit(true);
       }
-      void initIdentityClient();
     };
+    void initIdentityClient();
   }, [address.address, accessToken, signingMessage, signature]);
 
   return (

@@ -108,7 +108,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
   return (
     <>
       <div>DID:{did}</div>
-      {!did && <div>Loading IDENTITY SDK...</div>}
+      {!did && <div>Waiting for Polygon Wallet instantiation...</div>}
       {did && (
         <>
           <div className="m-2 border border-black p-4">

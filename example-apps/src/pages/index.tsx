@@ -86,8 +86,8 @@ const PROJECTS: AppCardProps[] = [
     tags: [VCV_TAG, OFF_TAG, EW_TAG],
   },
   {
-    url: "/kyc",
-    name: "KYC",
+    url: "/gated-nft",
+    name: "Gating with Off-chain Signatures",
     image: "/images/kyc.webp",
   },
   {
@@ -121,8 +121,8 @@ export default function Home() {
             NexeraID Example Applications
           </h1>
           <p className="w-[450px] text-[#6e6d7a]">
-            These examples demonstrate the NexeraID identity
-            verification process working in different circumstances.
+            These examples demonstrate the NexeraID identity verification
+            process working in different circumstances.
           </p>
           <div className="mt-2 flex flex-wrap gap-4">
             {LEGEND_TAG.map((tag) => (

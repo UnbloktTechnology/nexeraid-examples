@@ -3,7 +3,6 @@ import { useCallback, useState } from "react";
 import { buildSignatureMessage } from "@nexeraid/identity-sdk";
 import { useAccount, useSignMessage } from "wagmi";
 import { getAccessToken } from "../../apiClient";
-import { WebHooks } from "../../webhooks/WebHooks";
 
 import styles from "../client.module.css";
 import { IDENTITY_CLIENT } from "./IdentityClient";
@@ -93,8 +92,6 @@ export const IdentityFlow = (props: { setDID: (did: string) => void }) => {
         ) : (
           "Awaiting identity client initialization..."
         ))}
-
-      {auth && <WebHooks />}
     </div>
   );
 };

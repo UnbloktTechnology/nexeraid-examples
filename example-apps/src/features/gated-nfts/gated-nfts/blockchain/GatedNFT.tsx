@@ -111,7 +111,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
       {!did && <div>Waiting for Polygon Wallet instantiation...</div>}
       {did && (
         <>
-          <div className="m-2 border border-black p-4">
+          <div className="m-4 w-full border border-black p-4">
             <h1 className={"text-3xl font-bold"}>Gated NFTs</h1>
             <br />
             <button
@@ -157,7 +157,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
             />
           </div>
           <br />
-          <div className="m-2 border border-black p-4">
+          <div className="m-2 w-full border border-black p-4">
             <h1 className={"text-3xl font-bold"}>
               Non Gated NFTs for comparaison
             </h1>
@@ -180,7 +180,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
             >
               Mint Gated NFT With SDK Call
             </button>
-            <h2 className={"text-2xl font-bold"}>Gas Cost</h2>
+            <h2 className={"mt-4 text-2xl font-bold"}>Gas Cost</h2>
             {nonGatedMintCost && <div>Gas Cost: {nonGatedMintCost}</div>}
             {writeDataNonGated && (
               <div>

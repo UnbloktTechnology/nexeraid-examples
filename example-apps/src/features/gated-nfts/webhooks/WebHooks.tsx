@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import styles from "./styles.module.css";
 import { getScenarioWebhook } from "../apiClient";
 import { useEffect } from "react";
-import { IDENTITY_CLIENT } from "../identity/IdentityClient";
+import { IDENTITY_CLIENT } from "../gated-nfts/identity/IdentityClient";
 
 const formatResponse = (res?: unknown) => {
   if (!res) return "";

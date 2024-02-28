@@ -2,13 +2,13 @@ import React from "react";
 import { useCallback, useState } from "react";
 import { buildSignatureMessage } from "@nexeraid/identity-sdk";
 import { useAccount, useSignMessage } from "wagmi";
-import { getAccessToken } from "../apiClient";
-import { WebHooks } from "../webhooks/WebHooks";
+import { getAccessToken } from "../../apiClient";
+import { WebHooks } from "../../webhooks/WebHooks";
 
-import styles from "./client.module.css";
+import styles from "../client.module.css";
 import { IDENTITY_CLIENT } from "./IdentityClient";
 
-export const IdentityFlow = () => {
+export const IdentityFlow = (props: { setDID: (did: string) => void }) => {
   const signMessage = useSignMessage();
   const { address, isConnected } = useAccount();
   const [isIdentityClientInit, setIsIdentityClientInit] = useState(false);
@@ -30,6 +30,10 @@ export const IdentityFlow = () => {
         message: signingMessage,
       });
       const accessToken = await getAccessToken(address);
+      IDENTITY_CLIENT.onSdkReady((data) => {
+        console.log("NexeraKyc.tsx onSdkReady", data);
+        props.setDID(data.did);
+      });
       await IDENTITY_CLIENT.init({
         accessToken: accessToken,
         signature: signature,
@@ -42,7 +46,7 @@ export const IdentityFlow = () => {
         signature,
       });
     }
-  }, [address, signMessage]);
+  }, [address, props, signMessage]);
 
   return (
     <div>

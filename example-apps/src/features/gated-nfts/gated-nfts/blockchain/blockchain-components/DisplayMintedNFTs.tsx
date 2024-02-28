@@ -1,4 +1,4 @@
-import type { Address } from "@nexeraprotocol/nexera-id-schemas";
+import { short0xString, type Address } from "@nexeraprotocol/nexera-id-schemas";
 
 export const DisplayMintedNFTs = (props: {
   title: string;
@@ -9,15 +9,17 @@ export const DisplayMintedNFTs = (props: {
   }[];
 }) => {
   return (
-    <div>
+    <div className="mt-2">
       <h2 className={"text-2xl font-bold"}>{props.title}</h2>
-      {props.mintedNFTs?.map((nft, i) => {
-        return (
-          <div key={i}>
-            NFT #{nft.tokenId} Owner: {nft.owner}
-          </div>
-        );
-      })}
+      <div className="m-2 h-64 overflow-y-auto border border-black p-4">
+        {props.mintedNFTs?.toReversed().map((nft, i) => {
+          return (
+            <div key={i}>
+              NFT #{nft.tokenId} Owner: {nft.owner && short0xString(nft.owner)}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

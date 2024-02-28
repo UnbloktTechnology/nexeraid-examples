@@ -127,6 +127,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
                     })
                     .then((_sdkResponse) => {
                       setSdkResponse(_sdkResponse);
+                      setSdkGatedMintCost(undefined);
                     })
                     .catch((e) => {
                       console.log("error while fetching signature", e);
@@ -138,7 +139,8 @@ export const GatedNFT = (props: { did: string | undefined }) => {
             >
               Mint Gated NFT With SDK Call
             </button>
-            <h2 className={"text-2xl font-bold"}>SDK RESPONSE</h2>
+            <br />
+            <h2 className={"mt-4 text-2xl font-bold"}>SDK RESPONSE</h2>
             <DisplayMintResponse
               mintResponse={sdkResponse}
               gasCost={sdkGatedMintCost}

@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { useAccount, useContractWrite, useWalletClient } from "wagmi";
+import {
+  useAccount,
+  useContractEvent,
+  useContractWrite,
+  useWalletClient,
+} from "wagmi";
 import {
   ExampleGatedNFTMinterABI,
   ExampleNFTMinterABI,
@@ -17,6 +22,7 @@ import { useMintGatedNFTFromSDK } from "./blockchain-components/useMintNFT";
 import { publicActions } from "viem";
 import { DisplayMintResponse } from "./blockchain-components/DisplayMintResponse";
 import { DisplayMintedNFTs } from "./blockchain-components/DisplayMintedNFTs";
+import type { MintedNFT } from "./blockchain-components/DisplayMintedNFTs";
 
 const buttonStyle = {
   padding: "16px 24px",
@@ -66,6 +72,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
     abi: ExampleNFTMinterABI,
     functionName: "mintNFT",
   });
+
   const mintedGatedNFTs = useGetGatedMintedNFTs();
   const mintedNonGatedNFTs = useGetNonGatedMintedNFTs();
 
@@ -111,7 +118,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
       {!did && <div>Waiting for Polygon Wallet instantiation...</div>}
       {did && (
         <>
-          <div className="m-2 border border-black p-4">
+          <div className="m-4 w-full border border-black p-4">
             <h1 className={"text-3xl font-bold"}>Gated NFTs</h1>
             <br />
             <button
@@ -127,6 +134,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
                     })
                     .then((_sdkResponse) => {
                       setSdkResponse(_sdkResponse);
+                      setSdkGatedMintCost(undefined);
                     })
                     .catch((e) => {
                       console.log("error while fetching signature", e);
@@ -136,9 +144,10 @@ export const GatedNFT = (props: { did: string | undefined }) => {
                 }
               }}
             >
-              Mint Gated NFT With SDK Call
+              Mint Gated NFT
             </button>
-            <h2 className={"text-2xl font-bold"}>SDK RESPONSE</h2>
+            <br />
+            <h2 className={"mt-4 text-2xl font-bold"}>SDK RESPONSE</h2>
             <DisplayMintResponse
               mintResponse={sdkResponse}
               gasCost={sdkGatedMintCost}
@@ -150,12 +159,13 @@ export const GatedNFT = (props: { did: string | undefined }) => {
             />
             <br />
             <DisplayMintedNFTs
-              mintedNFTs={mintedGatedNFTs.nfts ?? []}
+              mintedNFTs={mintedGatedNFTs.nfts}
+              newNFTs={mintedGatedNFTs.newNFTs}
               title={"Minted Gated NFTs: "}
             />
           </div>
           <br />
-          <div className="m-2 border border-black p-4">
+          <div className="m-2 w-full border border-black p-4">
             <h1 className={"text-3xl font-bold"}>
               Non Gated NFTs for comparaison
             </h1>
@@ -176,9 +186,9 @@ export const GatedNFT = (props: { did: string | undefined }) => {
                 }
               }}
             >
-              Mint Gated NFT With SDK Call
+              Mint Non Gated NFT
             </button>
-            <h2 className={"text-2xl font-bold"}>Gas Cost</h2>
+            <h2 className={"mt-4 text-2xl font-bold"}>Gas Cost</h2>
             {nonGatedMintCost && <div>Gas Cost: {nonGatedMintCost}</div>}
             {writeDataNonGated && (
               <div>
@@ -192,8 +202,10 @@ export const GatedNFT = (props: { did: string | undefined }) => {
             )}
             <br />
             <DisplayMintedNFTs
-              mintedNFTs={mintedNonGatedNFTs.nfts ?? []}
+              mintedNFTs={mintedNonGatedNFTs.nfts}
               title={"Minted NON Gated NFTs: "}
+              //TODO
+              newNFTs={mintedNonGatedNFTs.newNFTs}
             />
           </div>
         </>

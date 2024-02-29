@@ -37,7 +37,9 @@ export const DisplayMintResponse = (props: {
               {props.writeData.isLoading
                 ? "Loading..."
                 : props.writeData.isSuccess
-                  ? "Success"
+                  ? props.gasCost
+                    ? "Success"
+                    : "Minting..."
                   : "Failed"}
             </div>
           )}

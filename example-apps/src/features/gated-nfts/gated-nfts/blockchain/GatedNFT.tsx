@@ -21,10 +21,8 @@ import {
 import { useMintGatedNFTFromSDK } from "./blockchain-components/useMintNFT";
 import { publicActions } from "viem";
 import { DisplayMintResponse } from "./blockchain-components/DisplayMintResponse";
-import {
-  DisplayMintedNFTs,
-  MintedNFT,
-} from "./blockchain-components/DisplayMintedNFTs";
+import { DisplayMintedNFTs } from "./blockchain-components/DisplayMintedNFTs";
+import type { MintedNFT } from "./blockchain-components/DisplayMintedNFTs";
 
 const buttonStyle = {
   padding: "16px 24px",
@@ -74,7 +72,16 @@ export const GatedNFT = (props: { did: string | undefined }) => {
     abi: ExampleNFTMinterABI,
     functionName: "mintNFT",
   });
-  const mintedGatedNFTs = useGetGatedMintedNFTs();
+  // Use this hook to only update after wagmi hook has loaded
+  const [mintedGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
+  // uses wagmi hooks
+  const mintedGatedNFTsHook = useGetGatedMintedNFTs();
+  useEffect(() => {
+    if (!mintedGatedNFTsHook.isLoading && mintedGatedNFTsHook.nfts) {
+      setMintedNFTs(mintedGatedNFTsHook.nfts);
+    }
+  }, [mintedGatedNFTsHook]);
+
   const mintedNonGatedNFTs = useGetNonGatedMintedNFTs();
 
   // Listen for Transfer events on the Example NFT
@@ -183,7 +190,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
             />
             <br />
             <DisplayMintedNFTs
-              mintedNFTs={mintedGatedNFTs.nfts ?? []}
+              mintedNFTs={mintedGatedNFTs}
               newNFTs={newNFTs}
               title={"Minted Gated NFTs: "}
             />

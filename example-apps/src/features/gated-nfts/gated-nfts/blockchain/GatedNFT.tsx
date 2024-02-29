@@ -72,40 +72,19 @@ export const GatedNFT = (props: { did: string | undefined }) => {
     abi: ExampleNFTMinterABI,
     functionName: "mintNFT",
   });
-  // Use this hook to only update after wagmi hook has loaded
-  const [mintedGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
-  // uses wagmi hooks
-  const mintedGatedNFTsHook = useGetGatedMintedNFTs();
-  useEffect(() => {
-    if (!mintedGatedNFTsHook.isLoading && mintedGatedNFTsHook.nfts) {
-      setMintedNFTs(mintedGatedNFTsHook.nfts);
-    }
-  }, [mintedGatedNFTsHook]);
+  // // Use this hook to only update after wagmi hook has loaded
+  // const [mintedGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
+  // // uses wagmi hooks
+  const mintedGatedNFTs = useGetGatedMintedNFTs();
+  // useEffect(() => {
+  //   if (!mintedGatedNFTsHook.isLoading && mintedGatedNFTsHook.nfts) {
+  //     setMintedNFTs(mintedGatedNFTsHook.nfts);
+  //   }
+  // }, [mintedGatedNFTsHook]);
 
+  // // Use this hook to only update after wagmi hook has loaded
+  // const [mintedNonGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
   const mintedNonGatedNFTs = useGetNonGatedMintedNFTs();
-
-  // Listen for Transfer events on the Example NFT
-  const [newNFTs, setNewNFTs] = useState<MintedNFT[]>([]);
-  function addNewNFT(_newNFT: MintedNFT) {
-    setNewNFTs((currentNFTs) => [...currentNFTs, _newNFT]);
-  }
-  useContractEvent({
-    address: ExampleGatedNFTMinterAddress_mumbai_dev,
-    abi: ExampleGatedNFTMinterABI,
-    eventName: "Transfer",
-
-    listener(logs) {
-      logs[0]?.args.to &&
-        logs[0]?.args.tokenId &&
-        logs[0].blockNumber &&
-        addNewNFT({
-          owner: logs[0]?.args.to,
-          tokenId: Number(logs[0]?.args.tokenId),
-          blockNumber: Number(logs[0].blockNumber),
-          time: Date.now(),
-        });
-    },
-  });
 
   const tryMintingGatedNFTFromSDK = useMintGatedNFTFromSDK();
 
@@ -190,8 +169,8 @@ export const GatedNFT = (props: { did: string | undefined }) => {
             />
             <br />
             <DisplayMintedNFTs
-              mintedNFTs={mintedGatedNFTs}
-              newNFTs={newNFTs}
+              mintedNFTs={mintedGatedNFTs.nfts}
+              newNFTs={mintedGatedNFTs.newNFTs}
               title={"Minted Gated NFTs: "}
             />
           </div>

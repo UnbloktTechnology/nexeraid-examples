@@ -72,18 +72,8 @@ export const GatedNFT = (props: { did: string | undefined }) => {
     abi: ExampleNFTMinterABI,
     functionName: "mintNFT",
   });
-  // // Use this hook to only update after wagmi hook has loaded
-  // const [mintedGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
-  // // uses wagmi hooks
-  const mintedGatedNFTs = useGetGatedMintedNFTs();
-  // useEffect(() => {
-  //   if (!mintedGatedNFTsHook.isLoading && mintedGatedNFTsHook.nfts) {
-  //     setMintedNFTs(mintedGatedNFTsHook.nfts);
-  //   }
-  // }, [mintedGatedNFTsHook]);
 
-  // // Use this hook to only update after wagmi hook has loaded
-  // const [mintedNonGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
+  const mintedGatedNFTs = useGetGatedMintedNFTs();
   const mintedNonGatedNFTs = useGetNonGatedMintedNFTs();
 
   const tryMintingGatedNFTFromSDK = useMintGatedNFTFromSDK();
@@ -154,7 +144,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
                 }
               }}
             >
-              Mint Gated NFT With SDK Call
+              Mint Gated NFT
             </button>
             <br />
             <h2 className={"mt-4 text-2xl font-bold"}>SDK RESPONSE</h2>
@@ -196,7 +186,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
                 }
               }}
             >
-              Mint Gated NFT With SDK Call
+              Mint Non Gated NFT
             </button>
             <h2 className={"mt-4 text-2xl font-bold"}>Gas Cost</h2>
             {nonGatedMintCost && <div>Gas Cost: {nonGatedMintCost}</div>}
@@ -212,10 +202,10 @@ export const GatedNFT = (props: { did: string | undefined }) => {
             )}
             <br />
             <DisplayMintedNFTs
-              mintedNFTs={mintedNonGatedNFTs.nfts ?? []}
+              mintedNFTs={mintedNonGatedNFTs.nfts}
               title={"Minted NON Gated NFTs: "}
               //TODO
-              newNFTs={[]}
+              newNFTs={mintedNonGatedNFTs.newNFTs}
             />
           </div>
         </>

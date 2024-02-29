@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { useAccount, useContractWrite, useWalletClient } from "wagmi";
+import {
+  useAccount,
+  useContractEvent,
+  useContractWrite,
+  useWalletClient,
+} from "wagmi";
 import {
   ExampleGatedNFTMinterABI,
   ExampleNFTMinterABI,
@@ -16,7 +21,10 @@ import {
 import { useMintGatedNFTFromSDK } from "./blockchain-components/useMintNFT";
 import { publicActions } from "viem";
 import { DisplayMintResponse } from "./blockchain-components/DisplayMintResponse";
-import { DisplayMintedNFTs } from "./blockchain-components/DisplayMintedNFTs";
+import {
+  DisplayMintedNFTs,
+  MintedNFT,
+} from "./blockchain-components/DisplayMintedNFTs";
 
 const buttonStyle = {
   padding: "16px 24px",
@@ -68,6 +76,29 @@ export const GatedNFT = (props: { did: string | undefined }) => {
   });
   const mintedGatedNFTs = useGetGatedMintedNFTs();
   const mintedNonGatedNFTs = useGetNonGatedMintedNFTs();
+
+  // Listen for Transfer events on the Example NFT
+  const [newNFTs, setNewNFTs] = useState<MintedNFT[]>([]);
+  function addNewNFT(_newNFT: MintedNFT) {
+    setNewNFTs((currentNFTs) => [...currentNFTs, _newNFT]);
+  }
+  useContractEvent({
+    address: ExampleGatedNFTMinterAddress_mumbai_dev,
+    abi: ExampleGatedNFTMinterABI,
+    eventName: "Transfer",
+
+    listener(logs) {
+      logs[0]?.args.to &&
+        logs[0]?.args.tokenId &&
+        logs[0].blockNumber &&
+        addNewNFT({
+          owner: logs[0]?.args.to,
+          tokenId: Number(logs[0]?.args.tokenId),
+          blockNumber: Number(logs[0].blockNumber),
+          time: Date.now(),
+        });
+    },
+  });
 
   const tryMintingGatedNFTFromSDK = useMintGatedNFTFromSDK();
 
@@ -153,6 +184,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
             <br />
             <DisplayMintedNFTs
               mintedNFTs={mintedGatedNFTs.nfts ?? []}
+              newNFTs={newNFTs}
               title={"Minted Gated NFTs: "}
             />
           </div>
@@ -196,6 +228,8 @@ export const GatedNFT = (props: { did: string | undefined }) => {
             <DisplayMintedNFTs
               mintedNFTs={mintedNonGatedNFTs.nfts ?? []}
               title={"Minted NON Gated NFTs: "}
+              //TODO
+              newNFTs={[]}
             />
           </div>
         </>

@@ -20,7 +20,6 @@ export const DisplayMintedNFTs = (props: {
     props.newNFTs.forEach((nft) => {
       displayedNFTs[nft.tokenId - 1] = { ...nft, isNew: true };
     });
-  console.log("displayedNFTs", displayedNFTs);
   return (
     <div className="mt-2">
       <h2 className={"text-2xl font-bold"}>{props.title}</h2>

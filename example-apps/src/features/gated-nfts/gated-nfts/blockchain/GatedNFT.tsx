@@ -190,7 +190,9 @@ export const GatedNFT = (props: { did: string | undefined }) => {
                 {isLoadingNonGated
                   ? "Loading..."
                   : isSuccessNonGated
-                    ? "Success"
+                    ? nonGatedMintCost
+                      ? "Success"
+                      : "Minting..."
                     : "Failed"}
               </div>
             )}

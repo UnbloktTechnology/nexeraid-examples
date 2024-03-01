@@ -18,8 +18,13 @@ const Home = () => {
     data: state.data,
   }));
   const queryClient = useQueryClient();
-  const { user, accessToken, signingMessage, signature } =
-    useBankKycAuthentication();
+  const {
+    user,
+    accessToken,
+    signingMessage,
+    signature,
+    setIsIdentityClientInit,
+  } = useBankKycAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
   const [isCompliance, setIsCompliance] = useState(false);
   const { data } = useCheckBankCompliance(kycCompletion);
@@ -49,36 +54,42 @@ const Home = () => {
   }, [isCompliance]);
 
   useEffect(() => {
-    if (user && accessToken && signingMessage && signature) {
-      console.log(
-        "Ready to init: ",
-        user,
-        accessToken,
-        signingMessage,
-        signature,
-      );
-      IDENTITY_CLIENT.onSignMessage(async (data) => {
-        console.log("on sign personal data");
-        const signer = getSigner(user);
-        return await signer.signMessage(data.message);
-      });
-      IDENTITY_CLIENT.onKycCompletion((data) => {
-        console.log("on kyc completion", data);
-        setKycCompletion(true);
-      });
-      IDENTITY_CLIENT.onCloseScreen(async () => {
-        console.log("on kyc completion", data);
-        setKycCompletion(true);
-        await queryClient.invalidateQueries();
-        return "ok";
-      });
+    // make a autocallable async function
+    const initIdentityClient = async () => {
+      setIsIdentityClientInit(false);
+      if (user && accessToken && signingMessage && signature) {
+        console.log(
+          "Ready to init: ",
+          user,
+          accessToken,
+          signingMessage,
+          signature,
+        );
+        IDENTITY_CLIENT.onSignMessage(async (data) => {
+          console.log("on sign personal data");
+          const signer = getSigner(user);
+          return (await signer.signMessage(data.message)) as `0x${string}`;
+        });
+        IDENTITY_CLIENT.onKycCompletion((data) => {
+          console.log("on kyc completion", data);
+          setKycCompletion(true);
+        });
+        IDENTITY_CLIENT.onCloseScreen(async () => {
+          console.log("on kyc completion", data);
+          setKycCompletion(true);
+          await queryClient.invalidateQueries();
+          return "ok";
+        });
 
-      void IDENTITY_CLIENT.init({
-        accessToken,
-        signingMessage,
-        signature,
-      });
-    }
+        await IDENTITY_CLIENT.init({
+          accessToken,
+          signingMessage,
+          signature,
+        });
+        setIsIdentityClientInit(true);
+      }
+    };
+    void initIdentityClient();
   }, [user]);
 
   const onClickLogOn = () => {

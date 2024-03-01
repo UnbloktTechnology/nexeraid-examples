@@ -56,6 +56,8 @@ export const useBankKycAuthentication = () => {
     signingMessage: authStore.signingMessage,
     signature: authStore.signature,
     isAuthenticated: authStore.isAuthenticated,
+    isIdentityClientInit: authStore.isIdentityClientInit,
+    setIsIdentityClientInit: authStore.setIsIdentityClientInit,
     user: authStore.user,
   };
 };
@@ -66,6 +68,8 @@ interface IAuthStore {
   signature?: string;
   isAuthenticated: boolean;
   user?: TestUser;
+  isIdentityClientInit: boolean;
+  setIsIdentityClientInit: (isInit: boolean) => void;
   authenticate: (
     accessToken: string,
     signingMessage: string,
@@ -83,6 +87,12 @@ const useAuthStore = create<IAuthStore>()(
         signature: undefined,
         signingMessage: undefined,
         isAuthenticated: false,
+        isIdentityClientInit: false,
+        setIsIdentityClientInit: (isInit: boolean) => {
+          set((state) => {
+            state.isIdentityClientInit = isInit;
+          });
+        },
         authenticate: (
           accessToken: string,
           signingMessage: string,

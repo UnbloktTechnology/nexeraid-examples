@@ -12,7 +12,7 @@ import { useDefiRuleEngineKycAuthentication } from "@/features/defi-rule-engine/
 const DefiRuleEngine = () => {
   const close = useGlobalModals((state) => state.close);
   const address = useAccount();
-  const { accessToken, signingMessage, signature } =
+  const { accessToken, signingMessage, signature, setIsIdentityClientInit } =
     useDefiRuleEngineKycAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
   const { data } = useCheckDefiRuleEngineCompliance(kycCompletion);
@@ -45,32 +45,36 @@ const DefiRuleEngine = () => {
   }, [isCompliance]);
 
   useEffect(() => {
-    if (address.address && accessToken && signingMessage && signature) {
-      IDENTITY_CLIENT.onSignMessage(async (data) => {
-        console.log("On sign personal data");
-        return await signMessage.signMessageAsync({
-          message: data.message,
+    // make a autocallable async function
+    const initIdentityClient = async () => {
+      setIsIdentityClientInit(false);
+      if (address.address && accessToken && signingMessage && signature) {
+        IDENTITY_CLIENT.onSignMessage(async (data) => {
+          console.log("On sign personal data");
+          return await signMessage.signMessageAsync({
+            message: data.message,
+          });
         });
-      });
-      IDENTITY_CLIENT.onKycCompletion((data) => {
-        console.log("On kyc completion", data);
-        setKycCompletion(true);
-      });
-      IDENTITY_CLIENT.onCloseScreen(async () => {
-        return new Promise((resolve) => {
-          console.log("On Close Screen callback");
+        IDENTITY_CLIENT.onKycCompletion((data) => {
+          console.log("On kyc completion", data);
           setKycCompletion(true);
-          resolve("");
         });
-      });
-
-      // TODO: properly wait for init resolve
-      void IDENTITY_CLIENT.init({
-        accessToken,
-        signingMessage,
-        signature,
-      });
-    }
+        IDENTITY_CLIENT.onCloseScreen(async () => {
+          return new Promise((resolve) => {
+            console.log("On Close Screen callback");
+            setKycCompletion(true);
+            resolve("");
+          });
+        });
+        await IDENTITY_CLIENT.init({
+          accessToken,
+          signingMessage,
+          signature,
+        });
+        setIsIdentityClientInit(true);
+      }
+    };
+    void initIdentityClient();
   }, [address.address, accessToken, signingMessage, signature]);
 
   return (

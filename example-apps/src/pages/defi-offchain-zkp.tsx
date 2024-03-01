@@ -15,7 +15,7 @@ const Home = () => {
     close: state.close,
   }));
   const address = useAccount();
-  const { accessToken, signingMessage, signature } =
+  const { accessToken, signingMessage, signature, setIsIdentityClientInit } =
     useDefiOffchainZKPKycAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
   const { data } = useCheckCompliance(kycCompletion);
@@ -48,29 +48,35 @@ const Home = () => {
   }, [isCompliance]);
 
   useEffect(() => {
-    if (address.address && accessToken && signingMessage && signature) {
-      IDENTITY_CLIENT.onSignMessage(async (data) => {
-        console.log("on sign personal data");
-        return await signMessage.signMessageAsync({
-          message: data.message,
+    // make a autocallable async function
+    const initIdentityClient = async () => {
+      setIsIdentityClientInit(false);
+      if (address.address && accessToken && signingMessage && signature) {
+        IDENTITY_CLIENT.onSignMessage(async (data) => {
+          console.log("on sign personal data");
+          return await signMessage.signMessageAsync({
+            message: data.message,
+          });
         });
-      });
-      IDENTITY_CLIENT.onKycCompletion((data) => {
-        console.log("on kyc completion", data);
-        setKycCompletion(true);
-      });
-      IDENTITY_CLIENT.onCloseScreen(async () => {
-        return new Promise((resolve) => {
+        IDENTITY_CLIENT.onKycCompletion((data) => {
+          console.log("on kyc completion", data);
           setKycCompletion(true);
-          resolve("");
         });
-      });
-      void IDENTITY_CLIENT.init({
-        accessToken,
-        signingMessage,
-        signature,
-      });
-    }
+        IDENTITY_CLIENT.onCloseScreen(async () => {
+          return new Promise((resolve) => {
+            setKycCompletion(true);
+            resolve("");
+          });
+        });
+        await IDENTITY_CLIENT.init({
+          accessToken,
+          signingMessage,
+          signature,
+        });
+        setIsIdentityClientInit(true);
+      }
+    };
+    void initIdentityClient();
   }, [address.address, accessToken, signingMessage, signature]);
 
   return (

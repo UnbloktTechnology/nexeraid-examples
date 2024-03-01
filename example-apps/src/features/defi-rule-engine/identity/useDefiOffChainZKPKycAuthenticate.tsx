@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { buildSignatureMessage } from "@nexeraid/identity-sdk";
 import { useMutation } from "@tanstack/react-query";
 import { create } from "zustand";
@@ -61,6 +58,8 @@ export const useDefiRuleEngineKycAuthentication = () => {
     signingMessage: authStore.signingMessage,
     signature: authStore.signature,
     isAuthenticated: authStore.isAuthenticated,
+    isIdentityClientInit: authStore.isIdentityClientInit,
+    setIsIdentityClientInit: authStore.setIsIdentityClientInit,
     user: authStore.user,
   };
 };
@@ -71,6 +70,8 @@ interface IAuthStore {
   signature?: string;
   isAuthenticated: boolean;
   user?: Address;
+  isIdentityClientInit: boolean;
+  setIsIdentityClientInit: (isInit: boolean) => void;
   authenticate: (
     accessToken: string,
     signingMessage: string,
@@ -88,6 +89,12 @@ const useAuthStore = create<IAuthStore>()(
         signature: undefined,
         signingMessage: undefined,
         isAuthenticated: false,
+        isIdentityClientInit: false,
+        setIsIdentityClientInit: (isInit: boolean) => {
+          set((state) => {
+            state.isIdentityClientInit = isInit;
+          });
+        },
         authenticate: (accessToken, signingMessage, signature, user) => {
           set((state) => {
             state.accessToken = accessToken;

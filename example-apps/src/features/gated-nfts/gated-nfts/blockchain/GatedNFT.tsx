@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  useAccount,
-  useContractEvent,
-  useContractWrite,
-  useWalletClient,
-} from "wagmi";
+import { useAccount, useContractWrite, useWalletClient } from "wagmi";
 import {
   ExampleGatedNFTMinterABI,
   ExampleNFTMinterABI,
@@ -22,7 +17,6 @@ import { useMintGatedNFTFromSDK } from "./blockchain-components/useMintNFT";
 import { publicActions } from "viem";
 import { DisplayMintResponse } from "./blockchain-components/DisplayMintResponse";
 import { DisplayMintedNFTs } from "./blockchain-components/DisplayMintedNFTs";
-import type { MintedNFT } from "./blockchain-components/DisplayMintedNFTs";
 
 const buttonStyle = {
   padding: "16px 24px",
@@ -204,7 +198,6 @@ export const GatedNFT = (props: { did: string | undefined }) => {
             <DisplayMintedNFTs
               mintedNFTs={mintedNonGatedNFTs.nfts}
               title={"Minted NON Gated NFTs: "}
-              //TODO
               newNFTs={mintedNonGatedNFTs.newNFTs}
             />
           </div>

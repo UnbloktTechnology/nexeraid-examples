@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
-import { useAccount, useContractWrite, useWalletClient } from "wagmi";
+import {
+  useAccount,
+  useContractWrite,
+  useWalletClient,
+  useChainId,
+} from "wagmi";
 import {
   ExampleGatedNFTMinterABI,
   ExampleNFTMinterABI,
 } from "@nexeraprotocol/nexera-id-contracts-sdk/abis";
 import {
   ExampleGatedNFTMinterAddress_mumbai_dev,
+  ExampleGatedNFTMinterAddress_sepolia_dev,
   ExampleNFTMinterAddress_mumbai_dev,
+  ExampleNFTMinterAddress_sepolia_dev,
 } from "@nexeraprotocol/nexera-id-contracts-sdk/addresses";
 import type { MintResponse } from "./blockchain-components/blockchain.schema";
 import {
@@ -33,6 +40,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
   const { did } = props;
   const { data: walletClient } = useWalletClient();
   const account = useAccount();
+  const chainId = useChainId();
 
   const [sdkResponse, setSdkResponse] = useState<MintResponse | undefined>(
     undefined,
@@ -51,7 +59,10 @@ export const GatedNFT = (props: { did: string | undefined }) => {
     error: errorSdk,
     write: writeSdk,
   } = useContractWrite({
-    address: ExampleGatedNFTMinterAddress_mumbai_dev,
+    address:
+      chainId == 11155111
+        ? ExampleGatedNFTMinterAddress_sepolia_dev
+        : ExampleGatedNFTMinterAddress_mumbai_dev,
     abi: ExampleGatedNFTMinterABI,
     functionName: "mintNFTGated",
   });
@@ -62,7 +73,10 @@ export const GatedNFT = (props: { did: string | undefined }) => {
     isSuccess: isSuccessNonGated,
     write: writeNonGated,
   } = useContractWrite({
-    address: ExampleNFTMinterAddress_mumbai_dev,
+    address:
+      chainId == 11155111
+        ? ExampleNFTMinterAddress_sepolia_dev
+        : ExampleNFTMinterAddress_mumbai_dev,
     abi: ExampleNFTMinterABI,
     functionName: "mintNFT",
   });

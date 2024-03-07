@@ -110,8 +110,8 @@ export const useGetNonGatedMintedNFTs = () => {
   const exampleGatedContract = {
     address:
       chainId == 11155111
-        ? ExampleGatedNFTMinterAddress_sepolia_dev
-        : ExampleGatedNFTMinterAddress_mumbai_dev,
+        ? ExampleNFTMinterAddress_sepolia_dev
+        : ExampleNFTMinterAddress_mumbai_dev,
     abi: ExampleNFTMinterABI,
   };
   // fetch tokenId

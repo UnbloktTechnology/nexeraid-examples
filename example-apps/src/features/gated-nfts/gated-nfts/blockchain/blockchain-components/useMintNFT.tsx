@@ -14,8 +14,14 @@ import {
   ExampleGatedNFTMinterAddress_mumbai_dev,
   ExampleGatedNFTMinterAddress_sepolia_dev,
 } from "@nexeraprotocol/nexera-id-contracts-sdk/addresses";
-import type { Address, Signature } from "@nexeraprotocol/nexera-id-schemas";
+import type { Signature } from "@nexeraprotocol/nexera-id-schemas";
 import { IDENTITY_CLIENT } from "../../identity/IdentityClient";
+import {
+  useChainId,
+  useAccount,
+  useBlockNumber,
+  useContractWrite,
+} from "wagmi";
 
 const WRONG_SIGNATURE: Signature =
   "0xc6fd40ac16944fd0fef20071149270a2c283c8ae92ffcbb5e61f44348490dc3b65e786637aaa82f46ac3c01941a9875046a2ceb9bad189362014b35f6e74df231b";
@@ -28,23 +34,29 @@ export type WalletClientExtended = Client<
   PublicActions & WalletActions<Chain, Account>
 >;
 export const useMintGatedNFTFromSDK = () => {
+  const chainId = useChainId();
+  const account = useAccount();
+  const blockNumber = useBlockNumber();
+
+  const mintNFTGatedFromSDK = useContractWrite({
+    address:
+      chainId == 11155111
+        ? ExampleGatedNFTMinterAddress_sepolia_dev
+        : ExampleGatedNFTMinterAddress_mumbai_dev,
+    abi: ExampleGatedNFTMinterABI,
+    functionName: "mintNFTGated",
+  });
+
   return useMutation({
-    mutationFn: async (input: {
-      client: WalletClientExtended;
-      write: (config: { args: [Address, bigint, Signature] }) => void;
-    }) => {
+    mutationFn: async () => {
       if (!IDENTITY_CLIENT.init) {
         console.log("IDENTITY_CLIENT is not initizalied");
         return { signatureResponse: { isAuthorized: false } };
       }
       try {
-        const [userAddress] = await input.client.getAddresses();
-        if (!userAddress) {
+        if (!account.address) {
           throw new Error("No account in wallet Client - address");
         }
-
-        // get chain ID from client
-        const chainId = await input.client.getChainId();
 
         const txAuthInput = {
           contractAbi: ExampleGatedNFTMinterABI,
@@ -53,8 +65,9 @@ export const useMintGatedNFTFromSDK = () => {
               ? ExampleGatedNFTMinterAddress_sepolia_dev
               : ExampleGatedNFTMinterAddress_mumbai_dev,
           functionName: "mintNFTGated",
-          args: [userAddress],
+          args: [account.address],
         };
+        //TODO: update this with new sdk call
         const signatureResponse = await IDENTITY_CLIENT.getTxAuthSignature({
           txAuthInput,
           chainId,
@@ -66,24 +79,27 @@ export const useMintGatedNFTFromSDK = () => {
           signatureResponse.signature
         ) {
           // Mint Gated Nft with signature
-          input.write({
+          const result = await mintNFTGatedFromSDK.writeAsync({
             args: [
-              userAddress,
+              account.address,
               BigInt(signatureResponse.blockExpiration),
               signatureResponse.signature,
             ],
           });
 
           return {
+            txHash: result.hash,
             signatureResponse,
           };
         } else {
           try {
             // Mint Gated Nft with signature
-            input.write({
+            await mintNFTGatedFromSDK.writeAsync({
               args: [
-                userAddress,
-                BigInt(Number(await input.client.getBlockNumber()) + 10),
+                account.address,
+                blockNumber.data
+                  ? BigInt(Number(blockNumber.data) + 10)
+                  : BigInt(0),
                 WRONG_SIGNATURE,
               ],
             });

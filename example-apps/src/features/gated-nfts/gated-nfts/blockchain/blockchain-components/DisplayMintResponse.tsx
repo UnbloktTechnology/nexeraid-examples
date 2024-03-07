@@ -4,7 +4,7 @@ import type { MintResponse } from "./blockchain.schema";
 
 export const DisplayMintResponse = (props: {
   mintResponse?: MintResponse;
-  gasCost?: number;
+  gasCost?: bigint;
   writeData?: {
     isSuccess: boolean;
     isLoading: boolean;
@@ -43,7 +43,12 @@ export const DisplayMintResponse = (props: {
                   : "Failed"}
             </div>
           )}
-          {props.gasCost && <div>Gas Cost: {props.gasCost}</div>}
+          {
+            <div>
+              Gas Cost:{" "}
+              {props.gasCost ? props.gasCost.toString() : "Pending..."}
+            </div>
+          }
           {props.error && <div>Error: {props.error}</div>}
         </div>
       ) : (

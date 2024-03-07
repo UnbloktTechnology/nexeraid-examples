@@ -1,4 +1,9 @@
-import { useContractEvent, useContractRead, useContractReads } from "wagmi";
+import {
+  useChainId,
+  useContractEvent,
+  useContractRead,
+  useContractReads,
+} from "wagmi";
 
 import {
   ExampleGatedNFTMinterABI,
@@ -6,17 +11,23 @@ import {
 } from "@nexeraprotocol/nexera-id-contracts-sdk/abis";
 import {
   ExampleGatedNFTMinterAddress_mumbai_dev,
+  ExampleGatedNFTMinterAddress_sepolia_dev,
   ExampleNFTMinterAddress_mumbai_dev,
+  ExampleNFTMinterAddress_sepolia_dev,
 } from "@nexeraprotocol/nexera-id-contracts-sdk/addresses";
 import type { Address } from "@nexeraprotocol/nexera-id-schemas";
 import { useEffect, useState } from "react";
 import type { MintedNFT } from "./DisplayMintedNFTs";
 
 export const useGetGatedMintedNFTs = () => {
+  const chainId = useChainId();
   // Use this hook to only update nfts after wagmi hook has loaded and nfts are defined
   const [mintedGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
   const exampleGatedContract = {
-    address: ExampleGatedNFTMinterAddress_mumbai_dev,
+    address:
+      chainId == 11155111
+        ? ExampleGatedNFTMinterAddress_sepolia_dev
+        : ExampleGatedNFTMinterAddress_mumbai_dev,
     abi: ExampleGatedNFTMinterABI,
   };
   // fetch tokenId
@@ -64,7 +75,10 @@ export const useGetGatedMintedNFTs = () => {
     setNewNFTs((currentNFTs) => [...currentNFTs, _newNFT]);
   }
   useContractEvent({
-    address: ExampleGatedNFTMinterAddress_mumbai_dev,
+    address:
+      chainId == 11155111
+        ? ExampleGatedNFTMinterAddress_sepolia_dev
+        : ExampleGatedNFTMinterAddress_mumbai_dev,
     abi: ExampleGatedNFTMinterABI,
     eventName: "Transfer",
 
@@ -90,10 +104,14 @@ export const useGetGatedMintedNFTs = () => {
 };
 
 export const useGetNonGatedMintedNFTs = () => {
+  const chainId = useChainId();
   // Use this hook to only update nfts after wagmi hook has loaded and nfts are defined
   const [mintedGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
   const exampleGatedContract = {
-    address: ExampleNFTMinterAddress_mumbai_dev,
+    address:
+      chainId == 11155111
+        ? ExampleGatedNFTMinterAddress_sepolia_dev
+        : ExampleGatedNFTMinterAddress_mumbai_dev,
     abi: ExampleNFTMinterABI,
   };
   // fetch tokenId
@@ -141,7 +159,10 @@ export const useGetNonGatedMintedNFTs = () => {
     setNewNFTs((currentNFTs) => [...currentNFTs, _newNFT]);
   }
   useContractEvent({
-    address: ExampleNFTMinterAddress_mumbai_dev,
+    address:
+      chainId == 11155111
+        ? ExampleNFTMinterAddress_sepolia_dev
+        : ExampleNFTMinterAddress_mumbai_dev,
     abi: ExampleNFTMinterABI,
     eventName: "Transfer",
 

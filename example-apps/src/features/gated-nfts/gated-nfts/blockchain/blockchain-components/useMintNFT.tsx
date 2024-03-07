@@ -1,4 +1,3 @@
-
 import { useMutation } from "@tanstack/react-query";
 import type {
   Account,
@@ -11,7 +10,10 @@ import type {
 } from "viem";
 
 import { ExampleGatedNFTMinterABI } from "@nexeraprotocol/nexera-id-contracts-sdk/abis";
-import { ExampleGatedNFTMinterAddress_mumbai_dev } from "@nexeraprotocol/nexera-id-contracts-sdk/addresses";
+import {
+  ExampleGatedNFTMinterAddress_mumbai_dev,
+  ExampleGatedNFTMinterAddress_sepolia_dev,
+} from "@nexeraprotocol/nexera-id-contracts-sdk/addresses";
 import type { Address, Signature } from "@nexeraprotocol/nexera-id-schemas";
 import { IDENTITY_CLIENT } from "../../identity/IdentityClient";
 
@@ -41,14 +43,22 @@ export const useMintGatedNFTFromSDK = () => {
           throw new Error("No account in wallet Client - address");
         }
 
+        // get chain ID from client
+        const chainId = await input.client.getChainId();
+
         const txAuthInput = {
           contractAbi: ExampleGatedNFTMinterABI,
-          contractAddress: ExampleGatedNFTMinterAddress_mumbai_dev,
+          contractAddress:
+            chainId == 11155111
+              ? ExampleGatedNFTMinterAddress_sepolia_dev
+              : ExampleGatedNFTMinterAddress_mumbai_dev,
           functionName: "mintNFTGated",
           args: [userAddress],
         };
-        const signatureResponse =
-          await IDENTITY_CLIENT.getTxAuthSignature(txAuthInput);
+        const signatureResponse = await IDENTITY_CLIENT.getTxAuthSignature({
+          txAuthInput,
+          chainId,
+        });
 
         if (
           signatureResponse.isAuthorized &&

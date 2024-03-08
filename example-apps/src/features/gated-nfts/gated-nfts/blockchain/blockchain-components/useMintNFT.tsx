@@ -14,7 +14,7 @@ import {
   ExampleGatedNFTMinterAddress_mumbai_dev,
   ExampleGatedNFTMinterAddress_sepolia_dev,
 } from "@nexeraprotocol/nexera-id-contracts-sdk/addresses";
-import type { Signature } from "@nexeraprotocol/nexera-id-schemas";
+import { ChainId, type Signature } from "@nexeraprotocol/nexera-id-schemas";
 import { IDENTITY_CLIENT } from "../../identity/IdentityClient";
 import {
   useChainId,
@@ -66,12 +66,11 @@ export const useMintGatedNFTFromSDK = () => {
               : ExampleGatedNFTMinterAddress_mumbai_dev,
           functionName: "mintNFTGated",
           args: [account.address],
+          chainId: ChainId.parse(chainId),
         };
-        //TODO: update this with new sdk call
-        const signatureResponse = await IDENTITY_CLIENT.getTxAuthSignature({
-          txAuthInput,
-          chainId,
-        });
+
+        const signatureResponse =
+          await IDENTITY_CLIENT.getTxAuthSignature(txAuthInput);
 
         if (
           signatureResponse.isAuthorized &&

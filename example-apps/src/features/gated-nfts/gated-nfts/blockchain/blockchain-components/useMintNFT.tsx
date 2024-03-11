@@ -72,53 +72,34 @@ export const useMintGatedNFTFromSDK = () => {
         const signatureResponse =
           await IDENTITY_CLIENT.getTxAuthSignature(txAuthInput);
 
-        if (
-          signatureResponse.isAuthorized &&
-          signatureResponse.blockExpiration &&
-          signatureResponse.signature
-        ) {
-          // Mint Gated Nft with signature
-          const result = await mintNFTGatedFromSDK.writeAsync({
-            args: [
-              account.address,
-              BigInt(signatureResponse.blockExpiration),
-              signatureResponse.signature,
-            ],
-          });
+        // If user is not authorized, use wrong signature and dummy blockExpiratioin
+        const blockExpiration =
+          signatureResponse.blockExpiration ??
+          (blockNumber.data ? Number(blockNumber.data) + 10 : 0);
+        const signature = signatureResponse.signature ?? WRONG_SIGNATURE;
 
-          return {
-            txHash: result.hash,
-            signatureResponse,
-          };
-        } else {
-          try {
-            // Mint Gated Nft with signature
-            await mintNFTGatedFromSDK.writeAsync({
-              args: [
-                account.address,
-                blockNumber.data
-                  ? BigInt(Number(blockNumber.data) + 10)
-                  : BigInt(0),
-                WRONG_SIGNATURE,
-              ],
-            });
+        // Mint Gated Nft with signature
+        const result = await mintNFTGatedFromSDK.writeAsync({
+          args: [account.address, BigInt(blockExpiration), signature],
+        });
 
-            return {
-              signatureResponse,
-            };
-          } catch (e) {
-            return {
-              signatureResponse: {
-                isAuthorized: false,
-                signature: WRONG_SIGNATURE,
-              },
-              error: (e as Error).toString().substring(0, 108),
-            };
-          }
-        }
+        return {
+          txHash: result.hash,
+          signatureResponse: {
+            isAuthorized: signatureResponse.isAuthorized,
+            signature,
+            blockExpiration,
+          },
+        };
       } catch (e) {
         console.log("error during getTxAuthDataSignature", e);
-        return { signatureResponse: { isAuthorized: false } };
+        return {
+          signatureResponse: {
+            isAuthorized: false,
+            signature: WRONG_SIGNATURE,
+          },
+          error: (e as Error).toString().substring(0, 108),
+        };
       }
     },
   });

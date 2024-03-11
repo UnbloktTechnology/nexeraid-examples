@@ -103,9 +103,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
                 isLoading: tryMintingGatedNFTFromSDK.isLoading,
                 isSuccess: tryMintingGatedNFTFromSDK.isSuccess,
               }}
-              error={tryMintingGatedNFTFromSDK.error
-                ?.toString()
-                .substring(0, 108)}
+              error={tryMintingGatedNFTFromSDK.data?.error}
             />
             <br />
             <DisplayMintedNFTs

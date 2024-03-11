@@ -34,21 +34,22 @@ export const DisplayMintResponse = (props: {
           {props.writeData && (
             <div>
               Transaction Status:{" "}
-              {props.writeData.isLoading
-                ? "Loading..."
-                : props.writeData.isSuccess
-                  ? props.gasCost
-                    ? "Success"
-                    : "Minting..."
-                  : "Failed"}
+              {props.error
+                ? "Failed"
+                : props.writeData.isLoading
+                  ? "Loading..."
+                  : props.writeData.isSuccess
+                    ? props.gasCost
+                      ? "Success"
+                      : "Minting..."
+                    : "Failed"}
             </div>
           )}
-          {
+          {!props.error && (
             <div>
-              Gas Cost:{" "}
-              {props.gasCost ? props.gasCost.toString() : "Pending..."}
+              Gas Cost: {props.gasCost ? props.gasCost.toString() : "Pending"}
             </div>
-          }
+          )}
           {props.error && <div>Error: {props.error}</div>}
         </div>
       ) : (

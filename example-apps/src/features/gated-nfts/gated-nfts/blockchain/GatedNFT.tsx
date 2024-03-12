@@ -1,17 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   useAccount,
   useContractWrite,
   useWalletClient,
   useChainId,
+  useWaitForTransaction,
 } from "wagmi";
+import { sepolia } from "viem/chains";
+import { ExampleNFTMinterABI } from "@nexeraprotocol/nexera-id-contracts-sdk/abis";
 import {
-  ExampleGatedNFTMinterABI,
-  ExampleNFTMinterABI,
-} from "@nexeraprotocol/nexera-id-contracts-sdk/abis";
-import {
-  ExampleGatedNFTMinterAddress_mumbai_dev,
-  ExampleGatedNFTMinterAddress_sepolia_dev,
   ExampleNFTMinterAddress_mumbai_dev,
   ExampleNFTMinterAddress_sepolia_dev,
 } from "@nexeraprotocol/nexera-id-contracts-sdk/addresses";
@@ -21,7 +18,7 @@ import {
   useGetNonGatedMintedNFTs,
 } from "./blockchain-components/useGetMintedNFTs";
 import { useMintGatedNFTFromSDK } from "./blockchain-components/useMintNFT";
-import { publicActions } from "viem";
+
 import { DisplayMintResponse } from "./blockchain-components/DisplayMintResponse";
 import { DisplayMintedNFTs } from "./blockchain-components/DisplayMintedNFTs";
 
@@ -45,81 +42,29 @@ export const GatedNFT = (props: { did: string | undefined }) => {
   const [sdkResponse, setSdkResponse] = useState<MintResponse | undefined>(
     undefined,
   );
-  const [sdkGatedMintCost, setSdkGatedMintCost] = useState<number | undefined>(
-    undefined,
-  );
-  const [nonGatedMintCost, setNonGatedMintCost] = useState<number | undefined>(
-    undefined,
-  );
-  // sdk contract call gated nft
-  const {
-    data: sdkWriteData,
-    isLoading: isLoadingSdk,
-    isSuccess: isSuccessSdk,
-    error: errorSdk,
-    write: writeSdk,
-  } = useContractWrite({
-    address:
-      chainId == 11155111
-        ? ExampleGatedNFTMinterAddress_sepolia_dev
-        : ExampleGatedNFTMinterAddress_mumbai_dev,
-    abi: ExampleGatedNFTMinterABI,
-    functionName: "mintNFTGated",
-  });
-  // sdk contract call NON gated nft
-  const {
-    data: writeDataNonGated,
-    isLoading: isLoadingNonGated,
-    isSuccess: isSuccessNonGated,
-    write: writeNonGated,
-  } = useContractWrite({
-    address:
-      chainId == 11155111
-        ? ExampleNFTMinterAddress_sepolia_dev
-        : ExampleNFTMinterAddress_mumbai_dev,
-    abi: ExampleNFTMinterABI,
-    functionName: "mintNFT",
-  });
 
   const mintedGatedNFTs = useGetGatedMintedNFTs();
   const mintedNonGatedNFTs = useGetNonGatedMintedNFTs();
 
   const tryMintingGatedNFTFromSDK = useMintGatedNFTFromSDK();
+  const mintGatedSdkTxResult = useWaitForTransaction({
+    hash: tryMintingGatedNFTFromSDK.data?.txHash ?? "0x0",
+    enabled: !!tryMintingGatedNFTFromSDK.data?.txHash,
+  });
 
-  // update gasCost for sdk tx hash
-  useEffect(() => {
-    if (walletClient && sdkWriteData?.hash) {
-      walletClient
-        .extend(publicActions)
-        .waitForTransactionReceipt({
-          hash: sdkWriteData.hash,
-        })
-        .then((rcpt) => {
-          setSdkGatedMintCost(Number(rcpt.gasUsed));
-        })
-        .catch((e) => {
-          console.log("error fetdcging gas cost for sdk response", e);
-        });
-    }
-  }, [sdkWriteData, walletClient]);
-
-  // update gasCost for non gated call tx hash
-  useEffect(() => {
-    if (walletClient && writeDataNonGated?.hash) {
-      walletClient
-        .extend(publicActions)
-        .waitForTransactionReceipt({
-          hash: writeDataNonGated.hash,
-        })
-        .then((rcpt) => {
-          setNonGatedMintCost(Number(rcpt.gasUsed));
-        })
-        .catch((e) => {
-          console.log("error fetdcging gas cost for sdk response", e);
-        });
-    }
-  }, [writeDataNonGated, walletClient]);
-
+  // sdk contract call NON gated nft
+  const mintNonGated = useContractWrite({
+    address:
+      chainId == sepolia.id
+        ? ExampleNFTMinterAddress_sepolia_dev
+        : ExampleNFTMinterAddress_mumbai_dev,
+    abi: ExampleNFTMinterABI,
+    functionName: "mintNFT",
+  });
+  const mintNonGatedTxResult = useWaitForTransaction({
+    hash: mintNonGated.data?.hash ?? "0x0",
+    enabled: !!mintNonGated.data?.hash,
+  });
   return (
     <>
       <div>DID:{did}</div>
@@ -136,13 +81,9 @@ export const GatedNFT = (props: { did: string | undefined }) => {
               onClick={() => {
                 if (walletClient) {
                   tryMintingGatedNFTFromSDK
-                    .mutateAsync({
-                      client: walletClient.extend(publicActions),
-                      write: writeSdk,
-                    })
+                    .mutateAsync()
                     .then((_sdkResponse) => {
                       setSdkResponse(_sdkResponse);
-                      setSdkGatedMintCost(undefined);
                     })
                     .catch((e) => {
                       console.log("error while fetching signature", e);
@@ -158,12 +99,12 @@ export const GatedNFT = (props: { did: string | undefined }) => {
             <h2 className={"mt-4 text-2xl font-bold"}>SDK RESPONSE</h2>
             <DisplayMintResponse
               mintResponse={sdkResponse}
-              gasCost={sdkGatedMintCost}
+              gasCost={mintGatedSdkTxResult.data?.gasUsed}
               writeData={{
-                isLoading: isLoadingSdk,
-                isSuccess: isSuccessSdk,
+                isLoading: tryMintingGatedNFTFromSDK.isLoading,
+                isSuccess: tryMintingGatedNFTFromSDK.isSuccess,
               }}
-              error={errorSdk?.toString().substring(0, 108)}
+              error={tryMintingGatedNFTFromSDK.data?.error}
             />
             <br />
             <DisplayMintedNFTs
@@ -188,7 +129,9 @@ export const GatedNFT = (props: { did: string | undefined }) => {
                   return;
                 }
                 if (walletClient) {
-                  writeNonGated({ args: [account.address] });
+                  mintNonGated.write({
+                    args: [account.address],
+                  });
                 } else {
                   console.log("walletClient not loaded");
                 }
@@ -196,20 +139,19 @@ export const GatedNFT = (props: { did: string | undefined }) => {
             >
               Mint Non Gated NFT
             </button>
-            <h2 className={"mt-4 text-2xl font-bold"}>Gas Cost</h2>
-            {nonGatedMintCost && <div>Gas Cost: {nonGatedMintCost}</div>}
-            {writeDataNonGated && (
-              <div>
-                Transaction Status:{" "}
-                {isLoadingNonGated
-                  ? "Loading..."
-                  : isSuccessNonGated
-                    ? nonGatedMintCost
-                      ? "Success"
-                      : "Minting..."
-                    : "Failed"}
-              </div>
-            )}
+
+            <h2 className={"text-2xl font-bold"}>Gas Cost</h2>
+            {mintNonGatedTxResult.data?.gasUsed
+              ? mintNonGatedTxResult.data.gasUsed.toString()
+              : "Pending"}
+            <div>
+              Transaction Status:{" "}
+              {mintNonGatedTxResult.isLoading
+                ? "Loading..."
+                : mintNonGatedTxResult.isSuccess
+                  ? "Success"
+                  : "Failed"}
+            </div>
             <br />
             <DisplayMintedNFTs
               mintedNFTs={mintedNonGatedNFTs.nfts}

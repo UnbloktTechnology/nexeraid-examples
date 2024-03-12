@@ -11,15 +11,19 @@ export const getTransactionStatus = (props: {
   };
   error?: string;
 }) => {
-  return props.error
-    ? "Failed"
-    : props.writeData?.isLoading
-      ? "Loading..."
-      : props.writeData?.isSuccess
-        ? props.gasCost
-          ? "Success"
-          : "Minting..."
-        : "Failed";
+  if (props.error) {
+    return "Failed";
+  }
+
+  if (props.writeData?.isLoading) {
+    return "Loading...";
+  }
+
+  if (props.writeData?.isSuccess) {
+    return props.gasCost ? "Success" : "Minting...";
+  }
+
+  return "Failed";
 };
 
 export const DisplayMintResponse = (props: {

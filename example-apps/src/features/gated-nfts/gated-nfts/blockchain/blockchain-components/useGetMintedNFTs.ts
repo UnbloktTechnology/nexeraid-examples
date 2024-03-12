@@ -5,6 +5,8 @@ import {
   useContractReads,
 } from "wagmi";
 
+import { sepolia } from "viem/chains";
+
 import {
   ExampleGatedNFTMinterABI,
   ExampleNFTMinterABI,
@@ -25,7 +27,7 @@ export const useGetGatedMintedNFTs = () => {
   const [mintedGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
   const exampleGatedContract = {
     address:
-      chainId == 11155111
+      chainId == sepolia.id
         ? ExampleGatedNFTMinterAddress_sepolia_dev
         : ExampleGatedNFTMinterAddress_mumbai_dev,
     abi: ExampleGatedNFTMinterABI,
@@ -76,7 +78,7 @@ export const useGetGatedMintedNFTs = () => {
   }
   useContractEvent({
     address:
-      chainId == 11155111
+      chainId == sepolia.id
         ? ExampleGatedNFTMinterAddress_sepolia_dev
         : ExampleGatedNFTMinterAddress_mumbai_dev,
     abi: ExampleGatedNFTMinterABI,
@@ -109,7 +111,7 @@ export const useGetNonGatedMintedNFTs = () => {
   const [mintedGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
   const exampleGatedContract = {
     address:
-      chainId == 11155111
+      chainId == sepolia.id
         ? ExampleNFTMinterAddress_sepolia_dev
         : ExampleNFTMinterAddress_mumbai_dev,
     abi: ExampleNFTMinterABI,
@@ -160,7 +162,7 @@ export const useGetNonGatedMintedNFTs = () => {
   }
   useContractEvent({
     address:
-      chainId == 11155111
+      chainId == sepolia.id
         ? ExampleNFTMinterAddress_sepolia_dev
         : ExampleNFTMinterAddress_mumbai_dev,
     abi: ExampleNFTMinterABI,

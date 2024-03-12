@@ -6,6 +6,7 @@ import {
   useChainId,
   useWaitForTransaction,
 } from "wagmi";
+import { sepolia } from "viem/chains";
 import { ExampleNFTMinterABI } from "@nexeraprotocol/nexera-id-contracts-sdk/abis";
 import {
   ExampleNFTMinterAddress_mumbai_dev,
@@ -54,7 +55,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
   // sdk contract call NON gated nft
   const mintNonGated = useContractWrite({
     address:
-      chainId == 11155111
+      chainId == sepolia.id
         ? ExampleNFTMinterAddress_sepolia_dev
         : ExampleNFTMinterAddress_mumbai_dev,
     abi: ExampleNFTMinterABI,

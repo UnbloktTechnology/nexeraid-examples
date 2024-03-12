@@ -8,6 +8,7 @@ import type {
   Transport,
   WalletActions,
 } from "viem";
+import { sepolia } from "viem/chains";
 
 import { ExampleGatedNFTMinterABI } from "@nexeraprotocol/nexera-id-contracts-sdk/abis";
 import {
@@ -40,7 +41,7 @@ export const useMintGatedNFTFromSDK = () => {
 
   const mintNFTGatedFromSDK = useContractWrite({
     address:
-      chainId == 11155111
+      chainId == sepolia.id
         ? ExampleGatedNFTMinterAddress_sepolia_dev
         : ExampleGatedNFTMinterAddress_mumbai_dev,
     abi: ExampleGatedNFTMinterABI,
@@ -61,7 +62,7 @@ export const useMintGatedNFTFromSDK = () => {
         const txAuthInput = {
           contractAbi: ExampleGatedNFTMinterABI,
           contractAddress:
-            chainId == 11155111
+            chainId == sepolia.id
               ? ExampleGatedNFTMinterAddress_sepolia_dev
               : ExampleGatedNFTMinterAddress_mumbai_dev,
           functionName: "mintNFTGated",

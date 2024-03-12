@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@nexeraid/identity-sdk": "^1.1.292-dev",
-    "@nexeraprotocol/nexera-id-contracts-sdk": "^1.0.71",
+    "@nexeraprotocol/nexera-id-contracts-sdk": "^1.1.0",
     "@nexeraprotocol/nexera-id-schemas": "^1.10.92-dev",
     "@rainbow-me/rainbowkit": "^1.0.12",
     "@t3-oss/env-nextjs": "^0.6.0",

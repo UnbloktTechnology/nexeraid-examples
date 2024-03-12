@@ -2,9 +2,33 @@ import { short0xString } from "@nexeraprotocol/nexera-id-schemas";
 
 import type { MintResponse } from "./blockchain.schema";
 
+export const getTransactionStatus = (props: {
+  mintResponse?: MintResponse;
+  gasCost?: bigint;
+  writeData?: {
+    isSuccess: boolean;
+    isLoading: boolean;
+  };
+  error?: string;
+}) => {
+  if (props.error) {
+    return "Failed";
+  }
+
+  if (props.writeData?.isLoading) {
+    return "Loading...";
+  }
+
+  if (props.writeData?.isSuccess) {
+    return props.gasCost ? "Success" : "Minting...";
+  }
+
+  return "Failed";
+};
+
 export const DisplayMintResponse = (props: {
   mintResponse?: MintResponse;
-  gasCost?: number;
+  gasCost?: bigint;
   writeData?: {
     isSuccess: boolean;
     isLoading: boolean;
@@ -32,18 +56,13 @@ export const DisplayMintResponse = (props: {
             </div>
           )}
           {props.writeData && (
+            <div>Transaction Status: {getTransactionStatus(props)}</div>
+          )}
+          {!props.error && (
             <div>
-              Transaction Status:{" "}
-              {props.writeData.isLoading
-                ? "Loading..."
-                : props.writeData.isSuccess
-                  ? props.gasCost
-                    ? "Success"
-                    : "Minting..."
-                  : "Failed"}
+              Gas Cost: {props.gasCost ? props.gasCost.toString() : "Pending"}
             </div>
           )}
-          {props.gasCost && <div>Gas Cost: {props.gasCost}</div>}
           {props.error && <div>Error: {props.error}</div>}
         </div>
       ) : (

@@ -12,7 +12,7 @@
     "@nexeraid/identity-sdk": "^1.1.292-dev",
     "@nexeraprotocol/nexera-id-contracts-sdk": "^1.1.0",
     "@nexeraprotocol/nexera-id-schemas": "^1.10.92-dev",
-    "@rainbow-me/rainbowkit": "^1.0.12",
+    "@rainbow-me/rainbowkit": "^2.0.2",
     "@t3-oss/env-nextjs": "^0.6.0",
     "@tanstack/react-query": "^4.32.6",
     "@tanstack/react-query-devtools": "^4.35.7",

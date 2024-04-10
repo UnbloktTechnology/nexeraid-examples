@@ -9,7 +9,7 @@ export const accessRouter = createTRPCRouter({
     .input(
       z.object({
         address: z.string(),
-      })
+      }),
     )
     .output(z.any())
     .mutation(async ({ input }) => {
@@ -36,7 +36,7 @@ export const accessRouter = createTRPCRouter({
     .input(
       z.object({
         address: z.string(),
-      })
+      }),
     )
     .output(z.any())
     .mutation(async ({ input }) => {
@@ -60,7 +60,7 @@ export const accessRouter = createTRPCRouter({
     .input(
       z.object({
         address: z.string(),
-      })
+      }),
     )
     .output(z.any())
     .mutation(async ({ input }) => {
@@ -84,7 +84,7 @@ export const accessRouter = createTRPCRouter({
     .input(
       z.object({
         address: z.string(),
-      })
+      }),
     )
     .output(z.any())
     .mutation(async ({ input }) => {
@@ -108,14 +108,14 @@ export const accessRouter = createTRPCRouter({
     .input(
       z.object({
         address: z.string(),
-      })
+      }),
     )
     .output(z.any())
     .mutation(async ({ input }) => {
       const apiHost = appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api;
       console.log("apiHost", apiHost);
       const response = await fetch(`${apiHost}kyc/auth/access-token`, {
-        body: JSON.stringify({ address: input.address }),
+        body: JSON.stringify({ wallet: input.address }),
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${env.NEXERA_ID_API_KEY_KYC}`,
@@ -128,11 +128,11 @@ export const accessRouter = createTRPCRouter({
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       return { accessToken: accessToken as string };
     }),
-    bankSygnumWeb3AccessToken: publicProcedure
+  bankSygnumWeb3AccessToken: publicProcedure
     .input(
       z.object({
         address: z.string(),
-      })
+      }),
     )
     .output(z.any())
     .mutation(async ({ input }) => {

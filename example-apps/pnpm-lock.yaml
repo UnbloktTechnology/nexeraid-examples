@@ -74,6 +74,9 @@ dependencies:
   zod:
     specifier: ^3.21.4
     version: 3.22.4
+  zustand:
+    specifier: ^4.3.8
+    version: 4.5.2(@types/react@18.2.75)(immer@10.0.4)(react@18.2.0)
 
 devDependencies:
   '@types/eslint':
@@ -678,12 +681,20 @@ packages:
   /@nexeraid/identity-sdk@1.1.326:
     resolution: {integrity: sha512-gSvMEmnzkWjXijYr2ktZa8WPpRM2H2KijVpvPRSCPWq+lcslX59YNEg5ngrhAQfjP7jYuUJfI7Asxt6tYZUF+A==}
     dependencies:
+      '@nexeraprotocol/identity-schemas': 1.10.125
       '@nexeraprotocol/nexera-id-schemas': 1.10.125
       zod: 3.22.4
     dev: false
 
   /@nexeraprotocol/identity-schemas@1.10.119-dev:
     resolution: {integrity: sha512-Q2xd+sFcTwlK9pV+yOLFo/H89rXQqs0K7ZTdIJLTaO44JwbkG/bj+b1OuxDoG3YkNlNS8ZhQlliX7qWeSgsjrw==}
+    dependencies:
+      zod: 3.22.4
+      zod-to-json-schema: 3.22.5(zod@3.22.4)
+    dev: false
+
+  /@nexeraprotocol/identity-schemas@1.10.125:
+    resolution: {integrity: sha512-ScW5hiX8TJBBSxVV7oqf0qtzumqg+gdqA8tzN3D+MZWSWQqwjm2ATn38ThHZqpiGAOc9U1iBAyWkLak0PbHaSQ==}
     dependencies:
       zod: 3.22.4
       zod-to-json-schema: 3.22.5(zod@3.22.4)

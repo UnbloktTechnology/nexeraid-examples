@@ -17,7 +17,7 @@ import {
   ExampleNFTMinterAddress_mumbai_dev,
   ExampleNFTMinterAddress_sepolia_dev,
 } from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/addresses";
-import type { Address } from "@nexeraprotocol/nexera-id-schemas";
+import type { Address } from "@nexeraprotocol/identity-schemas";
 import { useEffect, useState } from "react";
 import type { MintedNFT } from "./DisplayMintedNFTs";
 

@@ -15,7 +15,7 @@ import {
   ExampleGatedNFTMinterAddress_mumbai_dev,
   ExampleGatedNFTMinterAddress_sepolia_dev,
 } from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/addresses";
-import { ChainId, type Signature } from "@nexeraprotocol/nexera-id-schemas";
+import { ChainId, type Signature } from "@nexeraprotocol/identity-schemas";
 import { IDENTITY_CLIENT } from "../../identity/IdentityClient";
 import {
   useChainId,
@@ -60,7 +60,7 @@ export const useMintGatedNFTFromSDK = () => {
         }
 
         const txAuthInput = {
-          contractAbi: ExampleGatedNFTMinterABI,
+          contractAbi: Array.from(ExampleGatedNFTMinterABI),
           contractAddress:
             chainId == sepolia.id
               ? ExampleGatedNFTMinterAddress_sepolia_dev

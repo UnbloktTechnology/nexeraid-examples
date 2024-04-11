@@ -7,11 +7,11 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import { sepolia } from "viem/chains";
-import { ExampleNFTMinterABI } from "@nexeraprotocol/nexera-id-contracts-sdk/abis";
+import { ExampleNFTMinterABI } from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/abis";
 import {
   ExampleNFTMinterAddress_mumbai_dev,
   ExampleNFTMinterAddress_sepolia_dev,
-} from "@nexeraprotocol/nexera-id-contracts-sdk/addresses";
+} from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/addresses";
 import type { MintResponse } from "./blockchain-components/blockchain.schema";
 import {
   useGetGatedMintedNFTs,

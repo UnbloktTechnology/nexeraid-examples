@@ -1,4 +1,4 @@
-import { short0xString } from "@nexeraprotocol/nexera-id-schemas";
+import { shortAddress } from "@nexeraprotocol/identity-schemas";
 
 import type { MintResponse } from "./blockchain.schema";
 
@@ -46,7 +46,7 @@ export const DisplayMintResponse = (props: {
           {props.mintResponse.signatureResponse.signature && (
             <div>
               Signature:{" "}
-              {short0xString(props.mintResponse.signatureResponse.signature)}
+              {shortAddress(props.mintResponse.signatureResponse.signature)}
             </div>
           )}
           {props.mintResponse.signatureResponse.blockExpiration && (

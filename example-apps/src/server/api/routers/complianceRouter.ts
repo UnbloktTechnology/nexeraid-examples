@@ -5,10 +5,8 @@ import { getScenarioWebhookDefiRuleEngineRedisKey } from "@/pages/api/defi-rule-
 import { getScenarioWebhookDefiOffchainZKPRedisKey } from "@/pages/api/defi-offchain-zkp/scenario-webhook";
 import { getScenarioWebhookBankRedisKey } from "@/pages/api/bank/scenario-webhook";
 import { getScenarioWebhookBankWeb3RedisKey } from "@/pages/api/bank-web3/scenario-webhook";
-import {
-  GenericVerifiableCredentialSchema,
-  RuleResultStatus,
-} from "@nexeraprotocol/nexera-id-schemas";
+import { RuleResultStatus } from "@nexeraprotocol/identity-schemas/identity";
+import { GenericVerifiableCredentialSchema } from "@nexeraprotocol/identity-schemas/verifiable-credentials";
 
 export const ScenarioWebhookPayloadSchema = z.object({
   customerId: z.string(),

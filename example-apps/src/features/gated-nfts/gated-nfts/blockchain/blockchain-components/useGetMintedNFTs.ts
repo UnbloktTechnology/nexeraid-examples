@@ -10,14 +10,14 @@ import { sepolia } from "viem/chains";
 import {
   ExampleGatedNFTMinterABI,
   ExampleNFTMinterABI,
-} from "@nexeraprotocol/nexera-id-contracts-sdk/abis";
+} from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/abis";
 import {
   ExampleGatedNFTMinterAddress_mumbai_dev,
   ExampleGatedNFTMinterAddress_sepolia_dev,
   ExampleNFTMinterAddress_mumbai_dev,
   ExampleNFTMinterAddress_sepolia_dev,
-} from "@nexeraprotocol/nexera-id-contracts-sdk/addresses";
-import type { Address } from "@nexeraprotocol/nexera-id-schemas";
+} from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/addresses";
+import type { Address } from "@nexeraprotocol/identity-schemas";
 import { useEffect, useState } from "react";
 import type { MintedNFT } from "./DisplayMintedNFTs";
 
@@ -39,7 +39,7 @@ export const useGetGatedMintedNFTs = () => {
     isLoading: isLoadingLastTokenId,
   } = useContractRead({
     ...exampleGatedContract,
-    functionName: "getLastTokenId",
+    functionName: "lastTokenId",
     watch: true,
   });
   const numberOfNFTs = lastTokenId ? Number(lastTokenId) : 0;
@@ -123,7 +123,7 @@ export const useGetNonGatedMintedNFTs = () => {
     isLoading: isLoadingLastTokenId,
   } = useContractRead({
     ...exampleGatedContract,
-    functionName: "getLastTokenId",
+    functionName: "lastTokenId",
     watch: true,
   });
   const numberOfNFTs = lastTokenId ? Number(lastTokenId) : 0;

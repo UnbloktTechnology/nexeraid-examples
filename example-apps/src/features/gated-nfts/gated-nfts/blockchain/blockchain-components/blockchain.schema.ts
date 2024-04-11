@@ -1,4 +1,4 @@
-import type { GetTxAuthDataSignatureResponse } from "@nexeraprotocol/nexera-id-schemas";
+import type { GetTxAuthDataSignatureResponse } from "@nexeraprotocol/identity-schemas/identity";
 
 export type MintResponse = {
   signatureResponse: GetTxAuthDataSignatureResponse;

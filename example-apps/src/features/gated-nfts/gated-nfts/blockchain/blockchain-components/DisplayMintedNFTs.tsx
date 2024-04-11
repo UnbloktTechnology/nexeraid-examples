@@ -1,4 +1,4 @@
-import { short0xString, type Address } from "@nexeraprotocol/nexera-id-schemas";
+import { shortAddress, type Address } from "@nexeraprotocol/identity-schemas";
 export type MintedNFT = {
   owner: Address;
   tokenId: number;
@@ -27,7 +27,7 @@ export const DisplayMintedNFTs = (props: {
         {displayedNFTs.toReversed().map((nft, i) => {
           return (
             <div key={i} className={nft.isNew ? "bg-green-100/50" : undefined}>
-              NFT #{nft.tokenId} Owner: {nft.owner && short0xString(nft.owner)}
+              NFT #{nft.tokenId} Owner: {nft.owner && shortAddress(nft.owner)}
               {nft.blockNumber && ` Block Number: ${nft.blockNumber}`}
               {nft.time && ` Time: ${new Date(nft.time).toISOString()}`}
             </div>

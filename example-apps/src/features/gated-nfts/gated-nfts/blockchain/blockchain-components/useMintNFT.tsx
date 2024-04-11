@@ -10,11 +10,11 @@ import type {
 } from "viem";
 import { sepolia } from "viem/chains";
 
-import { ExampleGatedNFTMinterABI } from "@nexeraprotocol/nexera-id-contracts-sdk/abis";
+import { ExampleGatedNFTMinterABI } from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/abis";
 import {
   ExampleGatedNFTMinterAddress_mumbai_dev,
   ExampleGatedNFTMinterAddress_sepolia_dev,
-} from "@nexeraprotocol/nexera-id-contracts-sdk/addresses";
+} from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/addresses";
 import { ChainId, type Signature } from "@nexeraprotocol/nexera-id-schemas";
 import { IDENTITY_CLIENT } from "../../identity/IdentityClient";
 import {

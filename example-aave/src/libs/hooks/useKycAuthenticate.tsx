@@ -11,8 +11,10 @@ export const useKycAuthentication = () => {
   const authStore = useAuthStore((state) => state);
   const { provider } = useWeb3Context();
 
-  const logout = useMutation(async () => {
-    await Promise.resolve(authStore.logout());
+  const logout = useMutation({
+    mutationFn: async () => {
+      await Promise.resolve(authStore.logout());
+    },
   });
 
   const authenticate = useMutation(

@@ -8,14 +8,13 @@ import type {
   Transport,
   WalletActions,
 } from "viem";
-import { sepolia } from "viem/chains";
 
 import { ExampleGatedNFTMinterABI } from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/abis";
+
 import {
-  ExampleGatedNFTMinterAddress_mumbai_dev,
-  ExampleGatedNFTMinterAddress_sepolia_dev,
-} from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/addresses";
-import { ChainId, type Signature } from "@nexeraprotocol/identity-schemas";
+  ChainId,
+  type EIP115Signature,
+} from "@nexeraprotocol/identity-schemas";
 import { IDENTITY_CLIENT } from "../../identity/IdentityClient";
 import {
   useChainId,
@@ -23,9 +22,12 @@ import {
   useBlockNumber,
   useWriteContract,
 } from "wagmi";
-import { getGatedContractAddress } from "./getContractAddress";
+import {
+  getGatedContractAddress,
+  getNonGatedContractAddress,
+} from "./getContractAddress";
 
-const WRONG_SIGNATURE: Signature =
+const WRONG_SIGNATURE: EIP115Signature =
   "0xc6fd40ac16944fd0fef20071149270a2c283c8ae92ffcbb5e61f44348490dc3b65e786637aaa82f46ac3c01941a9875046a2ceb9bad189362014b35f6e74df231b";
 
 export type WalletClientExtended = Client<
@@ -55,10 +57,7 @@ export const useMintGatedNFTFromSDK = () => {
 
         const txAuthInput = {
           contractAbi: Array.from(ExampleGatedNFTMinterABI),
-          contractAddress:
-            chainId == sepolia.id
-              ? ExampleGatedNFTMinterAddress_sepolia_dev
-              : ExampleGatedNFTMinterAddress_mumbai_dev,
+          contractAddress: getNonGatedContractAddress(ChainId.parse(chainId)),
           functionName: "mintNFTGated",
           args: [account.address],
           chainId: ChainId.parse(chainId),

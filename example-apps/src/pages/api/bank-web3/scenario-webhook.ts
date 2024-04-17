@@ -1,7 +1,8 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { env } from "@/env.mjs";
 import { redis } from "@/server/redis";
-import { type ScenarioWebhookPayload } from "../../../server/api/routers/complianceRouter";
+
+import type { ScenarioWebhookPayload } from "@/utils/scenariosWebhook";
 
 export const getScenarioWebhookBankWeb3RedisKey = (address: string) => {
   return (
@@ -12,13 +13,13 @@ export const getScenarioWebhookBankWeb3RedisKey = (address: string) => {
 
 const scenarioWebHookPost = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   if (req.method === "POST") {
     console.log("=== scenarioWebHookPost BANK WEB3 req.body ===", req.body);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const body: ScenarioWebhookPayload = req.body;
-    if (!(body.result as unknown instanceof Array)) {
+    if (!((body.result as unknown) instanceof Array)) {
       const key = getScenarioWebhookBankWeb3RedisKey(body.address);
       await redis.set(key, JSON.stringify(body));
     }

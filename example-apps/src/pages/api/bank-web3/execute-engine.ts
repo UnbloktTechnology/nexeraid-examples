@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { BlockchainAddress } from "@nexeraprotocol/identity-schemas";
 import { redis } from "@/server/redis";
-import type { ScenarioWebhookPayload } from "@/server/api/routers/complianceRouter";
+import type { ScenarioWebhookPayload } from "@/utils/scenariosWebhook";
 import { getScenarioWebhookBankWeb3RedisKey } from "./scenario-webhook";
 
 const inputSchema = z.object({

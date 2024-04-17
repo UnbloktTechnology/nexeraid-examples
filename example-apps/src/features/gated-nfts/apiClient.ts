@@ -9,7 +9,6 @@
 //   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 //   const { accessToken } = await response.json();
 //   return accessToken as string;
-// };
 
 export const getScenarioWebhook = async (address: string) => {
   // wait 3 seconds to get the webhook response to be sure it is in redis

@@ -81,22 +81,23 @@ export const useGetGatedMintedNFTs = () => {
     setNewNFTs((currentNFTs) => [...currentNFTs, _newNFT]);
   }
   useWatchContractEvent({
-    //chainId: chainId,
+    // poll: true,
+    // pollingInterval: 1000,
     address: getGatedContractAddress(ChainId.parse(chainId)),
     abi: ExampleGatedNFTMinterABI,
-    // eventName: "Transfer",
+    eventName: "Transfer",
     onLogs(logs) {
       //TODO
       console.log("New logs gated!!!!", logs);
-      // logs?[0]?.args.to &&
-      //   logs[0]?.args.tokenId &&
-      //   logs[0].blockNumber &&
-      //   addNewNFT({
-      //     owner: logs[0]?.args.to,
-      //     tokenId: Number(logs[0]?.args.tokenId),
-      //     blockNumber: Number(logs[0].blockNumber),
-      //     time: Date.now(),
-      //   });
+      logs[0]?.args.to &&
+        logs[0]?.args.tokenId &&
+        logs[0].blockNumber &&
+        addNewNFT({
+          owner: logs[0]?.args.to,
+          tokenId: Number(logs[0]?.args.tokenId),
+          blockNumber: Number(logs[0].blockNumber),
+          time: Date.now(),
+        });
     },
   });
 

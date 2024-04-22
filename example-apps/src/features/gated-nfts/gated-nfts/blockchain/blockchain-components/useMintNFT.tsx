@@ -22,10 +22,7 @@ import {
   useBlockNumber,
   useWriteContract,
 } from "wagmi";
-import {
-  getGatedContractAddress,
-  getNonGatedContractAddress,
-} from "./getContractAddress";
+import { getGatedContractAddress } from "./getContractAddress";
 
 const WRONG_SIGNATURE: EIP115Signature =
   "0xc6fd40ac16944fd0fef20071149270a2c283c8ae92ffcbb5e61f44348490dc3b65e786637aaa82f46ac3c01941a9875046a2ceb9bad189362014b35f6e74df231b";
@@ -57,7 +54,7 @@ export const useMintGatedNFTFromSDK = () => {
 
         const txAuthInput = {
           contractAbi: Array.from(ExampleGatedNFTMinterABI),
-          contractAddress: getNonGatedContractAddress(ChainId.parse(chainId)),
+          contractAddress: getGatedContractAddress(ChainId.parse(chainId)),
           functionName: "mintNFTGated",
           args: [account.address],
           chainId: ChainId.parse(chainId),

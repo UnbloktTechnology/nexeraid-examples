@@ -16,7 +16,7 @@ export const useCheckBankCompliance = (enabled: boolean) => {
       const result = await executeEngine(
         {
           address: user.walletAddress,
-          blockchainNamespace: "eip-115",
+          blockchainNamespace: "eip115",
         },
         "bank",
       );

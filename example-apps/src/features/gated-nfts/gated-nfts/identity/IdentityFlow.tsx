@@ -31,7 +31,7 @@ export const IdentityFlow = (props: { setDID: (did: string) => void }) => {
       const response = await fetchAccessToken(
         {
           address,
-          blockchainNamespace: "eip-115",
+          blockchainNamespace: "eip115",
         },
         "kyc",
       );

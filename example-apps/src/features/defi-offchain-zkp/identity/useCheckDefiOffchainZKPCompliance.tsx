@@ -18,7 +18,7 @@ export const useCheckCompliance = (enabled: boolean) => {
       const result = await executeEngine(
         {
           address: user,
-          blockchainNamespace: "eip-115",
+          blockchainNamespace: "eip115",
         },
         "defi-offchain-zkp",
       );

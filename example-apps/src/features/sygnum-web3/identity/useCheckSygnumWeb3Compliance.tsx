@@ -17,7 +17,7 @@ export const useCheckSygnumWeb3Compliance = (enabled: boolean) => {
       const result = await executeEngine(
         {
           address: user,
-          blockchainNamespace: "eip-115",
+          blockchainNamespace: "eip115",
         },
         "bank-web3",
       );

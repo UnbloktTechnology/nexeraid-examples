@@ -25,7 +25,7 @@ export const useDefiRuleEngineKycAuthentication = () => {
       const response = await fetchAccessToken(
         {
           address: variables.user,
-          blockchainNamespace: "eip-115",
+          blockchainNamespace: "eip115",
         },
         "defi-rule-engine",
       );

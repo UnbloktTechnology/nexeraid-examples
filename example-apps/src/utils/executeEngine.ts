@@ -1,9 +1,12 @@
-import type { BlockchainAddress } from "@nexeraprotocol/identity-schemas";
+import type {
+  BlockchainAddress,
+  BlockchainNamespace,
+} from "@nexeraprotocol/identity-schemas";
 
 // Define the input and response types
 interface ExecuteEngineRequest {
   address: BlockchainAddress;
-  blockchainNamespace: string;
+  blockchainNamespace: BlockchainNamespace;
 }
 
 interface ExecuteEngineResponse {

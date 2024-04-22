@@ -19,7 +19,7 @@ export const Swap: React.FC<{
   isCompliant: boolean | undefined;
 }> = ({ isCompliant }) => {
   const { chain } = useAccount();
-  const options = SwapOptions[(chain?.id as ChainOptions) ?? "80001"];
+  const options = SwapOptions[(chain?.id as ChainOptions) ?? "80002"];
   console.log(options, chain?.name);
   const [fromAmount, setFromAmount] = useState("0");
   const [fromToken, setFromToken] = useState<ITokenInfo>(

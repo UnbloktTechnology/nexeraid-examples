@@ -9,8 +9,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "@nexeraid/identity-sdk": "^1.1.292-dev",
-    "@nexeraprotocol/identity-schemas": "^1.10.119-dev",
+    "@nexeraid/identity-sdk": "^1.1.330-dev",
+    "@nexeraprotocol/identity-schemas": "^1.10.120-dev",
     "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk": "^1.4.4",
     "@rainbow-me/rainbowkit": "^2.0.5",
     "@t3-oss/env-nextjs": "^0.6.0",

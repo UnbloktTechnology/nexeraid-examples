@@ -1,17 +1,14 @@
 import { useState } from "react";
 import {
   useAccount,
-  useContractWrite,
+  useWriteContract,
   useWalletClient,
   useChainId,
-  useWaitForTransaction,
+  useWaitForTransactionReceipt,
 } from "wagmi";
-import { sepolia } from "viem/chains";
+
 import { ExampleNFTMinterABI } from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/abis";
-import {
-  ExampleNFTMinterAddress_mumbai_dev,
-  ExampleNFTMinterAddress_sepolia_dev,
-} from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/addresses";
+
 import type { MintResponse } from "./blockchain-components/blockchain.schema";
 import {
   useGetGatedMintedNFTs,
@@ -21,6 +18,8 @@ import { useMintGatedNFTFromSDK } from "./blockchain-components/useMintNFT";
 
 import { DisplayMintResponse } from "./blockchain-components/DisplayMintResponse";
 import { DisplayMintedNFTs } from "./blockchain-components/DisplayMintedNFTs";
+import { getNonGatedContractAddress } from "./blockchain-components/getContractAddress";
+import { ChainId } from "@nexeraprotocol/identity-schemas";
 
 const buttonStyle = {
   padding: "16px 24px",
@@ -47,23 +46,16 @@ export const GatedNFT = (props: { did: string | undefined }) => {
   const mintedNonGatedNFTs = useGetNonGatedMintedNFTs();
 
   const tryMintingGatedNFTFromSDK = useMintGatedNFTFromSDK();
-  const mintGatedSdkTxResult = useWaitForTransaction({
+  const mintGatedSdkTxResult = useWaitForTransactionReceipt({
     hash: tryMintingGatedNFTFromSDK.data?.txHash ?? "0x0",
-    enabled: !!tryMintingGatedNFTFromSDK.data?.txHash,
+    query: { enabled: !!tryMintingGatedNFTFromSDK.data?.txHash },
   });
 
   // sdk contract call NON gated nft
-  const mintNonGated = useContractWrite({
-    address:
-      chainId == sepolia.id
-        ? ExampleNFTMinterAddress_sepolia_dev
-        : ExampleNFTMinterAddress_mumbai_dev,
-    abi: ExampleNFTMinterABI,
-    functionName: "mintNFT",
-  });
-  const mintNonGatedTxResult = useWaitForTransaction({
-    hash: mintNonGated.data?.hash ?? "0x0",
-    enabled: !!mintNonGated.data?.hash,
+  const mintNonGated = useWriteContract();
+  const mintNonGatedTxResult = useWaitForTransactionReceipt({
+    hash: mintNonGated.data ?? "0x0",
+    query: { enabled: !!mintNonGated.data },
   });
   return (
     <>
@@ -101,7 +93,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
               mintResponse={sdkResponse}
               gasCost={mintGatedSdkTxResult.data?.gasUsed}
               writeData={{
-                isLoading: tryMintingGatedNFTFromSDK.isLoading,
+                isLoading: tryMintingGatedNFTFromSDK.isPending,
                 isSuccess: tryMintingGatedNFTFromSDK.isSuccess,
               }}
               error={tryMintingGatedNFTFromSDK.data?.error}
@@ -129,7 +121,10 @@ export const GatedNFT = (props: { did: string | undefined }) => {
                   return;
                 }
                 if (walletClient) {
-                  mintNonGated.write({
+                  mintNonGated.writeContract({
+                    address: getNonGatedContractAddress(ChainId.parse(chainId)),
+                    abi: ExampleNFTMinterABI,
+                    functionName: "mintNFT",
                     args: [account.address],
                   });
                 } else {
@@ -146,7 +141,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
               : "Pending"}
             <div>
               Transaction Status:{" "}
-              {mintNonGatedTxResult.isLoading
+              {mintNonGatedTxResult.isPending
                 ? "Loading..."
                 : mintNonGatedTxResult.isSuccess
                   ? "Success"

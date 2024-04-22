@@ -2,28 +2,32 @@ import { useMutation } from "@tanstack/react-query";
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
-import { api } from "@/utils/api";
+import { fetchAccessToken } from "@/utils/fetchAccessToken";
 import { useSignMessage } from "wagmi";
 import { type Address } from "viem";
 import { buildSignatureMessage } from "@nexeraid/identity-sdk";
 
 export const useKycSygnumWeb3Authentication = () => {
   const authStore = useAuthStore((state) => state);
-  //
-  const getAccessToken = api.access.bankSygnumWeb3AccessToken.useMutation();
   const { signMessageAsync } = useSignMessage();
 
-  const logout = useMutation(async () => {
-    await Promise.resolve(authStore.logout());
+  const logout = useMutation({
+    mutationFn: async () => {
+      await Promise.resolve(authStore.logout());
+    },
   });
 
-  const authenticate = useMutation(
-    async (variables: { user: Address }) => {
+  const authenticate = useMutation({
+    mutationFn: async (variables: { user: Address }) => {
       const signingMessage = buildSignatureMessage(variables.user);
       const signature = await signMessageAsync({ message: signingMessage });
-      const response = await getAccessToken.mutateAsync({
-        address: variables.user,
-      });
+      const response = await fetchAccessToken(
+        {
+          address: variables.user,
+          blockchainNamespace: "eip115",
+        },
+        "sygnum-web3",
+      );
       const { accessToken } = response;
       return {
         accessToken,
@@ -32,20 +36,18 @@ export const useKycSygnumWeb3Authentication = () => {
         testUser: variables.user,
       };
     },
-    {
-      onSuccess: (data) => {
-        authStore.authenticate(
-          data.accessToken,
-          data.signingMessage,
-          data.signature,
-          data.testUser,
-        );
-      },
-      onError: (error) => {
-        console.error(error);
-      },
+    onSuccess: (data) => {
+      authStore.authenticate(
+        data.accessToken,
+        data.signingMessage,
+        data.signature,
+        data.testUser,
+      );
     },
-  );
+    onError: (error) => {
+      console.error(error);
+    },
+  });
 
   return {
     authenticate,

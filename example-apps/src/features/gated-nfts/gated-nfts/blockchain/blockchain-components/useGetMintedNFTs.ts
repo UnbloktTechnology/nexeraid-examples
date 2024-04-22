@@ -1,22 +1,21 @@
+import { useQueryClient } from "@tanstack/react-query";
 import {
+  useBlockNumber,
   useChainId,
-  useContractEvent,
-  useContractRead,
-  useContractReads,
+  useReadContract,
+  useWatchContractEvent,
+  useReadContracts,
 } from "wagmi";
-
-import { sepolia } from "viem/chains";
+import { ChainId } from "@nexeraprotocol/identity-schemas";
 
 import {
   ExampleGatedNFTMinterABI,
   ExampleNFTMinterABI,
 } from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/abis";
 import {
-  ExampleGatedNFTMinterAddress_mumbai_dev,
-  ExampleGatedNFTMinterAddress_sepolia_dev,
-  ExampleNFTMinterAddress_mumbai_dev,
-  ExampleNFTMinterAddress_sepolia_dev,
-} from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/addresses";
+  getGatedContractAddress,
+  getNonGatedContractAddress,
+} from "./getContractAddress";
 import type { Address } from "@nexeraprotocol/identity-schemas";
 import { useEffect, useState } from "react";
 import type { MintedNFT } from "./DisplayMintedNFTs";
@@ -26,26 +25,31 @@ export const useGetGatedMintedNFTs = () => {
   // Use this hook to only update nfts after wagmi hook has loaded and nfts are defined
   const [mintedGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
   const exampleGatedContract = {
-    address:
-      chainId == sepolia.id
-        ? ExampleGatedNFTMinterAddress_sepolia_dev
-        : ExampleGatedNFTMinterAddress_mumbai_dev,
+    address: getGatedContractAddress(ChainId.parse(chainId)),
     abi: ExampleGatedNFTMinterABI,
   };
+  const queryClient = useQueryClient();
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+
   // fetch tokenId
   const {
     data: lastTokenId,
     isError: isErrorLastTokenId,
-    isLoading: isLoadingLastTokenId,
-  } = useContractRead({
+    isPending: isPendingLastTokenId,
+    queryKey,
+  } = useReadContract({
     ...exampleGatedContract,
     functionName: "lastTokenId",
-    watch: true,
   });
   const numberOfNFTs = lastTokenId ? Number(lastTokenId) : 0;
 
+  // With wagmi v2, this is how we update contract reads
+  useEffect(() => {
+    void queryClient.invalidateQueries({ queryKey });
+  }, [blockNumber, queryClient, queryKey]);
+
   // for each tokenId, fetch owner
-  const { data, isError, isLoading } = useContractReads({
+  const { data, isError, isPending } = useReadContracts({
     contracts: Array.from({ length: numberOfNFTs }, (_, i) => {
       return {
         ...exampleGatedContract,
@@ -54,12 +58,12 @@ export const useGetGatedMintedNFTs = () => {
         watch: true,
       };
     }),
-    enabled: lastTokenId !== undefined,
+    query: { enabled: lastTokenId !== undefined },
   });
 
   // only update nfts after wagmi hook has loaded and nfts are defined
   useEffect(() => {
-    if (!(isLoadingLastTokenId || isLoading) && data) {
+    if (!(isPendingLastTokenId || isPending) && data) {
       setMintedNFTs(
         data?.map((ownerResponse, i) => {
           return {
@@ -69,22 +73,18 @@ export const useGetGatedMintedNFTs = () => {
         }),
       );
     }
-  }, [data, isLoadingLastTokenId, isLoading]);
+  }, [data, isPendingLastTokenId, isPending]);
 
   // Listen for new Transfer events on the Example NFT
   const [newNFTs, setNewNFTs] = useState<MintedNFT[]>([]);
   function addNewNFT(_newNFT: MintedNFT) {
     setNewNFTs((currentNFTs) => [...currentNFTs, _newNFT]);
   }
-  useContractEvent({
-    address:
-      chainId == sepolia.id
-        ? ExampleGatedNFTMinterAddress_sepolia_dev
-        : ExampleGatedNFTMinterAddress_mumbai_dev,
+  useWatchContractEvent({
+    address: getGatedContractAddress(ChainId.parse(chainId)),
     abi: ExampleGatedNFTMinterABI,
     eventName: "Transfer",
-
-    listener(logs) {
+    onLogs(logs) {
       logs[0]?.args.to &&
         logs[0]?.args.tokenId &&
         logs[0].blockNumber &&
@@ -101,7 +101,7 @@ export const useGetGatedMintedNFTs = () => {
     newNFTs,
     nfts: mintedGatedNFTs,
     isError: isErrorLastTokenId || isError,
-    isLoading: isLoading || isLoadingLastTokenId,
+    isPending: isPending || isPendingLastTokenId,
   };
 };
 
@@ -110,26 +110,30 @@ export const useGetNonGatedMintedNFTs = () => {
   // Use this hook to only update nfts after wagmi hook has loaded and nfts are defined
   const [mintedGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
   const exampleGatedContract = {
-    address:
-      chainId == sepolia.id
-        ? ExampleNFTMinterAddress_sepolia_dev
-        : ExampleNFTMinterAddress_mumbai_dev,
+    address: getNonGatedContractAddress(ChainId.parse(chainId)),
     abi: ExampleNFTMinterABI,
   };
+  const queryClient = useQueryClient();
+  const { data: blockNumber } = useBlockNumber({ watch: true });
   // fetch tokenId
   const {
     data: lastTokenId,
     isError: isErrorLastTokenId,
-    isLoading: isLoadingLastTokenId,
-  } = useContractRead({
+    isPending: isPendingLastTokenId,
+    queryKey,
+  } = useReadContract({
     ...exampleGatedContract,
     functionName: "lastTokenId",
-    watch: true,
   });
   const numberOfNFTs = lastTokenId ? Number(lastTokenId) : 0;
 
+  // With wagmi v2, this is how we update contract reads
+  useEffect(() => {
+    void queryClient.invalidateQueries({ queryKey });
+  }, [blockNumber, queryClient, queryKey]);
+
   // for each tokenId, fetch owner
-  const { data, isError, isLoading } = useContractReads({
+  const { data, isError, isPending } = useReadContracts({
     contracts: Array.from({ length: numberOfNFTs }, (_, i) => {
       return {
         ...exampleGatedContract,
@@ -138,12 +142,12 @@ export const useGetNonGatedMintedNFTs = () => {
         watch: true,
       };
     }),
-    enabled: lastTokenId !== undefined,
+    query: { enabled: lastTokenId !== undefined },
   });
 
   // only update nfts after wagmi hook has loaded and nfts are defined
   useEffect(() => {
-    if (!(isLoadingLastTokenId || isLoading) && data) {
+    if (!(isPendingLastTokenId || isPending) && data) {
       setMintedNFTs(
         data?.map((ownerResponse, i) => {
           return {
@@ -153,22 +157,19 @@ export const useGetNonGatedMintedNFTs = () => {
         }),
       );
     }
-  }, [data, isLoadingLastTokenId, isLoading]);
+  }, [data, isPendingLastTokenId, isPending]);
 
   // Listen for new Transfer events on the Example NFT
   const [newNFTs, setNewNFTs] = useState<MintedNFT[]>([]);
   function addNewNFT(_newNFT: MintedNFT) {
     setNewNFTs((currentNFTs) => [...currentNFTs, _newNFT]);
   }
-  useContractEvent({
-    address:
-      chainId == sepolia.id
-        ? ExampleNFTMinterAddress_sepolia_dev
-        : ExampleNFTMinterAddress_mumbai_dev,
+  useWatchContractEvent({
+    address: getNonGatedContractAddress(ChainId.parse(chainId)),
     abi: ExampleNFTMinterABI,
     eventName: "Transfer",
 
-    listener(logs) {
+    onLogs(logs) {
       logs[0]?.args.to &&
         logs[0]?.args.tokenId &&
         logs[0].blockNumber &&
@@ -185,6 +186,6 @@ export const useGetNonGatedMintedNFTs = () => {
     newNFTs,
     nfts: mintedGatedNFTs,
     isError: isErrorLastTokenId || isError,
-    isLoading: isLoading || isLoadingLastTokenId,
+    isPending: isPending || isPendingLastTokenId,
   };
 };

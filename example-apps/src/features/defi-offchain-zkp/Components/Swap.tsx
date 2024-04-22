@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { SwapInput } from "./SwapInput";
 import { type ITokenInfo } from "@/features/defi-offchain-zkp/Components/TokenDropDown";
 import { Icon } from "./Icon";
-import { useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 import { SwapButton } from "@/features/defi-offchain-zkp/Components/SwapButton";
 import { useState } from "react";
 import {
@@ -18,9 +18,9 @@ const optionsToSwap = (options: ITokenInfo[], tokenInfo: ITokenInfo) => {
 export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
   isCompliant,
 }) => {
-  const network = useNetwork();
-  const options = SwapOptions[(network.chain?.id as ChainOptions) ?? "80001"];
-  console.log(options, network.chain?.name);
+  const { chain } = useAccount();
+  const options = SwapOptions[(chain?.id as ChainOptions) ?? "80002"];
+  console.log(options, chain?.name);
   const [fromAmount, setFromAmount] = useState("0");
   const [fromToken, setFromToken] = useState<ITokenInfo>(
     options?.[0] ?? {

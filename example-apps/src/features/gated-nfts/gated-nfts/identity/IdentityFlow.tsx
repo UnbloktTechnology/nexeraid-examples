@@ -2,10 +2,10 @@ import React from "react";
 import { useCallback, useState } from "react";
 import { buildSignatureMessage } from "@nexeraid/identity-sdk";
 import { useAccount, useSignMessage } from "wagmi";
-import { getAccessToken } from "../../apiClient";
 
 import styles from "../client.module.css";
 import { IDENTITY_CLIENT } from "./IdentityClient";
+import { fetchAccessToken } from "@/utils/fetchAccessToken";
 
 export const IdentityFlow = (props: { setDID: (did: string) => void }) => {
   const signMessage = useSignMessage();
@@ -28,7 +28,14 @@ export const IdentityFlow = (props: { setDID: (did: string) => void }) => {
       const signature = await signMessage.signMessageAsync({
         message: signingMessage,
       });
-      const accessToken = await getAccessToken(address);
+      const response = await fetchAccessToken(
+        {
+          address,
+          blockchainNamespace: "eip115",
+        },
+        "kyc",
+      );
+      const accessToken = response.accessToken;
       IDENTITY_CLIENT.onSdkReady((data) => {
         console.log("NexeraKyc.tsx onSdkReady", data);
         props.setDID(data.did);

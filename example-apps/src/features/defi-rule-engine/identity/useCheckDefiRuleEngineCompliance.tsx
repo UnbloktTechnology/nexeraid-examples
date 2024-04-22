@@ -1,10 +1,9 @@
-import { api } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
 import { useDefiRuleEngineKycAuthentication } from "./useDefiOffChainZKPKycAuthenticate";
+import { executeEngine } from "@/utils/executeEngine";
 
 export const useCheckDefiRuleEngineCompliance = (enabled: boolean) => {
   const { user } = useDefiRuleEngineKycAuthentication();
-  const mutation = api.compliance.executeDefiRuleEngine.useMutation();
 
   return useQuery({
     queryKey: ["checkDefiRuleEngineCompliance", enabled],
@@ -14,9 +13,13 @@ export const useCheckDefiRuleEngineCompliance = (enabled: boolean) => {
           data: "unknown",
           isValid: false,
         });
-      const result = await mutation.mutateAsync({
-        address: user,
-      });
+      const result = await executeEngine(
+        {
+          address: user,
+          blockchainNamespace: "eip115",
+        },
+        "defi-rule-engine",
+      );
       return result;
     },
     enabled,

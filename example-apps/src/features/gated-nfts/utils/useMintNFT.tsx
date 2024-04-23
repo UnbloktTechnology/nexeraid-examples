@@ -15,7 +15,7 @@ import {
   ChainId,
   type EIP115Signature,
 } from "@nexeraprotocol/identity-schemas";
-import { IDENTITY_CLIENT } from "../../identity/IdentityClient";
+import { IDENTITY_CLIENT } from "../../kyc-widget/IdentityClient";
 import {
   useChainId,
   useAccount,

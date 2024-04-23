@@ -2,7 +2,7 @@ import { useAccount } from "wagmi";
 import { IdentityFlow } from "./IdentityFlow";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
-export const KYCClient = (props: { setDID: (did: string) => void }) => {
+export const KYCClientEIP155 = (props: { setDID: (did: string) => void }) => {
   const account = useAccount();
   return (
     <>

@@ -9,16 +9,16 @@ import {
 
 import { ExampleNFTMinterABI } from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/abis";
 
-import type { MintResponse } from "./blockchain-components/blockchain.schema";
+import type { MintResponse } from "../utils/blockchain.schema";
 import {
   useGetGatedMintedNFTs,
   useGetNonGatedMintedNFTs,
-} from "./blockchain-components/useGetMintedNFTs";
-import { useMintGatedNFTFromSDK } from "./blockchain-components/useMintNFT";
+} from "../utils/useGetMintedNFTs";
+import { useMintGatedNFTFromSDK } from "../utils/useMintNFT";
 
-import { DisplayMintResponse } from "./blockchain-components/DisplayMintResponse";
-import { DisplayMintedNFTs } from "./blockchain-components/DisplayMintedNFTs";
-import { getNonGatedContractAddress } from "./blockchain-components/getContractAddress";
+import { DisplayMintResponse } from "./DisplayMintResponse";
+import { DisplayMintedNFTs } from "./DisplayMintedNFTs";
+import { getNonGatedContractAddress } from "../utils/getContractAddress";
 import { ChainId } from "@nexeraprotocol/identity-schemas";
 
 const buttonStyle = {

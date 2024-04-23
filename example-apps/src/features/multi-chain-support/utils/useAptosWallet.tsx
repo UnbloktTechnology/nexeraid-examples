@@ -46,14 +46,12 @@ export const useAptosWallet = () => {
       }
       try {
         const response = await wallet.connect();
-        console.log("response", response); // { address: string, address: string }
-
-        const account = await wallet.account();
-        console.log("account", account); // { address: string, address: string }
+        console.log("response", response);
       } catch (error) {
         console.log({ code: 4001, message: "User rejected the request." });
       }
-      return wallet;
+      const account = await wallet.account();
+      return { wallet, address: account?.address };
     },
     refetchInterval: false,
     refetchOnWindowFocus: false,
@@ -62,5 +60,9 @@ export const useAptosWallet = () => {
     staleTime: Infinity,
     enabled: false,
   });
-  return { wallet: data, connectAptos: refetch };
+  return {
+    wallet: data?.wallet,
+    address: data?.address,
+    connectAptos: refetch,
+  };
 };

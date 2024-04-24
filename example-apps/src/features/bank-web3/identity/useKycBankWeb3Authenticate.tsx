@@ -25,7 +25,7 @@ export const useKycBankWeb3Authentication = () => {
       const response = await fetchAccessToken(
         {
           address: variables.user,
-          blockchainNamespace: "eip115",
+          blockchainNamespace: "eip155",
         },
         "bank-web3",
       );

@@ -15,7 +15,7 @@ export const KYCClientEIP155 = (props: { setDID: (did: string) => void }) => {
             return await signMessage.signMessageAsync({ message });
           }}
           address={address}
-          blockchainNamespace={"eip115"}
+          blockchainNamespace={"eip155"}
         />
       )}
     </>

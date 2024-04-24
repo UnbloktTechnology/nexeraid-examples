@@ -16,7 +16,7 @@ export const useCheckDefiRuleEngineCompliance = (enabled: boolean) => {
       const result = await executeEngine(
         {
           address: user,
-          blockchainNamespace: "eip115",
+          blockchainNamespace: "eip155",
         },
         "defi-rule-engine",
       );

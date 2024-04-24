@@ -1,6 +1,6 @@
 import { shortAddress } from "@nexeraprotocol/identity-schemas";
 
-import type { MintResponse } from "./blockchain.schema";
+import type { MintResponse } from "../utils/blockchain.schema";
 
 export const getTransactionStatus = (props: {
   mintResponse?: MintResponse;

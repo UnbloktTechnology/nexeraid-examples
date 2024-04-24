@@ -13,9 +13,9 @@ import { ExampleGatedNFTMinterABI } from "@nexeraprotocol/nexera-id-sig-gating-c
 
 import {
   ChainId,
-  type EIP115Signature,
+  type EIP155Signature,
 } from "@nexeraprotocol/identity-schemas";
-import { IDENTITY_CLIENT } from "../../identity/IdentityClient";
+import { IDENTITY_CLIENT } from "../../kyc-widget/IdentityClient";
 import {
   useChainId,
   useAccount,
@@ -24,7 +24,7 @@ import {
 } from "wagmi";
 import { getGatedContractAddress } from "./getContractAddress";
 
-const WRONG_SIGNATURE: EIP115Signature =
+const WRONG_SIGNATURE: EIP155Signature =
   "0xc6fd40ac16944fd0fef20071149270a2c283c8ae92ffcbb5e61f44348490dc3b65e786637aaa82f46ac3c01941a9875046a2ceb9bad189362014b35f6e74df231b";
 
 export type WalletClientExtended = Client<

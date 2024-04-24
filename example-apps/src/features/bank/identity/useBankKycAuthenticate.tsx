@@ -27,7 +27,7 @@ export const useBankKycAuthentication = () => {
       const response = await fetchAccessToken(
         {
           address: variables.user.walletAddress,
-          blockchainNamespace: "eip115",
+          blockchainNamespace: "eip155",
         },
         "bank",
       );

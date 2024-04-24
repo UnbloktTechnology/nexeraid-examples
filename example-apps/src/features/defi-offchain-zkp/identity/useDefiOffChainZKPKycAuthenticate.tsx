@@ -25,7 +25,7 @@ export const useDefiOffchainZKPKycAuthentication = () => {
       const response = await fetchAccessToken(
         {
           address: variables.user,
-          blockchainNamespace: "eip115",
+          blockchainNamespace: "eip155",
         },
         "defi-offchain-zkp",
       );

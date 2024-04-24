@@ -1,15 +1,21 @@
 import React from "react";
 import { useCallback, useState } from "react";
 import { buildSignatureMessage } from "@nexeraid/identity-sdk";
-import { useAccount, useSignMessage } from "wagmi";
 
-import styles from "../client.module.css";
+import styles from "./client.module.css";
 import { IDENTITY_CLIENT } from "./IdentityClient";
 import { fetchAccessToken } from "@/utils/fetchAccessToken";
+import type {
+  BlockchainAddress,
+  BlockchainNamespace,
+} from "@nexeraprotocol/identity-schemas";
 
-export const IdentityFlow = (props: { setDID: (did: string) => void }) => {
-  const signMessage = useSignMessage();
-  const { address, isConnected } = useAccount();
+export const IdentityFlow = (props: {
+  setDID: (did: string) => void;
+  signMessageAsync: (message: string) => Promise<string>;
+  address: BlockchainAddress | undefined;
+  blockchainNamespace: BlockchainNamespace;
+}) => {
   const [isIdentityClientInit, setIsIdentityClientInit] = useState(false);
   const [auth, setAuth] = useState<{
     accessToken: string;
@@ -18,20 +24,16 @@ export const IdentityFlow = (props: { setDID: (did: string) => void }) => {
   }>();
 
   const configIdentityClient = useCallback(async () => {
-    if (address) {
+    if (props.address) {
       IDENTITY_CLIENT.onSignMessage(async (data) => {
-        return await signMessage.signMessageAsync({
-          message: data.message,
-        });
+        return await props.signMessageAsync(data.message);
       });
-      const signingMessage = buildSignatureMessage(address);
-      const signature = await signMessage.signMessageAsync({
-        message: signingMessage,
-      });
+      const signingMessage = buildSignatureMessage(props.address);
+      const signature = await props.signMessageAsync(signingMessage);
       const response = await fetchAccessToken(
         {
-          address,
-          blockchainNamespace: "eip115",
+          address: props.address,
+          blockchainNamespace: props.blockchainNamespace,
         },
         "kyc",
       );
@@ -52,7 +54,7 @@ export const IdentityFlow = (props: { setDID: (did: string) => void }) => {
         signature,
       });
     }
-  }, [address, props, signMessage]);
+  }, [props]);
 
   return (
     <div>
@@ -62,7 +64,7 @@ export const IdentityFlow = (props: { setDID: (did: string) => void }) => {
           <h2>Not Authenticated</h2>
           <button
             className={styles.authenticateButton}
-            disabled={!address || !isConnected}
+            disabled={!props.address}
             onClick={() => void configIdentityClient()}
           >
             Authenticate

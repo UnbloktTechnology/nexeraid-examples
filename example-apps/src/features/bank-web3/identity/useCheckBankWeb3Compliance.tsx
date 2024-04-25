@@ -1,10 +1,9 @@
-import { api } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
 import { useKycBankWeb3Authentication } from "@/features/bank-web3/identity/useKycBankWeb3Authenticate";
+import { executeEngine } from "@/utils/executeEngine";
 
 export const useCheckBankWeb3Compliance = (enabled: boolean) => {
   const { user } = useKycBankWeb3Authentication();
-  const mutation = api.compliance.executeBankWeb3Engine.useMutation();
 
   return useQuery({
     queryKey: ["checkBankWeb3Compliance", enabled],
@@ -14,9 +13,13 @@ export const useCheckBankWeb3Compliance = (enabled: boolean) => {
           data: "unknown",
           isValid: false,
         });
-      const result = await mutation.mutateAsync({
-        address: user,
-      });
+      const result = await executeEngine(
+        {
+          address: user,
+          blockchainNamespace: "eip155",
+        },
+        "bank-web3",
+      );
       return result;
     },
     enabled,

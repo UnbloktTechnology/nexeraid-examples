@@ -1,10 +1,9 @@
-import { api } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
 import { useBankKycAuthentication } from "@/features/bank/identity/useBankKycAuthenticate";
+import { executeEngine } from "@/utils/executeEngine";
 
 export const useCheckBankCompliance = (enabled: boolean) => {
   const { user } = useBankKycAuthentication();
-  const mutation = api.compliance.executeBankEngine.useMutation();
 
   return useQuery({
     queryKey: ["checkBankCompliance", enabled],
@@ -14,9 +13,13 @@ export const useCheckBankCompliance = (enabled: boolean) => {
           data: "unknown",
           isValid: false,
         });
-      const result = await mutation.mutateAsync({
-        address: user.walletAddress,
-      });
+      const result = await executeEngine(
+        {
+          address: user.walletAddress,
+          blockchainNamespace: "eip155",
+        },
+        "bank",
+      );
       return result;
     },
     enabled,

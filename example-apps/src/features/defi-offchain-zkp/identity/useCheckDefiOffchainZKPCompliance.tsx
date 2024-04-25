@@ -1,10 +1,9 @@
-import { api } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
 import { useDefiOffchainZKPKycAuthentication } from "./useDefiOffChainZKPKycAuthenticate";
+import { executeEngine } from "@/utils/executeEngine";
 
 export const useCheckCompliance = (enabled: boolean) => {
   const { user } = useDefiOffchainZKPKycAuthentication();
-  const mutation = api.compliance.executeDefiOffchainZKP.useMutation();
 
   return useQuery({
     queryKey: ["checkDefiOffChainZKPCompliance", enabled],
@@ -15,9 +14,14 @@ export const useCheckCompliance = (enabled: boolean) => {
           isValid: false,
         });
       console.log("isCompliant", user);
-      const result = await mutation.mutateAsync({
-        address: user,
-      });
+
+      const result = await executeEngine(
+        {
+          address: user,
+          blockchainNamespace: "eip155",
+        },
+        "defi-offchain-zkp",
+      );
       console.log("isCompliant result", result);
       return result;
     },

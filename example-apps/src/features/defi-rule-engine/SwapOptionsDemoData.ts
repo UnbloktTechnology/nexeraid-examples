@@ -57,7 +57,7 @@ export const SwapOptions = {
       ],
     },
   ] as ITokenInfo[],
-  80001: [
+  80002: [
     {
       value: "matic",
       label: "MATIC",

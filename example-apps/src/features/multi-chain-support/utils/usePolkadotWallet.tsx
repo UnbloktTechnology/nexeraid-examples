@@ -30,7 +30,7 @@ export const signWithPolkadot = async (
   return PolkadotSignature.parse(signature?.signature);
 };
 
-export const usePolkadotWallet = () => {
+export const usePolkadotWallet = (wsUrl = "wss://rpc.polkadot.io") => {
   const { data, refetch } = useQuery({
     queryKey: ["PolkadotWallet"],
     queryFn: async () => {
@@ -39,7 +39,7 @@ export const usePolkadotWallet = () => {
       );
 
       // Connect to a Polkadot node
-      const provider = new WsProvider("wss://rpc.polkadot.io");
+      const provider = new WsProvider(wsUrl);
       await ApiPromise.create({ provider });
       // Enable extension (this pops up the extension and asks the user to give access to your website)
       const extensions = await web3Enable("NexeraID Widget");

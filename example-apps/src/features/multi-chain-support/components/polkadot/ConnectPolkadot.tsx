@@ -1,8 +1,8 @@
 import { Button } from "@/features/bank/Components/Button";
 import { usePolkadotWallet } from "../../utils/usePolkadotWallet";
 
-const ConnectPolkadot = () => {
-  const { wallet, connectPolkadot } = usePolkadotWallet();
+const ConnectPolkadot = (props: { wsUrl?: string }) => {
+  const { wallet, connectPolkadot } = usePolkadotWallet(props.wsUrl);
   return (
     <div>
       {wallet === undefined ? (

@@ -23,6 +23,11 @@ const MultiChainPage = () => {
             <Button>Polkadot</Button>
           </Link>
         </div>
+        <div>
+          <Link href="/multi-chain-support/agung-example">
+            <Button>Agung (Peaq Testnet)</Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

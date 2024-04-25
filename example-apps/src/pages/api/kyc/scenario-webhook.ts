@@ -1,7 +1,8 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { env } from "@/env.mjs";
 import { redis } from "@/server/redis";
-import { type ScenarioWebhookPayload } from "../../../server/api/routers/complianceRouter";
+
+import type { ScenarioWebhookPayload } from "@/utils/scenariosWebhook";
 
 export const getScenarioWebhookKYCRedisKey = (address: string) => {
   return (
@@ -12,7 +13,7 @@ export const getScenarioWebhookKYCRedisKey = (address: string) => {
 
 const scenarioWebHookPost = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   if (req.method === "POST") {
     console.log("=== scenarioWebHookPost KYC req.body===", req.body);

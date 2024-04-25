@@ -3,28 +3,32 @@ import { useMutation } from "@tanstack/react-query";
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
-import { api } from "@/utils/api";
+import { fetchAccessToken } from "@/utils/fetchAccessToken";
 import { useSignMessage } from "wagmi";
 import { type Address } from "viem";
 
 export const useDefiOffchainZKPKycAuthentication = () => {
   const authStore = useAuthStore((state) => state);
-  const getAccessToken = api.access.defiOffChainZKPAccessToken.useMutation();
   const { signMessageAsync } = useSignMessage();
 
-  const logout = useMutation(async () => {
-    await Promise.resolve(authStore.logout());
+  const logout = useMutation({
+    mutationFn: async () => {
+      await Promise.resolve(authStore.logout());
+    },
   });
 
-  const authenticate = useMutation(
-    async (variables: { user: Address }) => {
+  const authenticate = useMutation({
+    mutationFn: async (variables: { user: Address }) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       const signingMessage = buildSignatureMessage(variables.user);
       const signature = await signMessageAsync({ message: signingMessage });
-      const response = await getAccessToken.mutateAsync({
-        address: variables.user,
-      });
-
+      const response = await fetchAccessToken(
+        {
+          address: variables.user,
+          blockchainNamespace: "eip155",
+        },
+        "defi-offchain-zkp",
+      );
       console.log("RESPONSE", response);
 
       const { accessToken } = response;
@@ -36,20 +40,18 @@ export const useDefiOffchainZKPKycAuthentication = () => {
         testUser: variables.user,
       };
     },
-    {
-      onSuccess: (data) => {
-        authStore.authenticate(
-          data.accessToken,
-          data.signingMessage,
-          data.signature,
-          data.testUser,
-        );
-      },
-      onError: (error) => {
-        console.error(error);
-      },
+    onSuccess: (data) => {
+      authStore.authenticate(
+        data.accessToken,
+        data.signingMessage,
+        data.signature,
+        data.testUser,
+      );
     },
-  );
+    onError: (error) => {
+      console.error(error);
+    },
+  });
 
   return {
     authenticate,

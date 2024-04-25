@@ -91,6 +91,11 @@ const PROJECTS: AppCardProps[] = [
     image: "/images/kyc.webp",
   },
   {
+    url: "/multi-chain-support",
+    name: "Multi Chain Support",
+    image: "/images/kyc.webp",
+  },
+  {
     url: appConfig[env.NEXT_PUBLIC_ENVIRONMENT].aaveDemo,
     name: "Gated Aave",
     image: "/images/aave.svg",

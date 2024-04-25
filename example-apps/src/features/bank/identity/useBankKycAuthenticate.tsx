@@ -3,19 +3,20 @@ import { useMutation } from "@tanstack/react-query";
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
-import { api } from "@/utils/api";
+import { fetchAccessToken } from "@/utils/fetchAccessToken";
 import { getSigner, type TestUser } from "@/appConfig";
 
 export const useBankKycAuthentication = () => {
   const authStore = useAuthStore((state) => state);
-  const getAccessToken = api.access.bankAccessToken.useMutation();
 
-  const logout = useMutation(async () => {
-    await Promise.resolve(authStore.logout());
+  const logout = useMutation({
+    mutationFn: async () => {
+      await Promise.resolve(authStore.logout());
+    },
   });
 
-  const authenticate = useMutation(
-    async (variables: { user: TestUser }) => {
+  const authenticate = useMutation({
+    mutationFn: async (variables: { user: TestUser }) => {
       if (!variables.user.walletAddress)
         throw new Error("Missing data to authenticate");
       const signingMessage = buildSignatureMessage(
@@ -23,9 +24,13 @@ export const useBankKycAuthentication = () => {
       );
       const signer = getSigner(variables.user);
       const signature = await signer.signMessage(signingMessage);
-      const response = await getAccessToken.mutateAsync({
-        address: variables.user.walletAddress,
-      });
+      const response = await fetchAccessToken(
+        {
+          address: variables.user.walletAddress,
+          blockchainNamespace: "eip155",
+        },
+        "bank",
+      );
       const { accessToken } = response;
       return {
         accessToken,
@@ -34,20 +39,18 @@ export const useBankKycAuthentication = () => {
         testUser: variables.user,
       };
     },
-    {
-      onSuccess: (data) => {
-        authStore.authenticate(
-          data.accessToken,
-          data.signingMessage,
-          data.signature,
-          data.testUser,
-        );
-      },
-      onError: (error) => {
-        console.error(error);
-      },
+    onSuccess: (data) => {
+      authStore.authenticate(
+        data.accessToken,
+        data.signingMessage,
+        data.signature,
+        data.testUser,
+      );
     },
-  );
+    onError: (error) => {
+      console.error(error);
+    },
+  });
 
   return {
     authenticate,

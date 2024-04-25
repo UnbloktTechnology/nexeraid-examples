@@ -1,7 +1,7 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { env } from "@/env.mjs";
 import { redis } from "@/server/redis";
-import { type ScenarioWebhookPayload } from "@/server/api/routers/complianceRouter";
+import type { ScenarioWebhookPayload } from "@/utils/scenariosWebhook";
 
 export const getScenarioWebhookDefiRuleEngineRedisKey = (address: string) => {
   return (

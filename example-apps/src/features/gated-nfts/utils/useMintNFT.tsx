@@ -59,20 +59,16 @@ export const useMintGatedNFTFromSDK = () => {
           args: [account.address],
           chainId: ChainId.parse(chainId),
         };
-        console.log("before signatureResponse", txAuthInput)
 
         const signatureResponse =
           await IDENTITY_CLIENT.getTxAuthSignature_Deprecated(txAuthInput);
 
-        console.log("signatureResponse", signatureResponse)
         // If user is not authorized, use wrong signature and dummy blockExpiratioin
         const blockExpiration =
           signatureResponse.blockExpiration ??
           (blockNumber.data ? Number(blockNumber.data) + 10 : 0);
-        console.log("blockExpiration", signatureResponse.blockExpiration, blockExpiration)
 
         const signature = signatureResponse.signature ?? WRONG_SIGNATURE;
-        console.log("signature", signature)
 
         // Mint Gated Nft with signature
         const result = await mintNFTGatedFromSDK.writeContractAsync({
@@ -81,7 +77,6 @@ export const useMintGatedNFTFromSDK = () => {
           functionName: "mintNFTGated",
           args: [account.address, BigInt(blockExpiration), signature],
         });
-        console.log("mintNFTGatedFromSDK.writeContractAsync", result)
 
         return {
           txHash: result,

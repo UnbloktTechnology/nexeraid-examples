@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@airgap/beacon-types": "^4.2.1",
-    "@nexeraid/identity-sdk": "^1.1.339-dev",
+    "@nexeraid/identity-sdk": "^1.1.340-dev",
     "@nexeraprotocol/identity-schemas": "^1.10.128-dev",
     "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk": "1.4.5",
     "@polkadot/api": "^10.13.1",

@@ -67,6 +67,7 @@ export const useMintGatedNFTFromSDK = () => {
         const blockExpiration =
           signatureResponse.blockExpiration ??
           (blockNumber.data ? Number(blockNumber.data) + 10 : 0);
+
         const signature = signatureResponse.signature ?? WRONG_SIGNATURE;
 
         // Mint Gated Nft with signature

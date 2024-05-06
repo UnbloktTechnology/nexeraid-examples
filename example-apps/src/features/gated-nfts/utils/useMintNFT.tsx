@@ -61,12 +61,13 @@ export const useMintGatedNFTFromSDK = () => {
         };
 
         const signatureResponse =
-          await IDENTITY_CLIENT.getTxAuthSignature(txAuthInput);
+          await IDENTITY_CLIENT.getTxAuthSignature_Deprecated(txAuthInput);
 
         // If user is not authorized, use wrong signature and dummy blockExpiratioin
         const blockExpiration =
           signatureResponse.blockExpiration ??
           (blockNumber.data ? Number(blockNumber.data) + 10 : 0);
+
         const signature = signatureResponse.signature ?? WRONG_SIGNATURE;
 
         // Mint Gated Nft with signature

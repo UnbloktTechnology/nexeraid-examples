@@ -59,6 +59,7 @@ export const useMintGatedNFTFromSDK = () => {
           args: [account.address],
           chainId: ChainId.parse(chainId),
         };
+        console.log("before signatureResponse", txAuthInput)
 
         const signatureResponse =
           await IDENTITY_CLIENT.getTxAuthSignature_Deprecated(txAuthInput);

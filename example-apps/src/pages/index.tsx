@@ -1,6 +1,6 @@
 import Head from "next/head";
 import AppCard, { type AppCardProps } from "../features/root/AppCard";
-import { appConfig } from "../appConfig";
+import { appConfig } from "@/appConfig";
 import { env } from "@/env.mjs";
 import AppLegendTag from "../features/root/AppLegendTag";
 

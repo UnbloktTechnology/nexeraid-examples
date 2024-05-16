@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { Dashboard } from "@/features/bank-web3/Dashboard";
+import { Dashboard } from "@/features/apps/bank-web3/Dashboard";
 
-import { Content, Header, Layout } from "@/features/bank-web3/Layout";
-import { useGlobalModals } from "@/features/bank-web3/Modals/useGlobalModals";
-import { IDENTITY_CLIENT } from "@/features/bank-web3/identity/IdentityClient";
+import { Content, Header, Layout } from "@/features/apps/bank-web3/Layout";
+import { useGlobalModals } from "@/features/apps/bank-web3/Modals/useGlobalModals";
+
 import { toast } from "react-toastify";
 import { useSignMessage } from "wagmi";
-import { useKycBankWeb3Authentication } from "@/features/bank-web3/identity/useKycBankWeb3Authenticate";
-import { useCheckBankWeb3Compliance } from "@/features/bank-web3/identity/useCheckBankWeb3Compliance";
+import { useKycBankWeb3Authentication } from "@/features/apps/bank-web3/identity/useKycBankWeb3Authenticate";
+import { useCheckBankWeb3Compliance } from "@/features/apps/bank-web3/identity/useCheckBankWeb3Compliance";
 import { useQueryClient } from "@tanstack/react-query";
+import { IDENTITY_CLIENT } from "@/features/identity-widget/IdentityClient";
 
 const Home = () => {
   const { openModal, close } = useGlobalModals((state) => ({

@@ -1,13 +1,13 @@
-import { Swap } from "@/features/defi-rule-engine/Components/Swap";
-import { useCheckDefiRuleEngineCompliance } from "@/features/defi-rule-engine/identity/useCheckDefiRuleEngineCompliance";
-import { Header } from "@/features/defi-rule-engine/Layout/Header";
-import { Layout } from "@/features/defi-rule-engine/Layout/Layout";
-import { useGlobalModals } from "@/features/defi-rule-engine/Modals/Hooks/useGlobalModals";
+import { Swap } from "@/features/apps/defi-rule-engine/Components/Swap";
+import { useCheckDefiRuleEngineCompliance } from "@/features/apps/defi-rule-engine/identity/useCheckDefiRuleEngineCompliance";
+import { Header } from "@/features/apps/defi-rule-engine/Layout/Header";
+import { Layout } from "@/features/apps/defi-rule-engine/Layout/Layout";
+import { useGlobalModals } from "@/features/apps/defi-rule-engine/Modals/Hooks/useGlobalModals";
 import { useEffect, useState } from "react";
 import { useAccount, useSignMessage } from "wagmi";
-import { IDENTITY_CLIENT } from "@/features/defi-rule-engine/identity/IdentityClient";
 import { toast } from "react-toastify";
-import { useDefiRuleEngineKycAuthentication } from "@/features/defi-rule-engine/identity/useDefiOffChainZKPKycAuthenticate";
+import { useDefiRuleEngineKycAuthentication } from "@/features/apps/defi-rule-engine/identity/useDefiOffChainZKPKycAuthenticate";
+import { IDENTITY_CLIENT } from "@/features/identity-widget/IdentityClient";
 
 const DefiRuleEngine = () => {
   const close = useGlobalModals((state) => state.close);

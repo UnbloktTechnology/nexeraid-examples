@@ -58,8 +58,8 @@ export const env = createEnv({
    */
   client: {
     NEXT_PUBLIC_ENVIRONMENT: z
-      .enum(["local", "dev", "stage", "prod"]).default("prod")
-      .describe("The environment the app is running in"),
+      .enum(["local", "dev", "stage", "prod"])
+      .describe("The environment the app is running in").default("prod"),
     NEXT_PUBLIC_AMOY_WS_PROVIDER_URL: z
       .string()
       .describe("Amoy websocket url for better event support"),

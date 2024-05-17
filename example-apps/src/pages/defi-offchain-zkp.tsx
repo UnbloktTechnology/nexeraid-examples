@@ -1,14 +1,13 @@
-import { Swap } from "@/features/apps/defi-offchain-zkp/Components/Swap";
-import { useCheckCompliance } from "@/features/apps/defi-offchain-zkp/identity/useCheckDefiOffchainZKPCompliance";
-import { Header } from "@/features/apps/defi-offchain-zkp/Layout/Header";
-import { Layout } from "@/features/apps/defi-offchain-zkp/Layout/Layout";
-import { useGlobalModals } from "@/features/apps/defi-offchain-zkp/Modals/Hooks/useGlobalModals";
+import { Swap } from "@/features/defi-offchain-zkp/Components/Swap";
+import { useCheckCompliance } from "@/features/defi-offchain-zkp/identity/useCheckDefiOffchainZKPCompliance";
+import { Header } from "@/features/defi-offchain-zkp/Layout/Header";
+import { Layout } from "@/features/defi-offchain-zkp/Layout/Layout";
+import { useGlobalModals } from "@/features/defi-offchain-zkp/Modals/Hooks/useGlobalModals";
 import { useEffect, useState } from "react";
 import { useAccount, useSignMessage } from "wagmi";
-
+import { IDENTITY_CLIENT } from "@/features/defi-offchain-zkp/identity/IdentityClient";
 import { toast } from "react-toastify";
-import { useDefiOffchainZKPKycAuthentication } from "@/features/apps/defi-offchain-zkp/identity/useDefiOffChainZKPKycAuthenticate";
-import { IDENTITY_CLIENT } from "@/features/identity-widget/IdentityClient";
+import { useDefiOffchainZKPKycAuthentication } from "@/features/defi-offchain-zkp/identity/useDefiOffChainZKPKycAuthenticate";
 
 const Home = () => {
   const { close } = useGlobalModals((state) => ({

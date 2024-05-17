@@ -1,4 +1,4 @@
-import { Button } from "@/features/apps/bank/Components/Button";
+import { Button } from "@/features/bank/Components/Button";
 import Link from "next/link";
 
 const MultiChainPage = () => {

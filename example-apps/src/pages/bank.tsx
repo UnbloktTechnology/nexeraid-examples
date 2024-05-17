@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { DisclaimerOverlay } from "@/features/apps/bank/Components/DisclaimerOverlay";
-import { Dashboard } from "@/features/apps/bank/Dashboard";
+import { DisclaimerOverlay } from "@/features/bank/Components/DisclaimerOverlay";
+import { Dashboard } from "@/features/bank/Dashboard";
 
-import { Banner, Content, Header, Layout } from "@/features/apps/bank/Layout";
-import { useGlobalModals } from "@/features/apps/bank/Modals/useGlobalModals";
+import { Banner, Content, Header, Layout } from "@/features/bank/Layout";
+import { useGlobalModals } from "@/features/bank/Modals/useGlobalModals";
+import { IDENTITY_CLIENT } from "@/features/bank/identity/IdentityClient";
 import { getSigner } from "@/appConfig";
 import { toast } from "react-toastify";
-import { useBankKycAuthentication } from "@/features/apps/bank/identity/useBankKycAuthenticate";
-import { useCheckBankCompliance } from "@/features/apps/bank/identity/useCheckBankCompliance";
+import { useBankKycAuthentication } from "@/features/bank/identity/useBankKycAuthenticate";
+import { useCheckBankCompliance } from "@/features/bank/identity/useCheckBankCompliance";
 import { useQueryClient } from "@tanstack/react-query";
-import { IDENTITY_CLIENT } from "@/features/identity-widget/IdentityClient";
 
 const Home = () => {
   const { openModal, close } = useGlobalModals((state) => ({

@@ -1,19 +1,13 @@
 import { useEffect, useState } from "react";
-import { Dashboard } from "@/features/apps/sygnum-web3/Dashboard";
+import { Dashboard } from "@/features/sygnum-web3/Dashboard";
 
-import {
-  Content,
-  Header,
-  Layout,
-  Footer,
-} from "@/features/apps/sygnum-web3/Layout";
-import { useGlobalModals } from "@/features/apps/sygnum-web3/Modals/useGlobalModals";
-
+import { Content, Header, Layout, Footer } from "@/features/sygnum-web3/Layout";
+import { useGlobalModals } from "@/features/sygnum-web3/Modals/useGlobalModals";
+import { IDENTITY_CLIENT } from "@/features/sygnum-web3/identity/IdentityClient";
 import { toast } from "react-toastify";
 import { useSignMessage } from "wagmi";
-import { useKycSygnumWeb3Authentication } from "@/features/apps/sygnum-web3/identity/useKycSygnumWeb3Authentication";
-import { useCheckSygnumWeb3Compliance } from "@/features/apps/sygnum-web3/identity/useCheckSygnumWeb3Compliance";
-import { IDENTITY_CLIENT } from "@/features/identity-widget/IdentityClient";
+import { useKycSygnumWeb3Authentication } from "@/features/sygnum-web3/identity/useKycSygnumWeb3Authentication";
+import { useCheckSygnumWeb3Compliance } from "@/features/sygnum-web3/identity/useCheckSygnumWeb3Compliance";
 
 const Home = () => {
   const { openModal, close } = useGlobalModals((state) => ({

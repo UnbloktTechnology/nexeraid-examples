@@ -13,7 +13,7 @@ export const TezosSupportPage = () => {
       {did ? (
         <div>DID:{did}</div>
       ) : (
-        <div>Waiting for Polygon Wallet instantiation...</div>
+        <div>Waiting for Tezos Wallet instantiation...</div>
       )}
     </main>
   );

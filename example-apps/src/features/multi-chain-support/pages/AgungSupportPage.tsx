@@ -13,7 +13,7 @@ export const AgungSupportPage = () => {
       {did ? (
         <div>DID:{did}</div>
       ) : (
-        <div>Waiting for Polygon Wallet instantiation...</div>
+        <div>Waiting for Agung Wallet instantiation...</div>
       )}
     </main>
   );

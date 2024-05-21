@@ -13,7 +13,7 @@ export const PolkadotSupportPage = () => {
       {did ? (
         <div>DID:{did}</div>
       ) : (
-        <div>Waiting for Polygon Wallet instantiation...</div>
+        <div>Waiting for Polkadot Wallet instantiation...</div>
       )}
     </main>
   );

@@ -142,7 +142,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
             <div>
               Transaction Status:{" "}
               {mintNonGatedTxResult.isPending
-                ? "Loading..."
+                ? "Pending..."
                 : mintNonGatedTxResult.isSuccess
                   ? "Success"
                   : "Failed"}

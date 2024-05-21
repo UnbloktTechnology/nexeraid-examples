@@ -1,12 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
-import type {
-  Account,
-  Chain,
-  Client,
-  PublicActions,
-  RpcSchema,
-  Transport,
-  WalletActions,
+import {
+  encodeFunctionData,
+  pad,
+  toHex,
+  type Account,
+  type Chain,
+  type Client,
+  type PublicActions,
+  type RpcSchema,
+  type Transport,
+  type WalletActions,
 } from "viem";
 
 import { ExampleGatedNFTMinterABI } from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/abis";
@@ -20,7 +23,7 @@ import {
   useChainId,
   useAccount,
   useBlockNumber,
-  useWriteContract,
+  useSendTransaction,
 } from "wagmi";
 import { getGatedContractAddress } from "./getContractAddress";
 
@@ -39,7 +42,7 @@ export const useMintGatedNFTFromSDK = () => {
   const account = useAccount();
   const blockNumber = useBlockNumber();
 
-  const mintNFTGatedFromSDK = useWriteContract();
+  const mintNFTGatedFromSDK = useSendTransaction();
 
   return useMutation({
     mutationFn: async () => {
@@ -61,28 +64,42 @@ export const useMintGatedNFTFromSDK = () => {
         };
 
         const signatureResponse =
-          await IDENTITY_CLIENT.getTxAuthSignature_Deprecated(txAuthInput);
+          await IDENTITY_CLIENT.getTxAuthSignature(txAuthInput);
 
         // If user is not authorized, use wrong signature and dummy blockExpiratioin
         const blockExpiration =
           signatureResponse.blockExpiration ??
           (blockNumber.data ? Number(blockNumber.data) + 10 : 0);
 
-        const signature = signatureResponse.signature ?? WRONG_SIGNATURE;
+        const signatureData =
+          signatureResponse.signatureData ??
+          pad(
+            // number to hex string number
+            toHex(blockExpiration),
+            { size: 32 },
+          ).slice(2) + WRONG_SIGNATURE.slice(2);
 
-        // Mint Gated Nft with signature
-        const result = await mintNFTGatedFromSDK.writeContractAsync({
-          address: getGatedContractAddress(ChainId.parse(chainId)),
+        // Create function call data
+        const unsignedTx = encodeFunctionData({
           abi: ExampleGatedNFTMinterABI,
           functionName: "mintNFTGated",
-          args: [account.address, BigInt(blockExpiration), signature],
+          args: [account.address],
+        });
+
+        // Complete data with require blockExpiration+ signature
+        const txData = (unsignedTx + signatureData) as `0x${string}`;
+
+        // Mint Gated Nft with signature
+        const result = await mintNFTGatedFromSDK.sendTransactionAsync({
+          to: getGatedContractAddress(ChainId.parse(chainId)),
+          data: txData,
         });
 
         return {
           txHash: result,
           signatureResponse: {
             isAuthorized: signatureResponse.isAuthorized,
-            signature,
+            signatureData,
             blockExpiration,
           },
         };

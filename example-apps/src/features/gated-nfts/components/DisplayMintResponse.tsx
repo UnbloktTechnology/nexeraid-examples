@@ -43,10 +43,10 @@ export const DisplayMintResponse = (props: {
             Authorized:{" "}
             {props.mintResponse.signatureResponse.isAuthorized ? "YES" : "NO"}
           </div>
-          {props.mintResponse.signatureResponse.signature && (
+          {props.mintResponse.signatureResponse.signatureData && (
             <div>
-              Signature:{" "}
-              {shortAddress(props.mintResponse.signatureResponse.signature)}
+              Payload:{" "}
+              {shortAddress(props.mintResponse.signatureResponse.signatureData)}
             </div>
           )}
           {props.mintResponse.signatureResponse.blockExpiration && (

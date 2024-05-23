@@ -71,8 +71,8 @@ export const useMintGatedNFTFromSDK = () => {
           signatureResponse.blockExpiration ??
           (blockNumber.data ? Number(blockNumber.data) + 10 : 0);
 
-        const signatureData =
-          signatureResponse.signatureData ??
+        const payload =
+          signatureResponse.payload ??
           pad(
             // number to hex string number
             toHex(blockExpiration),
@@ -86,8 +86,8 @@ export const useMintGatedNFTFromSDK = () => {
           args: [account.address],
         });
 
-        // Complete data with require blockExpiration+ signature
-        const txData = (unsignedTx + signatureData) as `0x${string}`;
+        // Complete data with payload from UI (require blockExpiration+ signature)
+        const txData = (unsignedTx + payload) as `0x${string}`;
 
         // Mint Gated Nft with signature
         const result = await mintNFTGatedFromSDK.sendTransactionAsync({
@@ -99,7 +99,7 @@ export const useMintGatedNFTFromSDK = () => {
           txHash: result,
           signatureResponse: {
             isAuthorized: signatureResponse.isAuthorized,
-            signatureData,
+            payload,
             blockExpiration,
           },
         };

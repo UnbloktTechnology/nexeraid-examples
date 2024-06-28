@@ -28,6 +28,26 @@ const MultiChainPage = () => {
             <Button>Agung (Peaq Testnet)</Button>
           </Link>
         </div>
+        <div>
+          <Link href="/multi-chain-support/cosmos-example">
+            <Button>Cosmos</Button>
+          </Link>
+        </div>
+        <div>
+          <Link href="/multi-chain-support/starknet-example">
+            <Button>Starknet</Button>
+          </Link>
+        </div>
+        <div>
+          <Link href="/multi-chain-support/solana-example">
+            <Button>Solana</Button>
+          </Link>
+        </div>
+        <div>
+          <Link href="/multi-chain-support/cardano-example">
+            <Button>Cardano</Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

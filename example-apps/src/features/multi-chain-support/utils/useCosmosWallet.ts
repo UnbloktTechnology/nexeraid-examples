@@ -5,12 +5,6 @@ import { CosmosSignature } from "@nexeraprotocol/identity-schemas";
 
 export const COSMOS_CHAIN_ID = "cosmoshub-4";
 
-// declare global {
-//   interface Window {
-//     keplr?: Keplr;
-//   }
-// }
-
 export const signWithCosmos = async (
   message: string,
   wallet: Keplr | undefined,

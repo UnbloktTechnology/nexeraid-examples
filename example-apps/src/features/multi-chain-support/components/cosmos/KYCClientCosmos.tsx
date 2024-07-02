@@ -20,7 +20,7 @@ export const KYCClientCosmos = (props: { setDID: (did: string) => void }) => {
               return await signWithCosmos(message, wallet);
             }}
             address={address}
-            blockchainNamespace={"tezos"}
+            blockchainNamespace={"cosmos"}
           />
         )}
       </div>

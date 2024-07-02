@@ -25,7 +25,7 @@ export const KYCClientStarknet = (props: { setDID: (did: string) => void }) => {
               return await signWithStarknet(message, wallet.account as Account);
             }}
             address={wallet.selectedAddress}
-            blockchainNamespace={"tezos"}
+            blockchainNamespace={"starknet"}
           />
         )}
       </div>

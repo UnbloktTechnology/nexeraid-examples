@@ -1,19 +1,19 @@
 import { Inter } from "next/font/google";
-import styles from "../../kyc-widget/client.module.css";
+import styles from "../../../kyc-widget/client.module.css";
 import { useState } from "react";
-import { KYCClientTezos } from "../components/tezos/KYCClientTezos";
+import { KYCClientSolana } from "./KYCClientSolana";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const TezosSupportPage = () => {
+export const SolanaExample = () => {
   const [did, setDID] = useState<string | undefined>(undefined);
   return (
     <main className={`${inter.className} ${styles.main}`}>
-      <KYCClientTezos setDID={setDID} />
+      <KYCClientSolana setDID={setDID} />
       {did ? (
         <div>DID:{did}</div>
       ) : (
-        <div>Waiting for Tezos Wallet instantiation...</div>
+        <div>Waiting for Solana Wallet instantiation...</div>
       )}
     </main>
   );

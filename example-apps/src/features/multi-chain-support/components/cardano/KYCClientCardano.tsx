@@ -23,7 +23,7 @@ export const KYCClientCardano = (props: { setDID: (did: string) => void }) => {
               return await signWithCardano(message, wallet);
             }}
             address={address}
-            blockchainNamespace={"tezos"}
+            blockchainNamespace={"cardano"}
           />
         )}
       </div>

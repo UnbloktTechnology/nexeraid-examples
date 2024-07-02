@@ -22,7 +22,7 @@ export const KYCClientSolana = (props: { setDID: (did: string) => void }) => {
               return signature && Buffer.from(signature).toString("hex");
             }}
             address={address}
-            blockchainNamespace={"tezos"}
+            blockchainNamespace={"solana"}
           />
         )}
       </div>

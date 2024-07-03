@@ -1,8 +1,24 @@
+import type { Keplr } from "@keplr-wallet/types";
+
 declare global {
   interface Window {
     aptos: Aptos | undefined;
+    keplr?: Keplr;
+    cardano: Cardano | undefined;
   }
 }
+
+export type Cardano = Record<
+  string,
+  {
+    name: string;
+    icon: string;
+    version: string;
+    api?: WalletApi;
+    enable: () => Promise<WalletApi>;
+    isEnabled: () => Promise<boolean>;
+  }
+>;
 
 export interface Aptos {
   connect(): Promise<AddressInfo>;

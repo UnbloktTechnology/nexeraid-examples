@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { AptosSignature } from "@nexeraprotocol/identity-schemas";
 
-import type { Aptos } from "./petraWalletTypes";
+import type { Aptos } from "./walletTypes";
 
 export const signWithAptos = async (
   message: string,

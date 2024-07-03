@@ -16,17 +16,6 @@ export const signWithTezos = async (
   const activeAccount = await wallet.client.getActiveAccount();
   const pubKey = activeAccount?.publicKey;
 
-  // This code is meant for siwx standard but doesn't work with SigningType.MICHELINE tezos standard
-  // const address = activeAccount?.address;
-  // const tezosMessage = {
-  //   domain: (window as Window).location.host,
-  //   address: address,
-  //   statement: message,
-  //   uri: (window as Window).location.origin,
-  //   version: "1",
-  //   chainId: "ghostnet",
-  // };
-
   // Found this in https://taquito.io/docs/signing/#generating-a-signature-with-beacon-sdk
   const formattedInput: string = [
     "Tezos Signed Message:",

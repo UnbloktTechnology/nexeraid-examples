@@ -15,7 +15,7 @@ import {
 import { ExampleGatedNFTMinterABI } from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/abis";
 
 import {
-  ChainId,
+  EvmChainId,
   type EIP155Signature,
 } from "@nexeraprotocol/identity-schemas";
 import { IDENTITY_CLIENT } from "../../kyc-widget/IdentityClient";
@@ -57,10 +57,10 @@ export const useMintGatedNFTFromSDK = () => {
 
         const txAuthInput = {
           contractAbi: Array.from(ExampleGatedNFTMinterABI),
-          contractAddress: getGatedContractAddress(ChainId.parse(chainId)),
+          contractAddress: getGatedContractAddress(EvmChainId.parse(chainId)),
           functionName: "mintNFTGated",
           args: [account.address],
-          chainId: ChainId.parse(chainId),
+          chainId: EvmChainId.parse(chainId),
         };
 
         const signatureResponse =
@@ -91,7 +91,7 @@ export const useMintGatedNFTFromSDK = () => {
 
         // Mint Gated Nft with signature
         const result = await mintNFTGatedFromSDK.sendTransactionAsync({
-          to: getGatedContractAddress(ChainId.parse(chainId)),
+          to: getGatedContractAddress(EvmChainId.parse(chainId)),
           data: txData,
         });
 

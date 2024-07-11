@@ -13,7 +13,7 @@ export const Button: React.FC<IButton> = forwardRef<HTMLButtonElement, IButton>(
         ref={ref}
         type="submit"
         {...props}
-        className={`ounded-full cursor-pointer bg-white px-4 py-2 font-medium text-black shadow hover:bg-gray-100 ${className} ${isLoading ? "cursor-not-allowed opacity-50" : ""}`}
+        className={`cursor-pointer rounded-full bg-white px-4 py-2 font-medium text-black shadow hover:bg-gray-100 ${className} ${isLoading ? "cursor-not-allowed opacity-50" : ""}`}
         disabled={isLoading ?? props.disabled}
       >
         {isLoading ? "Loading..." : children}

@@ -1,4 +1,6 @@
 import dynamic from "next/dynamic";
-import { KYCAirdropPage } from "@/features/kyc-airdrop/KYCAirdropPage";
+import { KYCAirdropPageWrapper } from "@/features/kyc-airdrop/KYCAirdropPageWrapper";
 
-export default dynamic(() => Promise.resolve(KYCAirdropPage), { ssr: false });
+export default dynamic(() => Promise.resolve(KYCAirdropPageWrapper), {
+  ssr: false,
+});

@@ -14,7 +14,12 @@ export const KYCAirdrop = (props: { did: string | undefined }) => {
     undefined,
   );
   const tryClaiming = useClaimToken();
-  const { isWalletWhitelisted, isWalletChecked } = useKYCContext();
+  const {
+    isWalletWhitelisted,
+    isWalletChecked,
+    setIsWalletFailedClaim,
+    setIsWalletClaimed,
+  } = useKYCContext();
   const [isLoading, setIsLoading] = useState(false);
 
   return (
@@ -33,25 +38,20 @@ export const KYCAirdrop = (props: { did: string | undefined }) => {
                 .then((_sdkResponse) => {
                   setIsLoading(false);
                   setSdkResponse(_sdkResponse);
+                  setIsWalletClaimed(true);
                 })
                 .catch((e) => {
                   setIsLoading(false);
                   console.log("error while fetching signature", e);
+                  setIsWalletFailedClaim(true);
                 });
             } else {
               console.log("walletClient not loaded");
             }
           }}
         >
-          Claim to connect wallet address
+          2 - Claim to connect wallet address
         </Button>
-      )}
-      {isWalletChecked && !isWalletWhitelisted && (
-        <div className="m-4 w-full p-4">
-          <h2 className="text-2xl font-bold">
-            You are not authorized, try to connect another wallet
-          </h2>
-        </div>
       )}
     </>
   );

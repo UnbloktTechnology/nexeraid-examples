@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import {
   encodeFunctionData,
+  webSocket,
   type Account,
   type Chain,
   type Client,
@@ -12,7 +13,14 @@ import {
 
 import { EvmChainId } from "@nexeraprotocol/identity-schemas";
 import { IDENTITY_CLIENT } from "../../kyc-widget/IdentityClient";
-import { useChainId, useAccount, useSendTransaction } from "wagmi";
+import {
+  useChainId,
+  useAccount,
+  useSendTransaction,
+  useSimulateContract,
+  useClient,
+  useWalletClient,
+} from "wagmi";
 import { getDistributorContractAddress } from "./getContractAddress";
 import { distributorABI } from "./abis/distributorABI";
 import { getUserAllowance, getUserIndex } from "./getUserAllowance";
@@ -53,17 +61,13 @@ export const useClaimToken = () => {
         }
 
         // build inputs
-        console.log("account.address", account.address);
         const amount = getUserAllowance(account.address);
-        console.log("amount", amount);
         const index = getUserIndex(account.address);
-        console.log("index", index);
         const proof = tree.getProof(
           index,
           account.address,
           BigNumber.from(amount),
         );
-        console.log("distributorABI", distributorABI);
         const txAuthInput = {
           contractAbi: Array.from(distributorABI),
           contractAddress: getDistributorContractAddress(
@@ -73,8 +77,6 @@ export const useClaimToken = () => {
           args: [index, account.address, amount, proof],
           chainId: EvmChainId.parse(chainId),
         };
-        console.log("txAuthInput", txAuthInput);
-
         const signatureResponse =
           await IDENTITY_CLIENT.getTxAuthSignature(txAuthInput);
 
@@ -85,7 +87,7 @@ export const useClaimToken = () => {
 
         // Create function call data
         const unsignedTx = encodeFunctionData({
-          abi: distributorABI,
+          abi: Array.from(distributorABI),
           functionName: "claim",
           args: [index, account.address, amount, proof],
         });
@@ -108,7 +110,10 @@ export const useClaimToken = () => {
           },
         };
       } catch (e) {
-        console.log("error during getTxAuthDataSignature", e);
+        console.log(
+          "error during getTxAuthDataSignature",
+          (e as Error).toString(),
+        );
         return {
           signatureResponse: {
             isAuthorized: false,

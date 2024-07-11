@@ -22,8 +22,6 @@ const buttonStyle = {
 export const KYCAirdrop = (props: { did: string | undefined }) => {
   const { did } = props;
   const { data: walletClient } = useWalletClient();
-  // const account = useAccount();
-  // const chainId = useChainId();
 
   const [sdkResponse, setSdkResponse] = useState<MintResponse | undefined>(
     undefined,
@@ -79,10 +77,7 @@ export const KYCAirdrop = (props: { did: string | undefined }) => {
               error={tryClaiming.data?.error}
             />
             <br />
-            <DisplayTokenBalance
-              balance={getBalance.balance ?? 0}
-              title={"User balance: "}
-            />
+            <DisplayTokenBalance balance={getBalance.balance ?? 0} />
           </div>
           <br />
         </>

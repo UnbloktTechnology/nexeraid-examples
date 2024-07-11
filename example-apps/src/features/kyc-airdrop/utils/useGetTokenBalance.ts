@@ -29,6 +29,7 @@ export const useGetTokenBalance = () => {
     functionName: "balanceOf",
     args: [account.address],
   });
+  console.log("balance", balance);
 
   // With wagmi v2, this is how we update contract reads
   useEffect(() => {

@@ -39,7 +39,7 @@ export type WalletClientExtended = Client<
 export const useClaimToken = () => {
   const chainId = useChainId();
   const account = useAccount();
-  const mintNFTGatedFromSDK = useSendTransaction();
+  const sendTx = useSendTransaction();
 
   return useMutation({
     mutationFn: async () => {
@@ -53,10 +53,17 @@ export const useClaimToken = () => {
         }
 
         // build inputs
+        console.log("account.address", account.address);
         const amount = getUserAllowance(account.address);
+        console.log("amount", amount);
         const index = getUserIndex(account.address);
-        const proof = tree.getProof(0, account.address, BigNumber.from(100));
-
+        console.log("index", index);
+        const proof = tree.getProof(
+          index,
+          account.address,
+          BigNumber.from(amount),
+        );
+        console.log("distributorABI", distributorABI);
         const txAuthInput = {
           contractAbi: Array.from(distributorABI),
           contractAddress: getDistributorContractAddress(
@@ -66,6 +73,7 @@ export const useClaimToken = () => {
           args: [index, account.address, amount, proof],
           chainId: EvmChainId.parse(chainId),
         };
+        console.log("txAuthInput", txAuthInput);
 
         const signatureResponse =
           await IDENTITY_CLIENT.getTxAuthSignature(txAuthInput);
@@ -86,7 +94,7 @@ export const useClaimToken = () => {
         const txData = (unsignedTx + payload) as `0x${string}`;
 
         // Claim with signature
-        const result = await mintNFTGatedFromSDK.sendTransactionAsync({
+        const result = await sendTx.sendTransactionAsync({
           to: getDistributorContractAddress(EvmChainId.parse(chainId)),
           data: txData,
         });

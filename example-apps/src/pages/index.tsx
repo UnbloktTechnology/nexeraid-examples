@@ -91,6 +91,11 @@ const PROJECTS: AppCardProps[] = [
     image: "/images/kyc.webp",
   },
   {
+    url: "/kyc-airdrop",
+    name: "KYC Gated Token Airdrop",
+    image: "/images/kyc.webp",
+  },
+  {
     url: "/multi-chain-support",
     name: "Multi Chain Support",
     image: "/images/kyc.webp",

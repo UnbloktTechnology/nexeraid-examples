@@ -7,6 +7,7 @@ import Image from "next/image";
 
 import stylesPeaq from "./peaq.module.css";
 import KYCAirdropFooter from "./components/ui/KYCAirdropFooter";
+import { KYCProvider } from "./providers/KYCContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,9 +39,11 @@ export const KYCAirdropPage = () => {
               <h1 className="font-aeonix-regular mb-4 text-4xl">
                 Headline with cool text goes here
               </h1>
-              <div className="mb-4 flex flex-col items-center justify-center">
-                <KYCClientEIP155 setDID={setDID} />
-                <KYCAirdrop did={did} />
+              <div className="mb-4 flex flex-col items-center justify-center gap-4">
+                <KYCProvider>
+                  <KYCClientEIP155 setDID={setDID} />
+                  <KYCAirdrop did={did} />
+                </KYCProvider>
               </div>
               <p className="mt-4">Maybe some T&C should go here</p>
             </section>

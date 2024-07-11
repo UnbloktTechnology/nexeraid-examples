@@ -3,7 +3,7 @@ import { useWalletClient } from "wagmi";
 import type { MintResponse } from "../utils/blockchain.schema";
 import { useClaimToken } from "../utils/useClaimToken";
 import { useKYCContext } from "../providers/KYCContext";
-import { Icon } from "@/features/bank-web3/Components/Icon";
+import { Button } from "./Button";
 
 export const KYCAirdrop = (props: { did: string | undefined }) => {
   const { did } = props;
@@ -15,22 +15,27 @@ export const KYCAirdrop = (props: { did: string | undefined }) => {
   );
   const tryClaiming = useClaimToken();
   const { isWalletWhitelisted, isWalletChecked } = useKYCContext();
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <>
       {did && isWalletChecked && isWalletWhitelisted && (
-        <button
+        <Button
           className="rounded-full bg-white px-4 py-2 font-medium text-black shadow hover:bg-gray-100"
           id="mint-sdk-btn"
           disabled={!walletClient}
+          isLoading={isLoading}
           onClick={() => {
             if (walletClient) {
+              setIsLoading(true);
               tryClaiming
                 .mutateAsync()
                 .then((_sdkResponse) => {
+                  setIsLoading(false);
                   setSdkResponse(_sdkResponse);
                 })
                 .catch((e) => {
+                  setIsLoading(false);
                   console.log("error while fetching signature", e);
                 });
             } else {
@@ -38,9 +43,8 @@ export const KYCAirdrop = (props: { did: string | undefined }) => {
             }
           }}
         >
-          <Icon icon="spinner" size={18} color="black" />
           Claim to connect wallet address
-        </button>
+        </Button>
       )}
       {isWalletChecked && !isWalletWhitelisted && (
         <div className="m-4 w-full p-4">

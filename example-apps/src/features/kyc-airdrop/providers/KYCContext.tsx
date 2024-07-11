@@ -32,10 +32,14 @@ export const KYCProvider = ({ children }: { children: ReactNode }) => {
     return isWalletWhitelisted;
   };
 
-  console.log("CONTEXT ========");
-  console.log("isWalletWhitelisted", isWalletWhitelisted);
-  console.log("isWalletAuthorized", isWalletAuthorized);
-  console.log("isWalletChecked", isWalletChecked);
+  console.log(
+    "isWalletWhitelisted",
+    isWalletWhitelisted,
+    "isWalletAuthorized",
+    isWalletAuthorized,
+    "isWalletChecked",
+    isWalletChecked,
+  );
 
   return (
     <KYCContext.Provider

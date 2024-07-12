@@ -9,7 +9,7 @@ import { getUserIndex } from "../utils/getUserAllowance";
 
 interface KYCContextProps {
   isWalletWhitelisted: boolean;
-  isWalletAuthorized: boolean;
+  isWalletAuthorized: boolean; //TODO: Implement this after KYC completed
   checkIfWalletIsWhitelisted: (address: Address) => void;
   isWalletChecked: boolean;
   setIsWalletWhitelisted: (value: boolean) => void;

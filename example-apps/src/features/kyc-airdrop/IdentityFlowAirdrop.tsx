@@ -91,7 +91,9 @@ export const IdentityFlowAirdrop = (props: {
           Authenticate
         </Button>
       )}
-      {!auth && isAuthenticating && <Button isLoading>-</Button>}
+      {!auth && isAuthenticating && isWalletWhitelisted && (
+        <Button isLoading>-</Button>
+      )}
       {auth &&
         isWalletWhitelisted &&
         isWalletChecked &&

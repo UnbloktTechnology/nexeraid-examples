@@ -1,5 +1,3 @@
-import { Inter } from "next/font/google";
-import styles from "../kyc-widget/client.module.css";
 import { KYCClientAirdrop } from "./KYCClientAirdrop";
 import { useEffect, useState } from "react";
 import { KYCClaimAirdrop } from "./components/KYCClaimAirdrop";
@@ -9,8 +7,6 @@ import stylesPeaq from "./peaq.module.css";
 import KYCAirdropFooter from "./components/ui/KYCAirdropFooter";
 import { useKYCContext } from "./providers/KYCContext";
 import { useGetTokenBalance } from "./utils/useGetTokenBalance";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const KYCAirdropPage = () => {
   const [did, setDID] = useState<string | undefined>(undefined);
@@ -55,7 +51,7 @@ export const KYCAirdropPage = () => {
   ]);
 
   return (
-    <main className={`bg-white !p-0 ${inter.className} ${styles.main}`}>
+    <main className={`${stylesPeaq.main} bg-white !p-0`}>
       <header className="flex w-full items-center justify-between  p-4 pb-0">
         <Image
           src="/images/peaq-logo.png"
@@ -76,16 +72,17 @@ export const KYCAirdropPage = () => {
           <div
             className={`${stylesPeaq.bg} flex min-h-screen items-center justify-center p-8`}
           >
-            <section className="w-full max-w-xl rounded-lg px-8 py-20 text-center text-white">
-              <h1 className="font-aeonix-regular mb-4 text-4xl">{title}</h1>
-              <h2 className="font-aeonix-regular mb-4 text-2xl">{subtitle}</h2>
-              {(balance.balance == undefined || balance.balance === 0) && (
-                <div className="mb-4 flex flex-col items-center justify-center gap-4">
-                  <KYCClientAirdrop setDID={setDID} />
-                  <KYCClaimAirdrop did={did} />
-                </div>
-              )}
-              <p className="mt-4">Terms and conditions</p>
+            <section className="flex w-full max-w-xl flex-col gap-4 rounded-lg px-8 py-20 text-center text-white">
+              <h1 className="text-4xl">{title}</h1>
+              <h2 className="text-2xl">{subtitle}</h2>
+              <div className="flex flex-col items-center justify-center gap-4">
+                <KYCClientAirdrop setDID={setDID} />
+                <KYCClaimAirdrop did={did} />
+              </div>
+
+              <a className="underline" href="#">
+                Terms and conditions
+              </a>
             </section>
           </div>
         </div>

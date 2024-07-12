@@ -65,19 +65,6 @@ export const KYCProvider = ({ children }: { children: ReactNode }) => {
     console.log("KYC context has been reset");
   };
 
-  console.log(
-    "isWalletWhitelisted",
-    isWalletWhitelisted,
-    "isWalletAuthorized",
-    isWalletAuthorized,
-    "isWalletChecked",
-    isWalletChecked,
-    "isWalletClaimed",
-    isWalletClaimed,
-    "isWalletFailedClaim",
-    isWalletFailedClaim,
-  );
-
   return (
     <KYCContext.Provider
       value={{

@@ -29,7 +29,6 @@ export const useGetTokenBalance = () => {
     functionName: "balanceOf",
     args: [account.address],
   });
-  console.log("balance", balance);
 
   // With wagmi v2, this is how we update contract reads
   useEffect(() => {
@@ -37,7 +36,7 @@ export const useGetTokenBalance = () => {
   }, [blockNumber, queryClient, queryKey]);
 
   return {
-    balance: balance as number | undefined,
+    balance: Number(balance) as number | undefined,
     isError: isError,
     isPending: isPending,
   };

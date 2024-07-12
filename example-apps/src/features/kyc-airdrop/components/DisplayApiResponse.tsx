@@ -1,9 +1,9 @@
 import { shortAddress } from "@nexeraprotocol/identity-schemas";
 
-import type { MintResponse } from "../utils/blockchain.schema";
+import type { ClaimResponse } from "../utils/blockchain.schema";
 
 export const getTransactionStatus = (props: {
-  mintResponse?: MintResponse;
+  claimResponse?: ClaimResponse;
   gasCost?: bigint;
   writeData?: {
     isSuccess: boolean;
@@ -27,7 +27,7 @@ export const getTransactionStatus = (props: {
 };
 
 export const DisplayApiResponse = (props: {
-  mintResponse?: MintResponse;
+  claimResponse?: ClaimResponse;
   gasCost?: bigint;
   writeData?: {
     isSuccess: boolean;
@@ -37,28 +37,28 @@ export const DisplayApiResponse = (props: {
 }) => {
   return (
     <label>
-      {props.mintResponse ? (
+      {props.claimResponse ? (
         <div>
           <div>
             Authorized:{" "}
-            {props.mintResponse.signatureResponse.isAuthorized ? "YES" : "NO"}
+            {props.claimResponse.signatureResponse.isAuthorized ? "YES" : "NO"}
           </div>
-          {props.mintResponse.signatureResponse.payload && (
+          {props.claimResponse.signatureResponse.payload && (
             <div>
               Payload:{" "}
-              {shortAddress(props.mintResponse.signatureResponse.payload)}
+              {shortAddress(props.claimResponse.signatureResponse.payload)}
             </div>
           )}
-          {props.mintResponse.signatureResponse.blockExpiration && (
+          {props.claimResponse.signatureResponse.blockExpiration && (
             <div>
               Block Expiration:{" "}
-              {props.mintResponse.signatureResponse.blockExpiration}
+              {props.claimResponse.signatureResponse.blockExpiration}
             </div>
           )}
-          {props.mintResponse.signatureResponse.signature && (
+          {props.claimResponse.signatureResponse.signature && (
             <div>
               Signature:{" "}
-              {shortAddress(props.mintResponse.signatureResponse.signature)}
+              {shortAddress(props.claimResponse.signatureResponse.signature)}
             </div>
           )}
           {props.writeData && (

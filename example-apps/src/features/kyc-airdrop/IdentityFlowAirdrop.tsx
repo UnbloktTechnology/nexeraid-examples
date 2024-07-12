@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { buildSignatureMessage } from "@nexeraid/identity-sdk";
-import { IDENTITY_CLIENT } from "./IdentityClient";
+import { IDENTITY_CLIENT } from "../kyc-widget/IdentityClient";
 import { fetchAccessToken } from "@/utils/fetchAccessToken";
 import type {
   BlockchainAddress,
@@ -8,8 +8,8 @@ import type {
 } from "@nexeraprotocol/identity-schemas";
 
 import { type Address } from "viem";
-import { useKYCContext } from "../kyc-airdrop/providers/KYCContext";
-import { Button } from "../kyc-airdrop/components/Button";
+import { useKYCContext } from "./providers/KYCContext";
+import { Button } from "./components/Button";
 
 export const IdentityFlowAirdrop = (props: {
   setDID: (did: string) => void;

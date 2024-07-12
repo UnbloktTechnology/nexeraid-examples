@@ -1,11 +1,12 @@
-import { KYCClientEIP155 } from "../kyc-widget/KYCClientEIP155";
+import { KYCClientAirdrop } from "./KYCClientAirdrop";
 import { useEffect, useState } from "react";
-import { KYCAirdrop } from "./components/KYCAirdrop";
+import { KYCClaimAirdrop } from "./components/KYCClaimAirdrop";
 import Image from "next/image";
 
 import stylesPeaq from "./peaq.module.css";
 import KYCAirdropFooter from "./components/ui/KYCAirdropFooter";
 import { useKYCContext } from "./providers/KYCContext";
+import { useGetTokenBalance } from "./utils/useGetTokenBalance";
 
 export const KYCAirdropPage = () => {
   const [did, setDID] = useState<string | undefined>(undefined);
@@ -19,9 +20,15 @@ export const KYCAirdropPage = () => {
   const [subtitle, setSubtitle] = useState<string>(
     "Connect your wallet to claim tokens",
   );
+  const balance = useGetTokenBalance();
 
   useEffect(() => {
-    if (isWalletChecked && isWalletWhitelisted) {
+    if (balance.balance && Number(balance.balance) > 0) {
+      setTitle("Tokens claimed successfully");
+      setSubtitle(
+        `Congrats! Your wallet should have claimed your ${balance.balance} tokens`,
+      );
+    } else if (isWalletChecked && isWalletWhitelisted) {
       setTitle("This wallet qualifies");
       setSubtitle(
         "Congrats! Now we need to verify your identity before you can claim your tokens",
@@ -31,9 +38,6 @@ export const KYCAirdropPage = () => {
       setSubtitle(
         "Unfortunately, this wallet doesn't qualify for the airdrop. Please try again with a different wallet",
       );
-    } else if (isWalletClaimed) {
-      setTitle("Tokens claimed successfully");
-      setSubtitle("Congrats! Your wallet should have claimed the tokens");
     } else if (isWalletFailedClaim) {
       setTitle("Tokens claim unsuccessful");
       setSubtitle("Unfortunately, we can't allow token claim for this wallet");
@@ -43,6 +47,7 @@ export const KYCAirdropPage = () => {
     isWalletWhitelisted,
     isWalletChecked,
     isWalletFailedClaim,
+    balance,
   ]);
 
   return (
@@ -71,8 +76,8 @@ export const KYCAirdropPage = () => {
               <h1 className="text-4xl">{title}</h1>
               <h2 className="text-2xl">{subtitle}</h2>
               <div className="flex flex-col items-center justify-center gap-4">
-                <KYCClientEIP155 setDID={setDID} />
-                <KYCAirdrop did={did} />
+                <KYCClientAirdrop setDID={setDID} />
+                <KYCClaimAirdrop did={did} />
               </div>
 
               <a className="underline" href="#">

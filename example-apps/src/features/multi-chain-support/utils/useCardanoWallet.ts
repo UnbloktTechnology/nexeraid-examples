@@ -60,7 +60,7 @@ export const signWithCardano = async (
     throw new Error("No user connected in wallet");
   }
   const hexMessage = Buffer.from(message).toString("hex");
-  // Note: this only works with this raw address and not the formated version
+  // Note: this only works with this raw address and not the formatted version
   const { signature } = await wallet.signData(userAddress, hexMessage);
   return CardanoSignature.parse(signature);
 };
@@ -80,13 +80,13 @@ export const useCardanoWallet = () => {
       const api = await cardano.nami!.enable();
       const usedAddresses = await api.getUsedAddresses();
       const userAddress = usedAddresses[0];
-      const formatedAddress =
+      const formattedAddress =
         userAddress && (await formatCardanoAddress(userAddress));
 
-      if (!formatedAddress) {
+      if (!formattedAddress) {
         throw new Error("No user connected in wallet");
       }
-      return { wallet: api, address: formatedAddress };
+      return { wallet: api, address: formattedAddress };
     },
     refetchInterval: false,
     refetchOnWindowFocus: false,

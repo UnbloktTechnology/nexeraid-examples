@@ -80,7 +80,18 @@ export const useClaimToken = () => {
         const signatureResponse =
           await IDENTITY_CLIENT.getTxAuthSignature(txAuthInput);
 
-        // If user is not authorized, use wrong signature and dummy blockExpiratioin
+        // If user is not authorized return empty
+        if (signatureResponse.isAuthorized) {
+          return {
+            txHash: "0x",
+            signatureResponse: {
+              isAuthorized: signatureResponse.isAuthorized,
+              payload: "0x",
+              blockExpiration: 0,
+            },
+          };
+        }
+
         const blockExpiration = signatureResponse.blockExpiration;
 
         const payload = signatureResponse.payload;

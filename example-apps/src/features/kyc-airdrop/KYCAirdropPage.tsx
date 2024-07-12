@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import styles from "../kyc-widget/client.module.css";
 import { KYCClientAirdrop } from "./KYCClientAirdrop";
 import { useEffect, useState } from "react";
-import { KYCAirdrop } from "./components/KYCAirdrop";
+import { KYCClaimAirdrop } from "./components/KYCClaimAirdrop";
 import Image from "next/image";
 
 import stylesPeaq from "./peaq.module.css";
@@ -82,7 +82,7 @@ export const KYCAirdropPage = () => {
               {(balance.balance == undefined || balance.balance === 0) && (
                 <div className="mb-4 flex flex-col items-center justify-center gap-4">
                   <KYCClientAirdrop setDID={setDID} />
-                  <KYCAirdrop did={did} />
+                  <KYCClaimAirdrop did={did} />
                 </div>
               )}
               <p className="mt-4">Terms and conditions</p>

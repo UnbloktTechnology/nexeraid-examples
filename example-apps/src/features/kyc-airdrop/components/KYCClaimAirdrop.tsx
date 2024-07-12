@@ -14,12 +14,8 @@ export const KYCClaimAirdrop = (props: { did: string | undefined }) => {
     undefined,
   );
   const tryClaiming = useClaimToken();
-  const {
-    isWalletWhitelisted,
-    isWalletChecked,
-    setIsWalletFailedClaim,
-    setIsWalletClaimed,
-  } = useKYCContext();
+  const { isWalletWhitelisted, isWalletChecked, setIsWalletFailedClaim } =
+    useKYCContext();
   const [isLoading, setIsLoading] = useState(false);
 
   return (
@@ -41,7 +37,6 @@ export const KYCClaimAirdrop = (props: { did: string | undefined }) => {
                   .then((_sdkResponse) => {
                     setIsLoading(false);
                     setSdkResponse(_sdkResponse);
-                    setIsWalletClaimed(true);
                   })
                   .catch((e) => {
                     setIsLoading(false);

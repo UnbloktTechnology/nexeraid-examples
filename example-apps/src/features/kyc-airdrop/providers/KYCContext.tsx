@@ -14,8 +14,6 @@ interface KYCContextProps {
   isWalletChecked: boolean;
   setIsWalletWhitelisted: (value: boolean) => void;
   setIsWalletAuthorized: (value: boolean) => void;
-  isWalletClaimed: boolean;
-  setIsWalletClaimed: (value: boolean) => void;
   isWalletFailedClaim: boolean;
   setIsWalletFailedClaim: (value: boolean) => void;
   resetKYCContext: () => void;
@@ -41,9 +39,6 @@ export const KYCProvider = ({ children }: { children: ReactNode }) => {
   const [isWalletChecked, setIsWalletChecked] = useState(
     defaultKYCValues.isWalletChecked,
   );
-  const [isWalletClaimed, setIsWalletClaimed] = useState(
-    defaultKYCValues.isWalletClaimed,
-  );
   const [isWalletFailedClaim, setIsWalletFailedClaim] = useState(
     defaultKYCValues.isWalletFailedClaim,
   );
@@ -60,7 +55,6 @@ export const KYCProvider = ({ children }: { children: ReactNode }) => {
     setIsWalletWhitelisted(defaultKYCValues.isWalletWhitelisted);
     setIsWalletAuthorized(defaultKYCValues.isWalletAuthorized);
     setIsWalletChecked(defaultKYCValues.isWalletChecked);
-    setIsWalletClaimed(defaultKYCValues.isWalletClaimed);
     setIsWalletFailedClaim(defaultKYCValues.isWalletFailedClaim);
     console.log("KYC context has been reset");
   };
@@ -74,8 +68,6 @@ export const KYCProvider = ({ children }: { children: ReactNode }) => {
         checkIfWalletIsWhitelisted,
         setIsWalletWhitelisted,
         setIsWalletAuthorized,
-        isWalletClaimed,
-        setIsWalletClaimed,
         isWalletFailedClaim,
         setIsWalletFailedClaim,
         resetKYCContext,

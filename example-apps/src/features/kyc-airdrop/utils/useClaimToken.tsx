@@ -81,7 +81,7 @@ export const useClaimToken = () => {
           await IDENTITY_CLIENT.getTxAuthSignature(txAuthInput);
 
         // If user is not authorized return empty
-        if (signatureResponse.isAuthorized) {
+        if (!signatureResponse.isAuthorized) {
           return {
             txHash: "0x",
             signatureResponse: {

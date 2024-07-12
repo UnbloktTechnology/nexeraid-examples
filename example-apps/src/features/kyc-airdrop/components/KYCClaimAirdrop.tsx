@@ -53,7 +53,7 @@ export const KYCClaimAirdrop = (props: { did: string | undefined }) => {
               }
             }}
           >
-            2 - Claim to connect wallet address
+            2 - Connect wallet address to claim
           </Button>
         </div>
       )}

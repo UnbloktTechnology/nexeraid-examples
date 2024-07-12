@@ -17,7 +17,7 @@ type ExampleType =
   | "defi-rule-engine"
   | "kyc"
   | "sygnum-web3"
-  | "kyc-aidrop";
+  | "kyc-airdrop";
 
 export async function fetchAccessToken(
   requestData: AccessTokenRequest,

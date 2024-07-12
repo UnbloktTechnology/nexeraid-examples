@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import styles from "../kyc-widget/client.module.css";
-import { KYCClientEIP155 } from "../kyc-widget/KYCClientEIP155";
+import { KYCClientAirdrop } from "./KYCClientAirdrop";
 import { useEffect, useState } from "react";
 import { KYCAirdrop } from "./components/KYCAirdrop";
 import Image from "next/image";
@@ -75,7 +75,7 @@ export const KYCAirdropPage = () => {
               <h1 className="font-aeonix-regular mb-4 text-4xl">{title}</h1>
               <h2 className="font-aeonix-regular mb-4 text-2xl">{subtitle}</h2>
               <div className="mb-4 flex flex-col items-center justify-center gap-4">
-                <KYCClientEIP155 setDID={setDID} />
+                <KYCClientAirdrop setDID={setDID} />
                 <KYCAirdrop did={did} />
               </div>
               <p className="mt-4">Terms and conditions</p>

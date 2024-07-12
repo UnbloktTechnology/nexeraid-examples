@@ -46,7 +46,7 @@ export const KYCAirdropPage = () => {
   ]);
 
   return (
-    <main className="font-aeonix-regular bg-white !p-0">
+    <main className={`${stylesPeaq.main} bg-white !p-0`}>
       <header className="flex w-full items-center justify-between  p-4 pb-0">
         <Image
           src="/images/peaq-logo.png"
@@ -68,8 +68,8 @@ export const KYCAirdropPage = () => {
             className={`${stylesPeaq.bg} flex min-h-screen items-center justify-center p-8`}
           >
             <section className="flex w-full max-w-xl flex-col gap-4 rounded-lg px-8 py-20 text-center text-white">
-              <h1 className="font-aeonix-regular text-4xl">{title}</h1>
-              <h2 className="font-aeonix-regular text-2xl">{subtitle}</h2>
+              <h1 className="text-4xl">{title}</h1>
+              <h2 className="text-2xl">{subtitle}</h2>
               <div className="flex flex-col items-center justify-center gap-4">
                 <KYCClientEIP155 setDID={setDID} />
                 <KYCAirdrop did={did} />

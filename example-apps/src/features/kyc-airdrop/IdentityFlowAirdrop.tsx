@@ -44,7 +44,7 @@ export const IdentityFlowAirdrop = (props: {
             address: props.address,
             blockchainNamespace: props.blockchainNamespace,
           },
-          "kyc",
+          "kyc-airdrop",
         );
         const accessToken = response.accessToken;
         IDENTITY_CLIENT.onSdkReady((data) => {

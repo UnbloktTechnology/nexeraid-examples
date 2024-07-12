@@ -16,7 +16,8 @@ type ExampleType =
   | "defi-offchain-zkp"
   | "defi-rule-engine"
   | "kyc"
-  | "sygnum-web3";
+  | "sygnum-web3"
+  | "kyc-airdrop";
 
 export async function fetchAccessToken(
   requestData: AccessTokenRequest,

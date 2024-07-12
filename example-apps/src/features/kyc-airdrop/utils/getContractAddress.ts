@@ -3,18 +3,18 @@ import { NEXERA_EVM_CHAINS } from "@nexeraprotocol/identity-schemas";
 
 //Sepolia
 // For local testing
-const exampleTokenAddressSepolia =
-  "0x7F6DCe06824aE8b0F0A1e4526a61c89187084e8e" as const;
-
-const distributorAddressSepolia =
-  "0xA4C8c61C890187c60969D33C4b6357a32205AF09" as const;
-
-// For Prod
 // const exampleTokenAddressSepolia =
-//   "0x1dE19c9Da1D6ef4D4Db6Dc0Fe7cFB508f1505003" as const;
+//   "0x7F6DCe06824aE8b0F0A1e4526a61c89187084e8e" as const;
 
 // const distributorAddressSepolia =
-//   "0x93bdAB0468d0Dbb79F398A872fCa6F883B6945AD" as const;
+//   "0xA4C8c61C890187c60969D33C4b6357a32205AF09" as const;
+
+// For Prod
+const exampleTokenAddressSepolia =
+  "0x1dE19c9Da1D6ef4D4Db6Dc0Fe7cFB508f1505003" as const;
+
+const distributorAddressSepolia =
+  "0x93bdAB0468d0Dbb79F398A872fCa6F883B6945AD" as const;
 
 // Amoy
 const exampleTokenAddressAmoy =

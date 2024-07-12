@@ -29,7 +29,7 @@ export default async function handler(
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${env.NEXERA_ID_API_KEY_DEFI_RULE_ENGINE}`,
+          Authorization: `Bearer ${env.NEXERA_ID_API_KEY_KYC_AIRDROP}`,
         },
         body: JSON.stringify({
           address: input.address,

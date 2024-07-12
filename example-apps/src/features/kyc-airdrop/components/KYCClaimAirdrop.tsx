@@ -32,7 +32,10 @@ export const KYCClaimAirdrop = (props: { did: string | undefined }) => {
           <Button
             className="rounded-full bg-white px-4 py-2 font-medium text-black shadow hover:bg-gray-100"
             id="mint-sdk-btn"
-            disabled={!walletClient}
+            disabled={
+              !walletClient ||
+              sdkResponse?.signatureResponse.isAuthorized === false
+            }
             isLoading={isLoading}
             onClick={() => {
               if (walletClient) {

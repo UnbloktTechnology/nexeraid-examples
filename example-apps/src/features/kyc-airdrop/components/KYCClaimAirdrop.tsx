@@ -25,12 +25,11 @@ export const KYCClaimAirdrop = (props: { did: string | undefined }) => {
   return (
     <>
       {did && isWalletChecked && isWalletWhitelisted && (
-        <div>
+        <div className="flex flex-col gap-4">
           {sdkResponse?.signatureResponse.isAuthorized === false && (
-            <div>You need to go through KYC before you can claim</div>
+            <p>You need to go through KYC before you can claim</p>
           )}
           <Button
-            className="rounded-full bg-white px-4 py-2 font-medium text-black shadow hover:bg-gray-100"
             id="mint-sdk-btn"
             disabled={!walletClient}
             isLoading={isLoading}

@@ -10,20 +10,17 @@ import { useGetTokenBalance } from "./utils/useGetTokenBalance";
 
 export const KYCAirdropPage = () => {
   const [did, setDID] = useState<string | undefined>(undefined);
-  const {
-    isWalletClaimed,
-    isWalletWhitelisted,
-    isWalletChecked,
-    isWalletFailedClaim,
-  } = useKYCContext();
+  const { isWalletWhitelisted, isWalletChecked, isWalletFailedClaim } =
+    useKYCContext();
   const [title, setTitle] = useState<string>("Let's claim some tokens");
   const [subtitle, setSubtitle] = useState<string>(
     "Connect your wallet to claim tokens",
   );
   const balance = useGetTokenBalance();
+  const isWalletClaimed = balance.balance && Number(balance.balance) > 0;
 
   useEffect(() => {
-    if (balance.balance && Number(balance.balance) > 0) {
+    if (isWalletClaimed) {
       setTitle("Tokens claimed successfully");
       setSubtitle(
         `Congrats! Your wallet should have claimed your ${balance.balance} tokens`,
@@ -75,10 +72,12 @@ export const KYCAirdropPage = () => {
             <section className="flex w-full max-w-xl flex-col gap-4 rounded-lg px-8 py-20 text-center text-white">
               <h1 className="text-4xl">{title}</h1>
               <h2 className="text-2xl">{subtitle}</h2>
-              <div className="flex flex-col items-center justify-center gap-4">
-                <KYCClientAirdrop setDID={setDID} />
-                <KYCClaimAirdrop did={did} />
-              </div>
+              {!isWalletClaimed && (
+                <div className="flex flex-col items-center justify-center gap-4">
+                  <KYCClientAirdrop setDID={setDID} />
+                  <KYCClaimAirdrop did={did} />
+                </div>
+              )}
 
               <a className="underline" href="#">
                 Terms and conditions

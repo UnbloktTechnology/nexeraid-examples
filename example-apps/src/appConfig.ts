@@ -1,7 +1,14 @@
 import { z } from "zod";
 import { ethers } from "ethers";
 
-export const ENVS = ["local", "dev", "stage", "prod"] as const;
+export const ENVS = [
+  "local",
+  "dev",
+  "stage",
+  "prod",
+  "test-dev-1",
+  "test-dev-2",
+] as const;
 export const ENVSchema = z.enum(ENVS);
 
 export const appConfig = {
@@ -12,6 +19,14 @@ export const appConfig = {
   [ENVSchema.enum.dev]: {
     api: "https://api-dev.nexera.id/",
     aaveDemo: "https://aave-onchain-verification-dev.nexera.id/",
+  },
+  [ENVSchema.enum["test-dev-1"]]: {
+    api: "https://api-test-dev-1.nexera.id/",
+    aaveDemo: "https://aave-onchain-verification-test-dev-1.nexera.id/",
+  },
+  [ENVSchema.enum["test-dev-2"]]: {
+    api: "https://api-test-dev-2.nexera.id/",
+    aaveDemo: "https://aave-onchain-verification-test-dev-2.nexera.id/",
   },
   [ENVSchema.enum.stage]: {
     api: "https://api-staging.nexera.id/",

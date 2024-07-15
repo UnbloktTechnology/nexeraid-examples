@@ -24,6 +24,11 @@ export const env = createEnv({
       .describe(
         "The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Defi Rule Engine Example dApp",
       ),
+    NEXERA_ID_API_KEY_KYC_AIRDROP: z
+      .string()
+      .describe(
+        "The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera KYC Airdrop Example dApp",
+      ),
     NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP: z
       .string()
       .describe(
@@ -59,7 +64,8 @@ export const env = createEnv({
   client: {
     NEXT_PUBLIC_ENVIRONMENT: z
       .enum(["local", "dev", "stage", "prod"])
-      .describe("The environment the app is running in").default("prod"),
+      .describe("The environment the app is running in")
+      .default("prod"),
     NEXT_PUBLIC_AMOY_WS_PROVIDER_URL: z
       .string()
       .describe("Amoy websocket url for better event support"),
@@ -87,6 +93,7 @@ export const env = createEnv({
     NEXERA_ID_API_KEY_KYC: process.env.NEXERA_ID_API_KEY_KYC,
     NEXERA_ID_API_KEY_BANK_SYGNUM_WEB3:
       process.env.NEXERA_ID_API_KEY_BANK_SYGNUM_WEB3,
+    NEXERA_ID_API_KEY_KYC_AIRDROP: process.env.NEXERA_ID_API_KEY_KYC_AIRDROP,
 
     NEXT_PUBLIC_AMOY_WS_PROVIDER_URL:
       process.env.NEXT_PUBLIC_AMOY_WS_PROVIDER_URL,

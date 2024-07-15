@@ -5,9 +5,10 @@ import { IdentityFlow } from "./IdentityFlow";
 export const KYCClientEIP155 = (props: { setDID: (did: string) => void }) => {
   const signMessage = useSignMessage();
   const { address } = useAccount();
+
   return (
     <>
-      <ConnectButton />
+      <ConnectButton label="Connect the wallet" />
       {address && (
         <IdentityFlow
           setDID={props.setDID}

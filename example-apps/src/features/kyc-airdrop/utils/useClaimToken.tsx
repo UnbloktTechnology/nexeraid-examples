@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import {
   encodeFunctionData,
-  webSocket,
   type Account,
   type Chain,
   type Client,
@@ -13,14 +12,7 @@ import {
 
 import { ChainId } from "@nexeraprotocol/identity-schemas";
 import { IDENTITY_CLIENT } from "../../kyc-widget/IdentityClient";
-import {
-  useChainId,
-  useAccount,
-  useSendTransaction,
-  useSimulateContract,
-  useClient,
-  useWalletClient,
-} from "wagmi";
+import { useChainId, useAccount, useSendTransaction } from "wagmi";
 import { getDistributorContractAddress } from "./getContractAddress";
 import { distributorABI } from "./abis/distributorABI";
 import { getUserAllowance, getUserIndex } from "./getUserAllowance";
@@ -128,7 +120,6 @@ export const useClaimToken = () => {
         return {
           signatureResponse: {
             isAuthorized: false,
-            signature: "0x",
           },
           error: (e as Error).toString().substring(0, 108),
         };

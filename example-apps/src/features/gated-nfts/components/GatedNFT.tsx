@@ -19,7 +19,7 @@ import { useMintGatedNFTFromSDK } from "../utils/useMintNFT";
 import { DisplayMintResponse } from "./DisplayMintResponse";
 import { DisplayMintedNFTs } from "./DisplayMintedNFTs";
 import { getNonGatedContractAddress } from "../utils/getContractAddress";
-import { EvmChainId } from "@nexeraprotocol/identity-schemas";
+import { ChainId } from "@nexeraprotocol/identity-schemas";
 
 const buttonStyle = {
   padding: "16px 24px",
@@ -122,9 +122,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
                 }
                 if (walletClient) {
                   mintNonGated.writeContract({
-                    address: getNonGatedContractAddress(
-                      EvmChainId.parse(chainId),
-                    ),
+                    address: getNonGatedContractAddress(ChainId.parse(chainId)),
                     abi: ExampleNFTMinterABI,
                     functionName: "mintNFT",
                     args: [account.address],

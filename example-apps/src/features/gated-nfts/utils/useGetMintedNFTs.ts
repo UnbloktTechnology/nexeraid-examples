@@ -6,7 +6,7 @@ import {
   useWatchContractEvent,
   useReadContracts,
 } from "wagmi";
-import { EvmChainId } from "@nexeraprotocol/identity-schemas";
+import { ChainId } from "@nexeraprotocol/identity-schemas";
 
 import {
   ExampleGatedNFTMinterABI,
@@ -25,7 +25,7 @@ export const useGetGatedMintedNFTs = () => {
   // Use this hook to only update nfts after wagmi hook has loaded and nfts are defined
   const [mintedGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
   const exampleGatedContract = {
-    address: getGatedContractAddress(EvmChainId.parse(chainId)),
+    address: getGatedContractAddress(ChainId.parse(chainId)),
     abi: ExampleGatedNFTMinterABI,
   };
   const queryClient = useQueryClient();
@@ -81,7 +81,7 @@ export const useGetGatedMintedNFTs = () => {
     setNewNFTs((currentNFTs) => [...currentNFTs, _newNFT]);
   }
   useWatchContractEvent({
-    address: getGatedContractAddress(EvmChainId.parse(chainId)),
+    address: getGatedContractAddress(ChainId.parse(chainId)),
     abi: ExampleGatedNFTMinterABI,
     eventName: "Transfer",
     onLogs(logs) {
@@ -110,7 +110,7 @@ export const useGetNonGatedMintedNFTs = () => {
   // Use this hook to only update nfts after wagmi hook has loaded and nfts are defined
   const [mintedGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
   const exampleGatedContract = {
-    address: getNonGatedContractAddress(EvmChainId.parse(chainId)),
+    address: getNonGatedContractAddress(ChainId.parse(chainId)),
     abi: ExampleNFTMinterABI,
   };
   const queryClient = useQueryClient();
@@ -165,7 +165,7 @@ export const useGetNonGatedMintedNFTs = () => {
     setNewNFTs((currentNFTs) => [...currentNFTs, _newNFT]);
   }
   useWatchContractEvent({
-    address: getNonGatedContractAddress(EvmChainId.parse(chainId)),
+    address: getNonGatedContractAddress(ChainId.parse(chainId)),
     abi: ExampleNFTMinterABI,
     eventName: "Transfer",
 

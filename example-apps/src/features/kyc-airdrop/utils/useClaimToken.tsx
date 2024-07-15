@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import {
   encodeFunctionData,
-  webSocket,
   type Account,
   type Chain,
   type Client,
@@ -11,16 +10,9 @@ import {
   type WalletActions,
 } from "viem";
 
-import { EvmChainId } from "@nexeraprotocol/identity-schemas";
+import { ChainId } from "@nexeraprotocol/identity-schemas";
 import { IDENTITY_CLIENT } from "../../kyc-widget/IdentityClient";
-import {
-  useChainId,
-  useAccount,
-  useSendTransaction,
-  useSimulateContract,
-  useClient,
-  useWalletClient,
-} from "wagmi";
+import { useChainId, useAccount, useSendTransaction } from "wagmi";
 import { getDistributorContractAddress } from "./getContractAddress";
 import { distributorABI } from "./abis/distributorABI";
 import { getUserAllowance, getUserIndex } from "./getUserAllowance";
@@ -71,11 +63,11 @@ export const useClaimToken = () => {
         const txAuthInput = {
           contractAbi: Array.from(distributorABI),
           contractAddress: getDistributorContractAddress(
-            EvmChainId.parse(chainId),
+            ChainId.parse(chainId),
           ),
           functionName: "claim",
           args: [index, account.address, amount, proof],
-          chainId: EvmChainId.parse(chainId),
+          chainId: ChainId.parse(chainId),
         };
         const signatureResponse =
           await IDENTITY_CLIENT.getTxAuthSignature(txAuthInput);
@@ -108,7 +100,7 @@ export const useClaimToken = () => {
 
         // Claim with signature
         const result = await sendTx.sendTransactionAsync({
-          to: getDistributorContractAddress(EvmChainId.parse(chainId)),
+          to: getDistributorContractAddress(ChainId.parse(chainId)),
           data: txData,
         });
 
@@ -128,7 +120,6 @@ export const useClaimToken = () => {
         return {
           signatureResponse: {
             isAuthorized: false,
-            signature: "0x",
           },
           error: (e as Error).toString().substring(0, 108),
         };

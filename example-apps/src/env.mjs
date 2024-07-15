@@ -63,7 +63,7 @@ export const env = createEnv({
    */
   client: {
     NEXT_PUBLIC_ENVIRONMENT: z
-      .enum(["local", "dev", "stage", "prod"])
+      .enum(["local", "dev", "stage", "prod", "test-dev-1", "test-dev-2"])
       .describe("The environment the app is running in")
       .default("prod"),
     NEXT_PUBLIC_AMOY_WS_PROVIDER_URL: z

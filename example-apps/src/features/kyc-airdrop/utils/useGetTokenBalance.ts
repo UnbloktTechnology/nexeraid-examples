@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useAccount, useBlockNumber, useChainId, useReadContract } from "wagmi";
-import { EvmChainId } from "@nexeraprotocol/identity-schemas";
+import { ChainId } from "@nexeraprotocol/identity-schemas";
 
 import { getTokenContractAddress } from "./getContractAddress";
 import { useEffect } from "react";
@@ -12,7 +12,7 @@ export const useGetTokenBalance = () => {
 
   // Use this hook to only update nfts after wagmi hook has loaded and nfts are defined
   const exampleTokenContract = {
-    address: getTokenContractAddress(EvmChainId.parse(chainId)),
+    address: getTokenContractAddress(ChainId.parse(chainId)),
     abi: tokenABI,
   };
   const queryClient = useQueryClient();

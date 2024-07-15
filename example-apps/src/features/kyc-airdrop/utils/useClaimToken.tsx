@@ -11,7 +11,7 @@ import {
   type WalletActions,
 } from "viem";
 
-import { EvmChainId } from "@nexeraprotocol/identity-schemas";
+import { ChainId } from "@nexeraprotocol/identity-schemas";
 import { IDENTITY_CLIENT } from "../../kyc-widget/IdentityClient";
 import {
   useChainId,
@@ -71,11 +71,11 @@ export const useClaimToken = () => {
         const txAuthInput = {
           contractAbi: Array.from(distributorABI),
           contractAddress: getDistributorContractAddress(
-            EvmChainId.parse(chainId),
+            ChainId.parse(chainId),
           ),
           functionName: "claim",
           args: [index, account.address, amount, proof],
-          chainId: EvmChainId.parse(chainId),
+          chainId: ChainId.parse(chainId),
         };
         const signatureResponse =
           await IDENTITY_CLIENT.getTxAuthSignature(txAuthInput);
@@ -108,7 +108,7 @@ export const useClaimToken = () => {
 
         // Claim with signature
         const result = await sendTx.sendTransactionAsync({
-          to: getDistributorContractAddress(EvmChainId.parse(chainId)),
+          to: getDistributorContractAddress(ChainId.parse(chainId)),
           data: txData,
         });
 

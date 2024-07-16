@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import {
   useBlockNumber,
-  useEvmChainId,
+  useChainId,
   useReadContract,
   useWatchContractEvent,
   useReadContracts,
@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 import type { MintedNFT } from "../components/DisplayMintedNFTs";
 
 export const useGetGatedMintedNFTs = () => {
-  const chainId = useEvmChainId();
+  const chainId = useChainId();
   // Use this hook to only update nfts after wagmi hook has loaded and nfts are defined
   const [mintedGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
   const exampleGatedContract = {
@@ -106,7 +106,7 @@ export const useGetGatedMintedNFTs = () => {
 };
 
 export const useGetNonGatedMintedNFTs = () => {
-  const chainId = useEvmChainId();
+  const chainId = useChainId();
   // Use this hook to only update nfts after wagmi hook has loaded and nfts are defined
   const [mintedGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
   const exampleGatedContract = {

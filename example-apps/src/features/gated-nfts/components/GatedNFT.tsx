@@ -3,7 +3,7 @@ import {
   useAccount,
   useWriteContract,
   useWalletClient,
-  useEvmChainId,
+  useChainId,
   useWaitForTransactionReceipt,
 } from "wagmi";
 
@@ -36,7 +36,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
   const { did } = props;
   const { data: walletClient } = useWalletClient();
   const account = useAccount();
-  const chainId = useEvmChainId();
+  const chainId = useChainId();
 
   const [sdkResponse, setSdkResponse] = useState<MintResponse | undefined>(
     undefined,

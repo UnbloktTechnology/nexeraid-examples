@@ -20,7 +20,7 @@ import {
 } from "@nexeraprotocol/identity-schemas";
 import { IDENTITY_CLIENT } from "../../kyc-widget/IdentityClient";
 import {
-  useEvmChainId,
+  useChainId,
   useAccount,
   useBlockNumber,
   useSendTransaction,
@@ -38,7 +38,7 @@ export type WalletClientExtended = Client<
   PublicActions & WalletActions<Chain, Account>
 >;
 export const useMintGatedNFTFromSDK = () => {
-  const chainId = useEvmChainId();
+  const chainId = useChainId();
   const account = useAccount();
   const blockNumber = useBlockNumber();
 

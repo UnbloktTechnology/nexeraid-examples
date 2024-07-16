@@ -12,7 +12,7 @@ import {
 
 import { EvmChainId } from "@nexeraprotocol/identity-schemas";
 import { IDENTITY_CLIENT } from "../../kyc-widget/IdentityClient";
-import { useEvmChainId, useAccount, useSendTransaction } from "wagmi";
+import { useChainId, useAccount, useSendTransaction } from "wagmi";
 import { getDistributorContractAddress } from "./getContractAddress";
 import { distributorABI } from "./abis/distributorABI";
 import { getUserAllowance, getUserIndex } from "./getUserAllowance";
@@ -37,7 +37,7 @@ export type WalletClientExtended = Client<
   PublicActions & WalletActions<Chain, Account>
 >;
 export const useClaimToken = () => {
-  const chainId = useEvmChainId();
+  const chainId = useChainId();
   const account = useAccount();
   const sendTx = useSendTransaction();
 

@@ -1,4 +1,4 @@
-import type { BlockchainNamespace } from "@nexeraprotocol/identity-schemas";
+import type { BlockchainNamespace } from "@nexeraid/identity-schemas";
 
 // Define the input and response types
 interface AccessTokenRequest {

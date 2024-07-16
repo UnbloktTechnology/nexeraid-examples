@@ -1,4 +1,4 @@
-import { shortAddress } from "@nexeraprotocol/identity-schemas";
+import { shortAddress } from "@nexeraid/identity-schemas";
 
 import type { ClaimResponse } from "../utils/blockchain.schema";
 

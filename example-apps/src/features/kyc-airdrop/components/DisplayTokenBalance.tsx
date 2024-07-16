@@ -1,4 +1,4 @@
-//import { shortAddress, type Address } from "@nexeraprotocol/identity-schemas";
+//import { shortAddress, type Address } from "@nexeraid/identity-schemas";
 
 export const DisplayTokenBalance = (props: { balance: number }) => {
   return (

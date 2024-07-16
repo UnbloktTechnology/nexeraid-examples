@@ -3,7 +3,7 @@ import { hash } from "starknet";
 import type { AccountInterface, ArraySignatureType } from "starknet";
 import { connect } from "starknetkit";
 
-import { StarknetSignature } from "@nexeraprotocol/identity-schemas";
+import { StarknetSignature } from "@nexeraid/identity-schemas";
 
 export const signWithStarknet = async (
   message: string,

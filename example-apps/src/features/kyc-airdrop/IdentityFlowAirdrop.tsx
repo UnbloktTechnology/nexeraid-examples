@@ -5,7 +5,7 @@ import { fetchAccessToken } from "@/utils/fetchAccessToken";
 import type {
   BlockchainAddress,
   BlockchainNamespace,
-} from "@nexeraprotocol/identity-schemas";
+} from "@nexeraid/identity-schemas";
 
 import { type Address } from "viem";
 import { useKYCContext } from "./providers/KYCContext";

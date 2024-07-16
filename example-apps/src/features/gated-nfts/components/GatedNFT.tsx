@@ -7,7 +7,7 @@ import {
   useWaitForTransactionReceipt,
 } from "wagmi";
 
-import { ExampleNFTMinterABI } from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/abis";
+import { ExampleNFTMinterABI } from "@nexeraid/nexera-id-sig-gating-contracts-sdk/abis";
 
 import type { MintResponse } from "../utils/blockchain.schema";
 import {
@@ -19,7 +19,7 @@ import { useMintGatedNFTFromSDK } from "../utils/useMintNFT";
 import { DisplayMintResponse } from "./DisplayMintResponse";
 import { DisplayMintedNFTs } from "./DisplayMintedNFTs";
 import { getNonGatedContractAddress } from "../utils/getContractAddress";
-import { ChainId } from "@nexeraprotocol/identity-schemas";
+import { ChainId } from "@nexeraid/identity-schemas";
 
 const buttonStyle = {
   padding: "16px 24px",

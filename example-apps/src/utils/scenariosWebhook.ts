@@ -1,5 +1,5 @@
-import { RuleResultStatus } from "@nexeraprotocol/identity-schemas/identity";
-import { GenericVerifiableCredentialSchema } from "@nexeraprotocol/identity-schemas/verifiable-credentials";
+import { RuleResultStatus } from "@nexeraid/identity-schemas/identity";
+import { GenericVerifiableCredentialSchema } from "@nexeraid/identity-schemas/verifiable-credentials";
 import { z } from "zod";
 
 export const ScenarioWebhookPayloadSchema = z.object({

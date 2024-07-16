@@ -6,17 +6,17 @@ import {
   useWatchContractEvent,
   useReadContracts,
 } from "wagmi";
-import { ChainId } from "@nexeraprotocol/identity-schemas";
+import { ChainId } from "@nexeraid/identity-schemas";
 
 import {
   ExampleGatedNFTMinterABI,
   ExampleNFTMinterABI,
-} from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/abis";
+} from "@nexeraid/nexera-id-sig-gating-contracts-sdk/abis";
 import {
   getGatedContractAddress,
   getNonGatedContractAddress,
 } from "./getContractAddress";
-import type { Address } from "@nexeraprotocol/identity-schemas";
+import type { Address } from "@nexeraid/identity-schemas";
 import { useEffect, useState } from "react";
 import type { MintedNFT } from "../components/DisplayMintedNFTs";
 

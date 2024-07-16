@@ -1,11 +1,11 @@
-import type { ChainId } from "@nexeraprotocol/identity-schemas";
-import { NEXERA_CHAINS } from "@nexeraprotocol/identity-schemas";
+import type { ChainId } from "@nexeraid/identity-schemas";
+import { NEXERA_CHAINS } from "@nexeraid/identity-schemas";
 import {
   ExampleGatedNFTMinterAddress_amoy_dev,
   ExampleGatedNFTMinterAddress_sepolia_dev,
   ExampleNFTMinterAddress_amoy_dev,
   ExampleNFTMinterAddress_sepolia_dev,
-} from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/addresses";
+} from "@nexeraid/nexera-id-sig-gating-contracts-sdk/addresses";
 
 export const getGatedContractAddress = (chainId: ChainId) => {
   return chainId == NEXERA_CHAINS.SEPOLIA

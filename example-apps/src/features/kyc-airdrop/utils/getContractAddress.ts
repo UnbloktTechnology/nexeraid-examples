@@ -1,5 +1,5 @@
-import type { ChainId } from "@nexeraprotocol/identity-schemas";
-import { NEXERA_CHAINS } from "@nexeraprotocol/identity-schemas";
+import type { ChainId } from "@nexeraid/identity-schemas";
+import { NEXERA_CHAINS } from "@nexeraid/identity-schemas";
 
 //Sepolia
 // For local testing

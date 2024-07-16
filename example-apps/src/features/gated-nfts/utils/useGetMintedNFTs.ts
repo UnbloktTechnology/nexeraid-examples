@@ -1,12 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
 import {
   useBlockNumber,
-  useChainId,
+  useEvmChainId,
   useReadContract,
   useWatchContractEvent,
   useReadContracts,
 } from "wagmi";
-import { ChainId } from "@nexeraprotocol/identity-schemas";
+import { EvmChainId } from "@nexeraprotocol/identity-schemas";
 
 import {
   ExampleGatedNFTMinterABI,
@@ -21,11 +21,11 @@ import { useEffect, useState } from "react";
 import type { MintedNFT } from "../components/DisplayMintedNFTs";
 
 export const useGetGatedMintedNFTs = () => {
-  const chainId = useChainId();
+  const chainId = useEvmChainId();
   // Use this hook to only update nfts after wagmi hook has loaded and nfts are defined
   const [mintedGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
   const exampleGatedContract = {
-    address: getGatedContractAddress(ChainId.parse(chainId)),
+    address: getGatedContractAddress(EvmChainId.parse(chainId)),
     abi: ExampleGatedNFTMinterABI,
   };
   const queryClient = useQueryClient();
@@ -81,7 +81,7 @@ export const useGetGatedMintedNFTs = () => {
     setNewNFTs((currentNFTs) => [...currentNFTs, _newNFT]);
   }
   useWatchContractEvent({
-    address: getGatedContractAddress(ChainId.parse(chainId)),
+    address: getGatedContractAddress(EvmChainId.parse(chainId)),
     abi: ExampleGatedNFTMinterABI,
     eventName: "Transfer",
     onLogs(logs) {
@@ -106,11 +106,11 @@ export const useGetGatedMintedNFTs = () => {
 };
 
 export const useGetNonGatedMintedNFTs = () => {
-  const chainId = useChainId();
+  const chainId = useEvmChainId();
   // Use this hook to only update nfts after wagmi hook has loaded and nfts are defined
   const [mintedGatedNFTs, setMintedNFTs] = useState<MintedNFT[]>([]);
   const exampleGatedContract = {
-    address: getNonGatedContractAddress(ChainId.parse(chainId)),
+    address: getNonGatedContractAddress(EvmChainId.parse(chainId)),
     abi: ExampleNFTMinterABI,
   };
   const queryClient = useQueryClient();
@@ -165,7 +165,7 @@ export const useGetNonGatedMintedNFTs = () => {
     setNewNFTs((currentNFTs) => [...currentNFTs, _newNFT]);
   }
   useWatchContractEvent({
-    address: getNonGatedContractAddress(ChainId.parse(chainId)),
+    address: getNonGatedContractAddress(EvmChainId.parse(chainId)),
     abi: ExampleNFTMinterABI,
     eventName: "Transfer",
 

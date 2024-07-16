@@ -3,7 +3,7 @@ import {
   useAccount,
   useWriteContract,
   useWalletClient,
-  useChainId,
+  useEvmChainId,
   useWaitForTransactionReceipt,
 } from "wagmi";
 
@@ -19,7 +19,7 @@ import { useMintGatedNFTFromSDK } from "../utils/useMintNFT";
 import { DisplayMintResponse } from "./DisplayMintResponse";
 import { DisplayMintedNFTs } from "./DisplayMintedNFTs";
 import { getNonGatedContractAddress } from "../utils/getContractAddress";
-import { ChainId } from "@nexeraprotocol/identity-schemas";
+import { EvmChainId } from "@nexeraprotocol/identity-schemas";
 
 const buttonStyle = {
   padding: "16px 24px",
@@ -36,7 +36,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
   const { did } = props;
   const { data: walletClient } = useWalletClient();
   const account = useAccount();
-  const chainId = useChainId();
+  const chainId = useEvmChainId();
 
   const [sdkResponse, setSdkResponse] = useState<MintResponse | undefined>(
     undefined,
@@ -122,7 +122,9 @@ export const GatedNFT = (props: { did: string | undefined }) => {
                 }
                 if (walletClient) {
                   mintNonGated.writeContract({
-                    address: getNonGatedContractAddress(ChainId.parse(chainId)),
+                    address: getNonGatedContractAddress(
+                      EvmChainId.parse(chainId),
+                    ),
                     abi: ExampleNFTMinterABI,
                     functionName: "mintNFT",
                     args: [account.address],

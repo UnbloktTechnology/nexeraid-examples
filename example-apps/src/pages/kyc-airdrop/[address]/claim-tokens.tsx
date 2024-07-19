@@ -40,13 +40,12 @@ const KYCAirdropPageWrapper = () => {
         .then((_sdkResponse) => {
           setIsLoading(false);
           setSdkResponse(_sdkResponse);
-          if (sdkResponse?.signatureResponse.isAuthorized) {
+          if (_sdkResponse?.signatureResponse.isAuthorized) {
             handleClaimSuccess();
           } else {
             handleClaimError(
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-              sdkResponse?.signatureResponse.errorMessage
-                ? sdkResponse.signatureResponse.errorMessage
+              _sdkResponse?.error
+                ? _sdkResponse.error
                 : "Error while claiming tokens",
             );
           }

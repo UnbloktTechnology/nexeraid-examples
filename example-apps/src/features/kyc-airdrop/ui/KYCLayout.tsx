@@ -32,7 +32,7 @@ export const KYCLayout = ({ title, subtitle, children }: KYCLayoutProps) => {
           <div
             className={`${stylesPeaq.bg} flex min-h-screen items-center justify-center p-8`}
           >
-            <section className="flex w-full max-w-2xl flex-col gap-2 rounded-lg px-8 py-20 text-center text-white">
+            <section className="flex w-full max-w-3xl flex-col gap-2 rounded-lg px-8 py-20 text-center text-white">
               <h1 className="text-[52px] font-normal">{title}</h1>
               <h2 className="text-base">{subtitle}</h2>
               <div className="flex flex-col items-center justify-center gap-4 pt-4">

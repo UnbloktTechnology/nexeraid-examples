@@ -19,9 +19,10 @@ const KYCAirdropPageWrapper = () => {
         className="border-white-400 focus:ring-white-400 h-24 w-full max-w-md resize-none rounded-lg border bg-slate-500 bg-opacity-25 p-4 text-white placeholder-gray-300 focus:border-transparent focus:outline-none focus:ring-2"
         placeholder="Reason for rejection goes here"
         readOnly
-      >
-        {error}
-      </textarea>
+        defaultValue={error}
+        maxLength={error.length}
+      />
+
       <Button variant="secondary" onClick={() => void handleTryAnotherWallet()}>
         Try again
       </Button>

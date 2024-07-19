@@ -39,8 +39,6 @@ const KYCAirdropPageWrapper = () => {
 
   const blockchainNamespace = "eip155";
 
-
-
   const handleClaimWallet = useCallback(() => {
     void router.push({
       pathname: "/kyc-airdrop/[address]/claim-tokens",

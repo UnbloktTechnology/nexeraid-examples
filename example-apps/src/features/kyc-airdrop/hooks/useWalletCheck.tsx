@@ -6,16 +6,20 @@ import {
   getUserIndex,
 } from "@/features/kyc-airdrop/utils/getUserAllowance";
 import { useAccount } from "wagmi";
+import { useGetTokenBalance } from "../utils/useGetTokenBalance";
+import { ba } from "@upstash/redis/zmscore-4382faf4";
 
 export enum WalletState {
   HAS_ALLOWANCE = "HAS_ALLOWANCE",
   HAS_NO_ALLOWANCE = "HAS_NO_ALLOWANCE",
   IS_NOT_QUALIFIED = "IS_NOT_QUALIFIED",
+  ALREADY_CLAIMED = "ALREADY_CLAIMED",
 }
 
 export const useWalletCheck = () => {
   const router = useRouter();
   const { connector } = useAccount();
+  const { balance } = useGetTokenBalance();
 
   const isValidAddress = (address: string): boolean => {
     const regex = /^0x[a-fA-F0-9]{40}$/;
@@ -31,10 +35,10 @@ export const useWalletCheck = () => {
     (address: Address) => {
       void router.push({
         pathname: "/kyc-airdrop/[address]/allocation-check",
-        query: { address },
+        query: { address, balance },
       });
     },
-    [router],
+    [router, balance],
   );
 
   const handleNoAllowance = useCallback(
@@ -57,6 +61,16 @@ export const useWalletCheck = () => {
     [router],
   );
 
+  const handleAlreadyClaimed = useCallback(
+    (address: Address) => {
+      void router.push({
+        pathname: "/kyc-airdrop/[address]/already-claimed",
+        query: { address },
+      });
+    },
+    [router],
+  );
+
   const onSearchResult = useCallback(
     (address: Address, walletState: WalletState) => {
       switch (walletState) {
@@ -69,9 +83,17 @@ export const useWalletCheck = () => {
         case WalletState.IS_NOT_QUALIFIED:
           handleNotQualified(address);
           break;
+        case WalletState.ALREADY_CLAIMED:
+          handleAlreadyClaimed(address);
+          break;
       }
     },
-    [handleAllocationCheck, handleNoAllowance, handleNotQualified],
+    [
+      handleAllocationCheck,
+      handleNoAllowance,
+      handleNotQualified,
+      handleAlreadyClaimed,
+    ],
   );
 
   const handleCheck = useCallback(
@@ -81,12 +103,16 @@ export const useWalletCheck = () => {
         const allowance = isQualified ? getUserAllowance(address) : undefined;
 
         if (isQualified) {
-          onSearchResult(
-            address,
-            allowance
-              ? WalletState.HAS_ALLOWANCE
-              : WalletState.HAS_NO_ALLOWANCE,
-          );
+          if (balance && balance > 0) {
+            onSearchResult(address, WalletState.ALREADY_CLAIMED);
+          } else {
+            onSearchResult(
+              address,
+              allowance
+                ? WalletState.HAS_ALLOWANCE
+                : WalletState.HAS_NO_ALLOWANCE,
+            );
+          }
         } else {
           onSearchResult(address, WalletState.IS_NOT_QUALIFIED);
         }

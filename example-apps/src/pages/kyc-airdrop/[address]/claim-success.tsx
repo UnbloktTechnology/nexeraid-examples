@@ -4,22 +4,12 @@ import { KYCLayout } from "@/features/kyc-airdrop/ui/KYCLayout";
 import { useGetTokenBalance } from "@/features/kyc-airdrop/utils/useGetTokenBalance";
 import { useRouter } from "next/router";
 import { Button } from "@/features/kyc-airdrop/ui/components/Button";
-import { useAccount } from "wagmi";
+import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
 
 const KYCAirdropPageWrapper = () => {
   const balance = useGetTokenBalance();
-  const { connector } = useAccount();
+  const { handleTryAnotherWallet } = useWalletCheck();
   const router = useRouter();
-
-  const handleTryAnotherWallet = async () => {
-    await connector?.disconnect();
-    void router.push({
-      pathname: "/kyc-airdrop",
-      query: {
-        reset: "true",
-      },
-    });
-  };
 
   const address = router.query.address as string;
   return (

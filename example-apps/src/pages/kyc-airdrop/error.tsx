@@ -2,23 +2,13 @@ import dynamic from "next/dynamic";
 import React from "react";
 import { KYCLayout } from "@/features/kyc-airdrop/ui/KYCLayout";
 import { useRouter } from "next/router";
-import { useAccount } from "wagmi";
 import { Button } from "@/features/kyc-airdrop/ui/components/Button";
+import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
 
 const KYCAirdropPageWrapper = () => {
   const router = useRouter();
   const error = router.query.error as string;
-  const { connector } = useAccount();
-
-  const handleTryAgain = async () => {
-    await connector?.disconnect();
-    void router.push({
-      pathname: "/kyc-airdrop",
-      query: {
-        reset: "true",
-      },
-    });
-  };
+  const { handleTryAnotherWallet } = useWalletCheck();
 
   return (
     <KYCLayout
@@ -32,7 +22,7 @@ const KYCAirdropPageWrapper = () => {
       >
         {error}
       </textarea>
-      <Button variant="secondary" onClick={() => void handleTryAgain()}>
+      <Button variant="secondary" onClick={() => void handleTryAnotherWallet()}>
         Try again
       </Button>
     </KYCLayout>

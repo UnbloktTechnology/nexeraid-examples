@@ -10,6 +10,7 @@ import { ConnectButtonCustom } from "@/features/kyc-airdrop/ui/components/Connec
 import { IDENTITY_CLIENT } from "@/features/kyc-widget/IdentityClient";
 import { buildSignatureMessage } from "@nexeraid/identity-sdk";
 import { fetchAccessToken } from "@/utils/fetchAccessToken";
+import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
 
 const KYCAirdropPageWrapper = () => {
   const [did, setDID] = useState<string | undefined>(undefined);
@@ -24,7 +25,8 @@ const KYCAirdropPageWrapper = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const signMessage = useSignMessage();
 
-  const { isConnected, connector, address: connectedAddress } = useAccount();
+  const { isConnected, address: connectedAddress } = useAccount();
+  const { handleTryAnotherWallet } = useWalletCheck();
   const router = useRouter();
   const address = router.query.address as string;
 
@@ -37,15 +39,7 @@ const KYCAirdropPageWrapper = () => {
 
   const blockchainNamespace = "eip155";
 
-  const handleTryAnotherWallet = async () => {
-    await connector?.disconnect();
-    void router.push({
-      pathname: "/kyc-airdrop",
-      query: {
-        reset: "true",
-      },
-    });
-  };
+
 
   const handleClaimWallet = useCallback(() => {
     void router.push({

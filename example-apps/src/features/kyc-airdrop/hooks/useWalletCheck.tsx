@@ -5,6 +5,7 @@ import {
   getUserAllowance,
   getUserIndex,
 } from "@/features/kyc-airdrop/utils/getUserAllowance";
+import { useAccount } from "wagmi";
 
 export enum WalletState {
   HAS_ALLOWANCE = "HAS_ALLOWANCE",
@@ -14,6 +15,7 @@ export enum WalletState {
 
 export const useWalletCheck = () => {
   const router = useRouter();
+  const { connector } = useAccount();
 
   const isValidAddress = (address: string): boolean => {
     const regex = /^0x[a-fA-F0-9]{40}$/;
@@ -24,6 +26,53 @@ export const useWalletCheck = () => {
     alert("Please enter a valid address");
     setWalletAddress("");
   };
+
+  const handleAllocationCheck = useCallback(
+    (address: Address) => {
+      void router.push({
+        pathname: "/kyc-airdrop/[address]/allocation-check",
+        query: { address },
+      });
+    },
+    [router],
+  );
+
+  const handleNoAllowance = useCallback(
+    (address: Address) => {
+      void router.push({
+        pathname: "/kyc-airdrop/[address]/no-allowance",
+        query: { address },
+      });
+    },
+    [router],
+  );
+
+  const handleNotQualified = useCallback(
+    (address: Address) => {
+      void router.push({
+        pathname: "/kyc-airdrop/[address]/not-qualified",
+        query: { address },
+      });
+    },
+    [router],
+  );
+
+  const onSearchResult = useCallback(
+    (address: Address, walletState: WalletState) => {
+      switch (walletState) {
+        case WalletState.HAS_ALLOWANCE:
+          handleAllocationCheck(address);
+          break;
+        case WalletState.HAS_NO_ALLOWANCE:
+          handleNoAllowance(address);
+          break;
+        case WalletState.IS_NOT_QUALIFIED:
+          handleNotQualified(address);
+          break;
+      }
+    },
+    [handleAllocationCheck, handleNoAllowance, handleNotQualified],
+  );
 
   const handleCheck = useCallback(
     (address: Address, setWalletAddress: (value: string) => void) => {
@@ -45,43 +94,21 @@ export const useWalletCheck = () => {
         handleInvalidInput(setWalletAddress);
       }
     },
-    [],
+    [onSearchResult],
   );
 
-  const handleAllocationCheck = (address: Address) => {
+  const handleTryAnotherWallet = async () => {
+    await connector?.disconnect();
     void router.push({
-      pathname: "/kyc-airdrop/[address]/allocation-check",
-      query: { address },
+      pathname: "/kyc-airdrop",
     });
   };
 
-  const handleNoAllowance = (address: Address) => {
-    void router.push({
-      pathname: "/kyc-airdrop/[address]/no-allowance",
-      query: { address },
-    });
+  return {
+    handleCheck,
+    handleInvalidInput,
+    isValidAddress,
+    WalletState,
+    handleTryAnotherWallet,
   };
-
-  const handleNotQualified = (address: Address) => {
-    void router.push({
-      pathname: "/kyc-airdrop/[address]/not-qualified",
-      query: { address },
-    });
-  };
-
-  const onSearchResult = (address: Address, walletState: WalletState) => {
-    switch (walletState) {
-      case WalletState.HAS_ALLOWANCE:
-        handleAllocationCheck(address);
-        break;
-      case WalletState.HAS_NO_ALLOWANCE:
-        handleNoAllowance(address);
-        break;
-      case WalletState.IS_NOT_QUALIFIED:
-        handleNotQualified(address);
-        break;
-    }
-  };
-
-  return { handleCheck, handleInvalidInput, isValidAddress, WalletState };
 };

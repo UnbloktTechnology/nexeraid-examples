@@ -103,7 +103,7 @@ export const useWalletCheck = () => {
         const allowance = isQualified ? getUserAllowance(address) : undefined;
 
         if (isQualified) {
-          if (balance && balance > 0) {
+          if (balance && Number(balance) > 0) {
             onSearchResult(address, WalletState.ALREADY_CLAIMED);
           } else {
             onSearchResult(
@@ -120,7 +120,7 @@ export const useWalletCheck = () => {
         handleInvalidInput(setWalletAddress);
       }
     },
-    [onSearchResult],
+    [balance, onSearchResult],
   );
 
   const handleTryAnotherWallet = async () => {

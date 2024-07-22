@@ -4,11 +4,13 @@ import { KYCLayout } from "@/features/kyc-airdrop/ui/KYCLayout";
 import { useRouter } from "next/router";
 import { Button } from "@/features/kyc-airdrop/ui/components/Button";
 import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
+import { type Address } from "@nexeraprotocol/identity-schemas";
 
 const KYCAirdropPageWrapper = () => {
   const router = useRouter();
   const error = router.query.error as string;
-  const { handleTryAnotherWallet } = useWalletCheck();
+  const address = router.query.address as string;
+  const { handleTryAnotherWallet, handleTryWalletAgain } = useWalletCheck();
 
   return (
     <KYCLayout
@@ -22,10 +24,22 @@ const KYCAirdropPageWrapper = () => {
         defaultValue={error}
         maxLength={error.length}
       />
+      
+      <div className="flex w-full flex-row items-center justify-center gap-4">
+        <Button
+          variant="primary"
+          onClick={() => void handleTryWalletAgain(address as Address)}
+        >
+          Try again
+        </Button>
 
-      <Button variant="secondary" onClick={() => void handleTryAnotherWallet()}>
-        Try again
-      </Button>
+        <Button
+          variant="secondary"
+          onClick={() => void handleTryAnotherWallet()}
+        >
+          Try another wallet
+        </Button>
+      </div>
     </KYCLayout>
   );
 };

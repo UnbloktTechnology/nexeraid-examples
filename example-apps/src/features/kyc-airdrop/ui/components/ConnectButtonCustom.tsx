@@ -54,11 +54,7 @@ export const ConnectButtonCustom = ({ label, variant }: ConnectButtonProps) => {
           <div
             {...(!ready && {
               "aria-hidden": true,
-              style: {
-                opacity: 0,
-                pointerEvents: "none",
-                userSelect: "none",
-              },
+              className: "opacity-0 pointer-events-none select-none",
             })}
           >
             {(() => {
@@ -85,7 +81,7 @@ export const ConnectButtonCustom = ({ label, variant }: ConnectButtonProps) => {
                 );
               }
               return (
-                <div style={{ display: "flex", gap: 12 }}>
+                <div className="flex gap-3">
                   <Button
                     onClick={openChainModal}
                     variant={variant}
@@ -93,20 +89,15 @@ export const ConnectButtonCustom = ({ label, variant }: ConnectButtonProps) => {
                   >
                     {chain.hasIcon && (
                       <div
-                        style={{
-                          background: chain.iconBackground,
-                          width: 12,
-                          height: 12,
-                          borderRadius: 999,
-                          overflow: "hidden",
-                          marginRight: 4,
-                        }}
+                        className="mr-1 h-3 w-3 overflow-hidden rounded-full bg-cover"
+                        style={{ background: chain.iconBackground }}
                       >
                         {chain.iconUrl && (
                           <Image
                             alt={chain.name ?? "Chain icon"}
                             src={chain.iconUrl}
-                            style={{ width: 12, height: 12 }}
+                            height={12}
+                            width={12}
                           />
                         )}
                       </div>

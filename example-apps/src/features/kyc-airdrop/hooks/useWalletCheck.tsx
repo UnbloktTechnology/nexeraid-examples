@@ -70,6 +70,13 @@ export const useWalletCheck = () => {
     [router],
   );
 
+  const handleTryWalletAgain = (address: Address) => {
+    void router.push({
+      pathname: "/kyc-airdrop/[address]/claim-tokens",
+      query: { address },
+    });
+  };
+
   const onSearchResult = useCallback(
     (address: Address, walletState: WalletState) => {
       switch (walletState) {
@@ -127,6 +134,9 @@ export const useWalletCheck = () => {
     await connector?.disconnect();
     void router.push({
       pathname: "/kyc-airdrop",
+      query: {
+        reset: true,
+      },
     });
   };
 
@@ -136,6 +146,7 @@ export const useWalletCheck = () => {
     isValidAddress,
     WalletState,
     handleTryAnotherWallet,
+    handleTryWalletAgain,
     isBalancePending,
   };
 };

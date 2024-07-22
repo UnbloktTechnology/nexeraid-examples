@@ -40,14 +40,21 @@ const KYCAirdropPageWrapper = () => {
         .then((_sdkResponse) => {
           setIsLoading(false);
           setSdkResponse(_sdkResponse);
+          console.log("sdkResponse", _sdkResponse.signatureResponse);
           if (_sdkResponse?.signatureResponse.isAuthorized) {
             handleClaimSuccess();
           } else {
-            handleClaimError(
-              _sdkResponse?.error
-                ? _sdkResponse.error
-                : "Error while claiming tokens",
-            );
+            if (_sdkResponse?.signatureResponse.isAuthorized === false) {
+              handleClaimError(
+                "You were not authorized to claim tokens, please go throught KYC before claiming",
+              );
+            } else {
+              handleClaimError(
+                _sdkResponse?.error
+                  ? _sdkResponse.error
+                  : "Error while claiming tokens",
+              );
+            }
           }
         })
         .catch((e) => {
@@ -72,8 +79,9 @@ const KYCAirdropPageWrapper = () => {
 
   const handleClaimError = (error: string) => {
     void router.push({
-      pathname: "/kyc-airdrop/error",
+      pathname: "/kyc-airdrop/[address]/error",
       query: {
+        address: router.query.address,
         error,
       },
     });
@@ -103,11 +111,6 @@ const KYCAirdropPageWrapper = () => {
           2 - Claim tokens
         </Button>
       </div>
-      {sdkResponse?.signatureResponse.isAuthorized === false && (
-        <p className="text-red-500">
-          You need to go through KYC before you can claim
-        </p>
-      )}
     </KYCLayout>
   );
 };

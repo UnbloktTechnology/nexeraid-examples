@@ -3,10 +3,14 @@ import { KYCLayout } from "@/features/kyc-airdrop/ui/KYCLayout";
 import { SearchBar } from "@/features/kyc-airdrop/ui/components/SearchBar";
 import { ConnectButtonCustom } from "@/features/kyc-airdrop/ui/components/ConnectButtonCustom";
 import { useRouter } from "next/router";
+import { useAccount } from "wagmi";
 
 const KYCAirdropPageWrapper = () => {
   const router = useRouter();
   const address = router.query.address as string;
+  const { connector } = useAccount();
+
+  void connector?.disconnect();
 
   return (
     <KYCLayout

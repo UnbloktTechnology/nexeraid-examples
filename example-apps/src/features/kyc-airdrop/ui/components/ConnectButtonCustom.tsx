@@ -1,8 +1,8 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 import { Button } from "./Button";
-import { useEffect } from "react";
-import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck"; // Adjust the path as needed
+import { useEffect, useState } from "react";
+import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
 import { useAccount } from "wagmi";
 
 interface ConnectButtonProps {
@@ -11,14 +11,26 @@ interface ConnectButtonProps {
 }
 
 export const ConnectButtonCustom = ({ label, variant }: ConnectButtonProps) => {
-  const { handleCheck } = useWalletCheck();
+  const { handleCheck, isBalancePending } = useWalletCheck();
   const { address, isConnected } = useAccount();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (isConnected && address) {
-      handleCheck(address, () => {console.log("Address checked :" + address)});
+      setLoading(true);
+      handleCheck(address, () => {
+        setLoading(false);
+      });
+    } else {
+      setLoading(false);
     }
   }, [isConnected, address, handleCheck]);
+
+  useEffect(() => {
+    if (isConnected && address) {
+      setLoading(isBalancePending);
+    }
+  }, [isConnected, address, isBalancePending]);
 
   return (
     <ConnectButton.Custom>
@@ -52,21 +64,33 @@ export const ConnectButtonCustom = ({ label, variant }: ConnectButtonProps) => {
             {(() => {
               if (!connected) {
                 return (
-                  <Button onClick={openConnectModal} variant={variant}>
+                  <Button
+                    onClick={openConnectModal}
+                    variant={variant}
+                    isLoading={loading}
+                  >
                     {label}
                   </Button>
                 );
               }
               if (chain.unsupported) {
                 return (
-                  <Button onClick={openChainModal} variant={variant}>
+                  <Button
+                    onClick={openChainModal}
+                    variant={variant}
+                    isLoading={loading}
+                  >
                     Wrong network
                   </Button>
                 );
               }
               return (
                 <div style={{ display: "flex", gap: 12 }}>
-                  <Button onClick={openChainModal} variant={variant}>
+                  <Button
+                    onClick={openChainModal}
+                    variant={variant}
+                    isLoading={loading}
+                  >
                     {chain.hasIcon && (
                       <div
                         style={{
@@ -89,7 +113,11 @@ export const ConnectButtonCustom = ({ label, variant }: ConnectButtonProps) => {
                     )}
                     {chain.name}
                   </Button>
-                  <Button onClick={openAccountModal} variant={variant}>
+                  <Button
+                    onClick={openAccountModal}
+                    variant={variant}
+                    isLoading={loading}
+                  >
                     {account.displayName}
                     {account.displayBalance
                       ? ` (${account.displayBalance})`

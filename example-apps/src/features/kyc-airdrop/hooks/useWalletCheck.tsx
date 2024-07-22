@@ -7,7 +7,6 @@ import {
 } from "@/features/kyc-airdrop/utils/getUserAllowance";
 import { useAccount } from "wagmi";
 import { useGetTokenBalance } from "../utils/useGetTokenBalance";
-import { ba } from "@upstash/redis/zmscore-4382faf4";
 
 export enum WalletState {
   HAS_ALLOWANCE = "HAS_ALLOWANCE",
@@ -19,7 +18,7 @@ export enum WalletState {
 export const useWalletCheck = () => {
   const router = useRouter();
   const { connector } = useAccount();
-  const { balance } = useGetTokenBalance();
+  const { balance, isPending: isBalancePending } = useGetTokenBalance();
 
   const isValidAddress = (address: string): boolean => {
     const regex = /^0x[a-fA-F0-9]{40}$/;
@@ -103,6 +102,7 @@ export const useWalletCheck = () => {
         const allowance = isQualified ? getUserAllowance(address) : undefined;
 
         if (isQualified) {
+          console.log("balance", balance);
           if (balance && Number(balance) > 0) {
             onSearchResult(address, WalletState.ALREADY_CLAIMED);
           } else {
@@ -136,5 +136,6 @@ export const useWalletCheck = () => {
     isValidAddress,
     WalletState,
     handleTryAnotherWallet,
+    isBalancePending,
   };
 };

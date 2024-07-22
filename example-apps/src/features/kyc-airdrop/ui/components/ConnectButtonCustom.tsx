@@ -8,12 +8,21 @@ import { useAccount } from "wagmi";
 interface ConnectButtonProps {
   label: string;
   variant: "primary" | "secondary";
+  forceDisconnect?: boolean;
 }
 
-export const ConnectButtonCustom = ({ label, variant }: ConnectButtonProps) => {
+export const ConnectButtonCustom = ({
+  label,
+  variant,
+  forceDisconnect,
+}: ConnectButtonProps) => {
   const { handleCheck, isBalancePending } = useWalletCheck();
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, connector } = useAccount();
   const [loading, setLoading] = useState(false);
+
+  if (forceDisconnect) {
+    void connector?.disconnect();
+  }
 
   useEffect(() => {
     if (isConnected && address) {

@@ -2,17 +2,13 @@ import dynamic from "next/dynamic";
 import { KYCLayout } from "@/features/kyc-airdrop/ui/KYCLayout";
 import { SearchBar } from "@/features/kyc-airdrop/ui/components/SearchBar";
 import { ConnectButtonCustom } from "@/features/kyc-airdrop/ui/components/ConnectButtonCustom";
-import { useAccount } from "wagmi";
 import { useRouter } from "next/router";
+import { useAccount } from "wagmi";
 
 const KYCAirdropPageWrapper = () => {
-  const { connector } = useAccount();
   const router = useRouter();
+  const { isConnecting } = useAccount();
   const mustReset = router.query.reset as string;
-
-  if (mustReset) {
-    void connector?.disconnect();
-  }
 
   return (
     <KYCLayout
@@ -20,9 +16,18 @@ const KYCAirdropPageWrapper = () => {
       subtitle="Connect your wallet to claim tokens"
     >
       <div className="flex w-full flex-col items-center justify-center gap-4">
-        <SearchBar />
-        or
-        <ConnectButtonCustom label="Connect the wallet" variant="secondary" />
+        {isConnecting && <>loading...</>}
+        {!isConnecting && (
+          <>
+            <SearchBar />
+            or
+            <ConnectButtonCustom
+              label="Connect the wallet"
+              variant="secondary"
+              forceDisconnect={!!mustReset}
+            />
+          </>
+        )}
       </div>
     </KYCLayout>
   );

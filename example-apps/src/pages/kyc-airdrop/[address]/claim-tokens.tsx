@@ -44,16 +44,14 @@ const KYCAirdropPageWrapper = () => {
           if (_sdkResponse?.signatureResponse.isAuthorized) {
             handleClaimSuccess();
           } else {
-            if (_sdkResponse?.signatureResponse.isAuthorized === false) {
+            if (_sdkResponse?.error) {
+              handleClaimError(_sdkResponse.error);
+            } else if (_sdkResponse?.signatureResponse.isAuthorized === false) {
               handleClaimError(
-                "You were not authorized to claim tokens, please go throught KYC before claiming",
+                "You are not authorized to claim tokens, please retry the identity verification process",
               );
             } else {
-              handleClaimError(
-                _sdkResponse?.error
-                  ? _sdkResponse.error
-                  : "Error while claiming tokens",
-              );
+              handleClaimError("Error while claiming tokens");
             }
           }
         })

@@ -5,7 +5,7 @@ import {
   ExampleGatedNFTMinterAddress_sepolia_dev,
   ExampleNFTMinterAddress_amoy_dev,
   ExampleNFTMinterAddress_sepolia_dev,
-} from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/addresses";
+} from "@nexeraid/sig-gating-contracts-sdk/addresses";
 
 export const getGatedContractAddress = (chainId: EvmChainId) => {
   return chainId == NEXERA_EVM_CHAINS.SEPOLIA

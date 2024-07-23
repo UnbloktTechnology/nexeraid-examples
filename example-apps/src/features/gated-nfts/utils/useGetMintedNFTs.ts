@@ -11,7 +11,7 @@ import { EvmChainId } from "@nexeraprotocol/identity-schemas";
 import {
   ExampleGatedNFTMinterABI,
   ExampleNFTMinterABI,
-} from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/abis";
+} from "@nexeraid/sig-gating-contracts-sdk/abis";
 import {
   getGatedContractAddress,
   getNonGatedContractAddress,

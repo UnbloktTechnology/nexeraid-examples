@@ -7,7 +7,7 @@ import {
   useWaitForTransactionReceipt,
 } from "wagmi";
 
-import { ExampleNFTMinterABI } from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/abis";
+import { ExampleNFTMinterABI } from "@nexeraid/sig-gating-contracts-sdk/abis";
 
 import type { MintResponse } from "../utils/blockchain.schema";
 import {

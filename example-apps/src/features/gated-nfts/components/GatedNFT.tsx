@@ -7,7 +7,7 @@ import {
   useWaitForTransactionReceipt,
 } from "wagmi";
 
-import { ExampleNFTMinterABI } from "@nexeraid/nexera-id-sig-gating-contracts-sdk/abis";
+import { ExampleNFTMinterABI } from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/abis";
 
 import type { MintResponse } from "../utils/blockchain.schema";
 import {
@@ -19,7 +19,7 @@ import { useMintGatedNFTFromSDK } from "../utils/useMintNFT";
 import { DisplayMintResponse } from "./DisplayMintResponse";
 import { DisplayMintedNFTs } from "./DisplayMintedNFTs";
 import { getNonGatedContractAddress } from "../utils/getContractAddress";
-import { ChainId } from "@nexeraid/identity-schemas";
+import { EvmChainId } from "@nexeraprotocol/identity-schemas";
 
 const buttonStyle = {
   padding: "16px 24px",
@@ -122,7 +122,9 @@ export const GatedNFT = (props: { did: string | undefined }) => {
                 }
                 if (walletClient) {
                   mintNonGated.writeContract({
-                    address: getNonGatedContractAddress(ChainId.parse(chainId)),
+                    address: getNonGatedContractAddress(
+                      EvmChainId.parse(chainId),
+                    ),
                     abi: ExampleNFTMinterABI,
                     functionName: "mintNFT",
                     args: [account.address],

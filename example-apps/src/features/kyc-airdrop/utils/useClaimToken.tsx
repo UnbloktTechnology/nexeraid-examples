@@ -10,7 +10,7 @@ import {
   type WalletActions,
 } from "viem";
 
-import { ChainId } from "@nexeraid/identity-schemas";
+import { EvmChainId } from "@nexeraprotocol/identity-schemas";
 import { IDENTITY_CLIENT } from "../../kyc-widget/IdentityClient";
 import { useChainId, useAccount, useSendTransaction } from "wagmi";
 import { getDistributorContractAddress } from "./getContractAddress";
@@ -63,11 +63,11 @@ export const useClaimToken = () => {
         const txAuthInput = {
           contractAbi: Array.from(distributorABI),
           contractAddress: getDistributorContractAddress(
-            ChainId.parse(chainId),
+            EvmChainId.parse(chainId),
           ),
           functionName: "claim",
           args: [index, account.address, amount, proof],
-          chainId: ChainId.parse(chainId),
+          chainId: EvmChainId.parse(chainId),
         };
         const signatureResponse =
           await IDENTITY_CLIENT.getTxAuthSignature(txAuthInput);
@@ -100,7 +100,7 @@ export const useClaimToken = () => {
 
         // Claim with signature
         const result = await sendTx.sendTransactionAsync({
-          to: getDistributorContractAddress(ChainId.parse(chainId)),
+          to: getDistributorContractAddress(EvmChainId.parse(chainId)),
           data: txData,
         });
 

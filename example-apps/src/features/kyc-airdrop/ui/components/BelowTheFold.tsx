@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const KYCAirdropFooter = () => {
+export const BelowTheFold = () => {
   return (
     <footer>
       <div className="bg-black py-10 text-white">
@@ -166,5 +166,3 @@ const KYCAirdropFooter = () => {
     </footer>
   );
 };
-
-export default KYCAirdropFooter;

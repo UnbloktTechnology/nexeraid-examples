@@ -1,5 +1,5 @@
-import type { ChainId } from "@nexeraprotocol/identity-schemas";
-import { NEXERA_CHAINS } from "@nexeraprotocol/identity-schemas";
+import type { EvmChainId } from "@nexeraprotocol/identity-schemas";
+import { NEXERA_EVM_CHAINS } from "@nexeraprotocol/identity-schemas";
 
 //Sepolia
 // For local testing
@@ -22,18 +22,18 @@ const exampleTokenAddressAmoy =
 const distributorAddressAmoy =
   "0xed8899dC0773B27C42130483d67b6cEaee915923" as const;
 
-export const getTokenContractAddress = (chainId: ChainId) => {
-  return chainId == NEXERA_CHAINS.SEPOLIA
+export const getTokenContractAddress = (chainId: EvmChainId) => {
+  return chainId == NEXERA_EVM_CHAINS.SEPOLIA
     ? exampleTokenAddressSepolia
-    : chainId == NEXERA_CHAINS.POLYGON_AMOY
+    : chainId == NEXERA_EVM_CHAINS.POLYGON_AMOY
       ? exampleTokenAddressAmoy
       : exampleTokenAddressAmoy;
 };
 
-export const getDistributorContractAddress = (chainId: ChainId) => {
-  return chainId == NEXERA_CHAINS.SEPOLIA
+export const getDistributorContractAddress = (chainId: EvmChainId) => {
+  return chainId == NEXERA_EVM_CHAINS.SEPOLIA
     ? distributorAddressSepolia
-    : chainId == NEXERA_CHAINS.POLYGON_AMOY
+    : chainId == NEXERA_EVM_CHAINS.POLYGON_AMOY
       ? distributorAddressAmoy
       : distributorAddressAmoy;
 };

@@ -38,13 +38,13 @@ export const signWithStarknet = async (
   if (!signature[0] || !signature[1]) {
     throw new Error("returned starknet signature is wrong format");
   }
-  // It has to be formated to a single string for the purpose of polygon id derivation
-  const formatedSignature =
+  // It has to be formatted to a single string for the purpose of polygon id derivation
+  const formattedSignature =
     "0x" +
     BigInt(signature[0]).toString(16) +
     BigInt(signature[1]).toString(16);
 
-  return StarknetSignature.parse(formatedSignature);
+  return StarknetSignature.parse(formattedSignature);
 };
 
 export const useStarknetWallet = () => {

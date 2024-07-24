@@ -1,24 +1,24 @@
 import type { EvmChainId } from "@nexeraprotocol/identity-schemas";
 import { NEXERA_EVM_CHAINS } from "@nexeraprotocol/identity-schemas";
 import {
-  ExampleGatedNFTMinterAddress_amoy_dev,
-  ExampleGatedNFTMinterAddress_sepolia_dev,
-  ExampleNFTMinterAddress_amoy_dev,
-  ExampleNFTMinterAddress_sepolia_dev,
-} from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/addresses";
+  ExampleGatedNFTMinterAddress_polygonAmoy,
+  ExampleGatedNFTMinterAddress_sepolia,
+  ExampleNFTMinterAddress_polygonAmoy,
+  ExampleNFTMinterAddress_sepolia,
+} from "@nexeraid/sig-gating-contracts-sdk/addresses";
 
 export const getGatedContractAddress = (chainId: EvmChainId) => {
   return chainId == NEXERA_EVM_CHAINS.SEPOLIA
-    ? ExampleGatedNFTMinterAddress_sepolia_dev
+    ? ExampleGatedNFTMinterAddress_sepolia
     : chainId == NEXERA_EVM_CHAINS.POLYGON_AMOY
-      ? ExampleGatedNFTMinterAddress_amoy_dev
-      : ExampleGatedNFTMinterAddress_amoy_dev;
+      ? ExampleGatedNFTMinterAddress_polygonAmoy
+      : ExampleGatedNFTMinterAddress_polygonAmoy;
 };
 
 export const getNonGatedContractAddress = (chainId: EvmChainId) => {
   return chainId == NEXERA_EVM_CHAINS.SEPOLIA
-    ? ExampleNFTMinterAddress_sepolia_dev
+    ? ExampleNFTMinterAddress_sepolia
     : chainId == NEXERA_EVM_CHAINS.POLYGON_AMOY
-      ? ExampleNFTMinterAddress_amoy_dev
-      : ExampleGatedNFTMinterAddress_amoy_dev;
+      ? ExampleNFTMinterAddress_polygonAmoy
+      : ExampleGatedNFTMinterAddress_polygonAmoy;
 };

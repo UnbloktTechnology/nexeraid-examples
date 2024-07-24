@@ -14,7 +14,7 @@
     "@keplr-wallet/types": "^0.12.107",
     "@nexeraid/identity-sdk": "^1.2.27-dev",
     "@nexeraprotocol/identity-schemas": "^1.11.24-dev",
-    "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk": "^2.0.3",
+    "@nexeraid/sig-gating-contracts-sdk": "^3.0.0",
     "@polkadot/api": "^10.13.1",
     "@polkadot/extension-dapp": "^0.47.1",
     "@polkadot/extension-inject": "^0.47.1",

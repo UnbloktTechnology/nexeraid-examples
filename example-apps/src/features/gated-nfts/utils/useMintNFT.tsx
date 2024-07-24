@@ -12,7 +12,7 @@ import {
   type WalletActions,
 } from "viem";
 
-import { ExampleGatedNFTMinterABI } from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/abis";
+import { ExampleGatedNFTMinterABI } from "@nexeraid/sig-gating-contracts-sdk/abis";
 
 import {
   EvmChainId,

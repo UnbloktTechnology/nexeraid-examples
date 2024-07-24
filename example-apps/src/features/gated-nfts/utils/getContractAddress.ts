@@ -1,5 +1,5 @@
-import type { EvmChainId } from "@unblokttechnology/identity-schemas";
-import { NEXERA_EVM_CHAINS } from "@unblokttechnology/identity-schemas";
+import type { EvmChainId } from "@nexeraid/identity-schemas";
+import { NEXERA_EVM_CHAINS } from "@nexeraid/identity-schemas";
 import {
   ExampleGatedNFTMinterAddress_polygonAmoy,
   ExampleGatedNFTMinterAddress_sepolia,

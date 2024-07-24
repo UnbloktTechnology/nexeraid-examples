@@ -6,7 +6,7 @@ import {
   useWatchContractEvent,
   useReadContracts,
 } from "wagmi";
-import { EvmChainId } from "@unblokttechnology/identity-schemas";
+import { EvmChainId } from "@nexeraid/identity-schemas";
 
 import {
   ExampleGatedNFTMinterABI,
@@ -16,7 +16,7 @@ import {
   getGatedContractAddress,
   getNonGatedContractAddress,
 } from "./getContractAddress";
-import type { Address } from "@unblokttechnology/identity-schemas";
+import type { Address } from "@nexeraid/identity-schemas";
 import { useEffect, useState } from "react";
 import type { MintedNFT } from "../components/DisplayMintedNFTs";
 

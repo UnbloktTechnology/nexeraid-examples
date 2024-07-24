@@ -17,7 +17,7 @@ import { ExampleGatedNFTMinterABI } from "@nexeraid/sig-gating-contracts-sdk/abi
 import {
   EvmChainId,
   type EIP155Signature,
-} from "@unblokttechnology/identity-schemas";
+} from "@nexeraid/identity-schemas";
 import { IDENTITY_CLIENT } from "../../kyc-widget/IdentityClient";
 import {
   useChainId,

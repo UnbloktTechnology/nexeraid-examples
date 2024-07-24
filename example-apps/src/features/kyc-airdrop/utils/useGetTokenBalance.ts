@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useAccount, useBlockNumber, useChainId, useReadContract } from "wagmi";
-import { EvmChainId } from "@unblokttechnology/identity-schemas";
+import { EvmChainId } from "@nexeraid/identity-schemas";
 
 import { getTokenContractAddress } from "./getContractAddress";
 import { useEffect } from "react";

@@ -10,7 +10,7 @@ import {
   type WalletActions,
 } from "viem";
 
-import { EvmChainId } from "@nexeraprotocol/identity-schemas";
+import { EvmChainId } from "@unblokttechnology/identity-schemas";
 import { IDENTITY_CLIENT } from "../../kyc-widget/IdentityClient";
 import { useChainId, useAccount, useSendTransaction } from "wagmi";
 import { getDistributorContractAddress } from "./getContractAddress";

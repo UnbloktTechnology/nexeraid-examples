@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@/features/kyc-airdrop/ui/components/Button";
-import { type Address } from "@nexeraprotocol/identity-schemas";
+import { type Address } from "@unblokttechnology/identity-schemas";
 import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck"; // Adjust the path as needed
 
 interface SearchBarProps {

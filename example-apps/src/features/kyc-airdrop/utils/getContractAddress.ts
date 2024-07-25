@@ -1,26 +1,36 @@
 import type { EvmChainId } from "@nexeraprotocol/identity-schemas";
 import { NEXERA_EVM_CHAINS } from "@nexeraprotocol/identity-schemas";
 
-//Sepolia
+// LOCAL TESTING
+
+// Sepolia
 // For local testing
 // const exampleTokenAddressSepolia =
-//   "0x7F6DCe06824aE8b0F0A1e4526a61c89187084e8e" as const;
+//   "0x77DEBBF6Bb3A1F899333ef096217505DDC80433c" as const;
 
 // const distributorAddressSepolia =
-//   "0xA4C8c61C890187c60969D33C4b6357a32205AF09" as const;
+//   "0x130089FD95cD9Ff9119d0Df3afdbC6dA1bB87045" as const;
 
-// For Prod
+// // Amoy
+// const exampleTokenAddressAmoy =
+//   "0x20487A4F07B733f6Ed4DCF61AceEC0D647c521eC" as const;
+// const distributorAddressAmoy =
+//   "0x3703eF2fF956E80a4392Cd53dB1880891075B364" as const;
+
+// PROD
+
+// Sepolia
 const exampleTokenAddressSepolia =
-  "0x1dE19c9Da1D6ef4D4Db6Dc0Fe7cFB508f1505003" as const;
+  "0x48182d21869b874BabdeCC0851dDA4F89B18a687" as const;
 
 const distributorAddressSepolia =
-  "0x93bdAB0468d0Dbb79F398A872fCa6F883B6945AD" as const;
+  "0x96caF7D5DD0304976A070804074E453887BE509c" as const;
 
 // Amoy
 const exampleTokenAddressAmoy =
-  "0x187814D67815a1b07781D8084bEfC60C5BF76786" as const;
+  "0x4Ae0B2Ed56b681ABcfb19A6aAAb921b35b531276" as const;
 const distributorAddressAmoy =
-  "0xed8899dC0773B27C42130483d67b6cEaee915923" as const;
+  "0x3d95361Fa0d4E83Ac553b359197748baA1226307" as const;
 
 export const getTokenContractAddress = (chainId: EvmChainId) => {
   return chainId == NEXERA_EVM_CHAINS.SEPOLIA

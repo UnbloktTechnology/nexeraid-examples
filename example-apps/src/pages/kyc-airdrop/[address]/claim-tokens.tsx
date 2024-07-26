@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
-import React, { useState } from "react";
-import { KYCLayout } from "@/features/kyc-airdrop/ui/KYCLayout";
+import React, { useEffect, useState } from "react";
+import { AirdropLayout } from "@/features/kyc-airdrop/ui/AirdropLayout";
 import { Button } from "@/features/kyc-airdrop/ui/components/Button";
 import { IDENTITY_CLIENT } from "@/features/kyc-widget/IdentityClient";
 import { useWalletClient } from "wagmi";
@@ -8,9 +8,10 @@ import { type ClaimResponse } from "@/features/kyc-airdrop/utils/blockchain.sche
 import { useClaimToken } from "@/features/kyc-airdrop/utils/useClaimToken";
 import { useRouter } from "next/router";
 
-const KYCAirdropPageWrapper = () => {
+const AirdropPageWrapper = () => {
   const [isVerifying, setIsVerifying] = useState(false);
   const { data: walletClient } = useWalletClient();
+  const [kycCompletion, setKycCompletion] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sdkResponse, setSdkResponse] = useState<ClaimResponse | undefined>(
@@ -31,6 +32,18 @@ const KYCAirdropPageWrapper = () => {
       setIsVerifying(false);
     }
   };
+
+  useEffect(() => {
+    IDENTITY_CLIENT.onKycCompletion((data) => {
+      console.log("KYC COMPLETED", data);
+      setKycCompletion(true);
+    });
+    IDENTITY_CLIENT.onCloseScreen(async () => {
+      console.log("KYC CLOSED");
+      setKycCompletion(true);
+      return Promise.resolve("Screen closed");
+    });
+  }, []);
 
   const handleClaimWallet = () => {
     if (walletClient) {
@@ -86,38 +99,42 @@ const KYCAirdropPageWrapper = () => {
   };
 
   return (
-    <KYCLayout
+    <AirdropLayout
       title={"Almost there"}
       subtitle="Now we need to verify your identity before you can claim tokens"
     >
       <div className="flex w-full flex-row items-center justify-center gap-4">
-        <Button
-          variant="secondary"
-          onClick={handleVerification}
-          id="identity-btn"
-          isLoading={isVerifying}
-        >
-          1 - Begin identity verification
-        </Button>
-        <Button
-          variant="secondary"
-          disabled={!walletClient}
-          onClick={handleClaimWallet}
-          id="identity-btn"
-          isLoading={isVerifying || isLoading}
-        >
-          2 - Claim tokens
-        </Button>
+        {!kycCompletion ? (
+          <Button
+            variant="secondary"
+            onClick={handleVerification}
+            disabled={isVerifying || kycCompletion}
+            id="identity-btn"
+            isLoading={isVerifying}
+          >
+            Begin identity verification
+          </Button>
+        ) : (
+          <Button
+            variant="secondary"
+            disabled={!walletClient || !kycCompletion}
+            onClick={handleClaimWallet}
+            id="identity-btn"
+            isLoading={isVerifying || isLoading}
+          >
+            Claim tokens
+          </Button>
+        )}
       </div>
-    </KYCLayout>
+    </AirdropLayout>
   );
 };
 
-const DynamicKYCAirdropPageWrapper = dynamic(
-  () => Promise.resolve(KYCAirdropPageWrapper),
+const DynamicAirdropPageWrapper = dynamic(
+  () => Promise.resolve(AirdropPageWrapper),
   { ssr: false },
 );
 
 export default function AllocationCheck() {
-  return <DynamicKYCAirdropPageWrapper />;
+  return <DynamicAirdropPageWrapper />;
 }

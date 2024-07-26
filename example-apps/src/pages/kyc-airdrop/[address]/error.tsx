@@ -1,19 +1,19 @@
 import dynamic from "next/dynamic";
 import React from "react";
-import { KYCLayout } from "@/features/kyc-airdrop/ui/KYCLayout";
+import { AirdropLayout } from "@/features/kyc-airdrop/ui/AirdropLayout";
 import { useRouter } from "next/router";
 import { Button } from "@/features/kyc-airdrop/ui/components/Button";
 import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
 import { type Address } from "@nexeraprotocol/identity-schemas";
 
-const KYCAirdropPageWrapper = () => {
+const AirdropPageWrapper = () => {
   const router = useRouter();
   const error = router.query.error as string;
   const address = router.query.address as string;
   const { handleTryAnotherWallet, handleTryWalletAgain } = useWalletCheck();
 
   return (
-    <KYCLayout
+    <AirdropLayout
       title={"Tokens claim unsuccessful"}
       subtitle="Unfortunately, we can't allow token claim for you due to :"
     >
@@ -24,7 +24,7 @@ const KYCAirdropPageWrapper = () => {
         defaultValue={error}
         maxLength={error.length}
       />
-      
+
       <div className="flex w-full flex-row items-center justify-center gap-4">
         <Button
           variant="primary"
@@ -40,15 +40,15 @@ const KYCAirdropPageWrapper = () => {
           Try another wallet
         </Button>
       </div>
-    </KYCLayout>
+    </AirdropLayout>
   );
 };
 
-const DynamicKYCAirdropPageWrapper = dynamic(
-  () => Promise.resolve(KYCAirdropPageWrapper),
+const DynamicAirdropPageWrapper = dynamic(
+  () => Promise.resolve(AirdropPageWrapper),
   { ssr: false },
 );
 
 export default function AllocationCheck() {
-  return <DynamicKYCAirdropPageWrapper />;
+  return <DynamicAirdropPageWrapper />;
 }

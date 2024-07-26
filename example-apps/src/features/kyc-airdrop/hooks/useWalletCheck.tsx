@@ -134,9 +134,6 @@ export const useWalletCheck = () => {
     await connector?.disconnect();
     void router.push({
       pathname: "/kyc-airdrop",
-      query: {
-        reset: true,
-      },
     });
   };
 

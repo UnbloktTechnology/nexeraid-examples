@@ -3,13 +3,13 @@ import Image from "next/image";
 import stylesPeaq from "./peaq.module.css";
 import { BelowTheFold } from "./components/BelowTheFold";
 
-interface KYCLayoutProps {
+interface AirdropLayoutProps {
   title: string;
   subtitle: string;
   children: ReactNode;
 }
 
-export const KYCLayout = ({ title, subtitle, children }: KYCLayoutProps) => {
+export const AirdropLayout = ({ title, subtitle, children }: AirdropLayoutProps) => {
   return (
     <main className={`${stylesPeaq.main} bg-white !p-0`}>
       <header className="flex w-full items-center justify-between p-4 pb-0">

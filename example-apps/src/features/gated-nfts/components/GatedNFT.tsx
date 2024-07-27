@@ -19,7 +19,7 @@ import { useMintGatedNFTFromSDK } from "../utils/useMintNFT";
 import { DisplayMintResponse } from "./DisplayMintResponse";
 import { DisplayMintedNFTs } from "./DisplayMintedNFTs";
 import { getNonGatedContractAddress } from "../utils/getContractAddress";
-import { EvmChainId } from "@nexeraprotocol/identity-schemas";
+import { EvmChainId } from "@nexeraid/identity-schemas";
 
 const buttonStyle = {
   padding: "16px 24px",

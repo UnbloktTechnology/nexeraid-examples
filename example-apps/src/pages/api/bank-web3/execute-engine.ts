@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 
-import { BlockchainAddress } from "@nexeraprotocol/identity-schemas";
+import { BlockchainAddress } from "@nexeraid/identity-schemas";
 import { redis } from "@/server/redis";
 import type { ScenarioWebhookPayload } from "@/utils/scenariosWebhook";
 import { getScenarioWebhookBankWeb3RedisKey } from "./scenario-webhook";

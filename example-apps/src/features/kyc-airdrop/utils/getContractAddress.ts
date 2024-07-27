@@ -1,5 +1,5 @@
-import type { EvmChainId } from "@nexeraprotocol/identity-schemas";
-import { NEXERA_EVM_CHAINS } from "@nexeraprotocol/identity-schemas";
+import type { EvmChainId } from "@nexeraid/identity-schemas";
+import { NEXERA_EVM_CHAINS } from "@nexeraid/identity-schemas";
 
 // LOCAL TESTING
 

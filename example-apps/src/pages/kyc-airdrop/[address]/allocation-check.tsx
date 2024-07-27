@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import React, { useCallback, useEffect, useState } from "react";
-import type { Address } from "@nexeraprotocol/identity-schemas";
+import type { Address } from "@nexeraid/identity-schemas";
 import { KYCLayout } from "@/features/kyc-airdrop/ui/KYCLayout";
 import { getUserAllowance } from "@/features/kyc-airdrop/utils/getUserAllowance";
 import { Button } from "@/features/kyc-airdrop/ui/components/Button";

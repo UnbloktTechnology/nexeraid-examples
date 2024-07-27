@@ -1,4 +1,4 @@
-import { shortAddress } from "@nexeraprotocol/identity-schemas";
+import { shortAddress } from "@nexeraid/identity-schemas";
 
 import type { MintResponse } from "../utils/blockchain.schema";
 

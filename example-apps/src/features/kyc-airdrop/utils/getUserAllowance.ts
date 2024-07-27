@@ -1,4 +1,4 @@
-import type { Address } from "@nexeraprotocol/identity-schemas";
+import type { Address } from "@nexeraid/identity-schemas";
 import userAllowances from "./merkle-tree/complex_example.json";
 
 export const getUserAllowance = (userAddress: Address) => {

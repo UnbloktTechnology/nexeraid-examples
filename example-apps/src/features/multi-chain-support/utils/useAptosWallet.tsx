@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { AptosSignature } from "@nexeraprotocol/identity-schemas";
+import { AptosSignature } from "@nexeraid/identity-schemas";
 
 import type { Aptos } from "./walletTypes";
 

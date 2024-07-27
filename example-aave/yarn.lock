@@ -2888,12 +2888,12 @@
   resolved "https://registry.yarnpkg.com/@nexeraid/identity-sdk/-/identity-sdk-1.1.249.tgz#d6cfb25829deaa9edca4d09fc80a652a4a8f1497"
   integrity sha512-Ye55XBwLudbeMtg/cOhP25TTxwgfOZa4pPnp8KqIXi/IG30F5n/f1JoasURzF/ppvD5LrPvFw30KTBXLCTHLZw==
   dependencies:
-    "@nexeraprotocol/nexera-id-schemas" "1.10.51"
+    "@unblokttechnology/nexera-id-schemas" "1.10.51"
     zod "^3.22.4"
 
-"@nexeraprotocol/nexera-id-schemas@1.10.51":
+"@unblokttechnology/nexera-id-schemas@1.10.51":
   version "1.10.51"
-  resolved "https://registry.yarnpkg.com/@nexeraprotocol/nexera-id-schemas/-/nexera-id-schemas-1.10.51.tgz#07a015346aac5858962f53933bad74c225d05330"
+  resolved "https://registry.yarnpkg.com/@unblokttechnology/nexera-id-schemas/-/nexera-id-schemas-1.10.51.tgz#07a015346aac5858962f53933bad74c225d05330"
   integrity sha512-kpP+BOkwgfj04h5ZT3W5W0zIoSBA33J88LITRg4uXRnpttEMr1DS5tOGmD3BPiRxxPHQrhihRy6hRZ4RHVmDwg==
   dependencies:
     zod "^3.22.4"

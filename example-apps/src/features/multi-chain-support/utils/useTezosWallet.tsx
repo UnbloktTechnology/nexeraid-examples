@@ -4,7 +4,7 @@ import { BeaconWallet } from "@taquito/beacon-wallet";
 import { TezosToolkit } from "@taquito/taquito";
 import { stringToBytes } from "@taquito/utils";
 
-import { TezosSignature } from "@nexeraprotocol/identity-schemas";
+import { TezosSignature } from "@nexeraid/identity-schemas";
 
 export const signWithTezos = async (
   message: string,

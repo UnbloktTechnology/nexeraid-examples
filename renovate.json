@@ -62,9 +62,14 @@
         "minor",
         "patch"
       ],
+      "matchDepTypes": [
+        "dependencies",
+        "devDependencies",
+        "peerDependencies"
+      ],
       "groupName": "all non-major dependencies",
       "schedule": [
-        "before 4am"
+        "after 7am on monday"
       ]
     },
     {

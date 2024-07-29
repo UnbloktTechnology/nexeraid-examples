@@ -16,7 +16,7 @@
     "@nexeraid/identity-sdk": "^1.2.31-dev",
     "@nexeraid/sig-gating-contracts-sdk": "^3.0.0",
     "@nexeraid/tezos-sig-gating-contracts-sdk": "^1.0.10",
-    "@polkadot/api": "^10.13.1",
+    "@polkadot/api": "^12.2.3",
     "@polkadot/extension-dapp": "^0.47.1",
     "@polkadot/extension-inject": "^0.47.1",
     "@rainbow-me/rainbowkit": "^2.0.5",

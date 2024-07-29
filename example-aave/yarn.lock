@@ -1519,10 +1519,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bgd-labs/aave-address-book@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@bgd-labs/aave-address-book/-/aave-address-book-2.1.0.tgz#05710a23e69177d6748be20fb2449a2132ae1099"
-  integrity sha512-n3M+QsadZ8Affg8e4p29b1GvUylLXem01YHlktlb8984lcCGWSZEHBoMtg6Mx0zcd2uvZVN1C3DHiW49j54+bQ==
+"@bgd-labs/aave-address-book@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@bgd-labs/aave-address-book/-/aave-address-book-3.0.1.tgz#942cef06984ed7b12b5a6694c5010637b505edd3"
+  integrity sha512-dlq/tBbGzmXPK4q94+Oy/XFXsE3qnKq60L9Hd67WlF3f6zCyzuTuQvUCPW/7hpH3Wda9LAnUbOxGunHAt05n6g==
 
 "@coinbase/wallet-sdk@3.1.0", "@coinbase/wallet-sdk@^3.0.4":
   version "3.1.0"
@@ -2883,20 +2883,21 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@nexeraid/identity-sdk@^1.1.249":
-  version "1.1.249"
-  resolved "https://registry.yarnpkg.com/@nexeraid/identity-sdk/-/identity-sdk-1.1.249.tgz#d6cfb25829deaa9edca4d09fc80a652a4a8f1497"
-  integrity sha512-Ye55XBwLudbeMtg/cOhP25TTxwgfOZa4pPnp8KqIXi/IG30F5n/f1JoasURzF/ppvD5LrPvFw30KTBXLCTHLZw==
+"@nexeraid/identity-sdk@^1.2.18":
+  version "1.2.18"
+  resolved "https://registry.yarnpkg.com/@nexeraid/identity-sdk/-/identity-sdk-1.2.18.tgz#df5089b26bf7a62d8f8b40ec15942907689b0709"
+  integrity sha512-AP0S5+HUKS+1wFCtrl0g2+xhCqDZtKA4bWgtHROktZb8giUGZn629eyOf0FSO12wXOUlbDI8SDdDrMeSzdRFtA==
   dependencies:
-    "@unblokttechnology/nexera-id-schemas" "1.10.51"
-    zod "^3.22.4"
+    "@nexeraprotocol/identity-schemas" "1.11.15"
+    zod "^3.23.8"
 
-"@unblokttechnology/nexera-id-schemas@1.10.51":
-  version "1.10.51"
-  resolved "https://registry.yarnpkg.com/@unblokttechnology/nexera-id-schemas/-/nexera-id-schemas-1.10.51.tgz#07a015346aac5858962f53933bad74c225d05330"
-  integrity sha512-kpP+BOkwgfj04h5ZT3W5W0zIoSBA33J88LITRg4uXRnpttEMr1DS5tOGmD3BPiRxxPHQrhihRy6hRZ4RHVmDwg==
+"@nexeraprotocol/identity-schemas@1.11.15":
+  version "1.11.15"
+  resolved "https://registry.yarnpkg.com/@nexeraprotocol/identity-schemas/-/identity-schemas-1.11.15.tgz#6450cbbf907ec994ad7243c959b6cd98b6521bd7"
+  integrity sha512-JptukfoNgToUUxkF3D67r0xJXHIucxG9NeANWF5YmjQyD/gcektvxHWC4JjpNnv3QZVER+yh8p8UJ7aeIMed2w==
   dependencies:
-    zod "^3.22.4"
+    zod "^3.23.8"
+    zod-to-json-schema "^3.23.1"
 
 "@next/bundle-analyzer@^12.1.0":
   version "12.1.0"
@@ -13158,10 +13159,15 @@ yocto-queue@^1.0.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-1.0.0.tgz#7f816433fb2cbc511ec8bf7d263c3b58a1a3c251"
   integrity sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==
 
-zod@^3.22.4:
-  version "3.22.4"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
-  integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
+zod-to-json-schema@^3.23.1:
+  version "3.23.2"
+  resolved "https://registry.yarnpkg.com/zod-to-json-schema/-/zod-to-json-schema-3.23.2.tgz#bc7e379c8050462538383e382964c03d8fe008f9"
+  integrity sha512-uSt90Gzc/tUfyNqxnjlfBs8W6WSGpNBv0rVsNxP/BVSMHMKGdthPYff4xtCHYloJGM0CFxFsb3NbC0eqPhfImw==
+
+zod@^3.23.8:
+  version "3.23.8"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.23.8.tgz#e37b957b5d52079769fb8097099b592f0ef4067d"
+  integrity sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==
 
 zustand@^4.3.8:
   version "4.4.1"

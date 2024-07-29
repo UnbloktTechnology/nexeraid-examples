@@ -18,7 +18,7 @@ import {
 } from "./getContractAddress";
 import type { Address } from "@nexeraid/identity-schemas";
 import { useEffect, useState } from "react";
-import type { MintedNFT } from "../components/DisplayMintedNFTs";
+import type { MintedNFT } from "../../components/DisplayMintedNFTs";
 
 export const useGetGatedMintedNFTs = () => {
   const chainId = useChainId();

@@ -1,9 +1,8 @@
 import { shortAddress } from "@nexeraid/identity-schemas";
-
-import type { MintResponse } from "../utils/evm/evm.schema";
+import type { MintTezosResponse } from "../utils/tezos/tezos.schema";
 
 export const getTransactionStatus = (props: {
-  mintResponse?: MintResponse;
+  mintResponse?: MintTezosResponse;
   gasCost?: bigint;
   writeData?: {
     isSuccess: boolean;
@@ -26,8 +25,8 @@ export const getTransactionStatus = (props: {
   return "Failed";
 };
 
-export const DisplayMintResponse = (props: {
-  mintResponse?: MintResponse;
+export const DisplayMintTezosResponse = (props: {
+  mintResponse?: MintTezosResponse;
   gasCost?: bigint;
   writeData?: {
     isSuccess: boolean;
@@ -43,12 +42,6 @@ export const DisplayMintResponse = (props: {
             Authorized:{" "}
             {props.mintResponse.signatureResponse.isAuthorized ? "YES" : "NO"}
           </div>
-          {props.mintResponse.signatureResponse.payload && (
-            <div>
-              Payload:{" "}
-              {shortAddress(props.mintResponse.signatureResponse.payload)}
-            </div>
-          )}
           {props.mintResponse.signatureResponse.blockExpiration && (
             <div>
               Block Expiration:{" "}

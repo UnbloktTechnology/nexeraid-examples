@@ -20,8 +20,8 @@ export const ConnectButtonCustom = ({
   const { address, isConnected, connector } = useAccount();
   const [loading, setLoading] = useState(false);
 
-  if (forceDisconnect) {
-    void connector && connector?.disconnect();
+  if (forceDisconnect && connector) {
+    void connector.disconnect();
   }
 
   useEffect(() => {

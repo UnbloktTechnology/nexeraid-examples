@@ -12,6 +12,7 @@ const AirdropPageWrapper = () => {
   const [isVerifying, setIsVerifying] = useState(false);
   const { data: walletClient } = useWalletClient();
   const [kycCompletion, setKycCompletion] = useState(false);
+  const router = useRouter();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sdkResponse, setSdkResponse] = useState<ClaimResponse | undefined>(
@@ -19,8 +20,6 @@ const AirdropPageWrapper = () => {
   );
   const tryClaiming = useClaimToken();
   const [isLoading, setIsLoading] = useState(false);
-
-  const router = useRouter();
 
   const handleVerification = () => {
     setIsVerifying(true);
@@ -54,6 +53,7 @@ const AirdropPageWrapper = () => {
           setIsLoading(false);
           setSdkResponse(_sdkResponse);
           console.log("sdkResponse", _sdkResponse.signatureResponse);
+
           if (_sdkResponse?.signatureResponse.isAuthorized) {
             handleClaimSuccess();
           } else {

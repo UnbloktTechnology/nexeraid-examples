@@ -144,7 +144,7 @@ const AirdropPageWrapper = () => {
                 Authenticate wallet to start claiming
               </Button>
             )}
-            {isConnected && auth && (
+            {isIdentityClientInit && isConnected && auth && (
               <Button
                 variant="secondary"
                 onClick={() => void handleClaimWallet()}

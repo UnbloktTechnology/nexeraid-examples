@@ -7,20 +7,25 @@ import { useWalletClient } from "wagmi";
 import { type ClaimResponse } from "@/features/kyc-airdrop/utils/blockchain.schema";
 import { useClaimToken } from "@/features/kyc-airdrop/utils/useClaimToken";
 import { useRouter } from "next/router";
+import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
 
 const AirdropPageWrapper = () => {
   const [isVerifying, setIsVerifying] = useState(false);
   const { data: walletClient } = useWalletClient();
   const [kycCompletion, setKycCompletion] = useState(false);
   const router = useRouter();
+  const address = router.query.address as string;
+  const [customerStatus, setCustomerStatus] = useState<string | undefined>();
+  const [customerStatusLoading, setCustomerStatusLoading] = useState(false);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { getCustomerStatus } = useWalletCheck();
   const [sdkResponse, setSdkResponse] = useState<ClaimResponse | undefined>(
     undefined,
   );
   const tryClaiming = useClaimToken();
   const [isLoading, setIsLoading] = useState(false);
 
+  // Handle identity verification
   const handleVerification = () => {
     setIsVerifying(true);
     try {
@@ -32,18 +37,40 @@ const AirdropPageWrapper = () => {
     }
   };
 
+  // Fetch customer status
   useEffect(() => {
-    IDENTITY_CLIENT.onKycCompletion((data) => {
-      console.log("KYC COMPLETED", data);
+    if (address && customerStatus === undefined && !customerStatusLoading) {
+      setCustomerStatusLoading(true);
+      getCustomerStatus(address)
+        .then((response) => {
+          setCustomerStatus(response.status);
+          setCustomerStatusLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching customer status:", error);
+          setCustomerStatusLoading(false); // Ensure loading state is reset even on error
+        });
+    }
+  }, [address, customerStatus, customerStatusLoading, getCustomerStatus]);
+
+  // Handle KYC events
+  useEffect(() => {
+    const onKycCompletion = () => {
+      console.log("KYC COMPLETED");
       setKycCompletion(true);
-    });
-    IDENTITY_CLIENT.onCloseScreen(async () => {
+    };
+
+    const onCloseScreen = async () => {
       console.log("KYC CLOSED");
       setKycCompletion(true);
       return Promise.resolve("Screen closed");
-    });
+    };
+
+    IDENTITY_CLIENT.onKycCompletion(onKycCompletion);
+    IDENTITY_CLIENT.onCloseScreen(onCloseScreen);
   }, []);
 
+  // Handle token claim
   const handleClaimWallet = () => {
     if (walletClient) {
       setIsLoading(true);
@@ -57,22 +84,16 @@ const AirdropPageWrapper = () => {
           if (_sdkResponse?.signatureResponse.isAuthorized) {
             handleClaimSuccess();
           } else {
-            if (_sdkResponse?.error) {
-              handleClaimError(_sdkResponse.error);
-            } else if (_sdkResponse?.signatureResponse.isAuthorized === false) {
-              handleClaimError(
+            handleClaimError(
+              _sdkResponse?.error ??
                 "You are not authorized to claim tokens, please retry the identity verification process",
-              );
-            } else {
-              handleClaimError("Error while claiming tokens");
-            }
+            );
           }
         })
         .catch((e) => {
           setIsLoading(false);
-          console.log("error while fetching signature", e);
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-          handleClaimError(e);
+          console.error("Error while fetching signature", e);
+          handleClaimError("Error while fetching signature");
         });
     } else {
       console.log("walletClient not loaded");
@@ -82,21 +103,24 @@ const AirdropPageWrapper = () => {
   const handleClaimSuccess = () => {
     void router.push({
       pathname: "/kyc-airdrop/[address]/claim-success",
-      query: {
-        address: router.query.address,
-      },
+      query: { address: router.query.address },
     });
   };
 
   const handleClaimError = (error: string) => {
     void router.push({
       pathname: "/kyc-airdrop/[address]/error",
-      query: {
-        address: router.query.address,
-        error,
-      },
+      query: { address: router.query.address, error },
     });
   };
+
+  const displayKycButton =
+    !customerStatusLoading &&
+    !kycCompletion &&
+    customerStatus &&
+    customerStatus !== "Active";
+  const displayClaimButton =
+    !customerStatusLoading || (customerStatus === "Active" && !kycCompletion);
 
   return (
     <AirdropLayout
@@ -104,26 +128,35 @@ const AirdropPageWrapper = () => {
       subtitle="Now we need to verify your identity before you can claim tokens"
     >
       <div className="flex w-full flex-row items-center justify-center gap-4">
-        {!kycCompletion ? (
-          <Button
-            variant="secondary"
-            onClick={handleVerification}
-            disabled={isVerifying || kycCompletion}
-            id="identity-btn"
-            isLoading={isVerifying}
-          >
-            Begin identity verification
+        {customerStatusLoading ? (
+          <Button variant="secondary" isLoading>
+            Please wait
           </Button>
         ) : (
-          <Button
-            variant="secondary"
-            disabled={!walletClient || !kycCompletion}
-            onClick={handleClaimWallet}
-            id="identity-btn"
-            isLoading={isVerifying || isLoading}
-          >
-            Claim tokens
-          </Button>
+          <>
+            {displayKycButton && (
+              <Button
+                variant="secondary"
+                onClick={handleVerification}
+                disabled={isVerifying || kycCompletion}
+                id="identity-btn"
+                isLoading={isVerifying}
+              >
+                Begin identity verification
+              </Button>
+            )}
+            {displayClaimButton && (
+              <Button
+                variant="secondary"
+                disabled={!walletClient || isLoading}
+                onClick={handleClaimWallet}
+                id="claim-btn"
+                isLoading={isLoading}
+              >
+                Claim tokens
+              </Button>
+            )}
+          </>
         )}
       </div>
     </AirdropLayout>

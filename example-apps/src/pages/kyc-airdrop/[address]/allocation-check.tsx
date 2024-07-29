@@ -50,6 +50,7 @@ const AirdropPageWrapper = () => {
   }, [router, address, did]);
 
   const configIdentityClient = useCallback(async () => {
+    console.log("Configuring identity client to check : ", address);
     if (address) {
       setIsAuthenticating(true);
       try {

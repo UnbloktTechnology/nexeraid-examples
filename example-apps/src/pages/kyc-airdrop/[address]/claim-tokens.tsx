@@ -121,7 +121,11 @@ const AirdropPageWrapper = () => {
   return (
     <AirdropLayout
       title={"Almost there"}
-      subtitle="Now we need to verify your identity before you can claim tokens"
+      subtitle={
+        isCustomerActive
+          ? "You can claim tokens now"
+          : "Now we need to verify your identity before you can claim tokens"
+      }
     >
       <div className="flex w-full flex-row items-center justify-center gap-4">
         {customerStatus.isLoading ? (

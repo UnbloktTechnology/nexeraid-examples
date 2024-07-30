@@ -29,11 +29,11 @@ export const Button: React.FC<IButton> = forwardRef<HTMLButtonElement, IButton>(
         type="submit"
         {...props}
         className={`rounded-full px-4 py-2 font-medium shadow ${variantClasses} ${className} ${
-          props.disabled || isLoading
+          props.disabled ?? isLoading
             ? "cursor-not-allowed opacity-50"
             : "cursor-pointer"
-        } ${props.disabled || isLoading ? "" : hoverClasses}`}
-        disabled={props.disabled || isLoading}
+        } ${props.disabled ?? isLoading ? "" : hoverClasses}`}
+        disabled={props.disabled ?? isLoading}
       >
         {isLoading ? "Loading..." : children}
       </button>

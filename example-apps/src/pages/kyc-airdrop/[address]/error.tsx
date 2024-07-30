@@ -22,7 +22,7 @@ const AirdropPageWrapper = () => {
         placeholder="Reason for rejection goes here"
         readOnly
         defaultValue={error}
-        maxLength={error.length}
+        maxLength={error?.length}
       />
 
       <div className="flex w-full flex-row items-center justify-center gap-4">

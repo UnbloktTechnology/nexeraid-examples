@@ -7,10 +7,6 @@ import {
 } from "@/features/kyc-airdrop/utils/getUserAllowance";
 import { useAccount } from "wagmi";
 import { useGetTokenBalance } from "../utils/useGetTokenBalance";
-import {
-  fetchCustomerStatus,
-  type CustomerStatusResponse,
-} from "@/utils/fetchCustomerStatus";
 
 export enum WalletState {
   HAS_ALLOWANCE = "HAS_ALLOWANCE",
@@ -98,12 +94,15 @@ export const useWalletCheck = () => {
           break;
         case WalletState.HAS_NO_ALLOWANCE:
           handleNoAllowance(address);
+          void connector?.disconnect();
           break;
         case WalletState.IS_NOT_QUALIFIED:
           handleNotQualified(address);
+          void connector?.disconnect();
           break;
         case WalletState.ALREADY_CLAIMED:
           handleAlreadyClaimed(address);
+          void connector?.disconnect();
           break;
       }
     },
@@ -112,6 +111,7 @@ export const useWalletCheck = () => {
       handleNoAllowance,
       handleNotQualified,
       handleAlreadyClaimed,
+      connector,
     ],
   );
 
@@ -153,18 +153,6 @@ export const useWalletCheck = () => {
     });
   };
 
-  const getCustomerStatus = async (
-    address: string,
-  ): Promise<CustomerStatusResponse> => {
-    const response = await fetchCustomerStatus(
-      {
-        address,
-      },
-      "kyc-airdrop",
-    );
-    return response;
-  };
-
   return {
     handleCheck,
     handleInvalidInput,
@@ -174,6 +162,5 @@ export const useWalletCheck = () => {
     handleTryWalletAgain,
     isBalancePending,
     balance,
-    getCustomerStatus,
   };
 };

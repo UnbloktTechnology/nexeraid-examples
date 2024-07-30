@@ -6,7 +6,7 @@ import { useAccount } from "wagmi";
 import { useRouter } from "next/router";
 
 const AirdropPageWrapper = () => {
-  const { isConnecting } = useAccount();
+  const { isConnecting, address: loadedAddress } = useAccount();
   const router = useRouter();
   const address = router.query.address as string;
 
@@ -24,7 +24,7 @@ const AirdropPageWrapper = () => {
             <ConnectButtonCustom
               label="Connect the wallet"
               variant="secondary"
-              forceDisconnect={!!address}
+              forceDisconnect={(!address as boolean) && !loadedAddress}
             />
           </>
         )}

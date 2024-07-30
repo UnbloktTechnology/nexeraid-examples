@@ -13,11 +13,14 @@ export const Button: React.FC<IButton> = forwardRef<HTMLButtonElement, IButton>(
     ref,
   ) => {
     let variantClasses = "";
+    let hoverClasses = "";
 
     if (variant === "primary") {
-      variantClasses = "bg-blue-600 text-white hover:bg-blue-700"; // Primary button styles
+      variantClasses = "bg-blue-600 text-white";
+      hoverClasses = "hover:bg-blue-700"; // Primary button hover styles
     } else if (variant === "secondary") {
-      variantClasses = "bg-white text-black hover:bg-gray-100"; // Secondary button styles
+      variantClasses = "bg-white text-black";
+      hoverClasses = "hover:bg-gray-100"; // Secondary button hover styles
     }
 
     return (
@@ -25,10 +28,12 @@ export const Button: React.FC<IButton> = forwardRef<HTMLButtonElement, IButton>(
         ref={ref}
         type="submit"
         {...props}
-        className={`cursor-pointer rounded-full px-4 py-2 font-medium shadow ${variantClasses} ${className} ${
-          isLoading ? "cursor-not-allowed opacity-50" : ""
-        }`}
-        disabled={isLoading ?? props.disabled}
+        className={`rounded-full px-4 py-2 font-medium shadow ${variantClasses} ${className} ${
+          props.disabled || isLoading
+            ? "cursor-not-allowed opacity-50"
+            : "cursor-pointer"
+        } ${props.disabled || isLoading ? "" : hoverClasses}`}
+        disabled={props.disabled || isLoading}
       >
         {isLoading ? "Loading..." : children}
       </button>

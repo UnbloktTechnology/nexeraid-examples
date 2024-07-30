@@ -17,6 +17,7 @@ interface ExecuteEngineResponse {
 type ExampleType =
   | "bank"
   | "bank-web3"
+  | "bank-kyb"
   | "defi-offchain-zkp"
   | "defi-rule-engine";
 //   | "kyc"

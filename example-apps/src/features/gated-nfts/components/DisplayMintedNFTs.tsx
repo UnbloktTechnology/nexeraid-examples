@@ -1,6 +1,9 @@
-import { shortAddress, type Address } from "@nexeraid/identity-schemas";
+import {
+  shortAddress,
+  type BlockchainAddress,
+} from "@nexeraid/identity-schemas";
 export type MintedNFT = {
-  owner: Address;
+  owner: BlockchainAddress;
   tokenId: number;
   isNew?: boolean;
   blockNumber?: number;

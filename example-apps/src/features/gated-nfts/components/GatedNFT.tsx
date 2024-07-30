@@ -9,16 +9,16 @@ import {
 
 import { ExampleNFTMinterABI } from "@nexeraid/sig-gating-contracts-sdk/abis";
 
-import type { MintResponse } from "../utils/blockchain.schema";
+import type { MintResponse } from "../utils/evm/evm.schema";
 import {
   useGetGatedMintedNFTs,
   useGetNonGatedMintedNFTs,
-} from "../utils/useGetMintedNFTs";
-import { useMintGatedNFTFromSDK } from "../utils/useMintNFT";
+} from "../utils/evm/useGetMintedNFTs";
+import { useMintGatedNFTFromSDK } from "../utils/evm/useMintNFT";
 
 import { DisplayMintResponse } from "./DisplayMintResponse";
 import { DisplayMintedNFTs } from "./DisplayMintedNFTs";
-import { getNonGatedContractAddress } from "../utils/getContractAddress";
+import { getNonGatedContractAddress } from "../utils/evm/getContractAddress";
 import { EvmChainId } from "@nexeraid/identity-schemas";
 
 const buttonStyle = {

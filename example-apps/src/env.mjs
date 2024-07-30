@@ -53,6 +53,11 @@ export const env = createEnv({
       .string()
       .describe(
         "The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank Sygnum Web3 dApp",
+      ),    
+      NEXERA_ID_API_PROJECT_ID: z
+      .string()
+      .describe(
+        "The API project ID which is used to identify the project in the Nexera ID API -> https://dashboard.nexera.id/",
       ),
   },
 
@@ -94,6 +99,7 @@ export const env = createEnv({
     NEXERA_ID_API_KEY_BANK_SYGNUM_WEB3:
       process.env.NEXERA_ID_API_KEY_BANK_SYGNUM_WEB3,
     NEXERA_ID_API_KEY_KYC_AIRDROP: process.env.NEXERA_ID_API_KEY_KYC_AIRDROP,
+    NEXERA_ID_API_PROJECT_ID: process.env.NEXERA_ID_API_PROJECT_ID,
 
     NEXT_PUBLIC_AMOY_WS_PROVIDER_URL:
       process.env.NEXT_PUBLIC_AMOY_WS_PROVIDER_URL,

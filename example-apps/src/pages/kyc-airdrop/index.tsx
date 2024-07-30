@@ -1,17 +1,17 @@
 import dynamic from "next/dynamic";
-import { KYCLayout } from "@/features/kyc-airdrop/ui/KYCLayout";
+import { AirdropLayout } from "@/features/kyc-airdrop/ui/AirdropLayout";
 import { SearchBar } from "@/features/kyc-airdrop/ui/components/SearchBar";
 import { ConnectButtonCustom } from "@/features/kyc-airdrop/ui/components/ConnectButtonCustom";
-import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
+import { useRouter } from "next/router";
 
-const KYCAirdropPageWrapper = () => {
+const AirdropPageWrapper = () => {
+  const { isConnecting, address: loadedAddress } = useAccount();
   const router = useRouter();
-  const { isConnecting } = useAccount();
-  const mustReset = router.query.reset as string;
+  const address = router.query.address as string;
 
   return (
-    <KYCLayout
+    <AirdropLayout
       title="Let's claim some tokens"
       subtitle="Connect your wallet to claim tokens"
     >
@@ -24,20 +24,20 @@ const KYCAirdropPageWrapper = () => {
             <ConnectButtonCustom
               label="Connect the wallet"
               variant="secondary"
-              forceDisconnect={!!mustReset}
+              forceDisconnect={(!address as boolean) && !loadedAddress}
             />
           </>
         )}
       </div>
-    </KYCLayout>
+    </AirdropLayout>
   );
 };
 
-const DynamicKYCAirdropPageWrapper = dynamic(
-  () => Promise.resolve(KYCAirdropPageWrapper),
+const DynamicAirdropPageWrapper = dynamic(
+  () => Promise.resolve(AirdropPageWrapper),
   { ssr: false },
 );
 
-export default function KycAirdrop() {
-  return <DynamicKYCAirdropPageWrapper />;
+export default function Airdrop() {
+  return <DynamicAirdropPageWrapper />;
 }

@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import React, { useCallback, useEffect, useState } from "react";
 import type { Address } from "@nexeraid/identity-schemas";
-import { KYCLayout } from "@/features/kyc-airdrop/ui/KYCLayout";
+import { AirdropLayout } from "@/features/kyc-airdrop/ui/AirdropLayout";
 import { getUserAllowance } from "@/features/kyc-airdrop/utils/getUserAllowance";
 import { Button } from "@/features/kyc-airdrop/ui/components/Button";
 import { useRouter } from "next/router";
@@ -12,7 +12,7 @@ import { buildSignatureMessage } from "@nexeraid/identity-sdk";
 import { fetchAccessToken } from "@/utils/fetchAccessToken";
 import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
 
-const KYCAirdropPageWrapper = () => {
+const AirdropPageWrapper = () => {
   const [did, setDID] = useState<string | undefined>(undefined);
   const [allocation, setAllocation] = useState<number | undefined>(0);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -50,6 +50,7 @@ const KYCAirdropPageWrapper = () => {
   }, [router, address, did]);
 
   const configIdentityClient = useCallback(async () => {
+    console.log("Configuring identity client to check : ", address);
     if (address) {
       setIsAuthenticating(true);
       try {
@@ -107,7 +108,7 @@ const KYCAirdropPageWrapper = () => {
   }, [address, isConnected, connectedAddress, router]);
 
   return (
-    <KYCLayout
+    <AirdropLayout
       title={
         allocation !== undefined
           ? allocation > 0
@@ -144,7 +145,7 @@ const KYCAirdropPageWrapper = () => {
                 Authenticate wallet to start claiming
               </Button>
             )}
-            {isConnected && auth && (
+            {isIdentityClientInit && isConnected && auth && (
               <Button
                 variant="secondary"
                 onClick={() => void handleClaimWallet()}
@@ -163,15 +164,15 @@ const KYCAirdropPageWrapper = () => {
           </Button>
         )}
       </div>
-    </KYCLayout>
+    </AirdropLayout>
   );
 };
 
-const DynamicKYCAirdropPageWrapper = dynamic(
-  () => Promise.resolve(KYCAirdropPageWrapper),
+const DynamicAirdropPageWrapper = dynamic(
+  () => Promise.resolve(AirdropPageWrapper),
   { ssr: false },
 );
 
 export default function AllocationCheck() {
-  return <DynamicKYCAirdropPageWrapper />;
+  return <DynamicAirdropPageWrapper />;
 }

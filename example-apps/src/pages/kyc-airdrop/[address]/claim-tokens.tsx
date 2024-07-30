@@ -88,15 +88,17 @@ const AirdropPageWrapper = () => {
 
   const renderKycButton = () => {
     return (
-      <Button
-        variant="secondary"
-        onClick={handleVerification}
-        disabled={isVerifying || isCustomerActive}
-        id="identity-btn"
-        isLoading={isVerifying}
-      >
-        {isCustomerActive ? "Identify verified" : "Begin identity verification"}
-      </Button>
+      !isCustomerActive && (
+        <Button
+          variant="secondary"
+          onClick={handleVerification}
+          disabled={isVerifying || isCustomerActive}
+          id="identity-btn"
+          isLoading={isVerifying}
+        >
+          Begin identity verification
+        </Button>
+      )
     );
   };
 

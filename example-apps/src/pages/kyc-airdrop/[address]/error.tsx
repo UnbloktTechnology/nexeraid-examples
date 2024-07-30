@@ -4,7 +4,7 @@ import { AirdropLayout } from "@/features/kyc-airdrop/ui/AirdropLayout";
 import { useRouter } from "next/router";
 import { Button } from "@/features/kyc-airdrop/ui/components/Button";
 import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
-import { type Address } from "@nexeraprotocol/identity-schemas";
+import { type Address } from "@nexeraid/identity-schemas";
 
 const AirdropPageWrapper = () => {
   const router = useRouter();

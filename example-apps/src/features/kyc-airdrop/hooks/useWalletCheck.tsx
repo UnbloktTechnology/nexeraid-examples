@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { useRouter } from "next/router";
-import { type Address } from "@nexeraprotocol/identity-schemas";
+import { type Address } from "@nexeraid/identity-schemas";
 import {
   getUserAllowance,
   getUserIndex,

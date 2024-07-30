@@ -6,7 +6,7 @@ import { z } from "zod";
 import {
   BlockchainAddress,
   BlockchainNamespace,
-} from "@nexeraprotocol/identity-schemas";
+} from "@nexeraid/identity-schemas";
 
 const inputSchema = z.object({
   address: BlockchainAddress,

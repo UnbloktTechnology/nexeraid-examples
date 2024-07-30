@@ -91,6 +91,11 @@ const PROJECTS: AppCardProps[] = [
     image: "/images/kyc.webp",
   },
   {
+    url: "/gated-nft-tezos",
+    name: "Gating with Off-chain Signatures - Tezos",
+    image: "/images/kyc.webp",
+  },
+  {
     url: "/kyc-airdrop",
     name: "KYC Gated Token Airdrop",
     image: "/images/kyc.webp",

@@ -8,7 +8,7 @@ import { fetchAccessToken } from "@/utils/fetchAccessToken";
 import type {
   BlockchainAddress,
   BlockchainNamespace,
-} from "@nexeraprotocol/identity-schemas";
+} from "@nexeraid/identity-schemas";
 
 export const IdentityFlow = (props: {
   setDID: (did: string) => void;

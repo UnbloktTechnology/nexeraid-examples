@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useRouter } from "next/router";
 import { type Address } from "@nexeraid/identity-schemas";
 import {
@@ -18,7 +18,16 @@ export enum WalletState {
 export const useWalletCheck = () => {
   const router = useRouter();
   const { connector } = useAccount();
-  const { balance, isPending: isBalancePending } = useGetTokenBalance();
+  const { balance: _balance, isPending: isBalancePending } =
+    useGetTokenBalance();
+
+  const balance = useMemo(() => {
+    if (_balance && !isBalancePending) {
+      console.log("balance found", _balance);
+      return _balance;
+    }
+    return 0;
+  }, [_balance, isBalancePending]);
 
   const isValidAddress = (address: string): boolean => {
     const regex = /^0x[a-fA-F0-9]{40}$/;
@@ -34,10 +43,10 @@ export const useWalletCheck = () => {
     (address: Address) => {
       void router.push({
         pathname: "/kyc-airdrop/[address]/allocation-check",
-        query: { address, balance },
+        query: { address },
       });
     },
-    [router, balance],
+    [router],
   );
 
   const handleNoAllowance = useCallback(
@@ -85,12 +94,15 @@ export const useWalletCheck = () => {
           break;
         case WalletState.HAS_NO_ALLOWANCE:
           handleNoAllowance(address);
+          void connector?.disconnect();
           break;
         case WalletState.IS_NOT_QUALIFIED:
           handleNotQualified(address);
+          void connector?.disconnect();
           break;
         case WalletState.ALREADY_CLAIMED:
           handleAlreadyClaimed(address);
+          void connector?.disconnect();
           break;
       }
     },
@@ -99,6 +111,7 @@ export const useWalletCheck = () => {
       handleNoAllowance,
       handleNotQualified,
       handleAlreadyClaimed,
+      connector,
     ],
   );
 
@@ -109,10 +122,12 @@ export const useWalletCheck = () => {
         const allowance = isQualified ? getUserAllowance(address) : undefined;
 
         if (isQualified) {
-          console.log("balance", balance);
+          console.log("Wallet is qualified");
           if (balance && Number(balance) > 0) {
+            console.log("Wallet has balance, it's already claimed");
             onSearchResult(address, WalletState.ALREADY_CLAIMED);
           } else {
+            console.log("Wallet has no balance, checking allowance");
             onSearchResult(
               address,
               allowance
@@ -121,6 +136,7 @@ export const useWalletCheck = () => {
             );
           }
         } else {
+          console.log("Wallet is not qualified");
           onSearchResult(address, WalletState.IS_NOT_QUALIFIED);
         }
       } else if (address.length === 42) {
@@ -134,9 +150,6 @@ export const useWalletCheck = () => {
     await connector?.disconnect();
     void router.push({
       pathname: "/kyc-airdrop",
-      query: {
-        reset: true,
-      },
     });
   };
 
@@ -148,5 +161,6 @@ export const useWalletCheck = () => {
     handleTryAnotherWallet,
     handleTryWalletAgain,
     isBalancePending,
+    balance,
   };
 };

@@ -81,7 +81,7 @@ export const useWalletCheck = () => {
 
   const handleTryWalletAgain = (address: Address) => {
     void router.push({
-      pathname: "/kyc-airdrop/[address]/claim-tokens",
+      pathname: "/kyc-airdrop/[address]/allocation-check",
       query: { address },
     });
   };

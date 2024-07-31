@@ -44,6 +44,11 @@ export const env = createEnv({
       .describe(
         "The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank Web3 dApp",
       ),
+    NEXERA_ID_API_KEY_BANK_KYB: z
+      .string()
+      .describe(
+        "The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank Web3 dApp Mocked",
+      ),
     NEXERA_ID_API_KEY_KYC: z
       .string()
       .describe(
@@ -95,6 +100,8 @@ export const env = createEnv({
       process.env.NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP,
     NEXERA_ID_API_KEY_BANK: process.env.NEXERA_ID_API_KEY_BANK,
     NEXERA_ID_API_KEY_BANK_WEB3: process.env.NEXERA_ID_API_KEY_BANK_WEB3,
+    NEXERA_ID_API_KEY_BANK_KYB:
+      process.env.NEXERA_ID_API_KEY_BANK_KYB,
     NEXERA_ID_API_KEY_KYC: process.env.NEXERA_ID_API_KEY_KYC,
     NEXERA_ID_API_KEY_BANK_SYGNUM_WEB3:
       process.env.NEXERA_ID_API_KEY_BANK_SYGNUM_WEB3,

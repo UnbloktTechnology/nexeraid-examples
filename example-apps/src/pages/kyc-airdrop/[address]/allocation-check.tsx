@@ -121,7 +121,7 @@ const AirdropPageWrapper = () => {
           ? allocation > 0
             ? `Congrats, the allocation for the wallet ${address} is ${allocation} PEAQ`
             : `Unfortunately, there is no allocation for the wallet ${address}`
-          : `Unfortunately, the wallet ${address} doesn't qualify for some reason`
+          : `Unfortunately, the wallet ${address} doesn't qualify`
       }
     >
       <div className="flex flex-row items-center justify-center gap-4">

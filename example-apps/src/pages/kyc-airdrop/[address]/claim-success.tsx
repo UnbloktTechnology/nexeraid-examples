@@ -19,12 +19,16 @@ const AirdropPageWrapper = () => {
     }
   }, [balance]);
 
+  const title = isBalanceLoading
+    ? "Claiming your tokens..."
+    : "Tokens claimed successfully";
+
   const subtitle = isBalanceLoading
     ? "Checking wallet balance..."
     : `Congrats! The allocated ${balance.balance} PEAQ were transferred to the wallet ${address}`;
 
   return (
-    <AirdropLayout title={"Tokens claimed successfully"} subtitle={subtitle}>
+    <AirdropLayout title={title} subtitle={subtitle}>
       <Button variant="secondary" onClick={() => void handleTryAnotherWallet()}>
         Try another wallet
       </Button>

@@ -11,12 +11,15 @@ const AirdropPageWrapper = () => {
   return (
     <AirdropLayout
       title="This wallet doesn't qualify"
-      subtitle={`Unfortunately, the wallet ${address} doesn't qualify for some reason`}
+      subtitle={`Unfortunately, the wallet ${address} doesn't qualify`}
     >
       <div className="flex w-full flex-col items-center justify-center gap-4">
         <SearchBar placeholder="Try another wallet address here" />
         or
-        <ConnectButtonCustom label="Connect another wallet" variant="secondary" />
+        <ConnectButtonCustom
+          label="Connect another wallet"
+          variant="secondary"
+        />
       </div>
     </AirdropLayout>
   );

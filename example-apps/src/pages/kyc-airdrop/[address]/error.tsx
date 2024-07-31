@@ -5,16 +5,17 @@ import { useRouter } from "next/router";
 import { Button } from "@/features/kyc-airdrop/ui/components/Button";
 import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
 import { type Address } from "@nexeraid/identity-schemas";
+import { RedirectToHomeButton } from "@/features/kyc-airdrop/ui/components/RedirectToHomeButton";
 
 const AirdropPageWrapper = () => {
   const router = useRouter();
   const error = router.query.error as string;
   const address = router.query.address as string;
-  const { handleTryAnotherWallet, handleTryWalletAgain } = useWalletCheck();
+  const { redirectToCheckWallet } = useWalletCheck();
 
   return (
     <AirdropLayout
-      title={"Tokens claim unsuccessful"}
+      title="Tokens claim unsuccessful"
       subtitle="Unfortunately, we can't allow token claim for you due to :"
     >
       <textarea
@@ -26,18 +27,13 @@ const AirdropPageWrapper = () => {
       />
 
       <div className="flex w-full flex-row items-center justify-center gap-4">
-        <Button
-          variant="primary"
-          onClick={() => void handleTryWalletAgain(address as Address)}
-        >
-          Try again
-        </Button>
+        <RedirectToHomeButton variant="primary" label="Try another wallet" />
 
         <Button
           variant="secondary"
-          onClick={() => void handleTryAnotherWallet()}
+          onClick={() => void redirectToCheckWallet(address as Address)}
         >
-          Try another wallet
+          Try again
         </Button>
       </div>
     </AirdropLayout>

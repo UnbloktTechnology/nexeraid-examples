@@ -80,6 +80,12 @@ const PROJECTS: AppCardProps[] = [
     tags: [VCV_TAG, OFF_TAG, AS_TAG],
   },
   {
+    url: "/bank-kyb",
+    name: "Banking KYB",
+    image: "/images/bank.png",
+    tags: [VCV_TAG, OFF_TAG, AS_TAG],
+  },
+  {
     url: "/bank-web3",
     name: "Web3 Banking",
     image: "/images/bank-web3.png",

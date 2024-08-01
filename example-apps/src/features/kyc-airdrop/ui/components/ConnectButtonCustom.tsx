@@ -2,8 +2,8 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 import { Button } from "./Button";
 import { useEffect, useState } from "react";
-import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
 import { useAccount } from "wagmi";
+import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
 
 interface ConnectButtonProps {
   label: string;
@@ -16,7 +16,7 @@ export const ConnectButtonCustom = ({
   variant,
   forceDisconnect,
 }: ConnectButtonProps) => {
-  const { handleCheck, isBalancePending } = useWalletCheck();
+  const { redirectToCheckWallet } = useWalletCheck();
   const { address, isConnected, connector } = useAccount();
   const [loading, setLoading] = useState(false);
 
@@ -25,21 +25,13 @@ export const ConnectButtonCustom = ({
   }
 
   useEffect(() => {
-    if (isConnected && address) {
+    if (!isConnected && address) {
       setLoading(true);
-      handleCheck(address, () => {
-        setLoading(false);
-      });
-    } else {
+    } else if (isConnected && address) {
+      void redirectToCheckWallet(address);
       setLoading(false);
     }
-  }, [isConnected, address, handleCheck]);
-
-  useEffect(() => {
-    if (isConnected && address) {
-      setLoading(isBalancePending);
-    }
-  }, [isConnected, address, isBalancePending]);
+  }, [isConnected, address, redirectToCheckWallet]);
 
   return (
     <ConnectButton.Custom>

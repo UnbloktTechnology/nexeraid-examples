@@ -3,13 +3,11 @@ import React, { useEffect, useState } from "react";
 import { AirdropLayout } from "@/features/kyc-airdrop/ui/AirdropLayout";
 import { useGetTokenBalance } from "@/features/kyc-airdrop/utils/useGetTokenBalance";
 import { useRouter } from "next/router";
-import { Button } from "@/features/kyc-airdrop/ui/components/Button";
-import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
+import { RedirectToHomeButton } from "@/features/kyc-airdrop/ui/components/RedirectToHomeButton";
 
 const AirdropPageWrapper = () => {
   const balance = useGetTokenBalance();
   const [isBalanceLoading, setIsBalanceLoading] = useState(true);
-  const { handleTryAnotherWallet } = useWalletCheck();
   const router = useRouter();
   const address = router.query.address as string;
 
@@ -29,9 +27,7 @@ const AirdropPageWrapper = () => {
 
   return (
     <AirdropLayout title={title} subtitle={subtitle}>
-      <Button variant="secondary" onClick={() => void handleTryAnotherWallet()}>
-        Try another wallet
-      </Button>
+      <RedirectToHomeButton variant="secondary" label="Try another wallet" />
     </AirdropLayout>
   );
 };

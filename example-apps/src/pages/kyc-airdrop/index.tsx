@@ -6,7 +6,7 @@ import { useAccount } from "wagmi";
 import { useRouter } from "next/router";
 
 const AirdropPageWrapper = () => {
-  const { isConnecting, address: loadedAddress } = useAccount();
+  const { address: loadedAddress } = useAccount();
   const router = useRouter();
   const address = router.query.address as string;
 
@@ -16,18 +16,13 @@ const AirdropPageWrapper = () => {
       subtitle="Connect your wallet to claim tokens"
     >
       <div className="flex w-full flex-col items-center justify-center gap-4">
-        {isConnecting && <>loading...</>}
-        {!isConnecting && (
-          <>
-            <SearchBar />
-            or
-            <ConnectButtonCustom
-              label="Connect the wallet"
-              variant="secondary"
-              forceDisconnect={(!address as boolean) && !loadedAddress}
-            />
-          </>
-        )}
+        <SearchBar />
+        or
+        <ConnectButtonCustom
+          label="Connect the wallet"
+          variant="secondary"
+          forceDisconnect={(!address as boolean) && !loadedAddress}
+        />
       </div>
     </AirdropLayout>
   );

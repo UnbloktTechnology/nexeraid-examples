@@ -20,9 +20,6 @@ export default async function handler(
 
       const apiHost = appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api;
       const cmsProjectId = env.NEXERA_ID_API_PROJECT_ID;
-      console.log("apiHost", apiHost);
-      console.log("cmsProjectId", cmsProjectId);
-      console.log("address", input.address);
 
       const response = await fetch(
         `${apiHost}/projects/${cmsProjectId}/customer-wallets/${input.address}/customer`,

@@ -26,6 +26,7 @@ export const RedirectToHomeButton = ({
       variant={variant ?? "secondary"}
       onClick={() => void handleRedirectToHome()}
       isLoading={isDisconnecting}
+      disabled={isDisconnecting}
     >
       {label ?? "Try another wallet"}
     </Button>

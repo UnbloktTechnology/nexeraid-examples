@@ -195,12 +195,15 @@ const AirdropPageWrapper = () => {
             walletState === WalletState.HAS_NO_ALLOWANCE ||
             walletState === WalletState.IS_NOT_QUALIFIED) && (
             <div className="flex w-full flex-col items-center justify-center gap-4">
-              <SearchBar />
-              or
+              {!isConnected && (
+                <>
+                  <SearchBar />
+                  or
+                </>
+              )}
               <ConnectButtonCustom
                 label="Connect the wallet"
                 variant="secondary"
-                forceDisconnect={true}
               />
             </div>
           )}

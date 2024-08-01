@@ -169,33 +169,6 @@ export const useWalletCheck = () => {
     });
   };
 
-  const redirectToCheckOk = useCallback(
-    (address: Address, walletState: WalletState) => {
-      void router.push({
-        pathname: "/kyc-airdrop/[address]/check-ok",
-        query: {
-          address,
-          walletState,
-        },
-      });
-    },
-    [router],
-  );
-
-  const redirectToCheckNok = useCallback(
-    async (address: Address, walletState: WalletState) => {
-      await connector?.disconnect?.();
-      void router.push({
-        pathname: "/kyc-airdrop/[address]/check-nok",
-        query: {
-          address,
-          walletState,
-        },
-      });
-    },
-    [connector, router],
-  );
-
   const isValidAddress = (address: string): boolean => {
     const regex = /^0x[a-fA-F0-9]{40}$/;
     return regex.test(address);
@@ -274,8 +247,6 @@ export const useWalletCheck = () => {
     isQualified,
     isValidAddress,
     isVerifyingIdentity,
-    redirectToCheckNok,
-    redirectToCheckOk,
     redirectToCheckWallet,
     redirectToHome,
     startVerification,

@@ -54,44 +54,34 @@ const AirdropPageWrapper = () => {
   };
 
   useEffect(() => {
-    if (walletState === WalletState.UNCHECKED) {
-      console.log("Checking wallet state", {
-        isConnected,
-        isQualified,
-        allowance,
-        balance,
-        isBalancePending,
-      });
-      setIsLoading(true);
-      if (isConnected) {
-        if (isQualified) {
-          if (allowance) {
-            if (balance && balance > 0 && !isBalancePending) {
-              onSetWalletState(WalletState.ALREADY_CLAIMED);
-              setIsLoading(false);
-            } else if (balance === 0 && !isBalancePending) {
-              onSetWalletState(WalletState.HAS_ALLOWANCE_CONNECTED);
-              setIsLoading(false);
-            }
-          } else {
-            onSetWalletState(WalletState.HAS_NO_ALLOWANCE);
-            setIsLoading(false);
-          }
-        } else {
-          onSetWalletState(WalletState.IS_NOT_QUALIFIED);
-          setIsLoading(false);
+    console.log("Checking wallet state", {
+      isConnected,
+      isQualified,
+      allowance,
+      balance,
+      isBalancePending,
+    });
+    setIsLoading(true);
+    if (!isQualified) {
+      onSetWalletState(WalletState.IS_NOT_QUALIFIED);
+    } else if (isConnected) {
+      if (allowance) {
+        if (balance && balance > 0 && !isBalancePending) {
+          onSetWalletState(WalletState.ALREADY_CLAIMED);
+        } else if (balance === 0 && !isBalancePending) {
+          onSetWalletState(WalletState.HAS_ALLOWANCE_CONNECTED);
         }
       } else {
-        onSetWalletState(
-          isQualified
-            ? allowance
-              ? WalletState.HAS_ALLOWANCE_NO_CONNECTED
-              : WalletState.HAS_NO_ALLOWANCE
-            : WalletState.IS_NOT_QUALIFIED,
-        );
-        setIsLoading(false);
+        onSetWalletState(WalletState.HAS_NO_ALLOWANCE);
+      }
+    } else {
+      if (allowance) {
+        onSetWalletState(WalletState.HAS_ALLOWANCE_NO_CONNECTED);
+      } else {
+        onSetWalletState(WalletState.HAS_NO_ALLOWANCE);
       }
     }
+    setIsLoading(false);
   }, [
     address,
     balance,

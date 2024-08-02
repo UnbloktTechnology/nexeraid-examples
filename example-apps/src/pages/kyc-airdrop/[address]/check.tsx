@@ -51,9 +51,6 @@ const AirdropPageWrapper = () => {
   }, [customerStatus.data]);
 
   const onSetWalletState = useCallback((state: WalletState | undefined) => {
-    if (!state) {
-      console.error("Wallet state is undefined");
-    }
     setWalletState(state);
     setWalletChecked(true);
     console.log("Wallet state set", state);
@@ -63,7 +60,7 @@ const AirdropPageWrapper = () => {
   useEffect(() => {
     // If wallet is connected, check the balance
     if (isConnected) {
-      setBalanceChecked(!isBalancePending && !!balance);
+      setBalanceChecked(!isBalancePending && balance !== undefined);
     } else {
       setBalanceChecked(true); // If not connected, no need to check balance
     }

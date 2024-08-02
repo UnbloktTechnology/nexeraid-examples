@@ -25,7 +25,7 @@ export default async function handler(
       const apiHost = appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api;
       console.log("apiHost", apiHost);
 
-      const response = await fetch(`${apiHost}kyb/auth/access-token`, {
+      const response = await fetch(`${apiHost}kyc/auth/access-token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

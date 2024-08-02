@@ -87,6 +87,12 @@ const Home = () => {
           await queryClient.invalidateQueries();
           return "ok";
         });
+        IDENTITY_CLIENT.onSdkReady((data) => {
+          console.log("OnSdkReady", data);
+          console.log("DID: ", data.did);
+          setIsIdentityClientInit(true);
+        });
+
         console.log("INITIALIZING KYB....");
         await IDENTITY_CLIENT.init({
           accessToken,

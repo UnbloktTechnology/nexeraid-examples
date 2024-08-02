@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { UsersDropDown } from "../Components/UsersDropDown";
-import { IdentityVerifyButton } from "@/features/bank/identity/IdentityVerifyButton";
+import { IdentityVerifyButton } from "@/features/bank-kyb/identity/IdentityVerifyButton";
 import { TEST_USERS, type TestUser } from "@/appConfig";
 import { toast } from "react-toastify";
 import { Icon } from "../Components/Icon";

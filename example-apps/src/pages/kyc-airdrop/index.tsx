@@ -5,11 +5,15 @@ import { ConnectButtonCustom } from "@/features/kyc-airdrop/ui/components/Connec
 import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
 
 const AirdropPageWrapper = () => {
-  const { isConnected } = useWalletCheck();
+  const {
+    isConnected,
+    generateTitleFromWalletState,
+    generateSubtitleFromWalletState,
+  } = useWalletCheck();
   return (
     <AirdropLayout
-      title="Let's claim some tokens"
-      subtitle="Connect your wallet to claim tokens"
+      title={generateTitleFromWalletState()}
+      subtitle={generateSubtitleFromWalletState()}
     >
       <div className="flex w-full flex-col items-center justify-center gap-4">
         {!isConnected && (

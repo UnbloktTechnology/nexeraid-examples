@@ -6,26 +6,27 @@ import {
 } from "@/features/kyc-airdrop/hooks/useWalletCheck";
 import { AirdropLayout } from "@/features/kyc-airdrop/ui/AirdropLayout";
 import { Button } from "@/features/kyc-airdrop/ui/components/Button";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { type Address } from "@nexeraid/identity-schemas";
 import { useGetCustomerStatusByProjectIdAndWallet } from "@/features/kyc-airdrop/hooks/useGetCustomerStatusByProjectIdAndWallet";
-import { SearchBar } from "@/features/kyc-airdrop/ui/components/SearchBar";
 import { ConnectButtonCustom } from "@/features/kyc-airdrop/ui/components/ConnectButtonCustom";
 import { RedirectToHomeButton } from "@/features/kyc-airdrop/ui/components/RedirectToHomeButton";
 
 const AirdropPageWrapper = () => {
   const router = useRouter();
   const address = router.query.address as Address;
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isCustomerActive, setIsCustomerActive] = useState(false);
-  const [walletState, setWalletState] = useState<WalletState>(
-    WalletState.UNCHECKED,
-  );
+  const [walletChecked, setWalletChecked] = useState(false);
+  const [walletState, setWalletState] = useState<WalletState | undefined>();
+  const [balanceChecked, setBalanceChecked] = useState(false);
+
   const {
-    allowance,
     auth,
     balance,
+    checkWalletState,
     claimWallet,
+    configIdentityClient,
     generateSubtitleFromWalletState,
     generateTitleFromWalletState,
     isAuthenticating,
@@ -33,64 +34,79 @@ const AirdropPageWrapper = () => {
     isClaiming,
     isConnected,
     isIdentityClientInit,
-    isQualified,
     isVerifyingIdentity,
     startVerification,
     walletClient,
-    configIdentityClient,
+    isQualified,
+    allowance,
   } = useWalletCheck();
 
   const customerStatus = useGetCustomerStatusByProjectIdAndWallet(
     address,
     isCustomerActive,
   );
+
   useEffect(() => {
     setIsCustomerActive(customerStatus.data?.status === "Active");
   }, [customerStatus.data]);
 
-  const onSetWalletState = (state: WalletState) => {
-    console.log("Setting wallet state to", state);
-    setWalletState(state);
-  };
-
-  useEffect(() => {
-    console.log("Checking wallet state", {
-      isConnected,
-      isQualified,
-      allowance,
-      balance,
-      isBalancePending,
-    });
-    setIsLoading(true);
-    if (!isQualified) {
-      onSetWalletState(WalletState.IS_NOT_QUALIFIED);
-    } else if (isConnected) {
-      if (allowance) {
-        if (balance && balance > 0 && !isBalancePending) {
-          onSetWalletState(WalletState.ALREADY_CLAIMED);
-        } else if (balance === 0 && !isBalancePending) {
-          onSetWalletState(WalletState.HAS_ALLOWANCE_CONNECTED);
-        }
-      } else {
-        onSetWalletState(WalletState.HAS_NO_ALLOWANCE);
-      }
-    } else {
-      if (allowance) {
-        onSetWalletState(WalletState.HAS_ALLOWANCE_NO_CONNECTED);
-      } else {
-        onSetWalletState(WalletState.HAS_NO_ALLOWANCE);
-      }
+  const onSetWalletState = useCallback((state: WalletState | undefined) => {
+    if (!state) {
+      console.error("Wallet state is undefined");
     }
-    setIsLoading(false);
+    setWalletState(state);
+    setWalletChecked(true);
+    console.log("Wallet state set", state);
+  }, []);
+
+  // Check wallet state when wallet connects or balance changes
+  useEffect(() => {
+    // If wallet is connected, check the balance
+    if (isConnected) {
+      setBalanceChecked(!isBalancePending && !!balance);
+    } else {
+      setBalanceChecked(true); // If not connected, no need to check balance
+    }
+
+    // Check the wallet state if balance is checked
+    if (balanceChecked && !walletChecked) {
+      onSetWalletState(
+        checkWalletState(
+          isQualified,
+          isConnected,
+          balance,
+          allowance,
+          isBalancePending,
+        ),
+      );
+    }
+
+    if (walletChecked && balanceChecked) {
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
+    }
   }, [
-    address,
     balance,
     isBalancePending,
     isConnected,
     isQualified,
     allowance,
     walletState,
+    checkWalletState,
+    onSetWalletState,
+    walletChecked,
+    balanceChecked,
   ]);
+
+  // Recalculate the wallet state when the connection status changes
+  useEffect(() => {
+    if (isConnected) {
+      setWalletChecked(false);
+      setBalanceChecked(false);
+      setIsLoading(true);
+    }
+  }, [isConnected]);
 
   const renderKycButton = () => {
     return (
@@ -173,7 +189,6 @@ const AirdropPageWrapper = () => {
                 <ConnectButtonCustom
                   label="Connect wallet"
                   variant="secondary"
-                  forceDisconnect={true}
                 />
               )}
               {isConnected && !auth && (
@@ -195,16 +210,7 @@ const AirdropPageWrapper = () => {
             walletState === WalletState.HAS_NO_ALLOWANCE ||
             walletState === WalletState.IS_NOT_QUALIFIED) && (
             <div className="flex w-full flex-col items-center justify-center gap-4">
-              {!isConnected && (
-                <>
-                  <SearchBar />
-                  or
-                </>
-              )}
-              <ConnectButtonCustom
-                label="Connect the wallet"
-                variant="secondary"
-              />
+              <RedirectToHomeButton />
             </div>
           )}
         </>

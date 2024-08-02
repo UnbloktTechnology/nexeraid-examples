@@ -186,9 +186,7 @@ export const useWalletCheck = () => {
     disconnect();
   };
 
-  const generateTitleFromWalletState = (
-    walletState?: WalletState | undefined,
-  ) => {
+  const generateTitleFromWalletState = (walletState?: WalletState) => {
     switch (walletState) {
       case WalletState.HAS_NO_ALLOWANCE:
         return "No allocation";
@@ -206,7 +204,7 @@ export const useWalletCheck = () => {
   };
 
   const generateSubtitleFromWalletState = (
-    walletState?: WalletState | undefined,
+    walletState?: WalletState,
     address?: Address,
     allowance?: number,
     isCustomerActive?: boolean,

@@ -7,7 +7,6 @@ import { type Address } from "@nexeraid/identity-schemas";
 interface ConnectButtonProps {
   label: string;
   variant: "primary" | "secondary";
-  forceDisconnect?: boolean;
 }
 
 export const ConnectButtonCustom = ({ label, variant }: ConnectButtonProps) => {

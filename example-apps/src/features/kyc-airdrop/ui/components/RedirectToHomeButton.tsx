@@ -14,9 +14,9 @@ export const RedirectToHomeButton = ({
   const { disconnectWallet, redirectToHome } = useWalletCheck();
   const [isDisconnecting, setIsDisconnecting] = useState(false);
 
-  const handleRedirectToHome = async () => {
+  const handleRedirectToHome = () => {
     setIsDisconnecting(true);
-    await disconnectWallet();
+    disconnectWallet();
     setIsDisconnecting(false);
     redirectToHome();
   };

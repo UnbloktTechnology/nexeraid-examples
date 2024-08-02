@@ -1,5 +1,10 @@
 import { type Address } from "@nexeraid/identity-schemas";
-import { useAccount, useSignMessage, useWalletClient } from "wagmi";
+import {
+  useAccount,
+  useSignMessage,
+  useWalletClient,
+  useDisconnect,
+} from "wagmi";
 import { useGetTokenBalance } from "@/features/kyc-airdrop/utils/useGetTokenBalance";
 import {
   getUserAllowance,
@@ -28,10 +33,7 @@ export const useWalletCheck = () => {
   const { balance, isPending } = useGetTokenBalance();
   const { isConnected } = useAccount();
   const isQualified = getUserIndex(address as Address) !== -1;
-  const allowance = isQualified
-    ? getUserAllowance(address as Address)
-    : undefined;
-  const { connector } = useAccount();
+  const allowance = getUserAllowance(address as Address);
   const tryClaiming = useClaimToken();
   const signMessage = useSignMessage();
   const { data: walletClient } = useWalletClient();
@@ -50,6 +52,7 @@ export const useWalletCheck = () => {
     undefined,
   );
   const [isClaiming, setIsClaiming] = useState(false);
+  const { disconnect } = useDisconnect();
 
   const blockchainNamespace = "eip155";
 
@@ -179,11 +182,13 @@ export const useWalletCheck = () => {
     setWalletAddress("");
   };
 
-  const disconnectWallet = async () => {
-    await connector?.disconnect?.();
+  const disconnectWallet = () => {
+    disconnect();
   };
 
-  const generateTitleFromWalletState = (walletState: WalletState) => {
+  const generateTitleFromWalletState = (
+    walletState?: WalletState | undefined,
+  ) => {
     switch (walletState) {
       case WalletState.HAS_NO_ALLOWANCE:
         return "No allocation";
@@ -196,14 +201,14 @@ export const useWalletCheck = () => {
       case WalletState.HAS_ALLOWANCE_NO_CONNECTED:
         return "You scored allocation!";
       default:
-        return "";
+        return "Let's claim some tokens";
     }
   };
 
   const generateSubtitleFromWalletState = (
-    walletState: WalletState,
-    address: Address,
-    allocation?: number,
+    walletState?: WalletState | undefined,
+    address?: Address,
+    allowance?: number,
     isCustomerActive?: boolean,
     isAuthorized?: boolean,
   ) => {
@@ -223,16 +228,53 @@ export const useWalletCheck = () => {
             return "Now we need to verify your identity before you can claim tokens";
           }
         } else
-          return `Congrats, the allocation for the wallet ${address} is ${allocation} PEAQ.`;
+          return `Congrats, the allocation for the wallet ${address} is ${allowance} PEAQ.`;
       default:
-        return "";
+        return "Connect your wallet to claim tokens";
     }
+  };
+
+  const checkWalletState = (
+    isQualified: boolean,
+    isConnected: boolean,
+    balance: number | undefined,
+    allowance: number | undefined,
+    isBalancePending: boolean,
+  ): WalletState | undefined => {
+    console.log("Checking wallet state...", {
+      isConnected,
+      isQualified,
+      allowance,
+      balance,
+    });
+
+    if (!isQualified) {
+      return WalletState.IS_NOT_QUALIFIED;
+    } else if (isConnected) {
+      if (allowance) {
+        if (balance && balance > 0 && !isBalancePending) {
+          return WalletState.ALREADY_CLAIMED;
+        } else if (balance === 0 && !isBalancePending) {
+          return WalletState.HAS_ALLOWANCE_CONNECTED;
+        }
+      } else {
+        return WalletState.HAS_NO_ALLOWANCE;
+      }
+    } else {
+      if (allowance) {
+        return WalletState.HAS_ALLOWANCE_NO_CONNECTED;
+      } else {
+        return WalletState.HAS_NO_ALLOWANCE;
+      }
+    }
+    return undefined;
   };
 
   return {
     allowance,
     auth,
     balance,
+    checkWalletState,
     claimWallet,
     configIdentityClient,
     disconnectWallet,

@@ -4,7 +4,9 @@ import { BeaconWallet } from "@taquito/beacon-wallet";
 import { TezosToolkit } from "@taquito/taquito";
 import { stringToBytes } from "@taquito/utils";
 
-import { TezosSignature } from "@nexeraprotocol/identity-schemas";
+import { TezosSignature } from "@nexeraid/identity-schemas";
+
+const RPC_ENDPOINT = "https://rpc.ghostnet.teztnets.com/";
 
 export const signWithTezos = async (
   message: string,
@@ -45,8 +47,7 @@ export const useTezosWallet = () => {
   const { data, refetch } = useQuery({
     queryKey: ["tezosWallet"],
     queryFn: async () => {
-      const tezos = new TezosToolkit("https://rpc.ghostnet.teztnets.com");
-      // creates a wallet instance
+      const tezos = new TezosToolkit(RPC_ENDPOINT); // creates a wallet instance
       const wallet = new BeaconWallet({
         name: "SIWx Sample App",
         preferredNetwork: NetworkType.GHOSTNET,
@@ -66,7 +67,7 @@ export const useTezosWallet = () => {
       if (!address) {
         throw new Error("Missing pubKey data to authenticate");
       }
-      return { wallet, address };
+      return { wallet, tezos, address };
     },
     refetchInterval: false,
     refetchOnWindowFocus: false,
@@ -77,6 +78,7 @@ export const useTezosWallet = () => {
   });
   return {
     wallet: data?.wallet,
+    tezos: data?.tezos,
     address: data?.address,
     connectTezos: refetch,
   };

@@ -12,13 +12,10 @@ import {
   type WalletActions,
 } from "viem";
 
-import { ExampleGatedNFTMinterABI } from "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/abis";
+import { ExampleGatedNFTMinterABI } from "@nexeraid/sig-gating-contracts-sdk/abis";
 
-import {
-  EvmChainId,
-  type EIP155Signature,
-} from "@nexeraprotocol/identity-schemas";
-import { IDENTITY_CLIENT } from "../../kyc-widget/IdentityClient";
+import { EvmChainId, type EIP155Signature } from "@nexeraid/identity-schemas";
+import { IDENTITY_CLIENT } from "../../../kyc-widget/IdentityClient";
 import {
   useChainId,
   useAccount,

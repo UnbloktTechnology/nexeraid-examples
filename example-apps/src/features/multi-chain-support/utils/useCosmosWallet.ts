@@ -1,7 +1,7 @@
 import type { Keplr } from "@keplr-wallet/types";
 import { useQuery } from "@tanstack/react-query";
 
-import { CosmosSignature } from "@nexeraprotocol/identity-schemas";
+import { CosmosSignature } from "@nexeraid/identity-schemas";
 
 export const COSMOS_CHAIN_ID = "cosmoshub-4";
 

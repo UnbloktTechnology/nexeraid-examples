@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { CardanoSignature } from "@nexeraprotocol/identity-schemas";
+import { CardanoSignature } from "@nexeraid/identity-schemas";
 
 export const formatCardanoAddress = async (rawByteString: string) => {
   // Convert hexadecimal string to Uint8Array

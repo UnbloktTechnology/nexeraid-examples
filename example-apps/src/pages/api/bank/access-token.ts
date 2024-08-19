@@ -3,7 +3,7 @@ import { appConfig } from "@/appConfig";
 import { env } from "@/env.mjs";
 import { z } from "zod";
 
-import { BlockchainAddress } from "@nexeraprotocol/identity-schemas";
+import { BlockchainAddress } from "@nexeraid/identity-schemas";
 
 const inputSchema = z.object({
   address: BlockchainAddress,

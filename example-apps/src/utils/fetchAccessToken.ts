@@ -1,4 +1,4 @@
-import type { BlockchainNamespace } from "@nexeraprotocol/identity-schemas";
+import type { BlockchainNamespace } from "@nexeraid/identity-schemas";
 
 // Define the input and response types
 interface AccessTokenRequest {
@@ -13,6 +13,7 @@ interface AccessTokenResponse {
 type ExampleType =
   | "bank"
   | "bank-web3"
+  | "bank-kyb"
   | "defi-offchain-zkp"
   | "defi-rule-engine"
   | "kyc"

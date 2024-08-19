@@ -1,7 +1,5 @@
 import Head from "next/head";
 import AppCard, { type AppCardProps } from "../features/root/AppCard";
-import { appConfig } from "../appConfig";
-import { env } from "@/env.mjs";
 import AppLegendTag from "../features/root/AppLegendTag";
 
 const VCV_TAG = {
@@ -80,6 +78,12 @@ const PROJECTS: AppCardProps[] = [
     tags: [VCV_TAG, OFF_TAG, AS_TAG],
   },
   {
+    url: "/bank-kyb",
+    name: "Banking KYB",
+    image: "/images/bank.png",
+    tags: [VCV_TAG, OFF_TAG, AS_TAG],
+  },
+  {
     url: "/bank-web3",
     name: "Web3 Banking",
     image: "/images/bank-web3.png",
@@ -88,6 +92,11 @@ const PROJECTS: AppCardProps[] = [
   {
     url: "/gated-nft",
     name: "Gating with Off-chain Signatures",
+    image: "/images/kyc.webp",
+  },
+  {
+    url: "/gated-nft-tezos",
+    name: "Gating with Off-chain Signatures - Tezos",
     image: "/images/kyc.webp",
   },
   {
@@ -100,12 +109,13 @@ const PROJECTS: AppCardProps[] = [
     name: "Multi Chain Support",
     image: "/images/kyc.webp",
   },
-  {
-    url: appConfig[env.NEXT_PUBLIC_ENVIRONMENT].aaveDemo,
-    name: "Gated Aave",
-    image: "/images/aave.svg",
-    tags: [ZKP_TAG, OCV_TAG, EW_TAG],
-  },
+  // TODO - IS REQUIRED A REBRANDING
+  // {
+  //   url: appConfig[env.NEXT_PUBLIC_ENVIRONMENT].aaveDemo,
+  //   name: "Gated Aave",
+  //   image: "/images/aave.svg",
+  //   tags: [ZKP_TAG, OCV_TAG, EW_TAG],
+  // },
   // TODO - Not activated for now
   // {
   //   url: "/sygnum-web3",

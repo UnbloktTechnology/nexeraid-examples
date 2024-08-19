@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { Button } from "@/features/kyc-airdrop/ui/components/Button";
-import { type Address } from "@nexeraprotocol/identity-schemas";
-import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck"; // Adjust the path as needed
-
+import { type Address } from "@nexeraid/identity-schemas";
+import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
 interface SearchBarProps {
   placeholder?: string;
 }
 
 export const SearchBar = ({ placeholder }: SearchBarProps) => {
   const [walletAddress, setWalletAddress] = useState<string>("");
-  const { handleCheck, handleInvalidInput, isValidAddress } = useWalletCheck();
+  const { redirectToCheckWallet, handleInvalidInput, isValidAddress } =
+    useWalletCheck();
 
   const handlePasteAndCheck = async () => {
     try {
       const text = await navigator.clipboard.readText();
       if (isValidAddress(text)) {
         setWalletAddress(text);
-        handleCheck(text as Address, setWalletAddress);
+        redirectToCheckWallet(text as Address);
       } else {
         handleInvalidInput(setWalletAddress);
       }
@@ -29,7 +29,7 @@ export const SearchBar = ({ placeholder }: SearchBarProps) => {
     setWalletAddress(value);
     if (value.length >= 42) {
       // A valid address is 42 characters long, we don't want to check before that
-      handleCheck(value as Address, setWalletAddress);
+      redirectToCheckWallet(value as Address);
     }
   };
 

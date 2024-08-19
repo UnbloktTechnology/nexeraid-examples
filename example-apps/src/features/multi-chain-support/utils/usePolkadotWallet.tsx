@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   PolkadotAddress,
   PolkadotSignature,
-} from "@nexeraprotocol/identity-schemas";
+} from "@nexeraid/identity-schemas";
 
 export const signWithPolkadot = async (
   message: string,

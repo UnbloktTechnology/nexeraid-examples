@@ -1,7 +1,7 @@
 import type {
   BlockchainAddress,
   BlockchainNamespace,
-} from "@nexeraprotocol/identity-schemas";
+} from "@nexeraid/identity-schemas";
 
 // Define the input and response types
 interface ExecuteEngineRequest {
@@ -17,6 +17,7 @@ interface ExecuteEngineResponse {
 type ExampleType =
   | "bank"
   | "bank-web3"
+  | "bank-kyb"
   | "defi-offchain-zkp"
   | "defi-rule-engine";
 //   | "kyc"

@@ -39,6 +39,11 @@ export const env = createEnv({
 			.describe(
 				"The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank App",
 			),
+		NEXERA_ID_WORKFLOW_ID_BANK: z
+			.string()
+			.describe(
+				"The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank App",
+			),
 		NEXERA_ID_API_KEY_BANK_WEB3: z
 			.string()
 			.describe(
@@ -94,11 +99,13 @@ export const env = createEnv({
 		UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
 		UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
 
+		NEXERA_ID_API_KEY_BANK: process.env.NEXERA_ID_API_KEY_BANK,
+		NEXERA_ID_WORKFLOW_ID_BANK: process.env.NEXERA_ID_WORKFLOW_ID_BANK,
+
 		NEXERA_ID_API_KEY_DEFI_RULE_ENGINE:
 			process.env.NEXERA_ID_API_KEY_DEFI_RULE_ENGINE,
 		NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP:
 			process.env.NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP,
-		NEXERA_ID_API_KEY_BANK: process.env.NEXERA_ID_API_KEY_BANK,
 		NEXERA_ID_API_KEY_BANK_WEB3: process.env.NEXERA_ID_API_KEY_BANK_WEB3,
 		NEXERA_ID_API_KEY_BANK_KYB: process.env.NEXERA_ID_API_KEY_BANK_KYB,
 		NEXERA_ID_API_KEY_KYC: process.env.NEXERA_ID_API_KEY_KYC,

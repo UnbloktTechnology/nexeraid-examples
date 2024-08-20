@@ -23,6 +23,8 @@ Follow these steps to run the example apps locally.
    | `UPSTASH_REDIS_REST_URL`              | The URL of the Upstash Redis REST API          |
    | `NEXERA_ID_API_KEY_BANK`              | NexeraID API key for the banking app           |
    | `NEXERA_ID_WORKFLOW_ID_BANK`          | NexeraID workflow ID for the banking app       |
+   | `NEXERA_ID_API_KEY_BANK_WEB3`         | NexeraID API key for the Web3 banking app      |
+   | `NEXERA_ID_WORKFLOW_ID_BANK_WEB3`     | NexeraID workflow ID for the Web3 banking app  |
    
    | `NEXERA_ID_API_KEY_DEFI_RULE_ENGINE`  | NexeraID API key for the compliant Uniswap app |
    | `NEXERA_ID_API_KEY_AIRDROP`           | NexeraID API key for kyc airdrop app           |

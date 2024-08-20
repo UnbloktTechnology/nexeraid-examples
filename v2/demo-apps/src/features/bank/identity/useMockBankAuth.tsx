@@ -3,9 +3,8 @@ import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import type { TestUser } from "@/appConfig";
-import { createAuthAdapter, createConfig } from "@nexeraid/react-sdk";
 
-export const useBankKycAuthentication = () => {
+export const useMockBankAuth = () => {
 	const authStore = useMockAuthStore((state) => state);
 
 	const logout = useMutation({

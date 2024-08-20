@@ -3,119 +3,92 @@ import { Dashboard } from "@/features/bank-web3/Dashboard";
 
 import { Content, Header, Layout } from "@/features/bank-web3/Layout";
 import { useGlobalModals } from "@/features/bank-web3/Modals/useGlobalModals";
-import { IDENTITY_CLIENT } from "@/features/bank-web3/identity/IdentityClient";
-import { toast } from "react-toastify";
-import { useSignMessage } from "wagmi";
-import { useKycBankWeb3Authentication } from "@/features/bank-web3/identity/useKycBankWeb3Authenticate";
+import { toast, ToastContainer } from "react-toastify";
+import { WagmiProvider } from "wagmi";
 import { useCheckBankWeb3Compliance } from "@/features/bank-web3/identity/useCheckBankWeb3Compliance";
-import { useQueryClient } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { NexeraIdProvider } from "@nexeraid/react-sdk";
+import { nexeraIdConfig } from "@/features/bank-web3/identity/nexeraIdConfig";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { wagmiConfig } from "@/features/bank-web3/identity/wagmiConfig";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+
+const queryClient = new QueryClient();
 
 const Home = () => {
-  const { openModal, close } = useGlobalModals((state) => ({
-    openModal: state.open,
-    close: state.close,
-    data: state.data,
-  }));
-  const {
-    user,
-    accessToken,
-    signingMessage,
-    signature,
-    setIsIdentityClientInit,
-  } = useKycBankWeb3Authentication();
-  const signMessage = useSignMessage();
-  const [isKycComplete, setIsKycComplete] = useState(false);
-  const [isCompliant, setIsCompliant] = useState(false);
-  const { data } = useCheckBankWeb3Compliance(isKycComplete);
-  const queryClient = useQueryClient();
+	return (
+		<WagmiProvider config={wagmiConfig}>
+			<QueryClientProvider client={queryClient}>
+				<RainbowKitProvider>
+					<NexeraIdProvider config={nexeraIdConfig}>
+						<HomeContent />
+						<ReactQueryDevtools initialIsOpen={false} />
+						<ToastContainer />
+					</NexeraIdProvider>
+				</RainbowKitProvider>
+			</QueryClientProvider>
+		</WagmiProvider>
+	);
+};
 
-  useEffect(() => {
-    console.log("EXECUTING isVerified check compliance: ", data);
-    if (!!data) {
-      if (data.isValid) {
-        toast(`Compliance Verification: Your identity has been verified`);
-        setIsKycComplete(false);
-        setIsCompliant(true);
-      } else if (data.data === "unknown") {
-        setIsKycComplete(true);
-      } else {
-        toast(`Compliance Verification: Your identity has not been verified`);
-        setIsKycComplete(false);
-        setIsCompliant(false);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+const HomeContent = () => {
+	const { openModal, close } = useGlobalModals((state) => ({
+		openModal: state.open,
+		close: state.close,
+		data: state.data,
+	}));
+	const [isKycComplete, setIsKycComplete] = useState(false);
+	const [isCompliant, setIsCompliant] = useState(false);
+	const { data } = useCheckBankWeb3Compliance(isKycComplete);
 
-  useEffect(() => {
-    if (isCompliant) {
-      close();
-    }
-  }, [isCompliant]);
+	useEffect(() => {
+		console.log("EXECUTING isVerified check compliance: ", data);
+		if (data) {
+			if (data.isValid) {
+				toast("Compliance Verification: Your identity has been verified");
+				setIsKycComplete(false);
+				setIsCompliant(true);
+			} else if (data.data === "unknown") {
+				setIsKycComplete(true);
+			} else {
+				toast("Compliance Verification: Your identity has not been verified");
+				setIsKycComplete(false);
+				setIsCompliant(false);
+			}
+		}
+	}, [data]);
 
-  useEffect(() => {
-    const initIdentityClient = async () => {
-      setIsIdentityClientInit(false);
-      if (user && accessToken && signingMessage && signature) {
-        console.log(
-          "Ready to init: ",
-          user,
-          accessToken,
-          signingMessage,
-          signature,
-        );
-        IDENTITY_CLIENT.onSignMessage(async (data) => {
-          console.log("on sign personal data");
-          return await signMessage.signMessageAsync({
-            message: data.message,
-          });
-        });
-        IDENTITY_CLIENT.onKycCompletion((data) => {
-          console.log("on kyc completion", data);
-          setIsKycComplete(true);
-        });
-        IDENTITY_CLIENT.onCloseScreen(async () => {
-          setIsKycComplete(true);
-          await queryClient.invalidateQueries();
-          return "ok";
-        });
+	useEffect(() => {
+		if (isCompliant) {
+			close();
+		}
+	}, [isCompliant, close]);
 
-        await IDENTITY_CLIENT.init({
-          accessToken,
-          signingMessage,
-          signature,
-        });
-        setIsIdentityClientInit(true);
-      }
-    };
-    void initIdentityClient();
-  }, [user]);
+	const onClickLogOn = () => {
+		openModal(
+			"LogOnModal",
+			{
+				modalType: "center",
+				overlayType: "dark",
+			},
+			{
+				basicData: {
+					text: "",
+					icon: "help",
+					textButton: "Verify Identity",
+				},
+			},
+		);
+	};
 
-  const onClickLogOn = () => {
-    openModal(
-      "LogOnModal",
-      {
-        modalType: "center",
-        overlayType: "dark",
-      },
-      {
-        basicData: {
-          text: "",
-          icon: "help",
-          textButton: "Verify Identity",
-        },
-      },
-    );
-  };
-
-  return (
-    <Layout
-      header={!isCompliant ? <Header onClickLogOn={onClickLogOn} /> : <></>}
-      className={!isCompliant ? "px-[105px]" : "bg-[#F2F2F2]"}
-    >
-      {!isCompliant ? <Content onClickLogOn={onClickLogOn} /> : <Dashboard />}
-    </Layout>
-  );
+	return (
+		<Layout
+			header={!isCompliant ? <Header onClickLogOn={onClickLogOn} /> : <></>}
+			className={!isCompliant ? "px-[105px]" : "bg-[#F2F2F2]"}
+		>
+			{!isCompliant ? <Content onClickLogOn={onClickLogOn} /> : <Dashboard />}
+		</Layout>
+	);
 };
 
 export default Home;

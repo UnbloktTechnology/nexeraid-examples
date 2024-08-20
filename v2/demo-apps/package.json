@@ -12,9 +12,9 @@
 		"@airgap/beacon-types": "^4.2.1",
 		"@emurgo/cardano-serialization-lib-browser": "^11.5.0",
 		"@keplr-wallet/types": "^0.12.107",
-		"@nexeraid/identity-schemas": "^1.12.6-dev",
 		"@nexeraid/js-sdk": "^2.0.1-dev",
-		"@nexeraid/react-sdk": "^2.0.1-dev",
+		"@nexeraid/react-sdk": "^2.0.3-dev",
+		"@nexeraid/react-sdk-wallet-rainbowkit": "^2.0.1-dev",
 		"@polkadot/api": "^10.13.1",
 		"@polkadot/extension-dapp": "^0.47.1",
 		"@polkadot/extension-inject": "^0.47.1",
@@ -68,5 +68,8 @@
 	"ct3aMetadata": {
 		"initVersion": "7.20.2"
 	},
-	"packageManager": "npm@9.8.1"
+	"packageManager": "npm@9.8.1",
+	"engines": {
+		"node": ">=18"
+	}
 }

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Icon } from "../Components/Icon";
-import { useBankKycAuthentication } from "@/features/bank/identity/useMockBankAuth";
+import { useMockBankAuth } from "@/features/bank/identity/useMockBankAuth";
+
 interface ItemGroup {
 	name: string;
 	icon: string;
@@ -9,7 +10,7 @@ interface ItemGroup {
 
 const UserOptions = () => {
 	const [isOpen, setIsOpen] = useState(false);
-	const { logout, user } = useBankKycAuthentication();
+	const { logout, user } = useMockBankAuth();
 
 	if (!user) return <></>;
 

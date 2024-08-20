@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 import { UsersDropDown } from "../Components/UsersDropDown";
-import { IdentityVerifyButton } from "@/features/bank/identity/IdentityVerifyButton";
 import { TEST_USERS, type TestUser } from "@/appConfig";
 import { toast } from "react-toastify";
 import { Icon } from "../Components/Icon";
 import { Button } from "../Components/Button";
-import { useBankKycAuthentication } from "./useMockBankAuth";
+import { useMockBankAuth } from "./useMockBankAuth";
+import { IdentityVerifyButton } from "./IdentityVerifyButton";
 
 export const LogOnModal = () => {
 	const [showMsg, setShowMsg] = useState(true);
@@ -14,7 +14,7 @@ export const LogOnModal = () => {
 		"To open an account you will need to verify your identity first",
 	);
 	const [userSelected, setUserSelected] = useState<TestUser>();
-	const { authenticate, user, isAuthenticated } = useBankKycAuthentication();
+	const { authenticate, user, isAuthenticated } = useMockBankAuth();
 
 	const handleUserSelected = (user: TestUser) => {
 		setUserSelected(user);

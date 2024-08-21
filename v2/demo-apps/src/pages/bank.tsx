@@ -37,20 +37,20 @@ const HomeContent = () => {
 
 	useEffect(() => {
 		console.log("EXECUTING isVerified check compliance: ", data);
-		if (data !== undefined) {
-			if (data.isValid) {
-				toast("Compliance Verification: Your identity has been verified");
-				setKycCompletion(false);
-				setIsCompliance(true);
-			} else if (data.data === "unknown") {
-				setKycCompletion(true);
-			} else {
-				toast("Compliance Verification: Your identity has not been verified");
-				setKycCompletion(false);
-				setIsCompliance(false);
-			}
+		if (data === undefined) {
+			return;
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		if (data.isValid) {
+			toast("Compliance Verification: Your identity has been verified");
+			setKycCompletion(false);
+			setIsCompliance(true);
+		} else if (data.data === "unknown") {
+			setKycCompletion(true);
+		} else {
+			toast("Compliance Verification: Your identity has not been verified");
+			setKycCompletion(false);
+			setIsCompliance(false);
+		}
 	}, [data]);
 
 	useEffect(() => {

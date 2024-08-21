@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Dashboard } from "@/features/bank-web3/Dashboard";
-
 import { Content, Header, Layout } from "@/features/bank-web3/Layout";
 import { useGlobalModals } from "@/features/bank-web3/Modals/useGlobalModals";
 import { toast, ToastContainer } from "react-toastify";
@@ -10,8 +9,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NexeraIdProvider } from "@nexeraid/react-sdk";
 import { nexeraIdConfig } from "@/features/bank-web3/identity/nexeraIdConfig";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { wagmiConfig } from "@/features/bank-web3/identity/wagmiConfig";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { wagmiConfig } from "@/features/root/identity/wagmiConfig";
 
 const queryClient = new QueryClient();
 

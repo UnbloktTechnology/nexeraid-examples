@@ -15,23 +15,24 @@ Follow these steps to run the example apps locally.
 
 2. Edit `example-apps/.env` as described in the following table.
 
-   | Variable                              | Description                                    |
-   |---------------------------------------|------------------------------------------------|
-   | `NODE_ENV`                            | Set to `production`                            |
-   | `NEXT_PUBLIC_ENVIRONMENT`             | Set to `prod`                                  |
-   | `UPSTASH_REDIS_REST_TOKEN`            | The token for the Upstash Redis REST API       |
-   | `UPSTASH_REDIS_REST_URL`              | The URL of the Upstash Redis REST API          |
-   | `NEXERA_ID_API_KEY_BANK`              | NexeraID API key for the banking app           |
-   | `NEXERA_ID_WORKFLOW_ID_BANK`          | NexeraID workflow ID for the banking app       |
-   | `NEXERA_ID_API_KEY_BANK_WEB3`         | NexeraID API key for the Web3 banking app      |
-   | `NEXERA_ID_WORKFLOW_ID_BANK_WEB3`     | NexeraID workflow ID for the Web3 banking app  |
-   
-   | `NEXERA_ID_API_KEY_DEFI_RULE_ENGINE`  | NexeraID API key for the compliant Uniswap app |
-   | `NEXERA_ID_API_KEY_AIRDROP`           | NexeraID API key for kyc airdrop app           |
-   | `NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP` | NexeraID API key for the gated Uniswap app     |
-   | `NEXERA_ID_API_KEY_BANK_WEB3`         | NexeraID key for the Web3 banking app          |
-   | `NEXERA_ID_API_KEY_KYC`               | NexeraID API key for the KYC app               |
-   | `NEXERA_ID_API_KEY_BANK_SYGNUM_WEB3`  | NexeraID API key for the Sygnum Web3 app       |
+   | Variable                                 | Description                                    |
+   |------------------------------------------|------------------------------------------------|
+   | `NODE_ENV`                               | Set to `production`                            |
+   | `NEXT_PUBLIC_ENVIRONMENT`                | Set to `prod`                                  |
+   | `UPSTASH_REDIS_REST_TOKEN`               | The token for the Upstash Redis REST API       |
+   | `UPSTASH_REDIS_REST_URL`                 | The URL of the Upstash Redis REST API          |
+   | `NEXERA_ID_API_KEY_BANK`                 | NexeraID API key for the banking app           |
+   | `NEXERA_ID_WORKFLOW_ID_BANK`             | NexeraID workflow ID for the banking app       |
+   | `NEXERA_ID_API_KEY_BANK_WEB3`            | NexeraID API key for the Web3 banking app      |
+   | `NEXERA_ID_WORKFLOW_ID_BANK_WEB3`        | NexeraID workflow ID for the Web3 banking app  |
+   | `NEXERA_ID_API_KEY_DEFI_RULE_ENGINE`     | NexeraID API key for the compliant Uniswap app |
+   | `NEXERA_ID_WORKFLOW_ID_DEFI_RULE_ENGINE` | NexeraID workflow ID for the compliant Uniswap app |
+
+   | `NEXERA_ID_API_KEY_AIRDROP`              | NexeraID API key for kyc airdrop app           |
+   | `NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP`    | NexeraID API key for the gated Uniswap app     |
+   | `NEXERA_ID_API_KEY_BANK_WEB3`            | NexeraID key for the Web3 banking app          |
+   | `NEXERA_ID_API_KEY_KYC`                  | NexeraID API key for the KYC app               |
+   | `NEXERA_ID_API_KEY_BANK_SYGNUM_WEB3`     | NexeraID API key for the Sygnum Web3 app       |
 
    You can get the NexeraID API keys for your apps by following the instructions on [Deploying the NexeraID Identity Widget](../using/setup/application.md#deploying-the-nexeraid-identity-widget). You need to set each of the `API_KEY` variables, even if you only want to use one of the example apps. If necessary, you can set them all to the same value.
 

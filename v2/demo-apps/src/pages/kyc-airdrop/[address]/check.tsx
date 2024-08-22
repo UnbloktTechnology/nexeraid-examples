@@ -8,7 +8,6 @@ import { AirdropLayout } from "@/features/kyc-airdrop/ui/AirdropLayout";
 import { Button } from "@/features/kyc-airdrop/ui/components/Button";
 import { useCallback, useEffect, useState } from "react";
 import { type Address } from "@nexeraid/identity-schemas";
-import { useGetCustomerStatusByProjectIdAndWallet } from "@/features/kyc-airdrop/hooks/useGetCustomerStatusByProjectIdAndWallet";
 import { ConnectButtonCustom } from "@/features/kyc-airdrop/ui/components/ConnectButtonCustom";
 import { RedirectToHomeButton } from "@/features/kyc-airdrop/ui/components/RedirectToHomeButton";
 
@@ -22,20 +21,14 @@ const AirdropPageWrapper = () => {
   const [balanceChecked, setBalanceChecked] = useState(false);
 
   const {
-    auth,
     balance,
     checkWalletState,
     claimWallet,
-    configIdentityClient,
     generateSubtitleFromWalletState,
     generateTitleFromWalletState,
-    isAuthenticating,
     isBalancePending,
     isClaiming,
     isConnected,
-    isIdentityClientInit,
-    isVerifyingIdentity,
-    startVerification,
     walletClient,
     isQualified,
     allowance,

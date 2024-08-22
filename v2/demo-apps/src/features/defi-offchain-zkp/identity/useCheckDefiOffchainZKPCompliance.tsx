@@ -1,23 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
-import { useDefiOffchainZKPKycAuthentication } from "./useDefiOffChainZKPKycAuthenticate";
 import { executeEngine } from "@/utils/executeEngine";
+import { useAccount } from "wagmi";
 
 export const useCheckCompliance = (enabled: boolean) => {
-  const { user } = useDefiOffchainZKPKycAuthentication();
+  const account = useAccount();
 
   return useQuery({
     queryKey: ["checkDefiOffChainZKPCompliance", enabled],
     queryFn: async () => {
-      if (!user)
+      if (!account.address)
         return Promise.resolve({
           data: "unknown",
           isValid: false,
         });
-      console.log("isCompliant", user);
 
       const result = await executeEngine(
         {
-          address: user,
+          address: account.address,
           blockchainNamespace: "eip155",
         },
         "defi-offchain-zkp",

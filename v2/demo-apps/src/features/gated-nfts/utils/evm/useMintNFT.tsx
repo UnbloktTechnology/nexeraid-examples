@@ -11,11 +11,8 @@ import {
   type Transport,
   type WalletActions,
 } from "viem";
-
 import { ExampleGatedNFTMinterABI } from "@nexeraid/sig-gating-contracts-sdk/abis";
-
 import { EvmChainId, type EIP155Signature } from "@nexeraid/identity-schemas";
-import { IDENTITY_CLIENT } from "../../../kyc-widget/IdentityClient";
 import {
   useChainId,
   useAccount,
@@ -23,6 +20,7 @@ import {
   useSendTransaction,
 } from "wagmi";
 import { getGatedContractAddress } from "./getContractAddress";
+import { useSignTransactionData } from "@nexeraid/react-sdk";
 
 const WRONG_SIGNATURE: EIP155Signature =
   "0xc6fd40ac16944fd0fef20071149270a2c283c8ae92ffcbb5e61f44348490dc3b65e786637aaa82f46ac3c01941a9875046a2ceb9bad189362014b35f6e74df231b";
@@ -38,43 +36,45 @@ export const useMintGatedNFTFromSDK = () => {
   const chainId = useChainId();
   const account = useAccount();
   const blockNumber = useBlockNumber();
-
+  const signTransactionData = useSignTransactionData();
   const mintNFTGatedFromSDK = useSendTransaction();
 
   return useMutation({
     mutationFn: async () => {
-      if (!IDENTITY_CLIENT.init) {
-        console.log("IDENTITY_CLIENT is not initizalied");
-        return { signatureResponse: { isAuthorized: false } };
-      }
       try {
         if (!account.address) {
           throw new Error("No account in wallet Client - address");
         }
 
-        const txAuthInput = {
+        const signatureResponse = await signTransactionData({
+          namespace: "eip155",
+          userAddress: account.address,
           contractAbi: Array.from(ExampleGatedNFTMinterABI),
           contractAddress: getGatedContractAddress(EvmChainId.parse(chainId)),
           functionName: "mintNFTGated",
           args: [account.address],
           chainId: EvmChainId.parse(chainId),
-        };
+        });
 
-        const signatureResponse =
-          await IDENTITY_CLIENT.getTxAuthSignature(txAuthInput);
-
-        // If user is not authorized, use wrong signature and dummy blockExpiratioin
-        const blockExpiration =
-          signatureResponse.blockExpiration ??
-          (blockNumber.data ? Number(blockNumber.data) + 10 : 0);
-
-        const payload =
-          signatureResponse.payload ??
-          pad(
-            // number to hex string number
-            toHex(blockExpiration),
-            { size: 32 },
-          ).slice(2) + WRONG_SIGNATURE.slice(2);
+        if (!signatureResponse.isAuthorized) {
+          // If user is not authorized, use wrong signature and dummy blockExpiration
+          const blockExpiration = blockNumber.data
+            ? Number(blockNumber.data) + 10
+            : 0;
+          return {
+            signatureResponse: {
+              isAuthorized: true,
+              signature: WRONG_SIGNATURE,
+              blockExpiration,
+              payload:
+                pad(
+                  // number to hex string number
+                  toHex(blockExpiration),
+                  { size: 32 },
+                ).slice(2) + WRONG_SIGNATURE.slice(2),
+            },
+          };
+        }
 
         // Create function call data
         const unsignedTx = encodeFunctionData({
@@ -84,7 +84,8 @@ export const useMintGatedNFTFromSDK = () => {
         });
 
         // Complete data with payload from UI (require blockExpiration+ signature)
-        const txData = (unsignedTx + payload) as `0x${string}`;
+        const txData = (unsignedTx +
+          signatureResponse.payload) as `0x${string}`;
 
         // Mint Gated Nft with signature
         const result = await mintNFTGatedFromSDK.sendTransactionAsync({
@@ -94,11 +95,7 @@ export const useMintGatedNFTFromSDK = () => {
 
         return {
           txHash: result,
-          signatureResponse: {
-            isAuthorized: signatureResponse.isAuthorized,
-            payload,
-            blockExpiration,
-          },
+          signatureResponse,
         };
       } catch (e) {
         console.log("error during getTxAuthDataSignature", e);

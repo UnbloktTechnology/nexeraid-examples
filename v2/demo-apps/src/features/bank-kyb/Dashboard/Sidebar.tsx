@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Icon } from "../Components/Icon";
-import { useBankKYBAuthentication } from "@/features/bank-kyb/identity/useBankKYBAuthenticate";
+import { useMockBankKybAuth } from "../identity/useMockBankKybAuth";
+
 interface ItemGroup {
   name: string;
   icon: string;
@@ -9,7 +10,7 @@ interface ItemGroup {
 
 const UserOptions = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { logout, user } = useBankKYBAuthentication();
+  const { logout, user } = useMockBankKybAuth();
 
   if (!user) return <></>;
 

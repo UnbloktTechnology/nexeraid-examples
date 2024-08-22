@@ -1,24 +1,14 @@
-import { useAccount, useSignMessage } from "wagmi";
+import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { IdentityFlow } from "./IdentityFlow";
 
-export const KYCClientEIP155 = (props: { setDID: (did: string) => void }) => {
-  const signMessage = useSignMessage();
+export const KYCClientEIP155 = () => {
   const { address } = useAccount();
 
   return (
     <>
       <ConnectButton label="Connect the wallet" />
-      {address && (
-        <IdentityFlow
-          setDID={props.setDID}
-          signMessageAsync={async (message: string) => {
-            return await signMessage.signMessageAsync({ message });
-          }}
-          address={address}
-          blockchainNamespace={"eip155"}
-        />
-      )}
+      {address && <IdentityFlow />}
     </>
   );
 };

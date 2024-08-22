@@ -55,7 +55,7 @@ export const LogOnModal = () => {
 
       {account.address && !isAuthenticated && (
         <Button
-          className={`ml-auto text-base font-bold text-white bg-red-sygnum`}
+          className={`ml-auto bg-red-sygnum text-base font-bold text-white`}
           onClick={() => {
             if (!account.address) {
               toast("Please connect your wallet first");

@@ -6,8 +6,9 @@ import { RpcClient } from "@taquito/rpc";
 
 import { TezosChainId } from "@nexeraid/identity-schemas";
 
-import { IDENTITY_CLIENT } from "../../../kyc-widget/IdentityClient";
 import { useTezosWallet } from "@/features/multi-chain-support/utils/useTezosWallet";
+import { useSignTransactionData } from "@nexeraid/react-sdk";
+import { type TezosImplicitAddress } from "@nexeraid/identity-schemas";
 
 export const NEXERAID_SIGNER_PK =
   "edpkurPsQ8eUApnLUJ9ZPDvu98E8VNj4KtJa1aZr16Cr5ow5VHKnz4";
@@ -18,7 +19,7 @@ const client = new RpcClient(RPC_ENDPOINT);
 
 export function convertMint(owner_str: string, token_id: string) {
   const data = `(Pair "${owner_str}" ${token_id})`;
-  const type = `(pair address nat)`;
+  const type = "(pair address nat)";
   const p = new Parser();
   const dataJSON = p.parseMichelineExpression(data);
   const typeJSON = p.parseMichelineExpression(type);
@@ -31,10 +32,14 @@ export function convertMint(owner_str: string, token_id: string) {
 
 export const useMintGatedNFTTezos = () => {
   const { wallet, tezos } = useTezosWallet();
+  const signTransactionData = useSignTransactionData();
+
   return useMutation({
     mutationFn: async () => {
       const activeAccount = await wallet?.client.getActiveAccount();
-      const userAddress = activeAccount?.address;
+      const userAddress = activeAccount?.address as
+        | TezosImplicitAddress
+        | undefined;
       const currentChainId = await client.getChainId();
       if (!tezos) {
         throw new Error("No tezos instantiated");
@@ -42,10 +47,7 @@ export const useMintGatedNFTTezos = () => {
       const claimerContract = await tezos.wallet.at(
         NFTClaimerAddressForTezosGhostnet,
       );
-      if (!IDENTITY_CLIENT.init) {
-        console.log("IDENTITY_CLIENT is not initizalied");
-        return { signatureResponse: { isAuthorized: false } };
-      }
+
       if (!activeAccount) {
         throw new Error("No account in wallet Client - address");
       }
@@ -77,14 +79,18 @@ export const useMintGatedNFTTezos = () => {
           functionCallArgs.token_id,
         );
         const functionName = "%mint_gated";
-        const signatureResponse = await IDENTITY_CLIENT.getTxAuthSignatureTezos(
-          {
-            contractAddress: NFTClaimerAddressForTezosGhostnet,
-            functionName,
-            args: functionCallArgsBytes,
-            chainID: TezosChainId.parse(currentChainId),
-          },
-        );
+        const signatureResponse = await signTransactionData({
+          namespace: "tezos",
+          userAddress,
+          contractAddress: NFTClaimerAddressForTezosGhostnet,
+          functionName,
+          args: functionCallArgsBytes,
+          chainID: TezosChainId.parse(currentChainId),
+        });
+
+        if (!signatureResponse.isAuthorized) {
+          throw new Error("User is not authorized");
+        }
 
         const mintArgs = {
           userAddress,
@@ -104,10 +110,7 @@ export const useMintGatedNFTTezos = () => {
 
         return {
           txHash: op.opHash,
-          signatureResponse: {
-            isAuthorized: signatureResponse.isAuthorized,
-            blockExpiration: signatureResponse.blockExpiration,
-          },
+          signatureResponse: signatureResponse,
         };
       } catch (e) {
         console.error("error during getTxAuthDataSignature", e);

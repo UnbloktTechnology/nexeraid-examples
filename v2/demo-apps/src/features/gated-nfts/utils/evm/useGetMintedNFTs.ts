@@ -43,9 +43,10 @@ export const useGetGatedMintedNFTs = () => {
   });
   const numberOfNFTs = lastTokenId ? Number(lastTokenId) : 0;
 
-  // With wagmi v2, this is how we update contract reads
+  // biome-ignore lint/correctness/useExhaustiveDependencies: With wagmi v2, this is how we update contract reads
   useEffect(() => {
     void queryClient.invalidateQueries({ queryKey });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockNumber, queryClient, queryKey]);
 
   // for each tokenId, fetch owner
@@ -127,9 +128,10 @@ export const useGetNonGatedMintedNFTs = () => {
   });
   const numberOfNFTs = lastTokenId ? Number(lastTokenId) : 0;
 
-  // With wagmi v2, this is how we update contract reads
+  // biome-ignore lint/correctness/useExhaustiveDependencies: With wagmi v2, this is how we update contract reads
   useEffect(() => {
     void queryClient.invalidateQueries({ queryKey });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockNumber, queryClient, queryKey]);
 
   // for each tokenId, fetch owner

@@ -1,13 +1,10 @@
 import { IdentityFlow } from "../../../kyc-widget/IdentityFlow";
 import ConnectPolkadot from "./ConnectPolkadot";
-import {
-  signWithPolkadot,
-  usePolkadotWallet,
-} from "../../utils/usePolkadotWallet";
+import { usePolkadotWallet } from "../../utils/usePolkadotWallet";
 
 const AGUNG_WS_URL = "wss://wsspc1-qa.agung.peaq.network";
 
-export const KYCClientAgung = (props: { setDID: (did: string) => void }) => {
+export const KYCClientAgung = () => {
   const { wallet } = usePolkadotWallet(AGUNG_WS_URL);
   return (
     <>
@@ -18,20 +15,7 @@ export const KYCClientAgung = (props: { setDID: (did: string) => void }) => {
       </div>
       <div className="min-w-prose mt-24 flex flex-col items-center justify-center pt-2">
         <ConnectPolkadot wsUrl={AGUNG_WS_URL} />
-        {wallet && (
-          <IdentityFlow
-            setDID={props.setDID}
-            signMessageAsync={async (message: string) => {
-              return await signWithPolkadot(
-                message,
-                wallet.address,
-                wallet.injector,
-              );
-            }}
-            address={wallet.address}
-            blockchainNamespace={"polkadot"}
-          />
-        )}
+        {wallet && <IdentityFlow />}
       </div>
     </>
   );

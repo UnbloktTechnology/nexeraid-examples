@@ -24,9 +24,7 @@ export const Banner = () => {
             New customers only. Further eligibility and T&Cs apply. Deposit
             £1,500 within 60 days of account opening.
           </p>
-          <Button>
-            Find out more
-          </Button>
+          <Button>Find out more</Button>
         </div>
       </div>
 

@@ -1,26 +1,44 @@
 import { Swap } from "@/features/defi-offchain-zkp/Components/Swap";
+import { nexeraIdConfig } from "@/features/defi-offchain-zkp/identity/nexeraIdConfig";
 import { useCheckCompliance } from "@/features/defi-offchain-zkp/identity/useCheckDefiOffchainZKPCompliance";
 import { Header } from "@/features/defi-offchain-zkp/Layout/Header";
 import { Layout } from "@/features/defi-offchain-zkp/Layout/Layout";
 import { useGlobalModals } from "@/features/defi-offchain-zkp/Modals/Hooks/useGlobalModals";
+import { wagmiConfig } from "@/features/root/identity/wagmiConfig";
+import { NexeraIdProvider } from "@nexeraid/react-sdk";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useEffect, useState } from "react";
-import { useAccount, useSignMessage } from "wagmi";
-import { IDENTITY_CLIENT } from "@/features/defi-offchain-zkp/identity/IdentityClient";
-import { toast } from "react-toastify";
-import { useDefiOffchainZKPKycAuthentication } from "@/features/defi-offchain-zkp/identity/useDefiOffChainZKPKycAuthenticate";
+import { toast, ToastContainer } from "react-toastify";
+import { WagmiProvider } from "wagmi";
+
+const queryClient = new QueryClient();
 
 const Home = () => {
+  return (
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider>
+          <NexeraIdProvider config={nexeraIdConfig}>
+            <HomeContent />
+            <ReactQueryDevtools initialIsOpen={false} />
+            <ToastContainer />
+          </NexeraIdProvider>
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+};
+
+const HomeContent = () => {
   const { close } = useGlobalModals((state) => ({
     openModal: state.open,
     close: state.close,
   }));
-  const address = useAccount();
-  const { accessToken, signingMessage, signature, setIsIdentityClientInit } =
-    useDefiOffchainZKPKycAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
   const { data } = useCheckCompliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
-  const signMessage = useSignMessage();
   const [started, setStarted] = useState(false);
 
   useEffect(() => {
@@ -46,38 +64,6 @@ const Home = () => {
       close();
     }
   }, [isCompliance]);
-
-  useEffect(() => {
-    // make a autocallable async function
-    const initIdentityClient = async () => {
-      setIsIdentityClientInit(false);
-      if (address.address && accessToken && signingMessage && signature) {
-        IDENTITY_CLIENT.onSignMessage(async (data) => {
-          console.log("on sign personal data");
-          return await signMessage.signMessageAsync({
-            message: data.message,
-          });
-        });
-        IDENTITY_CLIENT.onKycCompletion((data) => {
-          console.log("on kyc completion", data);
-          setKycCompletion(true);
-        });
-        IDENTITY_CLIENT.onCloseScreen(async () => {
-          return new Promise((resolve) => {
-            setKycCompletion(true);
-            resolve("");
-          });
-        });
-        await IDENTITY_CLIENT.init({
-          accessToken,
-          signingMessage,
-          signature,
-        });
-        setIsIdentityClientInit(true);
-      }
-    };
-    void initIdentityClient();
-  }, [address.address, accessToken, signingMessage, signature]);
 
   return (
     <Layout header={<Header />} bg={"defi"}>

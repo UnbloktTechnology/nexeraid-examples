@@ -11,7 +11,6 @@ import {
 } from "viem";
 
 import { EvmChainId } from "@nexeraid/identity-schemas";
-import { IDENTITY_CLIENT } from "../../kyc-widget/IdentityClient";
 import { useChainId, useAccount, useSendTransaction } from "wagmi";
 import { getDistributorContractAddress } from "./getContractAddress";
 import { distributorABI } from "./abis/distributorABI";
@@ -19,6 +18,7 @@ import { getUserAllowance, getUserIndex } from "./getUserAllowance";
 import userAllowances from "./merkle-tree/complex_example.json";
 import { BigNumber } from "ethers";
 import BalanceTree from "./merkle-tree/BalanceTree";
+import { useSignTransactionData } from "@nexeraid/react-sdk";
 
 const tree = new BalanceTree(
   Object.entries(userAllowances).map((ent) => {
@@ -40,13 +40,10 @@ export const useClaimToken = () => {
   const chainId = useChainId();
   const account = useAccount();
   const sendTx = useSendTransaction();
+  const signTransactionData = useSignTransactionData();
 
   return useMutation({
     mutationFn: async () => {
-      if (!IDENTITY_CLIENT.init) {
-        console.log("IDENTITY_CLIENT is not initizalied");
-        return { signatureResponse: { isAuthorized: false } };
-      }
       try {
         if (!account.address) {
           throw new Error("No account in wallet Client - address");
@@ -60,7 +57,9 @@ export const useClaimToken = () => {
           account.address,
           BigNumber.from(amount),
         );
-        const txAuthInput = {
+        const signatureResponse = await signTransactionData({
+          namespace: "eip155",
+          userAddress: account.address,
           contractAbi: Array.from(distributorABI),
           contractAddress: getDistributorContractAddress(
             EvmChainId.parse(chainId),
@@ -68,19 +67,13 @@ export const useClaimToken = () => {
           functionName: "claim",
           args: [index, account.address, amount, proof],
           chainId: EvmChainId.parse(chainId),
-        };
-        const signatureResponse =
-          await IDENTITY_CLIENT.getTxAuthSignature(txAuthInput);
+        });
 
         // If user is not authorized return empty
         if (!signatureResponse.isAuthorized) {
           return {
             txHash: "0x",
-            signatureResponse: {
-              isAuthorized: signatureResponse.isAuthorized,
-              payload: "0x",
-              blockExpiration: 0,
-            },
+            signatureResponse,
           };
         }
 

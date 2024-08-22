@@ -8,12 +8,12 @@ export const formatCardanoAddress = async (rawByteString: string) => {
     rawByteString.match(/.{1,2}/g)!.map((byte) => parseInt(byte, 16)),
   );
   const { Address } = await import("@emurgo/cardano-serialization-lib-browser");
-
   // Create Address object
   const address = Address.from_bytes(bytes);
 
   // Convert Address to Bech32 string
   const bech32Address = address.to_bech32();
+  console.log("Bech32 Address:", bech32Address);
   return bech32Address;
 };
 
@@ -44,9 +44,14 @@ export interface WalletApi {
   ) => Promise<{ signature: string; key: string }>;
   submitTx: (tx: string) => Promise<string>;
   getCollateral: () => Promise<string[]>;
+  //   experimental: {
+  //     getCollateral: () => Promise<string[]>;
+  //     on: (eventName: string, callback: Function) => void;
+  //     off: (eventName: string, callback: Function) => void;
+  //   };
 }
 
-export const signWithCardano = async (
+export const signWithCardanoAndGetKey = async (
   message: string,
   wallet: WalletApi | undefined,
 ) => {
@@ -56,13 +61,26 @@ export const signWithCardano = async (
   const usedAddresses = await wallet.getUsedAddresses();
 
   const userAddress = usedAddresses[0];
-  if (!userAddress) {
+  const formatedAddress =
+    userAddress && (await formatCardanoAddress(userAddress));
+
+  if (!formatedAddress) {
     throw new Error("No user connected in wallet");
   }
   const hexMessage = Buffer.from(message).toString("hex");
-  // Note: this only works with this raw address and not the formatted version
-  const { signature } = await wallet.signData(userAddress, hexMessage);
-  return CardanoSignature.parse(signature);
+  const { signature, key } = await wallet.signData(userAddress, hexMessage);
+  return { signature: CardanoSignature.parse(signature), signerPublicKey: key };
+};
+
+/**
+ * @deprecated: use signWithCardanoAndGetKey instead
+ */
+export const signWithCardano = async (
+  message: string,
+  wallet: WalletApi | undefined,
+) => {
+  const { signature } = await signWithCardanoAndGetKey(message, wallet);
+  return signature;
 };
 
 const isBrowser = () => typeof window !== "undefined";
@@ -72,22 +90,23 @@ export const getCardano = (): Cardano | undefined => {
   return cardano;
 };
 
+export const getWallet = async () => {
+  const cardano = getCardano()!;
+  const api = await cardano.nami!.enable();
+
+  const usedAddresses = await api.getUsedAddresses();
+
+  const userAddress = usedAddresses[0];
+  const formatedAddress =
+    userAddress && (await formatCardanoAddress(userAddress));
+  console.log("signature: userAddress", userAddress);
+  return { wallet: api, userAddress: formatedAddress };
+};
+
 export const useCardanoWallet = () => {
   const { data, refetch } = useQuery({
     queryKey: ["cardanoWallet"],
-    queryFn: async () => {
-      const cardano = getCardano()!;
-      const api = await cardano.nami!.enable();
-      const usedAddresses = await api.getUsedAddresses();
-      const userAddress = usedAddresses[0];
-      const formattedAddress =
-        userAddress && (await formatCardanoAddress(userAddress));
-
-      if (!formattedAddress) {
-        throw new Error("No user connected in wallet");
-      }
-      return { wallet: api, address: formattedAddress };
-    },
+    queryFn: getWallet,
     refetchInterval: false,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -97,7 +116,7 @@ export const useCardanoWallet = () => {
   });
   return {
     wallet: data?.wallet,
-    address: data?.address,
+    address: data?.userAddress,
     connectCardano: refetch,
   };
 };

@@ -1,9 +1,9 @@
 import { IdentityFlow } from "../../../kyc-widget/IdentityFlow";
 import ConnectAptos from "./ConnectAptos";
-import { signWithAptos, useAptosWallet } from "../../utils/useAptosWallet";
+import { useAptosWallet } from "../../utils/useAptosWallet";
 
-export const KYCClientAptos = (props: { setDID: (did: string) => void }) => {
-  const { wallet, address } = useAptosWallet();
+export const KYCClientAptos = () => {
+  const { wallet } = useAptosWallet();
   return (
     <>
       <div className="pt-10 text-center">
@@ -13,16 +13,7 @@ export const KYCClientAptos = (props: { setDID: (did: string) => void }) => {
       </div>
       <div className="min-w-prose mt-24 flex flex-col items-center justify-center pt-2">
         <ConnectAptos />
-        {wallet && (
-          <IdentityFlow
-            setDID={props.setDID}
-            signMessageAsync={async (message: string) => {
-              return await signWithAptos(message, wallet);
-            }}
-            address={address}
-            blockchainNamespace={"aptos"}
-          />
-        )}
+        {wallet && <IdentityFlow />}
       </div>
     </>
   );

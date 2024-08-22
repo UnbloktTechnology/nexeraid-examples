@@ -7,16 +7,16 @@ import { Card } from "./Card";
 
 export const Dashboard = () => {
   return (
-    <div className="flex space-x-5 p-10 max-h-screen overflow-y-auto">
+    <div className="flex max-h-screen space-x-5 overflow-y-auto p-10">
       <Sidebar />
 
-      <div className="flex flex-col gap-5 w-full h-full">
-        <Header/>
+      <div className="flex h-full w-full flex-col gap-5">
+        <Header />
 
         <div className="flex space-x-5">
           <Transactions />
 
-          <div className="flex flex-col gap-5 w-1/4 h-full">
+          <div className="flex h-full w-1/4 flex-col gap-5">
             <Transfer />
 
             <Card />
@@ -24,5 +24,5 @@ export const Dashboard = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

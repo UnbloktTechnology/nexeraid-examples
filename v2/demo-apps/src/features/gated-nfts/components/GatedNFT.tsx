@@ -32,8 +32,7 @@ const buttonStyle = {
   border: "none",
 };
 
-export const GatedNFT = (props: { did: string | undefined }) => {
-  const { did } = props;
+export const GatedNFT = () => {
   const { data: walletClient } = useWalletClient();
   const account = useAccount();
   const chainId = useChainId();
@@ -59,14 +58,16 @@ export const GatedNFT = (props: { did: string | undefined }) => {
   });
   return (
     <>
-      <div>DID:{did}</div>
-      {!did && <div>Waiting for Polygon Wallet instantiation...</div>}
-      {did && (
+      {!account.address && (
+        <div>Waiting for Polygon Wallet instantiation...</div>
+      )}
+      {account.address && (
         <>
           <div className="m-4 w-full border border-black p-4">
             <h1 className={"text-3xl font-bold"}>Gated NFTs</h1>
             <br />
             <button
+              type="button"
               style={buttonStyle}
               id="mint-sdk-btn"
               disabled={!walletClient}
@@ -75,7 +76,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
                   tryMintingGatedNFTFromSDK
                     .mutateAsync()
                     .then((_sdkResponse) => {
-                      setSdkResponse(_sdkResponse);
+                      setSdkResponse(_sdkResponse as MintResponse);
                     })
                     .catch((e) => {
                       console.log("error while fetching signature", e);
@@ -112,6 +113,7 @@ export const GatedNFT = (props: { did: string | undefined }) => {
             </h1>
             <br />
             <button
+              type="button"
               style={buttonStyle}
               id="mint-non-gated-btn"
               disabled={!walletClient}

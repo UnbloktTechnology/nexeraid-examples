@@ -1,56 +1,36 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { appConfig } from "@/appConfig";
 import { env } from "@/env.mjs";
-import { z } from "zod";
+import { createApiClient } from "@nexeraid/js-sdk";
 
-import {
-  BlockchainAddress,
-  BlockchainNamespace,
-} from "@nexeraid/identity-schemas";
+import "@/features/root/configureNodeDemoEnv";
 
-const inputSchema = z.object({
-  address: BlockchainAddress,
-  blockchainNamespace: BlockchainNamespace,
+const apiClient = createApiClient({
+  apiKey: env.NEXERA_ID_API_KEY_BANK_KYB,
 });
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  if (req.method === "POST") {
-    try {
-      // Validate input
-      const input = inputSchema.parse(req.body);
-
-      const apiHost = appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api;
-      console.log("apiHost", apiHost);
-
-      const response = await fetch(`${apiHost}kyc/auth/access-token`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${env.NEXERA_ID_API_KEY_BANK_KYB}`,
-        },
-        body: JSON.stringify({
-          address: input.address,
-          blockchainNamespace: input.blockchainNamespace,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = (await response.json()) as { accessToken: string };
-      console.log("response", data.accessToken);
-
-      res.status(200).json({ accessToken: data.accessToken });
-    } catch (error) {
-      console.error("API call error:", error);
-      res.status(500).json({ error: "Failed to fetch access token" });
-    }
-  } else {
+  if (req.method !== "POST") {
     res.setHeader("Allow", ["POST"]);
     res.status(405).end(`Method ${req.method} Not Allowed`);
+    return;
+  }
+
+  try {
+    // Get the current user ID
+    // NOTE: This is a simplified example. In a real-world application, you should use a more secure method to get the user ID.
+    const userId = req.body.userId;
+
+    const authSession = await apiClient.createSession({
+      externalUserId: userId,
+      workflowId: env.NEXERA_ID_WORKFLOW_ID_BANK_KYB,
+    });
+
+    res.status(200).json(authSession);
+  } catch (error) {
+    console.error("API call error:", error);
+    res.status(500).json({ error: "Failed to fetch access token" });
   }
 }

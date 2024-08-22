@@ -38,27 +38,28 @@ export const signWithStarknet = async (
   if (!signature[0] || !signature[1]) {
     throw new Error("returned starknet signature is wrong format");
   }
-  // It has to be formatted to a single string for the purpose of polygon id derivation
-  const formattedSignature =
+  // It has to be formated to a single string for the purpose of polygon id derivation
+  const formatedSignature =
     "0x" +
     BigInt(signature[0]).toString(16) +
     BigInt(signature[1]).toString(16);
 
-  return StarknetSignature.parse(formattedSignature);
+  return StarknetSignature.parse(formatedSignature);
+};
+
+export const getWallet = async () => {
+  const connection = await connect();
+  if (!connection.wallet) {
+    throw new Error("could not fetch starknet wallet");
+  }
+
+  return connection.wallet;
 };
 
 export const useStarknetWallet = () => {
   const { data, refetch } = useQuery({
     queryKey: ["starknetWallet"],
-    queryFn: async () => {
-      const connection = await connect();
-      if (connection.wallet === undefined) {
-        console.log("could not fetch starknet wallet");
-        return;
-      }
-
-      return connection.wallet;
-    },
+    queryFn: getWallet,
     refetchInterval: false,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -66,5 +67,10 @@ export const useStarknetWallet = () => {
     staleTime: Infinity,
     enabled: false,
   });
-  return { wallet: data, connectStarknet: refetch };
+  return {
+    wallet: data,
+    connectStarknet: refetch,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    address: data?.account?.address as string,
+  };
 };

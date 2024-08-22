@@ -1,30 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { DisclaimerOverlay } from "@/features/bank-kyb/Components/DisclaimerOverlay";
 import { Dashboard } from "@/features/bank-kyb/Dashboard";
-
 import { Banner, Content, Header, Layout } from "@/features/bank-kyb/Layout";
 import { useGlobalModals } from "@/features/bank-kyb/Modals/useGlobalModals";
-import { IDENTITY_CLIENT } from "@/features/bank-kyb/identity/IdentityClient";
-import { getSigner } from "@/appConfig";
-import { toast } from "react-toastify";
-import { useBankKYBAuthentication } from "@/features/bank-kyb/identity/useBankKYBAuthenticate";
+import { toast, ToastContainer } from "react-toastify";
 import { useCheckBankKYBCompliance } from "@/features/bank-kyb/identity/useCheckBankKYBCompliance";
-import { useQueryClient } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { NexeraIdProvider } from "@nexeraid/react-sdk";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { nexeraIdConfig } from "@/features/bank-kyb/identity/nexeraIdConfig";
+
+const queryClient = new QueryClient();
 
 const Home = () => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <NexeraIdProvider config={nexeraIdConfig}>
+        <HomeContent />
+        <ReactQueryDevtools initialIsOpen={false} />
+        <ToastContainer />
+      </NexeraIdProvider>
+    </QueryClientProvider>
+  );
+};
+
+const HomeContent = () => {
   const { openModal, close } = useGlobalModals((state) => ({
     openModal: state.open,
     close: state.close,
     data: state.data,
   }));
-  const queryClient = useQueryClient();
-  const {
-    user,
-    accessToken,
-    signingMessage,
-    signature,
-    setIsIdentityClientInit,
-  } = useBankKYBAuthentication();
   const [kycCompletion, setKycCompletion] = useState(false);
   const [isCompliance, setIsCompliance] = useState(false);
   const { data } = useCheckBankKYBCompliance(kycCompletion);
@@ -44,7 +49,6 @@ const Home = () => {
         setIsCompliance(false);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   useEffect(() => {
@@ -52,58 +56,6 @@ const Home = () => {
       close();
     }
   }, [isCompliance]);
-
-  useEffect(() => {
-    // make a autocallable async function
-    const initIdentityClient = async () => {
-      setIsIdentityClientInit(false);
-      console.log(
-        "initIdentityClient: ",
-        user,
-        accessToken,
-        signingMessage,
-        signature,
-      );
-      if (user && accessToken && signingMessage && signature) {
-        console.log(
-          "Ready to init: ",
-          user,
-          accessToken,
-          signingMessage,
-          signature,
-        );
-        IDENTITY_CLIENT.onSignMessage(async (data) => {
-          console.log("on sign personal data");
-          const signer = getSigner(user);
-          return (await signer.signMessage(data.message)) as `0x${string}`;
-        });
-        IDENTITY_CLIENT.onKycCompletion((data) => {
-          console.log("on kyc completion", data);
-          setKycCompletion(true);
-        });
-        IDENTITY_CLIENT.onCloseScreen(async () => {
-          console.log("on kyc completion", data);
-          setKycCompletion(true);
-          await queryClient.invalidateQueries();
-          return "ok";
-        });
-        IDENTITY_CLIENT.onSdkReady((data) => {
-          console.log("OnSdkReady", data);
-          console.log("DID: ", data.did);
-          setIsIdentityClientInit(true);
-        });
-
-        console.log("INITIALIZING KYB....");
-        await IDENTITY_CLIENT.init({
-          accessToken,
-          signingMessage,
-          signature,
-        });
-        setIsIdentityClientInit(true);
-      }
-    };
-    void initIdentityClient();
-  }, [user]);
 
   const onClickLogOn = () => {
     openModal(

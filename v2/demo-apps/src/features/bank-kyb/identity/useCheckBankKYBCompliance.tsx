@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { useBankKYBAuthentication } from "@/features/bank-kyb/identity/useBankKYBAuthenticate";
+
 import { executeEngine } from "@/utils/executeEngine";
+import { useMockBankKybAuth } from "./useMockBankKybAuth";
 
 export const useCheckBankKYBCompliance = (enabled: boolean) => {
-  const { user } = useBankKYBAuthentication();
+  const { user } = useMockBankKybAuth();
 
   return useQuery({
     queryKey: ["checkBankKYBCompliance", enabled],

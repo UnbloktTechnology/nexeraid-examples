@@ -1,10 +1,34 @@
-import dynamic from "next/dynamic";
 import { AirdropLayout } from "@/features/kyc-airdrop/ui/AirdropLayout";
 import { SearchBar } from "@/features/kyc-airdrop/ui/components/SearchBar";
 import { ConnectButtonCustom } from "@/features/kyc-airdrop/ui/components/ConnectButtonCustom";
 import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
+import { WagmiProvider } from "wagmi";
+import { wagmiConfig } from "@/features/root/identity/wagmiConfig";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { NexeraIdProvider } from "@nexeraid/react-sdk";
+import { nexeraIdConfig } from "@/features/kyc-airdrop/utils/nexeraIdConfig";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ToastContainer } from "react-toastify";
 
-const AirdropPageWrapper = () => {
+const queryClient = new QueryClient();
+
+const Home = () => {
+  return (
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider>
+          <NexeraIdProvider config={nexeraIdConfig}>
+            <HomeContent />
+            <ReactQueryDevtools initialIsOpen={false} />
+            <ToastContainer />
+          </NexeraIdProvider>
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+};
+const HomeContent = () => {
   const {
     isConnected,
     generateTitleFromWalletState,
@@ -28,11 +52,4 @@ const AirdropPageWrapper = () => {
   );
 };
 
-const DynamicAirdropPageWrapper = dynamic(
-  () => Promise.resolve(AirdropPageWrapper),
-  { ssr: false },
-);
-
-export default function Airdrop() {
-  return <DynamicAirdropPageWrapper />;
-}
+export default Home;

@@ -22,14 +22,15 @@ export const Header = () => {
 
           <nav className="flex items-center">
             <ul className="m-0 flex p-0">
-              {navItems.map((item, index) => (
-                <li key={index} className="ml-10">
-                  <a
+              {navItems.map((item) => (
+                <li key={item} className="ml-10">
+                  <button
+                    type="button"
                     className="bold cursor-pointer text-white"
                     onClick={() => handleNav(item)}
                   >
                     {item}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>

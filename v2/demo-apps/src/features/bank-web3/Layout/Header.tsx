@@ -19,24 +19,28 @@ export const Header = ({ onClickLogOn }: { onClickLogOn: () => void }) => {
           <li
             className="hover:text-cta-black flex h-full w-24 cursor-pointer items-center justify-center hover:bg-white"
             onClick={() => console.log("Laguage")}
+            onKeyUp={() => console.log("Laguage")}
           >
             About
           </li>
           <li
             className="hover:text-cta-black flex h-full w-24 cursor-pointer items-center justify-center hover:bg-white"
             onClick={() => console.log("Register")}
+            onKeyUp={() => console.log("Register")}
           >
             Product
           </li>
           <li
             className="hover:text-cta-black flex h-full w-24 cursor-pointer items-center justify-center hover:bg-white"
             onClick={() => console.log("Register")}
+            onKeyUp={() => console.log("Register")}
           >
             Pricing
           </li>
           <li
             className="flex w-32 cursor-pointer items-center justify-center rounded-full bg-[#1C1B54] px-4 py-2 text-white hover:bg-white hover:text-[#1C1B54]"
             onClick={onClickLogOn}
+            onKeyUp={onClickLogOn}
           >
             Sign Up
           </li>

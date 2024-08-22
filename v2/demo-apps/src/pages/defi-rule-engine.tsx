@@ -1,81 +1,67 @@
 import { Swap } from "@/features/defi-rule-engine/Components/Swap";
-import { useCheckDefiRuleEngineCompliance } from "@/features/defi-rule-engine/identity/useCheckDefiRuleEngineCompliance";
 import { Header } from "@/features/defi-rule-engine/Layout/Header";
 import { Layout } from "@/features/defi-rule-engine/Layout/Layout";
 import { useGlobalModals } from "@/features/defi-rule-engine/Modals/Hooks/useGlobalModals";
+import { toast, ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
-import { useAccount, useSignMessage } from "wagmi";
-import { IDENTITY_CLIENT } from "@/features/defi-rule-engine/identity/IdentityClient";
-import { toast } from "react-toastify";
-import { useDefiRuleEngineKycAuthentication } from "@/features/defi-rule-engine/identity/useDefiOffChainZKPKycAuthenticate";
+import { WagmiProvider } from "wagmi";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { NexeraIdProvider } from "@nexeraid/react-sdk";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { wagmiConfig } from "@/features/root/identity/wagmiConfig";
+import { nexeraIdConfig } from "@/features/defi-rule-engine/identity/nexeraIdConfig";
+import { useCheckDefiRuleEngineCompliance } from "@/features/defi-rule-engine/identity/useCheckDefiRuleEngineCompliance";
 
-const DefiRuleEngine = () => {
+const queryClient = new QueryClient();
+
+const Home = () => {
+  return (
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider>
+          <NexeraIdProvider config={nexeraIdConfig}>
+            <HomeContent />
+            <ReactQueryDevtools initialIsOpen={false} />
+            <ToastContainer />
+          </NexeraIdProvider>
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+};
+
+const HomeContent = () => {
   const close = useGlobalModals((state) => state.close);
-  const address = useAccount();
-  const { accessToken, signingMessage, signature, setIsIdentityClientInit } =
-    useDefiRuleEngineKycAuthentication();
+
   const [kycCompletion, setKycCompletion] = useState(false);
   const { data } = useCheckDefiRuleEngineCompliance(kycCompletion);
   const [isCompliance, setIsCompliance] = useState(false);
-  const signMessage = useSignMessage();
   const [started, setStarted] = useState(false);
 
   useEffect(() => {
     console.log("EXECUTING isVerified check compliance: ", data);
-    if (data !== undefined) {
-      if (data.isValid) {
-        toast(`Compliance Verification: Your identity has been verified`);
-        setKycCompletion(false);
-        setIsCompliance(true);
-      } else if (data.data === "unknown") {
-        setKycCompletion(true);
-      } else {
-        toast(`Compliance Verification: Your identity has not been verified`);
-        setKycCompletion(false);
-        setIsCompliance(false);
-      }
+    if (data === undefined) {
+      return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (data.isValid) {
+      toast("Compliance Verification: Your identity has been verified");
+      setKycCompletion(false);
+      setIsCompliance(true);
+    } else if (data.data === "unknown") {
+      setKycCompletion(true);
+    } else {
+      toast("Compliance Verification: Your identity has not been verified");
+      setKycCompletion(false);
+      setIsCompliance(false);
+    }
   }, [data]);
 
   useEffect(() => {
     if (isCompliance) {
       close();
     }
-  }, [isCompliance]);
-
-  useEffect(() => {
-    // make a autocallable async function
-    const initIdentityClient = async () => {
-      setIsIdentityClientInit(false);
-      if (address.address && accessToken && signingMessage && signature) {
-        IDENTITY_CLIENT.onSignMessage(async (data) => {
-          console.log("On sign personal data");
-          return await signMessage.signMessageAsync({
-            message: data.message,
-          });
-        });
-        IDENTITY_CLIENT.onKycCompletion((data) => {
-          console.log("On kyc completion", data);
-          setKycCompletion(true);
-        });
-        IDENTITY_CLIENT.onCloseScreen(async () => {
-          return new Promise((resolve) => {
-            console.log("On Close Screen callback");
-            setKycCompletion(true);
-            resolve("");
-          });
-        });
-        await IDENTITY_CLIENT.init({
-          accessToken,
-          signingMessage,
-          signature,
-        });
-        setIsIdentityClientInit(true);
-      }
-    };
-    void initIdentityClient();
-  }, [address.address, accessToken, signingMessage, signature]);
+  }, [isCompliance, close]);
 
   return (
     <Layout header={<Header />} bg={"defi"}>
@@ -97,6 +83,7 @@ const DefiRuleEngine = () => {
                 </div>
 
                 <button
+                  type="button"
                   className="mx-auto mt-11 h-14 w-80 rounded-2xl border-none bg-gradient-to-r from-[#FF00C7] to-[#FF9FFB] text-center text-xl"
                   onClick={() => setStarted(true)}
                 >
@@ -111,4 +98,4 @@ const DefiRuleEngine = () => {
   );
 };
 
-export default DefiRuleEngine;
+export default Home;

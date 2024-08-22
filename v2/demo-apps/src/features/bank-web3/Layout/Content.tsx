@@ -22,8 +22,8 @@ export const Content = ({ onClickLogOn }: { onClickLogOn: () => void }) => {
           </span>
         </div>
         <div className="text-6xl font-bold leading-[75px] text-[#1C1B54]">
-          Payments <br></br>
-          have never <br></br>
+          Payments <br />
+          have never <br />
           been easier
         </div>
         <div className="my-8 text-lg text-[#4E4CB7]">
@@ -33,12 +33,17 @@ export const Content = ({ onClickLogOn }: { onClickLogOn: () => void }) => {
         </div>
         <div className="flex items-center gap-8">
           <button
+            type="button"
             className="flex w-32 cursor-pointer items-center justify-center rounded-full bg-[#4E4CB7] px-4 py-2 text-white hover:bg-white hover:text-[#4E4CB7]"
             onClick={onClickLogOn}
+            onKeyUp={onClickLogOn}
           >
             Get started
           </button>
-          <button className="flex w-48 cursor-pointer items-center justify-center gap-3 px-4 py-2 text-[#4E4CB7]">
+          <button
+            type="button"
+            className="flex w-48 cursor-pointer items-center justify-center gap-3 px-4 py-2 text-[#4E4CB7]"
+          >
             <Image
               src={"/images/bi_download.png"}
               width={16}

@@ -37,17 +37,16 @@ export const UsersDropDown = ({
       <button
         type="button"
         onClick={() => toggleDropdown()}
-        className={`inline-flex gap-3 items-center px-3 py-2 shadow-sm ${classNameButton}`}
+        className={`inline-flex items-center gap-3 px-3 py-2 shadow-sm ${classNameButton}`}
       >
-        {selected?.avatar ?
+        {selected?.avatar ? (
           <>
-            <Icon
-              icon={selected?.avatar as string}
-            />
+            <Icon icon={selected?.avatar as string} />
             <span className="w-full text-left">{selected?.name}</span>
-          </> :
+          </>
+        ) : (
           <span>Select user</span>
-        }
+        )}
         <Icon icon={isOpen ? "condence" : "expand"} color="#000" size={12} />
       </button>
       {isOpen && (
@@ -58,14 +57,10 @@ export const UsersDropDown = ({
             {items.map((item) => (
               <li
                 key={item.id}
-                className="flex gap-3 cursor-pointer items-center px-3 py-2 text-sm hover:bg-gray-100"
+                className="flex cursor-pointer items-center gap-3 px-3 py-2 text-sm hover:bg-gray-100"
                 onClick={() => toggleDropdown(item)}
               >
-                {item.avatar &&
-                  <Icon
-                    icon={item.avatar as string}
-                  />
-                }
+                {item.avatar && <Icon icon={item.avatar as string} />}
                 <span>{item.name}</span>
               </li>
             ))}

@@ -1,24 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
-import { useDefiRuleEngineKycAuthentication } from "./useDefiOffChainZKPKycAuthenticate";
 import { executeEngine } from "@/utils/executeEngine";
+import { useAccount } from "wagmi";
 
 export const useCheckDefiRuleEngineCompliance = (enabled: boolean) => {
-  const { user } = useDefiRuleEngineKycAuthentication();
-
+  const account = useAccount();
   return useQuery({
-    queryKey: ["checkDefiRuleEngineCompliance", enabled],
+    queryKey: ["useCheckDefiRuleEngineCompliance", enabled],
     queryFn: async () => {
-      if (!user)
+      if (!account.address)
         return Promise.resolve({
           data: "unknown",
           isValid: false,
         });
       const result = await executeEngine(
         {
-          address: user,
+          address: account.address,
           blockchainNamespace: "eip155",
         },
-        "defi-rule-engine",
+        "bank",
       );
       return result;
     },

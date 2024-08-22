@@ -1,13 +1,9 @@
 import { IdentityVerifyButton } from "@/features/defi-rule-engine/identity/IdentityVerifyButton";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
-import { toast } from "react-toastify";
-import { useDefiRuleEngineKycAuthentication } from "./useDefiOffChainZKPKycAuthenticate";
 
 export const LogOnModal = () => {
   const account = useAccount();
-  const { authenticate, isAuthenticated } =
-    useDefiRuleEngineKycAuthentication();
 
   return (
     <div className="flex w-full flex-col items-center gap-10">
@@ -21,21 +17,7 @@ export const LogOnModal = () => {
         <ConnectButton />
       </div>
 
-      {account.address && !isAuthenticated && (
-        <button
-          className={`ml-auto rounded-md bg-[blue] px-6 py-4 text-base font-bold text-white`}
-          onClick={() => {
-            if (!account.address) {
-              toast("Please connect your wallet first");
-              return;
-            }
-            authenticate.mutate({ user: account.address });
-          }}
-        >
-          Log in
-        </button>
-      )}
-      {account.address && isAuthenticated && <IdentityVerifyButton />}
+      {account.address && <IdentityVerifyButton />}
     </div>
   );
 };

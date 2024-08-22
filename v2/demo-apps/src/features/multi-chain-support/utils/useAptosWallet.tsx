@@ -25,7 +25,7 @@ export const signWithAptos = async (
   return AptosSignature.parse(signature);
 };
 
-const getAptosWallet = () => {
+const openAptosWallet = () => {
   if ("aptos" in window) {
     return window.aptos;
   } else {
@@ -35,24 +35,24 @@ const getAptosWallet = () => {
   }
 };
 
+export const getWallet = async () => {
+  const wallet = openAptosWallet();
+  if (wallet === undefined) {
+    console.log("could not fetch aptos wallet");
+    throw new Error("could not fetch aptos wallet");
+  }
+  try {
+    const response = await wallet.connect();
+    return { wallet, ...response };
+  } catch (error) {
+    console.log({ code: 4001, message: "User rejected the request." });
+  }
+  return { wallet, address: undefined, publicKey: undefined };
+};
 export const useAptosWallet = () => {
   const { data, refetch } = useQuery({
     queryKey: ["aptosWallet"],
-    queryFn: async () => {
-      const wallet = getAptosWallet();
-      if (wallet === undefined) {
-        console.log("could not fetch aptos wallet");
-        return;
-      }
-      try {
-        const response = await wallet.connect();
-        console.log("response", response);
-      } catch (error) {
-        console.log({ code: 4001, message: "User rejected the request." });
-      }
-      const account = await wallet.account();
-      return { wallet, address: account?.address };
-    },
+    queryFn: getWallet,
     refetchInterval: false,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -60,9 +60,5 @@ export const useAptosWallet = () => {
     staleTime: Infinity,
     enabled: false,
   });
-  return {
-    wallet: data?.wallet,
-    address: data?.address,
-    connectAptos: refetch,
-  };
+  return { wallet: data, connectAptos: refetch };
 };

@@ -16,7 +16,7 @@ export const Layout = (props: {
     <main
       className={`relative mx-auto my-0 h-full max-h-screen min-h-screen w-full overflow-hidden ${background}`}
       style={{
-        backgroundImage: `url(/images/SideDesign.jpg)`,
+        backgroundImage: "url(/images/SideDesign.jpg)",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",

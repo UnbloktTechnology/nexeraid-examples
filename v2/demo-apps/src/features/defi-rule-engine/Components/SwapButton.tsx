@@ -6,11 +6,11 @@ import {
 } from "wagmi";
 import { parseEther, parseGwei } from "viem";
 import { mockSwapABi } from "@/features/defi-rule-engine/Components/abi";
-import { useDebounce } from "@/features/defi-rule-engine/useDebounce";
+import { useDebounce } from "@/features/root/useDebounce";
 
 export const SwapButton = (props: { amount: string }) => {
   console.log("swap amount in matic: ", { amount: parseGwei(props.amount) });
-  const debouncedTokenId = useDebounce(props.amount, 500);
+  const debouncedTokenAmount = useDebounce(props.amount, 500);
   const { data } = useSimulateContract({
     address: "0x10e26aE45a98CCA6bed4Ee58Ba6F5649Ab9FDA08",
     abi: mockSwapABi,
@@ -28,15 +28,17 @@ export const SwapButton = (props: { amount: string }) => {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        contractWrite.writeContract?.(data!.request);
+        if (!data) return;
+        contractWrite.writeContract?.(data.request);
       }}
     >
       <button
+        type="submit"
         disabled={
           !contractWrite.writeContract ||
           waitForTransaction.isLoading ||
-          !debouncedTokenId ||
-          debouncedTokenId == "0"
+          !debouncedTokenAmount ||
+          debouncedTokenAmount === "0"
         }
         className="mt-3 h-14 w-full rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]"
       >

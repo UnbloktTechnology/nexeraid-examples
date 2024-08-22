@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useKycBankWeb3Authentication } from "@/features/bank-web3/identity/useKycBankWeb3Authenticate";
+
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Icon } from "../Components/Icon";
 import Link from "next/link";
+import { useAccount, useDisconnect } from "wagmi";
 
 interface ItemGroup {
   name: string;
@@ -12,9 +13,10 @@ interface ItemGroup {
 
 const UserOptions = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { logout, user } = useKycBankWeb3Authentication();
+  const account = useAccount();
+  const { disconnect } = useDisconnect();
 
-  if (!user) return <></>;
+  if (!account) return <></>;
 
   return (
     <div
@@ -38,7 +40,11 @@ const UserOptions = () => {
             <li
               className="flex h-14 cursor-pointer items-center px-3 py-2 text-sm hover:bg-gray-100"
               onClick={() => {
-                logout.mutate();
+                disconnect();
+                setIsOpen(false);
+              }}
+              onKeyUp={() => {
+                disconnect();
                 setIsOpen(false);
               }}
             >
@@ -48,6 +54,7 @@ const UserOptions = () => {
             <li
               className="m-2 flex cursor-pointer items-center border-t px-3 py-2 text-sm hover:bg-gray-100"
               onClick={() => setIsOpen(false)}
+              onKeyUp={() => setIsOpen(false)}
             >
               <div className="flex w-full cursor-pointer items-center space-x-4">
                 <ConnectButton />
@@ -73,6 +80,7 @@ const MenuItems = ({ itemGroup }: { itemGroup: ItemGroup[] }) => {
             item.name === "Overview" ? "bg-[#2849F5] text-white" : ""
           }`}
           onClick={item.onClick}
+          onKeyUp={item.onClick}
         >
           <Icon icon={item.icon} size={24} />
           <span>{item.name}</span>

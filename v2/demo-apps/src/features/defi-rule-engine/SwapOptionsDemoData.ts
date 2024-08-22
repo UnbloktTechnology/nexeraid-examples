@@ -1,4 +1,4 @@
-import { type ITokenInfo } from "@/features/defi-rule-engine/Components/TokenDropDown";
+import type { ITokenInfo } from "@/features/defi-rule-engine/Components/TokenDropDown";
 
 export const SwapOptions = {
   43313: [

@@ -16,12 +16,14 @@ export const Layout = (props: {
     <main
       className={`relative mx-auto my-0 h-full w-full overflow-hidden ${background}`}
       // className={`relative mx-auto my-0 h-full max-h-screen min-h-screen w-full overflow-hidden ${background}`}
-      style={{
-        // backgroundImage: `url(/images/SideDesign.jpg)`,
-        // backgroundPosition: "center",
-        // backgroundRepeat: "no-repeat",
-        // backgroundSize: "cover",
-      }}
+      style={
+        {
+          // backgroundImage: `url(/images/SideDesign.jpg)`,
+          // backgroundPosition: "center",
+          // backgroundRepeat: "no-repeat",
+          // backgroundSize: "cover",
+        }
+      }
     >
       {header}
       <div className={className}>{children}</div>

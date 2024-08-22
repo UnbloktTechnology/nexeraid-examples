@@ -7,11 +7,10 @@ import { KYCClientTezos } from "../multi-chain-support/components/tezos/KYCClien
 const inter = Inter({ subsets: ["latin"] });
 
 export const GatedNFTPageTezos = () => {
-  const [did, setDID] = useState<string | undefined>(undefined);
   return (
     <main className={`${inter.className} ${styles.main}`}>
-      <KYCClientTezos setDID={setDID} />
-      <GatedNFTTezos did={did} />
+      <KYCClientTezos />
+      <GatedNFTTezos />
     </main>
   );
 };

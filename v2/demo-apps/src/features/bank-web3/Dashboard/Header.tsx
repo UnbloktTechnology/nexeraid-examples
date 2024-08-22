@@ -36,18 +36,19 @@ export const Header = () => {
           item.type === "up"
             ? "#98d674"
             : item.type === "down"
-            ? "#2849F5"
-            : "#adadad";
+              ? "#2849F5"
+              : "#adadad";
         const icon =
           item.type === "up"
             ? "up-balance"
             : item.type === "down"
-            ? "down-balance"
-            : "arrow-right";
+              ? "down-balance"
+              : "arrow-right";
 
+        const key = item.percentage + item.amount + item.description;
         return (
           <div
-            key={index}
+            key={key}
             className={`flex w-full flex-col gap-2 px-6 text-center ${
               index === items.length - 1 ? "" : "border-r"
             }`}

@@ -18,7 +18,7 @@ const TransferInput = ({
       <div className="ml-2 mt-1 rounded bg-[#F2F2F2] p-2 pt-3">
         <span className="font-semibold opacity-50">{prependIcon}</span>
 
-        <Icon icon="expand" color="#000" size={12}/>
+        <Icon icon="expand" color="#000" size={12} />
       </div>
     </button>
   );
@@ -44,9 +44,9 @@ export const Transfer = () => {
     <div className="flex w-full flex-col gap-5 rounded-lg border bg-white p-10">
       <h3 className="text-[18px] font-semibold opacity-50">Quick transfer</h3>
 
-      {inputs.map((input, index) => (
+      {inputs.map((input) => (
         <TransferInput
-          key={index}
+          key={input.label}
           label={input.label}
           prependIcon={input.prepend}
         />

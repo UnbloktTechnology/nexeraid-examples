@@ -9,7 +9,11 @@ interface AirdropLayoutProps {
   children: ReactNode;
 }
 
-export const AirdropLayout = ({ title, subtitle, children }: AirdropLayoutProps) => {
+export const AirdropLayout = ({
+  title,
+  subtitle,
+  children,
+}: AirdropLayoutProps) => {
   return (
     <main className={`${stylesPeaq.main} bg-white !p-0`}>
       <header className="flex w-full items-center justify-between p-4 pb-0">

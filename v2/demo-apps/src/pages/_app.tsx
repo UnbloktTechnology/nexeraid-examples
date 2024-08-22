@@ -22,20 +22,20 @@ import dynamic from "next/dynamic";
 // const queryClient = new QueryClient();
 
 const MyApp: AppType = ({ Component, pageProps }) => {
-	return <Component {...pageProps} />;
-	// return (
-	// 	<WagmiProvider config={config}>
-	// 		<QueryClientProvider client={queryClient}>
-	// 			<RainbowKitProvider>
-	// 				<Component {...pageProps} />
-	// 				<ReactQueryDevtools initialIsOpen={false} />
-	// 				<ToastContainer />
-	// 			</RainbowKitProvider>
-	// 		</QueryClientProvider>
-	// 	</WagmiProvider>
-	// );
+  return <Component {...pageProps} />;
+  // return (
+  // 	<WagmiProvider config={config}>
+  // 		<QueryClientProvider client={queryClient}>
+  // 			<RainbowKitProvider>
+  // 				<Component {...pageProps} />
+  // 				<ReactQueryDevtools initialIsOpen={false} />
+  // 				<ToastContainer />
+  // 			</RainbowKitProvider>
+  // 		</QueryClientProvider>
+  // 	</WagmiProvider>
+  // );
 };
 
 export default dynamic(() => Promise.resolve(MyApp), {
-	ssr: false,
+  ssr: false,
 });

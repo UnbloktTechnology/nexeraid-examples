@@ -74,8 +74,9 @@ export const Transactions = () => {
           const icon =
             transaction.type === "deposit" ? "up-balance" : "down-balance";
 
+          const key = transaction.date + transaction.amount;
           return (
-            <div key={index} className="flex w-full justify-between">
+            <div key={key} className="flex w-full justify-between">
               <div className="flex items-center space-x-5">
                 <div className="rounded bg-[#F2F2F2] p-2">
                   <Icon icon={icon} color={color} size={24} />

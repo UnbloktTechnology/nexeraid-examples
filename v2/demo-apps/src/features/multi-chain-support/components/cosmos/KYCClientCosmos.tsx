@@ -1,9 +1,9 @@
 import { IdentityFlow } from "../../../kyc-widget/IdentityFlow";
 import ConnectCosmos from "./ConnectCosmos";
-import { signWithCosmos, useCosmosWallet } from "../../utils/useCosmosWallet";
+import { useCosmosWallet } from "../../utils/useCosmosWallet";
 
-export const KYCClientCosmos = (props: { setDID: (did: string) => void }) => {
-  const { wallet, address } = useCosmosWallet();
+export const KYCClientCosmos = () => {
+  const { wallet } = useCosmosWallet();
   return (
     <>
       <div className="pt-10 text-center">
@@ -13,16 +13,7 @@ export const KYCClientCosmos = (props: { setDID: (did: string) => void }) => {
       </div>
       <div className="min-w-prose mt-24 flex flex-col items-center justify-center pt-2">
         <ConnectCosmos />
-        {wallet && (
-          <IdentityFlow
-            setDID={props.setDID}
-            signMessageAsync={async (message: string) => {
-              return await signWithCosmos(message, wallet);
-            }}
-            address={address}
-            blockchainNamespace={"cosmos"}
-          />
-        )}
+        {wallet && <IdentityFlow />}
       </div>
     </>
   );

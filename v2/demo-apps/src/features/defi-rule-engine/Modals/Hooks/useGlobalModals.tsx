@@ -1,6 +1,6 @@
-import { type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { create } from "zustand";
-import { type BackgroundType } from "@/features/defi-rule-engine/Layout/Layout";
+import type { BackgroundType } from "@/features/defi-rule-engine/Layout/Layout";
 
 export type CenterModalStyle = "default" | "rounded";
 

@@ -80,6 +80,7 @@ export const TokenDropDown = ({
                 key={item.value}
                 className="flex cursor-pointer items-center px-3 py-2 text-sm hover:bg-gray-100"
                 onClick={() => toggleDropdown(item)}
+                onKeyUp={() => toggleDropdown(item)}
               >
                 {/* {item.icon && (
                   <Icon icon={item.icon} size={24} className="mr-2" />

@@ -6,7 +6,7 @@ import {
 } from "wagmi";
 import { parseEther, parseGwei } from "viem";
 import { mockSwapABi } from "@/features/defi-offchain-zkp/Components/abi";
-import { useDebounce } from "@/features/defi-offchain-zkp/useDebounce";
+import { useDebounce } from "@/features/root/useDebounce";
 
 export const SwapButton = (props: { amount: string }) => {
   console.log("swap amount in matic: ", { amount: parseGwei(props.amount) });

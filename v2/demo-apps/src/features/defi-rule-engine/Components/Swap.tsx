@@ -1,7 +1,7 @@
 import { useGlobalModals } from "@/features/defi-rule-engine/Modals/Hooks/useGlobalModals";
 import { useQueryClient } from "@tanstack/react-query";
 import { SwapInput } from "./SwapInput";
-import { type ITokenInfo } from "@/features/defi-rule-engine/Components/TokenDropDown";
+import type { ITokenInfo } from "@/features/defi-rule-engine/Components/TokenDropDown";
 import { Icon } from "./Icon";
 import { useAccount } from "wagmi";
 import { SwapButton } from "@/features/defi-rule-engine/Components/SwapButton";
@@ -133,6 +133,7 @@ export const Swap: React.FC<{
         {isCompliant && <SwapButton amount={fromAmount.toString()} />}
         {!isCompliant && (
           <button
+            type="button"
             className="mt-3 h-14 w-full rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]"
             id={"kyc-btn-verify"}
             onClick={verifyUser}

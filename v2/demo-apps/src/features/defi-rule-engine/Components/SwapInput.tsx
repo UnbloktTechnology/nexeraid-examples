@@ -21,7 +21,8 @@ export const SwapInput = ({
   classNameDropDownList = "",
   onChange,
 }: TInput) => {
-  const handleAmount = (amount: string) => {
+  const handleAmount = (_amount: string) => {
+    let amount = _amount;
     if (amount === "") {
       amount = "0";
     } else if (

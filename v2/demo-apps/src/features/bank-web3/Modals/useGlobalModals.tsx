@@ -1,5 +1,5 @@
-import { type ReactNode } from "react";
-import { type BackgroundType } from "@/features/bank-web3/Layout";
+import type { ReactNode } from "react";
+import type { BackgroundType } from "@/features/bank-web3/Layout";
 import { create } from "zustand";
 
 export type CenterModalStyle = "default" | "rounded";

@@ -1,22 +1,13 @@
-import { type Address } from "@nexeraid/identity-schemas";
-import {
-  useAccount,
-  useSignMessage,
-  useWalletClient,
-  useDisconnect,
-} from "wagmi";
+import type { Address } from "@nexeraid/identity-schemas";
+import { useAccount, useWalletClient, useDisconnect } from "wagmi";
 import { useGetTokenBalance } from "@/features/kyc-airdrop/utils/useGetTokenBalance";
 import {
   getUserAllowance,
   getUserIndex,
 } from "@/features/kyc-airdrop/utils/getUserAllowance";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { useClaimToken } from "@/features/kyc-airdrop/utils/useClaimToken";
-import { type ClaimResponse } from "@/features/kyc-airdrop/utils/blockchain.schema";
-import { IDENTITY_CLIENT } from "@/features/kyc-widget/IdentityClient";
-import { buildSignatureMessage } from "@nexeraid/identity-sdk";
-import { fetchAccessToken } from "@/utils/fetchAccessToken";
 
 export enum WalletState {
   UNCHECKED = "UNCHECKED",
@@ -35,84 +26,9 @@ export const useWalletCheck = () => {
   const isQualified = getUserIndex(address as Address) !== -1;
   const allowance = getUserAllowance(address as Address);
   const tryClaiming = useClaimToken();
-  const signMessage = useSignMessage();
   const { data: walletClient } = useWalletClient();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [did, setDID] = useState<string | undefined>(undefined);
-  const [isIdentityClientInit, setIsIdentityClientInit] = useState(false);
-  const [auth, setAuth] = useState<{
-    accessToken: string;
-    signingMessage: string;
-    signature: string;
-  }>();
-  const [isAuthenticating, setIsAuthenticating] = useState(false);
-  const [isVerifyingIdentity, setIsVerifyingIdentity] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [sdkResponse, setSdkResponse] = useState<ClaimResponse | undefined>(
-    undefined,
-  );
   const [isClaiming, setIsClaiming] = useState(false);
   const { disconnect } = useDisconnect();
-
-  const blockchainNamespace = "eip155";
-
-  const signMessageAsync = useCallback(
-    async (message: string) => {
-      return await signMessage.signMessageAsync({ message });
-    },
-    [signMessage],
-  );
-
-  const configIdentityClient = useCallback(async () => {
-    console.log("Configuring identity client to check : ", address);
-    if (address) {
-      setIsAuthenticating(true);
-      try {
-        IDENTITY_CLIENT.onSignMessage(async (data) => {
-          return await signMessageAsync(data.message);
-        });
-        const signingMessage = buildSignatureMessage(address);
-        const signature = await signMessageAsync(signingMessage);
-        const response = await fetchAccessToken(
-          {
-            address,
-            blockchainNamespace,
-          },
-          "kyc-airdrop",
-        );
-        const accessToken = response.accessToken;
-        IDENTITY_CLIENT.onSdkReady((data) => {
-          setDID(data.did);
-        });
-        await IDENTITY_CLIENT.init({
-          accessToken: accessToken,
-          signature: signature,
-          signingMessage: signingMessage,
-        });
-        setIsIdentityClientInit(true);
-        setAuth({
-          accessToken,
-          signingMessage,
-          signature,
-        });
-      } catch (error) {
-        console.error("Error during authentication:", error);
-      } finally {
-        setIsAuthenticating(false);
-      }
-    }
-  }, [address, signMessageAsync]);
-
-  const startVerification = () => {
-    setIsVerifyingIdentity(true);
-    try {
-      IDENTITY_CLIENT.startVerification();
-    } catch (error) {
-      console.error("Error during identity verification:", error);
-    } finally {
-      setIsVerifyingIdentity(false);
-    }
-  };
 
   const claimWallet = () => {
     if (walletClient) {
@@ -121,7 +37,6 @@ export const useWalletCheck = () => {
         .mutateAsync()
         .then((_sdkResponse) => {
           setIsClaiming(false);
-          setSdkResponse(_sdkResponse);
           console.log("sdkResponse", _sdkResponse.signatureResponse);
 
           if (_sdkResponse?.signatureResponse.isAuthorized) {
@@ -222,11 +137,10 @@ export const useWalletCheck = () => {
         if (isAuthorized) {
           if (isCustomerActive) {
             return "You can claim tokens now";
-          } else {
-            return "Now we need to verify your identity before you can claim tokens";
           }
-        } else
-          return `Congrats, the allocation for the wallet ${address} is ${allowance} PEAQ.`;
+          return "Now we need to verify your identity before you can claim tokens";
+        }
+        return `Congrats, the allocation for the wallet ${address} is ${allowance} PEAQ.`;
       default:
         return "Connect your wallet to claim tokens";
     }
@@ -248,11 +162,13 @@ export const useWalletCheck = () => {
 
     if (!isQualified) {
       return WalletState.IS_NOT_QUALIFIED;
-    } else if (isConnected) {
+    }
+    if (isConnected) {
       if (allowance) {
         if (balance && balance > 0 && !isBalancePending) {
           return WalletState.ALREADY_CLAIMED;
-        } else if (balance === 0 && !isBalancePending) {
+        }
+        if (balance === 0 && !isBalancePending) {
           return WalletState.HAS_ALLOWANCE_CONNECTED;
         }
       } else {
@@ -261,35 +177,28 @@ export const useWalletCheck = () => {
     } else {
       if (allowance) {
         return WalletState.HAS_ALLOWANCE_NO_CONNECTED;
-      } else {
-        return WalletState.HAS_NO_ALLOWANCE;
       }
+      return WalletState.HAS_NO_ALLOWANCE;
     }
     return undefined;
   };
 
   return {
     allowance,
-    auth,
     balance,
     checkWalletState,
     claimWallet,
-    configIdentityClient,
     disconnectWallet,
     generateSubtitleFromWalletState,
     generateTitleFromWalletState,
     handleInvalidInput,
-    isAuthenticating,
     isBalancePending: isPending,
     isClaiming,
     isConnected,
-    isIdentityClientInit,
     isQualified,
     isValidAddress,
-    isVerifyingIdentity,
     redirectToCheckWallet,
     redirectToHome,
-    startVerification,
     walletClient,
   };
 };

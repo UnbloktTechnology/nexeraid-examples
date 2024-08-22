@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { GlobalModals } from "@/features/defi-rule-engine/Modals/GlobalModals";
 
 export type BackgroundType = "default" | "defi";

@@ -6,7 +6,7 @@ import { TEST_USERS, type TestUser } from "@/appConfig";
 import { toast } from "react-toastify";
 import { Icon } from "../Components/Icon";
 import { Button } from "../Components/Button";
-import { useBankKYBAuthentication } from "./useBankKYBAuthenticate";
+import { useMockBankKybAuth } from "./useMockBankKybAuth";
 
 export const LogOnModal = () => {
   const [showMsg, setShowMsg] = useState(true);
@@ -14,7 +14,7 @@ export const LogOnModal = () => {
     "To open an HSBC account you will need to verify your identity first",
   );
   const [userSelected, setUserSelected] = useState<TestUser>();
-  const { authenticate, user, isAuthenticated } = useBankKYBAuthentication();
+  const { authenticate, user, isAuthenticated } = useMockBankKybAuth();
 
   const handleUserSelected = (user: TestUser) => {
     setUserSelected(user);

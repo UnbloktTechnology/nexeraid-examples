@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { type ICenterModal } from "@/features/defi-rule-engine/Modals/Hooks/useGlobalModals";
+import type { ICenterModal } from "@/features/defi-rule-engine/Modals/Hooks/useGlobalModals";
 import { Icon } from "../Components/Icon";
 
 export const CenterModal = ({

@@ -23,7 +23,10 @@ export const Card = () => {
           <p>mm / aa</p>
         </div>
 
-        <button className="rounded-xl border-none !bg-white p-4 !text-[#2849F5]">
+        <button
+          type="button"
+          className="rounded-xl border-none !bg-white p-4 !text-[#2849F5]"
+        >
           Active card
         </button>
       </div>

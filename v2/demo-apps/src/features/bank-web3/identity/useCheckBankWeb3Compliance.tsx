@@ -1,21 +1,30 @@
 import { useQuery } from "@tanstack/react-query";
-import { useKycBankWeb3Authentication } from "@/features/bank-web3/identity/useKycBankWeb3Authenticate";
+
 import { executeEngine } from "@/utils/executeEngine";
+import { useAccount } from "wagmi";
 
 export const useCheckBankWeb3Compliance = (enabled: boolean) => {
-  const { user } = useKycBankWeb3Authentication();
+  const account = useAccount();
 
   return useQuery({
     queryKey: ["checkBankWeb3Compliance", enabled],
     queryFn: async () => {
-      if (!user)
+      if (!account)
         return Promise.resolve({
           data: "unknown",
           isValid: false,
         });
+
+      if (!account.address) {
+        return Promise.resolve({
+          data: "unknown",
+          isValid: false,
+        });
+      }
+
       const result = await executeEngine(
         {
-          address: user,
+          address: account.address,
           blockchainNamespace: "eip155",
         },
         "bank-web3",

@@ -1,4 +1,4 @@
-import { RuleResultStatus } from "@nexeraid/identity-schemas/identity";
+import { RuleResultStatus } from "@nexeraid/identity-schemas";
 import { GenericVerifiableCredentialSchema } from "@nexeraid/identity-schemas/verifiable-credentials";
 import { z } from "zod";
 

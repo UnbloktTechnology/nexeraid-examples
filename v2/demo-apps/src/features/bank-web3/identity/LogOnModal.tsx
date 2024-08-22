@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 
-import { IdentityVerifyButton } from "@/features/bank-web3/identity/IdentityVerifyButton";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
-import { toast } from "react-toastify";
 import { Icon } from "../Components/Icon";
-import { Button } from "../Components/Button";
-import { useKycBankWeb3Authentication } from "./useKycBankWeb3Authenticate";
+import { IdentityVerifyButton } from "./IdentityVerifyButton";
 
 export const LogOnModal = () => {
   const [showMsg, setShowMsg] = useState(true);
@@ -14,7 +11,6 @@ export const LogOnModal = () => {
     "To open an account you will need to verify your identity first",
   );
   const account = useAccount();
-  const { authenticate, isAuthenticated } = useKycBankWeb3Authentication();
 
   const changeHelperText = () => {
     if (helpMsg.includes("verify your identity")) {
@@ -35,7 +31,11 @@ export const LogOnModal = () => {
 
         {showMsg && (
           <div className="relative flex items-center justify-between bg-[#EBEFF4] p-5">
-            <button className="mr-2 cursor-pointer" onClick={changeHelperText}>
+            <button
+              type="button"
+              className="mr-2 cursor-pointer"
+              onClick={changeHelperText}
+            >
               {}
             </button>
 
@@ -53,30 +53,22 @@ export const LogOnModal = () => {
         <ConnectButton />
       </div>
 
-      {account.address && !isAuthenticated && (
-        <Button
-          className={`ml-auto text-base font-bold text-white`}
-          onClick={() => {
-            if (!account.address) {
-              toast("Please connect your wallet first");
-              return;
-            }
-            authenticate.mutate({ user: account.address });
-          }}
-        >
-          Log in
-        </Button>
-      )}
-      {account.address && isAuthenticated && <IdentityVerifyButton />}
+      {account.address && <IdentityVerifyButton />}
 
       <div className="flex w-full flex-col justify-start gap-2 text-base">
-        <button className="!text-cta-black w-fit text-base font-normal">
+        <button
+          type="button"
+          className="!text-cta-black w-fit text-base font-normal"
+        >
           <>
             Forgotten your username?{" "}
             <span className="font-bold text-[#2849F5]">&gt;</span>
           </>
         </button>
-        <button className="!text-cta-black w-fit text-base font-normal">
+        <button
+          type="button"
+          className="!text-cta-black w-fit text-base font-normal"
+        >
           <>
             Not registered for Online Banking?{" "}
             <span className="font-bold text-[#2849F5]">&gt;</span>

@@ -36,14 +36,14 @@ export const Header = () => {
           item.type === "up"
             ? "#98d674"
             : item.type === "down"
-            ? "#2849F5"
-            : "#adadad";
+              ? "#2849F5"
+              : "#adadad";
         const icon =
           item.type === "up"
             ? "up-balance"
             : item.type === "down"
-            ? "down-balance"
-            : "arrow-right";
+              ? "down-balance"
+              : "arrow-right";
 
         return (
           <div

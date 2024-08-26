@@ -1,4 +1,4 @@
-import type { Address } from "viem";
+import { type Address } from "@nexeraid/identity-schemas";
 import {
   useAccount,
   useSignMessage,

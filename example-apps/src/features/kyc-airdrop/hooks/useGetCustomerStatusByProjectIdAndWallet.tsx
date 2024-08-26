@@ -1,6 +1,6 @@
-
+import { type Address } from "@nexeraid/identity-schemas";
 import { useQuery } from "@tanstack/react-query";
-import type { Address } from "viem";
+
 export interface CustomerStatusResponse {
   status: string;
 }

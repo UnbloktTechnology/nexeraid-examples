@@ -129,7 +129,7 @@ export const useWalletCheck = () => {
           } else {
             redirectToClaimError(
               _sdkResponse?.error ??
-              "You are not authorized to claim tokens, please retry the identity verification process",
+                "You are not authorized to claim tokens, please retry the identity verification process",
             );
           }
         })

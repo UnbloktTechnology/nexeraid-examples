@@ -1,4 +1,4 @@
-import { type Address } from "@nexeraid/identity-schemas";
+import type { Address } from "viem";
 import {
   useAccount,
   useSignMessage,
@@ -129,7 +129,7 @@ export const useWalletCheck = () => {
           } else {
             redirectToClaimError(
               _sdkResponse?.error ??
-                "You are not authorized to claim tokens, please retry the identity verification process",
+              "You are not authorized to claim tokens, please retry the identity verification process",
             );
           }
         })

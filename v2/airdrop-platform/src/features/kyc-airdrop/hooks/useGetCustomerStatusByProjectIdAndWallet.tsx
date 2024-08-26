@@ -1,4 +1,4 @@
-import { type Address } from "@nexeraid/identity-schemas";
+import type { Address } from "viem";
 import { useQuery } from "@tanstack/react-query";
 
 export interface CustomerStatusResponse {

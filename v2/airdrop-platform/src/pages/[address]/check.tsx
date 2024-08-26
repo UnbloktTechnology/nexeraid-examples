@@ -10,6 +10,7 @@ import { useCallback, useEffect, useState } from "react";
 import { type Address } from "@nexeraid/identity-schemas";
 import { ConnectButtonCustom } from "@/features/kyc-airdrop/ui/components/ConnectButtonCustom";
 import { RedirectToHomeButton } from "@/features/kyc-airdrop/ui/components/RedirectToHomeButton";
+import { useGetCustomerStatusByProjectIdAndWallet } from "@/features/kyc-airdrop/hooks/useGetCustomerStatusByProjectIdAndWallet";
 
 const AirdropPageWrapper = () => {
   const router = useRouter();
@@ -152,12 +153,12 @@ const AirdropPageWrapper = () => {
         isLoading
           ? "We are checking your wallet..."
           : generateSubtitleFromWalletState(
-              walletState,
-              address,
-              allowance,
-              isCustomerActive,
-              !!auth,
-            )
+            walletState,
+            address,
+            allowance,
+            isCustomerActive,
+            !!auth,
+          )
       }
     >
       {isLoading && (
@@ -169,40 +170,40 @@ const AirdropPageWrapper = () => {
         <>
           {(walletState === WalletState.HAS_ALLOWANCE_CONNECTED ||
             walletState === WalletState.HAS_ALLOWANCE_NO_CONNECTED) && (
-            <div className="flex flex-row items-center justify-center gap-4">
-              <RedirectToHomeButton
-                variant="primary"
-                label="Try another wallet"
-              />
-
-              {!isConnected && (
-                <ConnectButtonCustom
-                  label="Connect wallet"
-                  variant="secondary"
+              <div className="flex flex-row items-center justify-center gap-4">
+                <RedirectToHomeButton
+                  variant="primary"
+                  label="Try another wallet"
                 />
-              )}
-              {isConnected && !auth && (
-                <Button
-                  variant="secondary"
-                  onClick={() => void configIdentityClient()}
-                  isLoading={isAuthenticating}
-                >
-                  Authenticate wallet to start claiming
-                </Button>
-              )}
-              {isIdentityClientInit &&
-                isConnected &&
-                auth &&
-                renderKycAndClaim()}
-            </div>
-          )}
+
+                {!isConnected && (
+                  <ConnectButtonCustom
+                    label="Connect wallet"
+                    variant="secondary"
+                  />
+                )}
+                {isConnected && !auth && (
+                  <Button
+                    variant="secondary"
+                    onClick={() => void configIdentityClient()}
+                    isLoading={isAuthenticating}
+                  >
+                    Authenticate wallet to start claiming
+                  </Button>
+                )}
+                {isIdentityClientInit &&
+                  isConnected &&
+                  auth &&
+                  renderKycAndClaim()}
+              </div>
+            )}
           {(walletState === WalletState.ALREADY_CLAIMED ||
             walletState === WalletState.HAS_NO_ALLOWANCE ||
             walletState === WalletState.IS_NOT_QUALIFIED) && (
-            <div className="flex w-full flex-col items-center justify-center gap-4">
-              <RedirectToHomeButton />
-            </div>
-          )}
+              <div className="flex w-full flex-col items-center justify-center gap-4">
+                <RedirectToHomeButton />
+              </div>
+            )}
         </>
       )}
     </AirdropLayout>

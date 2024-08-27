@@ -63,7 +63,7 @@ export const useWalletCheck = () => {
 
   const redirectToClaimSuccess = () => {
     void router.push({
-      pathname: "/kyc-airdrop/[address]/success",
+      pathname: "/[address]/success",
       query: { address: router.query.address },
     });
   };
@@ -77,7 +77,7 @@ export const useWalletCheck = () => {
 
   const redirectToCheckWallet = (address: Address) => {
     void router.push({
-      pathname: "/kyc-airdrop/[address]/check",
+      pathname: "/[address]/check",
       query: {
         address,
       },
@@ -86,7 +86,7 @@ export const useWalletCheck = () => {
 
   const redirectToHome = () => {
     void router.push({
-      pathname: "/kyc-airdrop",
+      pathname: "/",
     });
   };
 

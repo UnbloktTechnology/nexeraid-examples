@@ -1,20 +1,19 @@
 import MerkleTree from './merkle-tree'
-import { BigNumber } from 'ethers'
 import { encodePacked, keccak256, type Address } from 'viem'
 export default class BalanceTree {
   private readonly tree: MerkleTree
-  constructor(balances: { account: string; amount: BigNumber }[]) {
+  constructor(balances: { account: Address; amount: bigint }[]) {
     this.tree = new MerkleTree(
       balances.map(({ account, amount }, index) => {
-        return BalanceTree.toNode(index, account, amount)
+        return BalanceTree.toNode(BigInt(index), account, amount)
       })
     )
   }
 
   public static verifyProof(
-    index: number | BigNumber,
-    account: string,
-    amount: BigNumber,
+    index: bigint,
+    account: Address,
+    amount: bigint,
     proof: Buffer[],
     root: Buffer
   ): boolean {
@@ -27,9 +26,9 @@ export default class BalanceTree {
   }
 
   // keccak256(abi.encode(index, account, amount))
-  public static toNode(index: number | BigNumber, account: string, amount: BigNumber): Buffer {
+  public static toNode(index: bigint, account: Address, amount: bigint): Buffer {
     return Buffer.from(
-      keccak256(encodePacked(['uint256', 'address', 'uint256'], [BigInt(index.toString()), account as Address, BigInt(amount.toString())])).substr(2),
+      keccak256(encodePacked(['uint256', 'address', 'uint256'], [index, account, amount])).slice(2),
       'hex'
     )
   }
@@ -39,7 +38,7 @@ export default class BalanceTree {
   }
 
   // returns the hex bytes32 values of the proof
-  public getProof(index: number | BigNumber, account: string, amount: BigNumber): string[] {
+  public getProof(index: bigint, account: Address, amount: bigint): string[] {
     return this.tree.getHexProof(BalanceTree.toNode(index, account, amount))
   }
 }

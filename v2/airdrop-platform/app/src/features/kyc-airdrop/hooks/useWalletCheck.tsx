@@ -1,4 +1,4 @@
-import type { Address } from "viem";
+import { isAddress, type Address } from "viem";
 import { useAccount, useWalletClient, useDisconnect } from "wagmi";
 import { useGetTokenBalance } from "@/features/kyc-airdrop/utils/useGetTokenBalance";
 import {
@@ -8,15 +8,18 @@ import {
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useClaimToken } from "@/features/kyc-airdrop/utils/useClaimToken";
+import { z } from "zod";
 
-export enum WalletState {
-  UNCHECKED = "UNCHECKED",
-  HAS_ALLOWANCE_CONNECTED = "HAS_ALLOWANCE_CONNECTED",
-  HAS_ALLOWANCE_NO_CONNECTED = "HAS_ALLOWANCE_NO_CONNECTED",
-  HAS_NO_ALLOWANCE = "HAS_NO_ALLOWANCE",
-  IS_NOT_QUALIFIED = "IS_NOT_QUALIFIED",
-  ALREADY_CLAIMED = "ALREADY_CLAIMED",
-}
+export const WALLET_STATES = [
+  "UNCHECKED",
+  "HAS_ALLOWANCE_CONNECTED",
+  "HAS_ALLOWANCE_NO_CONNECTED",
+  "HAS_NO_ALLOWANCE",
+  "IS_NOT_QUALIFIED",
+  "ALREADY_CLAIMED",
+] as const;
+export const WalletState = z.enum(WALLET_STATES);
+export type WalletState = z.infer<typeof WalletState>;
 
 export const useWalletCheck = () => {
   const router = useRouter();
@@ -88,8 +91,7 @@ export const useWalletCheck = () => {
   };
 
   const isValidAddress = (address: string): boolean => {
-    const regex = /^0x[a-fA-F0-9]{40}$/;
-    return regex.test(address);
+    return isAddress(address);
   };
 
   const handleInvalidInput = (setWalletAddress: (value: string) => void) => {
@@ -97,100 +99,11 @@ export const useWalletCheck = () => {
     setWalletAddress("");
   };
 
-  const disconnectWallet = () => {
-    disconnect();
-  };
-
-  const generateTitleFromWalletState = (walletState?: WalletState) => {
-    switch (walletState) {
-      case WalletState.HAS_NO_ALLOWANCE:
-        return "No allocation";
-      case WalletState.IS_NOT_QUALIFIED:
-        return "This wallet doesn't qualify";
-      case WalletState.ALREADY_CLAIMED:
-        return "Tokens were already claimed";
-      case WalletState.HAS_ALLOWANCE_CONNECTED:
-        return "You scored allocation!";
-      case WalletState.HAS_ALLOWANCE_NO_CONNECTED:
-        return "You scored allocation!";
-      default:
-        return "Let's claim some tokens";
-    }
-  };
-
-  const generateSubtitleFromWalletState = (
-    walletState?: WalletState,
-    address?: Address,
-    allowance?: number,
-    isCustomerActive?: boolean,
-    isAuthorized?: boolean,
-  ) => {
-    switch (walletState) {
-      case WalletState.HAS_NO_ALLOWANCE:
-        return `Unfortunately, there is no allocation for the wallet ${address}`;
-      case WalletState.IS_NOT_QUALIFIED:
-        return `Unfortunately, the wallet ${address} doesn't qualify`;
-      case WalletState.ALREADY_CLAIMED:
-        return `Wallet ${address} already claimed tokens`;
-      case WalletState.HAS_ALLOWANCE_CONNECTED:
-      case WalletState.HAS_ALLOWANCE_NO_CONNECTED:
-        if (isAuthorized) {
-          if (isCustomerActive) {
-            return "You can claim tokens now";
-          }
-          return "Now we need to verify your identity before you can claim tokens";
-        }
-        return `Congrats, the allocation for the wallet ${address} is ${allowance} PEAQ.`;
-      default:
-        return "Connect your wallet to claim tokens";
-    }
-  };
-
-  const checkWalletState = (
-    isQualified: boolean,
-    isConnected: boolean,
-    balance: number | undefined,
-    allowance: number | undefined,
-    isBalancePending: boolean,
-  ): WalletState | undefined => {
-    console.log("Checking wallet state...", {
-      isConnected,
-      isQualified,
-      allowance,
-      balance,
-    });
-
-    if (!isQualified) {
-      return WalletState.IS_NOT_QUALIFIED;
-    }
-    if (isConnected) {
-      if (allowance) {
-        if (balance && balance > 0 && !isBalancePending) {
-          return WalletState.ALREADY_CLAIMED;
-        }
-        if (balance === 0 && !isBalancePending) {
-          return WalletState.HAS_ALLOWANCE_CONNECTED;
-        }
-      } else {
-        return WalletState.HAS_NO_ALLOWANCE;
-      }
-    } else {
-      if (allowance) {
-        return WalletState.HAS_ALLOWANCE_NO_CONNECTED;
-      }
-      return WalletState.HAS_NO_ALLOWANCE;
-    }
-    return undefined;
-  };
-
   return {
     allowance,
     balance,
-    checkWalletState,
     claimWallet,
-    disconnectWallet,
-    generateSubtitleFromWalletState,
-    generateTitleFromWalletState,
+    disconnectWallet: disconnect,
     handleInvalidInput,
     isBalancePending: isPending,
     isClaiming,
@@ -201,4 +114,93 @@ export const useWalletCheck = () => {
     redirectToHome,
     walletClient,
   };
+};
+
+export const generateSubtitleFromWalletState = (
+  props?: {
+    walletState?: WalletState,
+    address?: Address,
+    allowance?: number,
+    isCustomerActive?: boolean,
+    isAuthorized?: boolean,
+  }
+) => {
+  switch (props?.walletState) {
+    case "UNCHECKED":
+      return "Connect your wallet to claim tokens";
+    case "HAS_NO_ALLOWANCE":
+      return `Unfortunately, there is no allocation for the wallet ${props.address}`;
+    case "IS_NOT_QUALIFIED":
+      return `Unfortunately, the wallet ${props.address} doesn't qualify`;
+    case "ALREADY_CLAIMED":
+      return `Wallet ${props.address} already claimed tokens`;
+    case "HAS_ALLOWANCE_CONNECTED":
+    case "HAS_ALLOWANCE_NO_CONNECTED":
+      if (props.isAuthorized) {
+        if (props.isCustomerActive) {
+          return "You can claim tokens now";
+        }
+        return "Now we need to verify your identity before you can claim tokens";
+      }
+      return `Congrats, the allocation for the wallet ${props.address} is ${props.allowance} PEAQ.`;
+    default:
+      return "Connect your wallet to claim tokens";
+  }
+};
+
+export const generateTitleFromWalletState = (walletState?: WalletState) => {
+  switch (walletState) {
+    case "HAS_NO_ALLOWANCE":
+      return "No allocation";
+    case "IS_NOT_QUALIFIED":
+      return "This wallet doesn't qualify";
+    case "ALREADY_CLAIMED":
+      return "Tokens were already claimed";
+    case "HAS_ALLOWANCE_CONNECTED":
+      return "You scored allocation!";
+    case "HAS_ALLOWANCE_NO_CONNECTED":
+      return "You scored allocation!";
+    default:
+      return "Let's claim some tokens";
+  }
+};
+
+export const checkWalletState = (
+  props: {
+    isQualified: boolean,
+    isConnected: boolean,
+    balance: number | undefined,
+    allowance: number | undefined,
+    isBalancePending: boolean,
+  }
+): WalletState | undefined => {
+  const { isQualified, isConnected, balance, allowance, isBalancePending } = props;
+  console.log("Checking wallet state...", {
+    isConnected,
+    isQualified,
+    allowance,
+    balance,
+  });
+
+  if (!isQualified) {
+    return "IS_NOT_QUALIFIED";
+  }
+  if (isConnected) {
+    if (allowance) {
+      if (balance && balance > 0 && !isBalancePending) {
+        return "ALREADY_CLAIMED";
+      }
+      if (balance === 0 && !isBalancePending) {
+        return "HAS_ALLOWANCE_CONNECTED";
+      }
+    } else {
+      return "HAS_NO_ALLOWANCE";
+    }
+  } else {
+    if (allowance) {
+      return "HAS_ALLOWANCE_NO_CONNECTED";
+    }
+    return "HAS_NO_ALLOWANCE";
+  }
+  return undefined;
 };

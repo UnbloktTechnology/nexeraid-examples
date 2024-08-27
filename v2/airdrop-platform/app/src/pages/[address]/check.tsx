@@ -1,8 +1,11 @@
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import {
+  checkWalletState,
+  generateSubtitleFromWalletState,
+  generateTitleFromWalletState,
   useWalletCheck,
-  WalletState,
+  type WalletState,
 } from "@/features/kyc-airdrop/hooks/useWalletCheck";
 import { AirdropLayout } from "@/features/kyc-airdrop/ui/AirdropLayout";
 import { Button } from "@/features/kyc-airdrop/ui/components/Button";
@@ -22,10 +25,7 @@ const AirdropPageWrapper = () => {
 
   const {
     balance,
-    checkWalletState,
     claimWallet,
-    generateSubtitleFromWalletState,
-    generateTitleFromWalletState,
     isBalancePending,
     isClaiming,
     isConnected,
@@ -58,11 +58,13 @@ const AirdropPageWrapper = () => {
     if (balanceChecked && !walletChecked) {
       onSetWalletState(
         checkWalletState(
-          isQualified,
-          isConnected,
-          balance,
-          allowance,
-          isBalancePending,
+          {
+            isQualified,
+            isConnected,
+            balance,
+            allowance,
+            isBalancePending,
+          }
         ),
       );
     }
@@ -72,18 +74,7 @@ const AirdropPageWrapper = () => {
     } else {
       setIsLoading(true);
     }
-  }, [
-    balance,
-    isBalancePending,
-    isConnected,
-    isQualified,
-    allowance,
-    walletState,
-    checkWalletState,
-    onSetWalletState,
-    walletChecked,
-    balanceChecked,
-  ]);
+  }, [balance, isBalancePending, isConnected, isQualified, allowance, walletState, onSetWalletState, walletChecked, balanceChecked]);
 
   // Recalculate the wallet state when the connection status changes
   useEffect(() => {
@@ -148,10 +139,12 @@ const AirdropPageWrapper = () => {
         isLoading
           ? "We are checking your wallet..."
           : generateSubtitleFromWalletState(
-            walletState,
-            address,
-            allowance,
-            isCustomerActive,
+            {
+              walletState,
+              address,
+              allowance,
+              isCustomerActive,
+            }
           )
       }
     >
@@ -162,8 +155,8 @@ const AirdropPageWrapper = () => {
       )}
       {!isLoading && (
         <>
-          {(walletState === WalletState.HAS_ALLOWANCE_CONNECTED ||
-            walletState === WalletState.HAS_ALLOWANCE_NO_CONNECTED) && (
+          {(walletState === "HAS_ALLOWANCE_CONNECTED" ||
+            walletState === "HAS_ALLOWANCE_NO_CONNECTED") && (
               <div className="flex flex-row items-center justify-center gap-4">
                 <RedirectToHomeButton
                   variant="primary"
@@ -181,9 +174,9 @@ const AirdropPageWrapper = () => {
                   renderKycAndClaim()}
               </div>
             )}
-          {(walletState === WalletState.ALREADY_CLAIMED ||
-            walletState === WalletState.HAS_NO_ALLOWANCE ||
-            walletState === WalletState.IS_NOT_QUALIFIED) && (
+          {(walletState === "ALREADY_CLAIMED" ||
+            walletState === "HAS_NO_ALLOWANCE" ||
+            walletState === "IS_NOT_QUALIFIED") && (
               <div className="flex w-full flex-col items-center justify-center gap-4">
                 <RedirectToHomeButton />
               </div>

@@ -1,7 +1,7 @@
 import { AirdropLayout } from "@/features/kyc-airdrop/ui/AirdropLayout";
 import { SearchBar } from "@/features/kyc-airdrop/ui/components/SearchBar";
 import { ConnectButtonCustom } from "@/features/kyc-airdrop/ui/components/ConnectButtonCustom";
-import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
+import { generateSubtitleFromWalletState, generateTitleFromWalletState, useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
 import { WagmiProvider } from "wagmi";
 import { wagmiConfig } from "@/features/root/identity/wagmiConfig";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -31,8 +31,6 @@ const Home = () => {
 const HomeContent = () => {
   const {
     isConnected,
-    generateTitleFromWalletState,
-    generateSubtitleFromWalletState,
   } = useWalletCheck();
   return (
     <AirdropLayout

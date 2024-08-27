@@ -1,4 +1,3 @@
-import { EvmChainId } from "@nexeraid/identity-schemas";
 import { getAccount, getChainId, signMessage } from "wagmi/actions";
 import type { Web3Wallet } from "@nexeraid/react-sdk";
 import type { Config } from "wagmi";
@@ -29,6 +28,6 @@ export const createWagmiWalletConfig = (wagmiConfig: Config): Web3Wallet => ({
   },
   getBlockchainId: () => {
     const number = getChainId(wagmiConfig);
-    return EvmChainId.parse(`${number}`);
+    return
   },
 });

@@ -1,9 +1,9 @@
 import { drizzle, type PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import * as schema from "@/services/db/schema";
+import * as schema from "@/db/schema";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
-import { serverEnvs } from "@/env/serverEnvs";
 import { sql } from "drizzle-orm";
+import { env } from "process";
 
 let db: PostgresJsDatabase<typeof schema>;
 
@@ -13,7 +13,7 @@ export function initDb(testDb?: PostgresJsDatabase<typeof schema>) {
     return db;
   }
 
-  const dbUrl = serverEnvs.DATABASE_URL;
+  const dbUrl = env.DATABASE_URL;
   if (!dbUrl) throw new Error("DATABASE_URL is not set");
 
   const client = postgres(dbUrl, { prepare: true });
@@ -31,7 +31,7 @@ export function getDb() {
 
 export async function createTestDb(testName: string) {
   const dbName = `test_db_${testName}_${Date.now()}`.toLowerCase();
-  const dbUrl = serverEnvs.DATABASE_URL;
+  const dbUrl = env.DATABASE_URL;
   if (!dbUrl) throw new Error("DATABASE_URL is not set");
 
   const pg = postgres(dbUrl);

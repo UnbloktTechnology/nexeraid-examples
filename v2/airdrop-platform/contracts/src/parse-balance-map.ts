@@ -1,6 +1,5 @@
-import { BigNumber } from 'ethers'
 import BalanceTree from './balance-tree'
-import { getAddress, isAddress } from 'viem'
+import { getAddress, isAddress, toHex } from 'viem'
 
 // This is the blob that gets distributed and pinned to IPFS.
 // It is completely sufficient for recreating the entire merkle tree.
@@ -31,21 +30,21 @@ export function parseBalanceMap(balances: OldFormat | NewFormat[]): MerkleDistri
     : Object.keys(balances).map(
       (account): NewFormat => ({
         address: account,
-        earnings: BigNumber.from(balances[account]).toHexString(),
+        earnings: toHex(BigInt(balances[account])),
         reasons: '',
       })
     )
 
   const dataByAddress = balancesInNewFormat.reduce<{
-    [address: string]: { amount: BigNumber; flags?: { [flag: string]: boolean } }
+    [address: string]: { amount: bigint; flags?: { [flag: string]: boolean } }
   }>((memo, { address: account, earnings, reasons }) => {
     if (!isAddress(account)) {
       throw new Error(`Found invalid address: ${account}`)
     }
     const parsed = getAddress(account)
     if (memo[parsed]) throw new Error(`Duplicate address: ${parsed}`)
-    const parsedNum = BigNumber.from(earnings)
-    if (parsedNum.lte(0)) throw new Error(`Invalid amount for account: ${account}`)
+    const parsedNum = BigInt(earnings)
+    if (parsedNum <= 0) throw new Error(`Invalid amount for account: ${account}`)
 
     const flags = {
       isSOCKS: reasons.includes('socks'),
@@ -59,7 +58,7 @@ export function parseBalanceMap(balances: OldFormat | NewFormat[]): MerkleDistri
 
   const sortedAddresses = Object.keys(dataByAddress).sort()
 
-  const treeInput = sortedAddresses.map((address) => ({ account: address, amount: dataByAddress[address].amount }))
+  const treeInput = sortedAddresses.map((address) => ({ account: getAddress(address), amount: dataByAddress[address].amount }))
 
   // construct a tree
   const tree = new BalanceTree(treeInput)
@@ -71,21 +70,21 @@ export function parseBalanceMap(balances: OldFormat | NewFormat[]): MerkleDistri
     const { amount, flags } = dataByAddress[address]
     memo[address] = {
       index,
-      amount: amount.toHexString(),
-      proof: tree.getProof(index, address, amount),
+      amount: toHex(amount),
+      proof: tree.getProof(BigInt(index), getAddress(address), amount),
       ...(flags ? { flags } : {}),
     }
     return memo
   }, {})
 
-  const tokenTotal: BigNumber = sortedAddresses.reduce<BigNumber>(
-    (memo, key) => memo.add(dataByAddress[key].amount),
-    BigNumber.from(0)
+  const tokenTotal: bigint = sortedAddresses.reduce<bigint>(
+    (memo, key) => memo + dataByAddress[key].amount,
+    BigInt(0)
   )
 
   return {
     merkleRoot: tree.getHexRoot(),
-    tokenTotal: tokenTotal.toHexString(),
+    tokenTotal: `0x${tokenTotal.toString(16).padStart(4, '0')}`, // Ensure at least 4 characters (2 bytes) with leading zeros
     claims,
   }
 }

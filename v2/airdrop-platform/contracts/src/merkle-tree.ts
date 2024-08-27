@@ -1,5 +1,5 @@
-import { bufferToHex } from 'ethereumjs-util'
-import { keccak256 } from 'viem'
+import { bytesToHex, keccak256 } from 'viem'
+
 export default class MerkleTree {
   private readonly elements: Buffer[]
   private readonly bufferElementPositionIndex: { [hexElement: string]: number }
@@ -13,7 +13,7 @@ export default class MerkleTree {
     this.elements = MerkleTree.bufDedup(this.elements)
 
     this.bufferElementPositionIndex = this.elements.reduce<{ [hexElement: string]: number }>((memo, el, index) => {
-      memo[bufferToHex(el)] = index
+      memo[bytesToHex(el)] = index
       return memo
     }, {})
 
@@ -64,11 +64,11 @@ export default class MerkleTree {
   }
 
   getHexRoot(): string {
-    return bufferToHex(this.getRoot())
+    return bytesToHex(this.getRoot())
   }
 
   getProof(el: Buffer) {
-    let idx = this.bufferElementPositionIndex[bufferToHex(el)]
+    let idx = this.bufferElementPositionIndex[bytesToHex(el)]
 
     if (typeof idx !== 'number') {
       throw new Error('Element does not exist in Merkle tree')
@@ -114,7 +114,7 @@ export default class MerkleTree {
       throw new Error('Array is not an array of buffers')
     }
 
-    return arr.map((el) => '0x' + el.toString('hex'))
+    return arr.map((el) => bytesToHex(el))
   }
 
   private static sortAndConcat(...args: Buffer[]): Buffer {

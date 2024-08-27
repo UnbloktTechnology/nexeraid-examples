@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { env } from "@/env.mjs";
-import { createApiClient } from "@nexeraid/js-sdk";
+import { createApiClient, WalletChallengeRequest } from "@nexeraid/js-sdk";
 
 import "@/features/root/configureNodeDemoEnv";
 
@@ -20,11 +20,11 @@ export default async function handler(
 
   try {
     // Get the challenge parameters from the request body
-    const params = req.body;
+    const params = WalletChallengeRequest.omit({ workflowId: true }).parse(req.body);
 
     const challengeRes = await apiClient.createWeb3Challenge({
-      workflowId: env.NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP,
       ...params,
+      workflowId: env.NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP,
     });
 
     res.status(200).json(challengeRes);

@@ -19,10 +19,10 @@ export default async function handler(
       const input = inputSchema.parse(req.body);
 
       const apiHost = appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api;
-      const cmsProjectId = env.NEXERA_ID_API_PROJECT_ID;
+      const workspaceId = env.NEXERA_ID_WORKSPACE_ID;
 
       const response = await fetch(
-        `${apiHost}/projects/${cmsProjectId}/customer-wallets/${input.address}/customer`,
+        `${apiHost}/projects/${workspaceId}/customer-wallets/${input.address}/customer`,
         {
           method: "GET",
           headers: {

@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { ethers } from "ethers";
 
 export const ENVS = [
   "local",
@@ -74,11 +73,3 @@ export const TEST_USERS = [
 ] as const;
 
 export type TestUser = (typeof TEST_USERS)[number];
-
-export const getSigner = (user: TestUser) => {
-  const provider = new ethers.providers.JsonRpcProvider(
-    "https://ava-testnet.public.blastapi.io/ext/bc/C/rpc",
-    43113,
-  );
-  return new ethers.Wallet(user.privateKey, provider);
-};

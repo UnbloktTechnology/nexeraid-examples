@@ -10,13 +10,12 @@ import { useCallback, useEffect, useState } from "react";
 import { type Address } from "@nexeraid/identity-schemas";
 import { ConnectButtonCustom } from "@/features/kyc-airdrop/ui/components/ConnectButtonCustom";
 import { RedirectToHomeButton } from "@/features/kyc-airdrop/ui/components/RedirectToHomeButton";
-import { useGetCustomerStatusByProjectIdAndWallet } from "@/features/kyc-airdrop/hooks/useGetCustomerStatusByProjectIdAndWallet";
+import { useUserStatus, useOpenWidget, useIsLoading } from "@nexeraid/react-sdk";
 
 const AirdropPageWrapper = () => {
   const router = useRouter();
   const address = router.query.address as Address;
   const [isLoading, setIsLoading] = useState(true);
-  const [isCustomerActive, setIsCustomerActive] = useState(false);
   const [walletChecked, setWalletChecked] = useState(false);
   const [walletState, setWalletState] = useState<WalletState | undefined>();
   const [balanceChecked, setBalanceChecked] = useState(false);
@@ -35,14 +34,10 @@ const AirdropPageWrapper = () => {
     allowance,
   } = useWalletCheck();
 
-  const customerStatus = useGetCustomerStatusByProjectIdAndWallet(
-    address,
-    isCustomerActive,
-  );
-
-  useEffect(() => {
-    setIsCustomerActive(customerStatus.data?.status === "Active");
-  }, [customerStatus.data]);
+  const customerStatus = useUserStatus();
+  const openWidget = useOpenWidget({});
+  const isWidgetLoading = useIsLoading();
+  const isCustomerActive = customerStatus === "Active";
 
   const onSetWalletState = useCallback((state: WalletState | undefined) => {
     setWalletState(state);
@@ -104,10 +99,10 @@ const AirdropPageWrapper = () => {
       !isCustomerActive && (
         <Button
           variant="secondary"
-          onClick={startVerification}
-          disabled={isVerifyingIdentity}
+          onClick={openWidget}
+          disabled={isWidgetLoading}
           id="identity-btn"
-          isLoading={isVerifyingIdentity}
+          isLoading={isWidgetLoading}
         >
           Begin identity verification
         </Button>
@@ -132,7 +127,7 @@ const AirdropPageWrapper = () => {
   };
 
   const renderKycAndClaim = () => {
-    return customerStatus.isLoading ? (
+    return !customerStatus ? (
       <Button variant="secondary" isLoading>
         Please wait
       </Button>
@@ -157,7 +152,6 @@ const AirdropPageWrapper = () => {
             address,
             allowance,
             isCustomerActive,
-            !!auth,
           )
       }
     >
@@ -182,18 +176,8 @@ const AirdropPageWrapper = () => {
                     variant="secondary"
                   />
                 )}
-                {isConnected && !auth && (
-                  <Button
-                    variant="secondary"
-                    onClick={() => void configIdentityClient()}
-                    isLoading={isAuthenticating}
-                  >
-                    Authenticate wallet to start claiming
-                  </Button>
-                )}
-                {isIdentityClientInit &&
+                {
                   isConnected &&
-                  auth &&
                   renderKycAndClaim()}
               </div>
             )}

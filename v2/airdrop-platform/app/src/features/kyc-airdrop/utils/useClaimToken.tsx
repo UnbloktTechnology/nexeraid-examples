@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import {
   encodeFunctionData,
   type Account,
+  type Address,
   type Chain,
   type Client,
   type PublicActions,
@@ -16,15 +17,14 @@ import { getDistributorContractAddress } from "./getContractAddress";
 import { distributorABI } from "./abis/distributorABI";
 import { getUserAllowance, getUserIndex } from "./getUserAllowance";
 import userAllowances from "./merkle-tree/complex_example.json";
-import { BigNumber } from "ethers";
 import BalanceTree from "./merkle-tree/BalanceTree";
-import { useSignTransactionData } from "@nexeraid/react-sdk";
+import { useGetTxAuthDataSignature } from "@nexeraid/react-sdk";
 
 const tree = new BalanceTree(
   Object.entries(userAllowances).map((ent) => {
     return {
-      account: ent[0],
-      amount: BigNumber.from(ent[1]),
+      account: ent[0] as Address,
+      amount: BigInt(ent[1]),
     };
   }),
 );
@@ -40,7 +40,7 @@ export const useClaimToken = () => {
   const chainId = useChainId();
   const account = useAccount();
   const sendTx = useSendTransaction();
-  const signTransactionData = useSignTransactionData();
+  const getTxAuthDataSignature = useGetTxAuthDataSignature();
 
   return useMutation({
     mutationFn: async () => {
@@ -53,11 +53,11 @@ export const useClaimToken = () => {
         const amount = getUserAllowance(account.address);
         const index = getUserIndex(account.address);
         const proof = tree.getProof(
-          index,
+          BigInt(index),
           account.address,
-          BigNumber.from(amount),
+          BigInt(amount ?? 0),
         );
-        const signatureResponse = await signTransactionData({
+        const signatureResponse = await getTxAuthDataSignature({
           namespace: "eip155",
           userAddress: account.address,
           contractAbi: Array.from(distributorABI),

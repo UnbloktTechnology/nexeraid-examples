@@ -9,6 +9,7 @@ export const env = createEnv({
   server: {
     NEXERA_ID_API_KEY_KYC_AIRDROP: z.string(),
     NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP: z.string(),
+    NEXERA_ID_WORKSPACE_ID: z.string(),
     DATABASE_URL: z
       .string()
       .default("postgresql://postgres:postgres@localhost:5432/postgres"),
@@ -37,7 +38,7 @@ export const env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
-    NODE_ENV: process.env.NODE_ENV,
+    NEXERA_ID_WORKSPACE_ID: process.env.NEXERA_ID_WORKSPACE_ID,
     NEXERA_ID_API_KEY_KYC_AIRDROP: process.env.NEXERA_ID_API_KEY_KYC_AIRDROP,
     NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP:
       process.env.NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP,

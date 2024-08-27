@@ -5,10 +5,10 @@ import {
   getUserAllowance,
   getUserIndex,
 } from "@/features/kyc-airdrop/utils/getUserAllowance";
-import { useState } from "react";
 import { useRouter } from "next/router";
 import { useClaimToken } from "@/features/kyc-airdrop/utils/useClaimToken";
 import { z } from "zod";
+import { useMutation } from '@tanstack/react-query';
 
 export const WALLET_STATES = [
   "UNCHECKED",
@@ -29,36 +29,34 @@ export const useWalletCheck = () => {
   const isQualified = getUserIndex(address as Address) !== -1;
   const allowance = getUserAllowance(address as Address);
   const tryClaiming = useClaimToken();
+
   const { data: walletClient } = useWalletClient();
-  const [isClaiming, setIsClaiming] = useState(false);
   const { disconnect } = useDisconnect();
 
-  const claimWallet = () => {
-    if (walletClient) {
-      setIsClaiming(true);
-      tryClaiming
-        .mutateAsync()
-        .then((_sdkResponse) => {
-          setIsClaiming(false);
-          console.log("sdkResponse", _sdkResponse.signatureResponse);
+  const claimMutation = useMutation({
+    mutationFn: async () => {
+      if (!walletClient) {
+        throw new Error("walletClient not loaded");
+      }
+      return tryClaiming.mutateAsync();
+    },
+    onSuccess: (sdkResponse) => {
+      console.log("sdkResponse", sdkResponse.signatureResponse);
+      if (sdkResponse?.signatureResponse.isAuthorized) {
+        redirectToClaimSuccess();
+      } else {
+        const errorMessage = sdkResponse?.error ?? "You are not authorized to claim tokens, please retry the identity verification process";
+        redirectToClaimError(errorMessage);
+      }
+    },
+    onError: (error) => {
+      console.error("Error while fetching signature", error);
+      redirectToClaimError("Error while fetching signature");
+    },
+  });
 
-          if (_sdkResponse?.signatureResponse.isAuthorized) {
-            redirectToClaimSuccess();
-          } else {
-            redirectToClaimError(
-              _sdkResponse?.error ??
-              "You are not authorized to claim tokens, please retry the identity verification process",
-            );
-          }
-        })
-        .catch((e) => {
-          setIsClaiming(false);
-          console.error("Error while fetching signature", e);
-          redirectToClaimError("Error while fetching signature");
-        });
-    } else {
-      console.log("walletClient not loaded");
-    }
+  const claimWallet = () => {
+    claimMutation.mutate();
   };
 
   const redirectToClaimSuccess = () => {
@@ -106,7 +104,7 @@ export const useWalletCheck = () => {
     disconnectWallet: disconnect,
     handleInvalidInput,
     isBalancePending: isPending,
-    isClaiming,
+    isClaiming: claimMutation.isPending,
     isConnected,
     isQualified,
     isValidAddress,
@@ -136,13 +134,12 @@ export const generateSubtitleFromWalletState = (
       return `Wallet ${props.address} already claimed tokens`;
     case "HAS_ALLOWANCE_CONNECTED":
     case "HAS_ALLOWANCE_NO_CONNECTED":
-      if (props.isAuthorized) {
-        if (props.isCustomerActive) {
-          return "You can claim tokens now";
-        }
-        return "Now we need to verify your identity before you can claim tokens";
-      }
-      return `Congrats, the allocation for the wallet ${props.address} is ${props.allowance} PEAQ.`;
+      if (!props.isAuthorized && !props.isCustomerActive)
+        return `Congrats, the allocation for the wallet ${props.address} is ${props.allowance} PEAQ.`;
+      if (props.isAuthorized && !props.isCustomerActive)
+        return `Now we need to verify your identity before you can claim tokens`;
+      if (props.isAuthorized && props.isCustomerActive)
+        return `You can claim tokens now`;
     default:
       return "Connect your wallet to claim tokens";
   }
@@ -165,42 +162,19 @@ export const generateTitleFromWalletState = (walletState?: WalletState) => {
   }
 };
 
-export const checkWalletState = (
-  props: {
-    isQualified: boolean,
-    isConnected: boolean,
-    balance: number | undefined,
-    allowance: number | undefined,
-    isBalancePending: boolean,
-  }
-): WalletState | undefined => {
-  const { isQualified, isConnected, balance, allowance, isBalancePending } = props;
-  console.log("Checking wallet state...", {
-    isConnected,
-    isQualified,
-    allowance,
-    balance,
-  });
+export const checkWalletState = (props: {
+  isQualified: boolean,
+  isConnected: boolean,
+  balance: number | undefined,
+  allowance: number | undefined,
+  isBalancePending: boolean,
+}): WalletState => {
 
-  if (!isQualified) {
-    return "IS_NOT_QUALIFIED";
-  }
-  if (isConnected) {
-    if (allowance) {
-      if (balance && balance > 0 && !isBalancePending) {
-        return "ALREADY_CLAIMED";
-      }
-      if (balance === 0 && !isBalancePending) {
-        return "HAS_ALLOWANCE_CONNECTED";
-      }
-    } else {
-      return "HAS_NO_ALLOWANCE";
-    }
-  } else {
-    if (allowance) {
-      return "HAS_ALLOWANCE_NO_CONNECTED";
-    }
-    return "HAS_NO_ALLOWANCE";
-  }
-  return undefined;
+
+  if (!props.isQualified) return "IS_NOT_QUALIFIED";
+  if (!props.allowance) return "HAS_NO_ALLOWANCE";
+  if (!props.isConnected) return "HAS_ALLOWANCE_NO_CONNECTED";
+  if (props.balance === undefined || props.isBalancePending) return "UNCHECKED";
+  if (props.balance > 0) return "ALREADY_CLAIMED";
+  return "HAS_ALLOWANCE_CONNECTED";
 };

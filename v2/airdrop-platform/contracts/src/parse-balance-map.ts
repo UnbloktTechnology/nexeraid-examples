@@ -1,4 +1,4 @@
-import BalanceTree from './balance-tree'
+import { createBalanceTree } from './balance-tree'
 import { getAddress, isAddress, toHex } from 'viem'
 
 // This is the blob that gets distributed and pinned to IPFS.
@@ -61,7 +61,7 @@ export function parseBalanceMap(balances: OldFormat | NewFormat[]): MerkleDistri
   const treeInput = sortedAddresses.map((address) => ({ account: getAddress(address), amount: dataByAddress[address].amount }))
 
   // construct a tree
-  const tree = new BalanceTree(treeInput)
+  const tree = createBalanceTree({ balances: treeInput })
 
   // generate claims
   const claims = sortedAddresses.reduce<{
@@ -71,7 +71,7 @@ export function parseBalanceMap(balances: OldFormat | NewFormat[]): MerkleDistri
     memo[address] = {
       index,
       amount: toHex(amount),
-      proof: tree.getProof(BigInt(index), getAddress(address), amount),
+      proof: tree.getProof({ index: BigInt(index), account: getAddress(address), amount }),
       ...(flags ? { flags } : {}),
     }
     return memo

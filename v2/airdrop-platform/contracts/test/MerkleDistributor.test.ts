@@ -169,7 +169,7 @@ for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline']) {
             amount: 10,
             merkleProof: [],
           })
-        ).to.be.revertedWith('InvalidProof()')
+        ).to.be.revertedWith('InvalidProof')
       })
 
       it('fails for invalid index', async () => {
@@ -187,7 +187,7 @@ for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline']) {
             amount: 10,
             merkleProof: [],
           })
-        ).to.be.revertedWith('InvalidProof()')
+        ).to.be.revertedWith('InvalidProof')
       })
 
       describe('two account tree', () => {
@@ -347,7 +347,7 @@ for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline']) {
               amount: 101,
               merkleProof: proof0,
             })
-          ).to.be.revertedWith('InvalidProof()')
+          ).to.be.revertedWith('InvalidProof')
         })
 
         it('cannot claim more than proof', async () => {
@@ -359,7 +359,7 @@ for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline']) {
               amount: 101,
               merkleProof: proof0,
             })
-          ).to.be.revertedWith('InvalidProof()')
+          ).to.be.revertedWith('InvalidProof')
         })
 
         it('gas', async () => {

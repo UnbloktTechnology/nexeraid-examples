@@ -1,7 +1,6 @@
-import { BigNumber, utils } from 'ethers'
+import { BigNumber } from 'ethers'
 import BalanceTree from './balance-tree'
-
-const { isAddress, getAddress } = utils
+import { getAddress, isAddress } from 'viem'
 
 // This is the blob that gets distributed and pinned to IPFS.
 // It is completely sufficient for recreating the entire merkle tree.
@@ -30,12 +29,12 @@ export function parseBalanceMap(balances: OldFormat | NewFormat[]): MerkleDistri
   const balancesInNewFormat: NewFormat[] = Array.isArray(balances)
     ? balances
     : Object.keys(balances).map(
-        (account): NewFormat => ({
-          address: account,
-          earnings: BigNumber.from(balances[account]).toHexString(),
-          reasons: '',
-        })
-      )
+      (account): NewFormat => ({
+        address: account,
+        earnings: BigNumber.from(balances[account]).toHexString(),
+        reasons: '',
+      })
+    )
 
   const dataByAddress = balancesInNewFormat.reduce<{
     [address: string]: { amount: BigNumber; flags?: { [flag: string]: boolean } }

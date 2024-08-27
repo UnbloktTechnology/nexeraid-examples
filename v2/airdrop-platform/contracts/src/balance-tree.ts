@@ -1,6 +1,6 @@
 import MerkleTree from './merkle-tree'
-import { BigNumber, utils } from 'ethers'
-
+import { BigNumber } from 'ethers'
+import { encodePacked, keccak256, type Address } from 'viem'
 export default class BalanceTree {
   private readonly tree: MerkleTree
   constructor(balances: { account: string; amount: BigNumber }[]) {
@@ -29,7 +29,7 @@ export default class BalanceTree {
   // keccak256(abi.encode(index, account, amount))
   public static toNode(index: number | BigNumber, account: string, amount: BigNumber): Buffer {
     return Buffer.from(
-      utils.solidityKeccak256(['uint256', 'address', 'uint256'], [index, account, amount]).substr(2),
+      keccak256(encodePacked(['uint256', 'address', 'uint256'], [BigInt(index.toString()), account as Address, BigInt(amount.toString())])).substr(2),
       'hex'
     )
   }

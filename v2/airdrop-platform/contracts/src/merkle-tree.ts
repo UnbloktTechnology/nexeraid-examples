@@ -1,5 +1,5 @@
-import { bufferToHex, keccak256 } from 'ethereumjs-util'
-
+import { bufferToHex } from 'ethereumjs-util'
+import { keccak256 } from 'viem'
 export default class MerkleTree {
   private readonly elements: Buffer[]
   private readonly bufferElementPositionIndex: { [hexElement: string]: number }
@@ -56,7 +56,7 @@ export default class MerkleTree {
       return first
     }
 
-    return keccak256(MerkleTree.sortAndConcat(first, second))
+    return Buffer.from(keccak256(MerkleTree.sortAndConcat(first, second)).slice(2), 'hex')
   }
 
   getRoot(): Buffer {

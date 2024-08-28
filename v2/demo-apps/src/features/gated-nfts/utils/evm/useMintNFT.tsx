@@ -1,16 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import {
-  encodeFunctionData,
-  pad,
-  toHex,
-  type Account,
-  type Chain,
-  type Client,
-  type PublicActions,
-  type RpcSchema,
-  type Transport,
-  type WalletActions,
-} from "viem";
+import { encodeFunctionData, pad, toHex } from "viem";
 import { ExampleGatedNFTMinterABI } from "@nexeraid/sig-gating-contracts-sdk/abis";
 import { EvmChainId, type EIP155Signature } from "@nexeraid/identity-schemas";
 import {
@@ -25,13 +14,6 @@ import { useGetTxAuthDataSignature } from "@nexeraid/react-sdk";
 const WRONG_SIGNATURE: EIP155Signature =
   "0xc6fd40ac16944fd0fef20071149270a2c283c8ae92ffcbb5e61f44348490dc3b65e786637aaa82f46ac3c01941a9875046a2ceb9bad189362014b35f6e74df231b";
 
-type WalletClientExtended = Client<
-  Transport,
-  Chain,
-  Account,
-  RpcSchema,
-  PublicActions & WalletActions<Chain, Account>
->;
 export const useMintGatedNFTFromSDK = () => {
   const chainId = useChainId();
   const account = useAccount();

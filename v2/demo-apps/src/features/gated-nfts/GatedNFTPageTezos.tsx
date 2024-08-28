@@ -1,6 +1,5 @@
 import { Inter } from "next/font/google";
 import styles from "../kyc-widget/client.module.css";
-import { useState } from "react";
 import { GatedNFTTezos } from "./components/GatedNFTTezos";
 import { KYCClientTezos } from "../multi-chain-support/components/tezos/KYCClientTezos";
 

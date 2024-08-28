@@ -69,7 +69,7 @@ export const Transactions = () => {
       </div>
 
       <div className="flex w-full flex-col gap-5 rounded-lg border bg-white p-10">
-        {transactions.map((transaction, index) => {
+        {transactions.map((transaction) => {
           const color = transaction.type === "deposit" ? "#98d674" : "#2849F5";
           const icon =
             transaction.type === "deposit" ? "up-balance" : "down-balance";

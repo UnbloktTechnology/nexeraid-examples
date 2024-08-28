@@ -1,5 +1,4 @@
 import { getDefaultConfig } from "@rainbow-me/rainbowkit";
-import { webSocket } from "viem";
 import { polygonAmoy, sepolia } from "viem/chains";
 
 export const wagmiConfig = getDefaultConfig({

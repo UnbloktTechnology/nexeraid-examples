@@ -19,7 +19,7 @@ import {
   createWeb3AuthAdapter,
   NexeraIdProvider,
   Web3SignatureRejected,
-  Web3Wallet,
+  type Web3Wallet,
 } from "@nexeraid/react-sdk";
 import { toBytes, toHex } from "viem";
 import { createDemoAppGenerateChallengeCallback } from "@/features/root/identity/createDemoAppGenerateChallengeCallback";

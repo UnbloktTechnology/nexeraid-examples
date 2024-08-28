@@ -8,7 +8,6 @@ import { useCheckBankKYBCompliance } from "@/features/bank-kyb/identity/useCheck
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NexeraIdProvider } from "@nexeraid/react-sdk";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { createDemoWeb3WagmiSdkConfig } from "@/features/root/identity/createDemoWeb3WagmiSdkConfig";
 import { nexeraIdConfig } from "@/features/bank-kyb/identity/nexeraIdConfig";
 
 const queryClient = new QueryClient();

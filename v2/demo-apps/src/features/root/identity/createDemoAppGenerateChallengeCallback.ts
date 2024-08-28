@@ -1,4 +1,4 @@
-import { GenerateWeb3ChallengeParams } from "@nexeraid/react-sdk";
+import { type GenerateWeb3ChallengeParams } from "@nexeraid/react-sdk";
 
 export const createDemoAppGenerateChallengeCallback =
   (

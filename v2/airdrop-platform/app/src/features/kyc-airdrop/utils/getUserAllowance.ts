@@ -1,10 +1,15 @@
 import type { Address } from "@nexeraid/identity-schemas";
-import userAllowances from "./merkle-tree/complex_example.json";
+import { userAllowances } from "./merkle-tree/complex_example";
 
 export const getUserAllowance = (userAddress: Address) => {
-  return (userAllowances as Record<Address, number>)[userAddress];
+  const balance = (userAllowances.balances).find(
+    (balance) => balance.address === userAddress
+  );
+  return balance ? parseInt(balance.earnings, 10) : undefined;
 };
 
 export const getUserIndex = (userAddress: Address) => {
-  return Object.keys(userAllowances).indexOf(userAddress);
+  return (userAllowances.balances.findIndex(
+    (balance) => balance.address === userAddress
+  ));
 };

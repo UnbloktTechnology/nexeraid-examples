@@ -2,7 +2,6 @@ import { useMutation } from "@tanstack/react-query";
 import {
   encodeFunctionData,
   type Account,
-  type Address,
   type Chain,
   type Client,
   type PublicActions,
@@ -16,20 +15,16 @@ import { useChainId, useAccount, useSendTransaction } from "wagmi";
 import { getDistributorContractAddress } from "./getContractAddress";
 import { distributorABI } from "./abis/distributorABI";
 import { getUserAllowance, getUserIndex } from "./getUserAllowance";
-import userAllowances from "./merkle-tree/complex_example.json";
+import { userAllowances } from "./merkle-tree/complex_example";
 import { createBalanceTree } from "@nexeraid/merkle-tree-js";
 import { useGetTxAuthDataSignature } from "@nexeraid/react-sdk";
 
-const tree = createBalanceTree(
-  {
-    balances: Object.entries(userAllowances).map((ent) => {
-      return {
-        account: ent[0] as Address,
-        amount: BigInt(ent[1]),
-      };
-    }),
-  },
-);
+const tree = createBalanceTree({
+  balances: userAllowances.balances.map((balance) => ({
+    account: balance.address,
+    amount: BigInt(balance.earnings),
+  })),
+});
 
 export type WalletClientExtended = Client<
   Transport,
@@ -110,10 +105,8 @@ export const useClaimToken = () => {
           },
         };
       } catch (e) {
-        console.log(
-          "error during getTxAuthDataSignature",
-          (e as Error).toString(),
-        );
+        console.error(e)
+        console.log("error during getTxAuthDataSignature");
         return {
           signatureResponse: {
             isAuthorized: false,

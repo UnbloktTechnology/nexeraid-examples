@@ -28,9 +28,9 @@ const distributorAddressSepolia =
 
 // Amoy
 const exampleTokenAddressAmoy =
-  "0x4Ae0B2Ed56b681ABcfb19A6aAAb921b35b531276" as const;
+  "0xDB823f5Ad993FD794Fb5Fea1AFc25e1717C849Cd" as const;
 const distributorAddressAmoy =
-  "0x3d95361Fa0d4E83Ac553b359197748baA1226307" as const;
+  "0x000Ce3800FD935aCF93FDF9fA3A0924DA2D13d5B" as const;
 
 export const getTokenContractAddress = (chainId: EvmChainId) => {
   return chainId == NEXERA_EVM_CHAINS.SEPOLIA

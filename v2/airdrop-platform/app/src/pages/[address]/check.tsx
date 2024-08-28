@@ -15,7 +15,6 @@ import { ConnectButtonCustom } from "@/features/kyc-airdrop/ui/components/Connec
 import { RedirectToHomeButton } from "@/features/kyc-airdrop/ui/components/RedirectToHomeButton";
 import {
   useCustomerStatus,
-  useIsAuthenticated,
   useIsLoading,
   useOpenWidget,
 } from "@nexeraid/react-sdk";

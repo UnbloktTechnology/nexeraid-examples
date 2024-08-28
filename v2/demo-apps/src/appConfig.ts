@@ -1,5 +1,3 @@
-import { ethers } from "ethers";
-
 export const TEST_USERS = [
   {
     id: "1",

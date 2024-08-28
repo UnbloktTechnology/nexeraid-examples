@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
   ConnectionProvider,
+  useWallet,
   WalletProvider,
 } from "@solana/wallet-adapter-react";
 import {
@@ -10,53 +11,120 @@ import {
   WalletModalProvider,
   WalletMultiButton,
 } from "@solana/wallet-adapter-react-ui";
-import { UnsafeBurnerWalletAdapter } from "@solana/wallet-adapter-wallets";
 import { clusterApiUrl } from "@solana/web3.js";
-
-// Default styles that can be overridden by your app
-require("@solana/wallet-adapter-react-ui/styles.css");
 import styles from "../../kyc-widget/client.module.css";
 import { SolanaExample } from "../components/solana/SolanaExample";
+import {
+  createConfig,
+  createWeb3AuthAdapter,
+  NexeraIdProvider,
+  Web3SignatureRejected,
+  Web3Wallet,
+} from "@nexeraid/react-sdk";
+import { toBytes, toHex } from "viem";
+import { createDemoAppGenerateChallengeCallback } from "@/features/root/identity/createDemoAppGenerateChallengeCallback";
+
+// Default styles that can be overridden by your app
+import "@/features/root/configureReactDemoEnv";
+require("@solana/wallet-adapter-react-ui/styles.css");
+
 const inter = Inter({ subsets: ["latin"] });
 
-export const SolanaSupportPage = () => {
+export const IdentitySdkWeb3SolanaProvider = ({
+  children,
+}: React.PropsWithChildren) => {
+  const { publicKey, signMessage, connected } = useWallet();
+  console.log("publicKey", publicKey);
+
+  const identitySdk = useMemo(() => {
+    const solanaWallet: Web3Wallet = {
+      namespace: "solana",
+      isConnected: () => connected,
+      getAddress: () => {
+        if (!publicKey) {
+          throw new Error("No public key");
+        }
+        return publicKey.toBase58();
+      },
+      sign: async ({ message }) => {
+        if (!publicKey) {
+          throw new Error("No public key");
+        }
+        const signature = signMessage && (await signMessage(toBytes(message)));
+        if (!signature) {
+          throw new Web3SignatureRejected("Signature rejected");
+        }
+
+        const signatureHex = toHex(signature);
+        const publicKeyHex = toHex(publicKey.toBytes());
+
+        return {
+          message,
+          signature: signatureHex,
+          signerPublicKey: publicKeyHex,
+          signedMessage: message,
+        };
+      },
+    };
+
+    return createConfig({
+      authAdapter: createWeb3AuthAdapter({
+        wallet: solanaWallet,
+        generateChallenge: createDemoAppGenerateChallengeCallback(
+          "multi-chain-support",
+        ),
+      }),
+    });
+  }, [connected, publicKey, signMessage]);
+
+  if (!identitySdk) {
+    return <>Loading...</>;
+  }
+
+  return <NexeraIdProvider config={identitySdk}>{children}</NexeraIdProvider>;
+};
+
+const SolanaProviders = ({ children }: { children: React.ReactNode }) => {
   // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
   const network = WalletAdapterNetwork.Devnet;
 
   // You can also provide a custom RPC endpoint.
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
-  const wallets = useMemo(
-    () => [
-      /**
-       * Wallets that implement either of these standards will be available automatically.
-       *
-       *   - Solana Mobile Stack Mobile Wallet Adapter Protocol
-       *     (https://github.com/solana-mobile/mobile-wallet-adapter)
-       *   - Solana Wallet Standard
-       *     (https://github.com/anza-xyz/wallet-standard)
-       *
-       * If you wish to support a wallet that supports neither of those standards,
-       * instantiate its legacy wallet adapter here. Common legacy adapters can be found
-       * in the npm package `@solana/wallet-adapter-wallets`.
-       */
-      new UnsafeBurnerWalletAdapter(),
-    ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [network],
+  return (
+    <ConnectionProvider endpoint={endpoint}>
+      <WalletProvider wallets={[]} autoConnect>
+        <WalletModalProvider>{children}</WalletModalProvider>
+      </WalletProvider>
+    </ConnectionProvider>
   );
+};
+
+const IdentityWidgetContentSolana = () => {
+  const { publicKey } = useWallet();
+  const address = publicKey?.toBase58();
+  if (!address) {
+    return (
+      <main className={`${inter.className} ${styles.main}`}>
+        <WalletMultiButton />
+        <WalletDisconnectButton />
+      </main>
+    );
+  }
   return (
     <main className={`${inter.className} ${styles.main}`}>
-      <ConnectionProvider endpoint={endpoint}>
-        <WalletProvider wallets={wallets} autoConnect>
-          <WalletModalProvider>
-            <WalletMultiButton />
-            <WalletDisconnectButton />
-
-            <SolanaExample />
-          </WalletModalProvider>
-        </WalletProvider>
-      </ConnectionProvider>
+      <>
+        <div>connected to solana wallet</div>
+        <SolanaExample />
+      </>
     </main>
   );
 };
+
+export const SolanaSupportPage = () => (
+  <SolanaProviders>
+    <IdentitySdkWeb3SolanaProvider>
+      <IdentityWidgetContentSolana />
+    </IdentitySdkWeb3SolanaProvider>
+  </SolanaProviders>
+);

@@ -10,13 +10,13 @@ export interface ITokenInfo {
   decimals?: number;
 }
 
-export interface ITokensPair {
+interface ITokensPair {
   value: string;
   address: string;
   swapForY: boolean;
 }
 
-export interface IDropDown {
+interface IDropDown {
   items: readonly ITokenInfo[];
   selected?: ITokenInfo;
   className?: string;

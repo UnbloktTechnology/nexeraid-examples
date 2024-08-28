@@ -1,10 +1,10 @@
 import { Swap } from "@/features/defi-offchain-zkp/Components/Swap";
-import { nexeraIdConfig } from "@/features/defi-offchain-zkp/identity/nexeraIdConfig";
 import { useCheckCompliance } from "@/features/defi-offchain-zkp/identity/useCheckDefiOffchainZKPCompliance";
 import { Header } from "@/features/defi-offchain-zkp/Layout/Header";
 import { Layout } from "@/features/defi-offchain-zkp/Layout/Layout";
 import { useGlobalModals } from "@/features/defi-offchain-zkp/Modals/Hooks/useGlobalModals";
-import { wagmiConfig } from "@/features/root/identity/wagmiConfig";
+import { createDemoWeb3WagmiSdkConfig } from "@/features/root/identity/createDemoWeb3WagmiSdkConfig";
+import { wagmiConfig } from "@/features/root/web3/wagmiConfig";
 import { NexeraIdProvider } from "@nexeraid/react-sdk";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -14,6 +14,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { WagmiProvider } from "wagmi";
 
 const queryClient = new QueryClient();
+const nexeraIdConfig = createDemoWeb3WagmiSdkConfig("defi-offchain-zkp");
 
 const Home = () => {
   return (
@@ -63,7 +64,7 @@ const HomeContent = () => {
     if (isCompliance) {
       close();
     }
-  }, [isCompliance]);
+  }, [isCompliance, close]);
 
   return (
     <Layout header={<Header />} bg={"defi"}>

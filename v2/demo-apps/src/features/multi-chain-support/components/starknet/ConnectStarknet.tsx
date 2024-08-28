@@ -1,5 +1,5 @@
 import { Button } from "@/features/bank/Components/Button";
-import { useStarknetWallet } from "../../utils/useStarknetWallet";
+import { useStarknetWallet } from "../../../root/web3/wallet-hook/useStarknetWallet";
 
 const ConnectStarknet = () => {
   const { wallet, connectStarknet } = useStarknetWallet();

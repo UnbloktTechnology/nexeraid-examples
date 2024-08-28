@@ -1,5 +1,5 @@
 import { Button } from "@/features/bank/Components/Button";
-import { useCosmosWallet } from "../../utils/useCosmosWallet";
+import { useCosmosWallet } from "../../../root/web3/wallet-hook/useCosmosWallet";
 
 const ConnectCosmos = () => {
   const { wallet, connectCosmos } = useCosmosWallet();

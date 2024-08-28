@@ -5,7 +5,7 @@ import { useGetGatedMintedNFTsTezos } from "../utils/tezos/useGetMintedNFTsTezos
 import { useMintGatedNFTTezos } from "../utils/tezos/useMintNFTTezos";
 import { DisplayMintTezosResponse } from "./DisplayMintResponseTezos";
 import type { MintTezosResponse } from "../utils/tezos/tezos.schema";
-import { useTezosWallet } from "@/features/multi-chain-support/utils/useTezosWallet";
+import { useTezosWallet } from "@/features/root/web3/wallet-hook/useTezosWallet";
 
 const buttonStyle = {
   padding: "16px 24px",

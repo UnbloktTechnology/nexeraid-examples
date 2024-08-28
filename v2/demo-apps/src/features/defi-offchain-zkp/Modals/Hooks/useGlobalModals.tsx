@@ -2,7 +2,7 @@ import { type ReactNode } from "react";
 import { create } from "zustand";
 import { type BackgroundType } from "@/features/defi-offchain-zkp/Layout/Layout";
 
-export type CenterModalStyle = "default" | "rounded";
+type CenterModalStyle = "default" | "rounded";
 
 export interface ICenterModal {
   isOpen: boolean;
@@ -13,7 +13,7 @@ export interface ICenterModal {
   onClose?: () => void;
 }
 
-export interface ModalStoreAttributes {
+interface ModalStoreAttributes {
   title?: string;
   modalType?: "bottom" | "center" | "full" | "empty";
   overlayType?: "base" | "dark";

@@ -1,42 +1,4 @@
-import { z } from "zod";
 import { ethers } from "ethers";
-
-export const ENVS = [
-  "local",
-  "dev",
-  "stage",
-  "prod",
-  "test-dev-1",
-  "test-dev-2",
-] as const;
-export const ENVSchema = z.enum(ENVS);
-
-export const appConfig = {
-  [ENVSchema.enum.local]: {
-    api: "http://localhost:3001/",
-    aaveDemo: "http://localhost:3006/",
-  },
-  [ENVSchema.enum.dev]: {
-    api: "https://api-dev.nexera.id/",
-    aaveDemo: "https://aave-onchain-verification-dev.nexera.id/",
-  },
-  [ENVSchema.enum["test-dev-1"]]: {
-    api: "https://api-test-dev-1.nexera.id/",
-    aaveDemo: "https://aave-onchain-verification-test-dev-1.nexera.id/",
-  },
-  [ENVSchema.enum["test-dev-2"]]: {
-    api: "https://api-test-dev-2.nexera.id/",
-    aaveDemo: "https://aave-onchain-verification-test-dev-2.nexera.id/",
-  },
-  [ENVSchema.enum.stage]: {
-    api: "https://api-staging.nexera.id/",
-    aaveDemo: "https://aave-onchain-verification-staging.nexera.id/",
-  },
-  [ENVSchema.enum.prod]: {
-    api: "https://api.nexera.id/",
-    aaveDemo: "https://aave-onchain-verification.nexera.id/",
-  },
-} as const;
 
 export const TEST_USERS = [
   {
@@ -74,11 +36,3 @@ export const TEST_USERS = [
 ] as const;
 
 export type TestUser = (typeof TEST_USERS)[number];
-
-export const getSigner = (user: TestUser) => {
-  const provider = new ethers.providers.JsonRpcProvider(
-    "https://ava-testnet.public.blastapi.io/ext/bc/C/rpc",
-    43113,
-  );
-  return new ethers.Wallet(user.privateKey, provider);
-};

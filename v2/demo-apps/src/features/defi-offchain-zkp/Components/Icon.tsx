@@ -1,6 +1,6 @@
 import React from "react";
 
-export interface IIcon {
+interface IIcon {
   icon: string;
   size?: number | string;
   width?: number | string;

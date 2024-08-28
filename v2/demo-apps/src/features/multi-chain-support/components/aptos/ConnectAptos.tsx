@@ -1,5 +1,5 @@
 import { Button } from "@/features/bank/Components/Button";
-import { useAptosWallet } from "../../utils/useAptosWallet";
+import { useAptosWallet } from "../../../root/web3/wallet-hook/useAptosWallet";
 
 const ConnectAptos = () => {
   const { wallet, connectAptos } = useAptosWallet();

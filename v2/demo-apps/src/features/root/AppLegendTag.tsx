@@ -1,6 +1,6 @@
 import AppTag from "./AppTag";
 
-export type AppLegendTagProps = {
+type AppLegendTagProps = {
   text: string;
   color: string;
   tag: string;

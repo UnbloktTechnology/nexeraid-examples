@@ -2,7 +2,7 @@ import { useState } from "react";
 import { type TestUser } from "@/appConfig";
 import { Icon } from "./Icon";
 
-export interface IDropDown {
+interface IDropDown {
   items: readonly TestUser[];
   selected?: TestUser;
   className?: string;

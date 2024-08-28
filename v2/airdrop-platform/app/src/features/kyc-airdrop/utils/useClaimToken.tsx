@@ -17,16 +17,18 @@ import { getDistributorContractAddress } from "./getContractAddress";
 import { distributorABI } from "./abis/distributorABI";
 import { getUserAllowance, getUserIndex } from "./getUserAllowance";
 import userAllowances from "./merkle-tree/complex_example.json";
-import BalanceTree from "./merkle-tree/BalanceTree";
+import { createBalanceTree } from "@nexeraid/merkle-tree-js";
 import { useGetTxAuthDataSignature } from "@nexeraid/react-sdk";
 
-const tree = new BalanceTree(
-  Object.entries(userAllowances).map((ent) => {
-    return {
-      account: ent[0] as Address,
-      amount: BigInt(ent[1]),
-    };
-  }),
+const tree = createBalanceTree(
+  {
+    balances: Object.entries(userAllowances).map((ent) => {
+      return {
+        account: ent[0] as Address,
+        amount: BigInt(ent[1]),
+      };
+    }),
+  },
 );
 
 export type WalletClientExtended = Client<
@@ -53,9 +55,11 @@ export const useClaimToken = () => {
         const amount = getUserAllowance(account.address);
         const index = getUserIndex(account.address);
         const proof = tree.getProof(
-          BigInt(index),
-          account.address,
-          BigInt(amount ?? 0),
+          {
+            account: account.address,
+            index: BigInt(index),
+            amount: BigInt(amount ?? 0),
+          },
         );
         const signatureResponse = await getTxAuthDataSignature({
           namespace: "eip155",

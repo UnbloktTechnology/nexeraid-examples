@@ -7,7 +7,7 @@ import { RpcClient } from "@taquito/rpc";
 import { TezosChainId } from "@nexeraid/identity-schemas";
 
 import { useTezosWallet } from "@/features/multi-chain-support/utils/useTezosWallet";
-import { useSignTransactionData } from "@nexeraid/react-sdk";
+import { useGetTxAuthDataSignature } from "@nexeraid/react-sdk";
 import { type TezosImplicitAddress } from "@nexeraid/identity-schemas";
 
 export const NEXERAID_SIGNER_PK =
@@ -32,7 +32,7 @@ export function convertMint(owner_str: string, token_id: string) {
 
 export const useMintGatedNFTTezos = () => {
   const { wallet, tezos } = useTezosWallet();
-  const signTransactionData = useSignTransactionData();
+  const getTxAuthDataSignature = useGetTxAuthDataSignature();
 
   return useMutation({
     mutationFn: async () => {
@@ -79,7 +79,7 @@ export const useMintGatedNFTTezos = () => {
           functionCallArgs.token_id,
         );
         const functionName = "%mint_gated";
-        const signatureResponse = await signTransactionData({
+        const signatureResponse = await getTxAuthDataSignature({
           namespace: "tezos",
           userAddress,
           contractAddress: NFTClaimerAddressForTezosGhostnet,

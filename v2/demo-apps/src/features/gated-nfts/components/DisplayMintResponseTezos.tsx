@@ -42,17 +42,17 @@ export const DisplayMintTezosResponse = (props: {
             Authorized:{" "}
             {props.mintResponse.signatureResponse.isAuthorized ? "YES" : "NO"}
           </div>
-          {props.mintResponse.signatureResponse.blockExpiration && (
-            <div>
-              Block Expiration:{" "}
-              {props.mintResponse.signatureResponse.blockExpiration}
-            </div>
-          )}
-          {props.mintResponse.signatureResponse.signature && (
-            <div>
-              Signature:{" "}
-              {shortAddress(props.mintResponse.signatureResponse.signature)}
-            </div>
+          {props.mintResponse.signatureResponse.isAuthorized && (
+            <>
+              <div>
+                Block Expiration:{" "}
+                {props.mintResponse.signatureResponse.blockExpiration}
+              </div>
+              <div>
+                Signature:{" "}
+                {shortAddress(props.mintResponse.signatureResponse.signature)}
+              </div>
+            </>
           )}
           {props.writeData && (
             <div>Transaction Status: {getTransactionStatus(props)}</div>

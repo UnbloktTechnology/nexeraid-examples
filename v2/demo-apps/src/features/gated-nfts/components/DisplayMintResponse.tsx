@@ -43,23 +43,21 @@ export const DisplayMintResponse = (props: {
             Authorized:{" "}
             {props.mintResponse.signatureResponse.isAuthorized ? "YES" : "NO"}
           </div>
-          {props.mintResponse.signatureResponse.payload && (
-            <div>
-              Payload:{" "}
-              {shortAddress(props.mintResponse.signatureResponse.payload)}
-            </div>
-          )}
-          {props.mintResponse.signatureResponse.blockExpiration && (
-            <div>
-              Block Expiration:{" "}
-              {props.mintResponse.signatureResponse.blockExpiration}
-            </div>
-          )}
-          {props.mintResponse.signatureResponse.signature && (
-            <div>
-              Signature:{" "}
-              {shortAddress(props.mintResponse.signatureResponse.signature)}
-            </div>
+          {props.mintResponse.signatureResponse.isAuthorized && (
+            <>
+              <div>
+                Payload:{" "}
+                {shortAddress(props.mintResponse.signatureResponse.payload)}
+              </div>
+              <div>
+                Block Expiration:{" "}
+                {props.mintResponse.signatureResponse.blockExpiration}
+              </div>
+              <div>
+                Signature:{" "}
+                {shortAddress(props.mintResponse.signatureResponse.signature)}
+              </div>
+            </>
           )}
           {props.writeData && (
             <div>Transaction Status: {getTransactionStatus(props)}</div>

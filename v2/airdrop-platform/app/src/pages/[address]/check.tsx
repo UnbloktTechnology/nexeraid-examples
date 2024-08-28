@@ -13,7 +13,12 @@ import { useCallback, useEffect, useState } from "react";
 import { type Address } from "@nexeraid/identity-schemas";
 import { ConnectButtonCustom } from "@/features/kyc-airdrop/ui/components/ConnectButtonCustom";
 import { RedirectToHomeButton } from "@/features/kyc-airdrop/ui/components/RedirectToHomeButton";
-import { useUserStatus, useOpenWidget, useIsLoading } from "@nexeraid/react-sdk";
+import {
+  useCustomerStatus,
+  useIsAuthenticated,
+  useIsLoading,
+  useOpenWidget,
+} from "@nexeraid/react-sdk";
 
 const AirdropPageWrapper = () => {
   const router = useRouter();
@@ -34,9 +39,10 @@ const AirdropPageWrapper = () => {
     allowance,
   } = useWalletCheck();
 
-  const customerStatus = useUserStatus();
+  const customerStatus = useCustomerStatus();
   const openWidget = useOpenWidget({});
   const isWidgetLoading = useIsLoading();
+
   const isCustomerActive = customerStatus === "Active";
 
   const onSetWalletState = useCallback((state: WalletState | undefined) => {
@@ -57,15 +63,13 @@ const AirdropPageWrapper = () => {
     // Check the wallet state if balance is checked
     if (balanceChecked && !walletChecked) {
       onSetWalletState(
-        checkWalletState(
-          {
-            isQualified,
-            isConnected,
-            balance,
-            allowance,
-            isBalancePending,
-          }
-        ),
+        checkWalletState({
+          isQualified,
+          isConnected,
+          balance,
+          allowance,
+          isBalancePending,
+        }),
       );
     }
 
@@ -74,7 +78,17 @@ const AirdropPageWrapper = () => {
     } else {
       setIsLoading(true);
     }
-  }, [balance, isBalancePending, isConnected, isQualified, allowance, walletState, onSetWalletState, walletChecked, balanceChecked]);
+  }, [
+    balance,
+    isBalancePending,
+    isConnected,
+    isQualified,
+    allowance,
+    walletState,
+    onSetWalletState,
+    walletChecked,
+    balanceChecked,
+  ]);
 
   // Recalculate the wallet state when the connection status changes
   useEffect(() => {
@@ -138,14 +152,13 @@ const AirdropPageWrapper = () => {
       subtitle={
         isLoading
           ? "We are checking your wallet..."
-          : generateSubtitleFromWalletState(
-            {
+          : generateSubtitleFromWalletState({
               walletState,
               address,
               allowance,
               isCustomerActive,
-            }
-          )
+              isAuthorized: isCustomerActive,
+            })
       }
     >
       {isLoading && (
@@ -157,30 +170,28 @@ const AirdropPageWrapper = () => {
         <>
           {(walletState === "HAS_ALLOWANCE_CONNECTED" ||
             walletState === "HAS_ALLOWANCE_NO_CONNECTED") && (
-              <div className="flex flex-row items-center justify-center gap-4">
-                <RedirectToHomeButton
-                  variant="primary"
-                  label="Try another wallet"
-                />
+            <div className="flex flex-row items-center justify-center gap-4">
+              <RedirectToHomeButton
+                variant="primary"
+                label="Try another wallet"
+              />
 
-                {!isConnected && (
-                  <ConnectButtonCustom
-                    label="Connect wallet"
-                    variant="secondary"
-                  />
-                )}
-                {
-                  isConnected &&
-                  renderKycAndClaim()}
-              </div>
-            )}
+              {!isConnected && (
+                <ConnectButtonCustom
+                  label="Connect wallet"
+                  variant="secondary"
+                />
+              )}
+              {isCustomerActive && renderKycAndClaim()}
+            </div>
+          )}
           {(walletState === "ALREADY_CLAIMED" ||
             walletState === "HAS_NO_ALLOWANCE" ||
             walletState === "IS_NOT_QUALIFIED") && (
-              <div className="flex w-full flex-col items-center justify-center gap-4">
-                <RedirectToHomeButton />
-              </div>
-            )}
+            <div className="flex w-full flex-col items-center justify-center gap-4">
+              <RedirectToHomeButton />
+            </div>
+          )}
         </>
       )}
     </AirdropLayout>

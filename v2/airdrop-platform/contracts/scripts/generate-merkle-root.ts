@@ -1,6 +1,6 @@
 import { program } from 'commander'
 import fs from 'fs'
-import { parseBalanceMap } from '../src/parse-balance-map'
+import { parseBalanceMap } from '@nexeraid/merkle-tree-js'
 
 program
   .version('0.0.0')

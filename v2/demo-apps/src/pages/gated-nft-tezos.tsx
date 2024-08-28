@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import { GatedNFTPageTezos } from "@/features/gated-nfts/GatedNFTPageTezos";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NexeraIdProvider } from "@nexeraid/react-sdk";

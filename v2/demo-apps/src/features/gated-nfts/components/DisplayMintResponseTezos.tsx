@@ -1,7 +1,7 @@
 import { shortAddress } from "@nexeraid/identity-schemas";
 import type { MintTezosResponse } from "../utils/tezos/tezos.schema";
 
-export const getTransactionStatus = (props: {
+const getTransactionStatus = (props: {
   mintResponse?: MintTezosResponse;
   gasCost?: bigint;
   writeData?: {

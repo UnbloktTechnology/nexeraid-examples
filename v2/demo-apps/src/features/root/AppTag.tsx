@@ -1,4 +1,4 @@
-export type AppTagProps = {
+type AppTagProps = {
   text: string;
   color: string;
 };

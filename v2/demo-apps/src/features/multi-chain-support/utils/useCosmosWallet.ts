@@ -2,7 +2,7 @@ import type { Keplr } from "@keplr-wallet/types";
 import { useQuery } from "@tanstack/react-query";
 
 import {
-  BlockchainId,
+  type BlockchainId,
   CosmosSignature,
   NEXERA_COSMOS_CHAINS,
 } from "@nexeraid/identity-schemas";

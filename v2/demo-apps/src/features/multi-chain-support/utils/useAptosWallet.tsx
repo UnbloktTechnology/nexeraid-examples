@@ -1,30 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { AptosSignature } from "@nexeraid/identity-schemas";
-
-import type { Aptos } from "./walletTypes";
-
-export const signWithAptos = async (
-  message: string,
-  wallet: Aptos | undefined,
-) => {
-  if (!wallet) {
-    throw new Error("signWithAptos called before wallet was connected");
-  }
-  const aptosMessage = {
-    address: true,
-    application: true,
-    chainId: true,
-    message,
-    nonce: Date.now().toLocaleString(),
-  };
-
-  const { signature } = await wallet.signMessage(aptosMessage);
-
-  console.log("signature aptos", signature);
-  return AptosSignature.parse(signature);
-};
-
 const openAptosWallet = () => {
   if ("aptos" in window) {
     return window.aptos;

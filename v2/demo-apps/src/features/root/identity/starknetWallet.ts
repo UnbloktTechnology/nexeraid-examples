@@ -1,7 +1,7 @@
 import { getWallet } from "@/features/multi-chain-support/utils/useStarknetWallet";
 import { StarknetChainId } from "@nexeraid/identity-schemas";
-import { Web3Wallet } from "@nexeraid/react-sdk";
-import { AccountInterface, ArraySignatureType, hash } from "starknet";
+import { type Web3Wallet } from "@nexeraid/react-sdk";
+import { type AccountInterface, type ArraySignatureType, hash } from "starknet";
 
 const getAccount = async (): Promise<AccountInterface> => {
   const wallet = await getWallet();

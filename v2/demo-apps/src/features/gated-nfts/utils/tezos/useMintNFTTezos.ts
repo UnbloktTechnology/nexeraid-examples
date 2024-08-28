@@ -10,14 +10,14 @@ import { useTezosWallet } from "@/features/multi-chain-support/utils/useTezosWal
 import { useGetTxAuthDataSignature } from "@nexeraid/react-sdk";
 import { type TezosImplicitAddress } from "@nexeraid/identity-schemas";
 
-export const NEXERAID_SIGNER_PK =
+const NEXERAID_SIGNER_PK =
   "edpkurPsQ8eUApnLUJ9ZPDvu98E8VNj4KtJa1aZr16Cr5ow5VHKnz4";
 
 const RPC_ENDPOINT = "https://rpc.ghostnet.teztnets.com/";
 
 const client = new RpcClient(RPC_ENDPOINT);
 
-export function convertMint(owner_str: string, token_id: string) {
+function convertMint(owner_str: string, token_id: string) {
   const data = `(Pair "${owner_str}" ${token_id})`;
   const type = "(pair address nat)";
   const p = new Parser();

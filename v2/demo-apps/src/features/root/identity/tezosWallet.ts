@@ -1,7 +1,7 @@
 import { getWallet } from "@/features/multi-chain-support/utils/useTezosWallet";
 import { SigningType } from "@airgap/beacon-types";
 import { TezosChainId } from "@nexeraid/identity-schemas";
-import { Web3Wallet } from "@nexeraid/react-sdk";
+import { type Web3Wallet } from "@nexeraid/react-sdk";
 import { stringToBytes } from "@taquito/utils";
 
 export const tezosWalletConfig: Web3Wallet = {

@@ -63,7 +63,7 @@ const HomeContent = () => {
     if (isCompliance) {
       close();
     }
-  }, [isCompliance]);
+  }, [isCompliance, close]);
 
   return (
     <Layout header={<Header />} bg={"defi"}>

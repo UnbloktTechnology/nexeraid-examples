@@ -1,30 +1,7 @@
 import { ApiPromise, WsProvider } from "@polkadot/api";
-import type { InjectedExtension } from "@polkadot/extension-inject/types";
 import { useQuery } from "@tanstack/react-query";
 
-import { PolkadotAddress, PolkadotSignature } from "@nexeraid/identity-schemas";
-
-export const signWithPolkadot = async (
-  message: string,
-  accountAddress: PolkadotAddress,
-  injector: InjectedExtension | undefined,
-) => {
-  if (!injector) {
-    throw new Error("signWithPolkadot called before wallet was injected");
-  }
-
-  // Use the injector to sign the message
-  const signature =
-    injector.signer.signRaw &&
-    (await injector.signer.signRaw({
-      address: accountAddress,
-      data: message,
-      type: "payload",
-    }));
-
-  console.log(`Signature: ${signature?.signature}`);
-  return PolkadotSignature.parse(signature?.signature);
-};
+import { PolkadotAddress } from "@nexeraid/identity-schemas";
 
 export const getWallet = async (wsUrl = "wss://rpc.polkadot.io") => {
   const { web3Accounts, web3Enable, web3FromAddress } = await import(

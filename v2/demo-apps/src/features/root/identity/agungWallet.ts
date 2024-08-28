@@ -1,5 +1,5 @@
 import { getWallet } from "@/features/multi-chain-support/utils/usePolkadotWallet";
-import { Web3Wallet } from "@nexeraid/react-sdk";
+import { type Web3Wallet } from "@nexeraid/react-sdk";
 
 const AGUNG_WS_URL = "wss://wsspc1-qa.agung.peaq.network";
 

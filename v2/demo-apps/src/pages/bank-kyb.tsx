@@ -55,7 +55,7 @@ const HomeContent = () => {
     if (isCompliance) {
       close();
     }
-  }, [isCompliance]);
+  }, [isCompliance, close]);
 
   const onClickLogOn = () => {
     openModal(

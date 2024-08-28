@@ -2,7 +2,7 @@ import { shortAddress } from "@nexeraid/identity-schemas";
 
 import type { MintResponse } from "../utils/evm/evm.schema";
 
-export const getTransactionStatus = (props: {
+const getTransactionStatus = (props: {
   mintResponse?: MintResponse;
   gasCost?: bigint;
   writeData?: {

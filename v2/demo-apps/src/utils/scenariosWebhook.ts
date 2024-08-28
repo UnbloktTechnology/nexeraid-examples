@@ -2,7 +2,7 @@ import { RuleResultStatus } from "@nexeraid/identity-schemas";
 import { GenericVerifiableCredentialSchema } from "@nexeraid/identity-schemas/verifiable-credentials";
 import { z } from "zod";
 
-export const ScenarioWebhookPayloadSchema = z.object({
+const ScenarioWebhookPayloadSchema = z.object({
   customerId: z.string(),
   address: z.string(),
   result: RuleResultStatus,
@@ -26,9 +26,3 @@ export const ScenarioWebhookPayloadSchema = z.object({
 export type ScenarioWebhookPayload = z.infer<
   typeof ScenarioWebhookPayloadSchema
 >;
-
-export const ScenariosWebhookResponse = z.object({
-  data: RuleResultStatus,
-  isValid: z.boolean(),
-});
-export type ScenariosWebhookResponse = z.infer<typeof ScenariosWebhookResponse>;

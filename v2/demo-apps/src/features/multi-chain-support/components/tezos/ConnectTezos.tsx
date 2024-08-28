@@ -1,5 +1,5 @@
 import { Button } from "@/features/bank/Components/Button";
-import { useTezosWallet } from "../../utils/useTezosWallet";
+import { useTezosWallet } from "../../../root/web3/wallet-hook/useTezosWallet";
 
 const ConnectTezos = () => {
   const { wallet, connectTezos } = useTezosWallet();

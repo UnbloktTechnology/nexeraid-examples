@@ -1,6 +1,6 @@
 import { IdentityFlow } from "../../../kyc-widget/IdentityFlow";
 import ConnectPolkadot from "./ConnectPolkadot";
-import { usePolkadotWallet } from "../../utils/usePolkadotWallet";
+import { usePolkadotWallet } from "../../../root/web3/wallet-hook/usePolkadotWallet";
 
 const AGUNG_WS_URL = "wss://wsspc1-qa.agung.peaq.network";
 

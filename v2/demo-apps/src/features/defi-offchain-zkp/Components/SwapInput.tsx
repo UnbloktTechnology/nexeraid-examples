@@ -1,6 +1,6 @@
 import { type ITokenInfo, TokenDropDown } from "./TokenDropDown";
 
-export interface TInput {
+interface TInput {
   options: readonly ITokenInfo[];
   value: string;
   token: ITokenInfo;

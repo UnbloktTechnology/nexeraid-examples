@@ -100,11 +100,6 @@ const PROJECTS: AppCardProps[] = [
     image: "/images/kyc.webp",
   },
   {
-    url: "/kyc-airdrop",
-    name: "KYC Gated Token Airdrop",
-    image: "/images/kyc.webp",
-  },
-  {
     url: "/multi-chain-support",
     name: "Multi Chain Support",
     image: "/images/kyc.webp",
@@ -115,12 +110,6 @@ const PROJECTS: AppCardProps[] = [
   //   name: "Gated Aave",
   //   image: "/images/aave.svg",
   //   tags: [ZKP_TAG, OCV_TAG, EW_TAG],
-  // },
-  // TODO - Not activated for now
-  // {
-  //   url: "/sygnum-web3",
-  //   name: "SYGNUM",
-  //   image: "/images/sygnum.png",
   // },
 ];
 

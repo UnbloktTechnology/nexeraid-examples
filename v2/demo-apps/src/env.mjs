@@ -29,16 +29,6 @@ export const env = createEnv({
       .describe(
         "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Defi Rule Engine Example dApp",
       ),
-    NEXERA_ID_API_KEY_KYC_AIRDROP: z
-      .string()
-      .describe(
-        "The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera KYC Airdrop Example dApp",
-      ),
-    NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP: z
-      .string()
-      .describe(
-        "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera KYC Airdrop Example dApp",
-      ),
     NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP: z
       .string()
       .describe(
@@ -90,10 +80,15 @@ export const env = createEnv({
       .describe(
         "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera KYC dApp",
       ),
-    NEXERA_ID_API_KEY_BANK_SYGNUM_WEB3: z
+    NEXERA_ID_API_KEY_MULTICHAIN_DEMO: z
       .string()
       .describe(
-        "The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank Sygnum Web3 dApp",
+        "The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Multichain Demo dApp",
+      ),
+    NEXERA_ID_WORKFLOW_ID_MULTICHAIN_DEMO: z
+      .string()
+      .describe(
+        "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Multichain Demo dApp",
       ),
     NEXERA_ID_API_PROJECT_ID: z
       .string()
@@ -129,6 +124,10 @@ export const env = createEnv({
     NEXT_PUBLIC_ENVIRONMENT: process.env.NEXT_PUBLIC_ENVIRONMENT,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
+    NEXT_PUBLIC_AMOY_WS_PROVIDER_URL:
+      process.env.NEXT_PUBLIC_AMOY_WS_PROVIDER_URL,
+    NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL:
+      process.env.NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL,
 
     NEXERA_ID_API_KEY_BANK: process.env.NEXERA_ID_API_KEY_BANK,
     NEXERA_ID_WORKFLOW_ID_BANK: process.env.NEXERA_ID_WORKFLOW_ID_BANK,
@@ -147,19 +146,13 @@ export const env = createEnv({
       process.env.NEXERA_ID_WORKFLOW_ID_DEFI_OFFCHAIN_ZKP,
     NEXERA_ID_API_KEY_KYC: process.env.NEXERA_ID_API_KEY_KYC,
     NEXERA_ID_WORKFLOW_ID_KYC: process.env.NEXERA_ID_WORKFLOW_ID_KYC,
-    NEXERA_ID_API_KEY_KYC_AIRDROP: process.env.NEXERA_ID_API_KEY_KYC_AIRDROP,
-    NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP:
-      process.env.NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP,
+    NEXERA_ID_API_KEY_MULTICHAIN_DEMO:
+      process.env.NEXERA_ID_API_KEY_MULTICHAIN_DEMO,
+    NEXERA_ID_WORKFLOW_ID_MULTICHAIN_DEMO:
+      process.env.NEXERA_ID_WORKFLOW_ID_MULTICHAIN_DEMO,
 
     // TODO:
-    NEXERA_ID_API_KEY_BANK_SYGNUM_WEB3:
-      process.env.NEXERA_ID_API_KEY_BANK_SYGNUM_WEB3,
     NEXERA_ID_API_PROJECT_ID: process.env.NEXERA_ID_API_PROJECT_ID,
-
-    NEXT_PUBLIC_AMOY_WS_PROVIDER_URL:
-      process.env.NEXT_PUBLIC_AMOY_WS_PROVIDER_URL,
-    NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL:
-      process.env.NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

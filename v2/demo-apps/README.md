@@ -31,11 +31,11 @@ Follow these steps to run the example apps locally.
    | `NEXERA_ID_WORKFLOW_ID_DEFI_OFFCHAIN_ZKP` | NexeraID workflow ID for the gated Uniswap app     |
    | `NEXERA_ID_API_KEY_KYC`                   | NexeraID API key for the KYC app                   |
    | `NEXERA_ID_WORKFLOW_ID_KYC`               | NexeraID workflow ID for the KYC app               |
+   | `NEXERA_ID_API_KEY_MULTICHAIN_DEMO`       | NexeraID API key for the multichain demo app       |
+   | `NEXERA_ID_WORKFLOW_ID_MULTICHAIN_DEMO`   | NexeraID workflow ID for the multichain demo app   |
    | ---                                       | ---                                                |
-   | `NEXERA_ID_API_KEY_AIRDROP`               | NexeraID API key for kyc airdrop app               |
    | `NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP`     | NexeraID API key for the gated Uniswap app         |
    | `NEXERA_ID_API_KEY_BANK_WEB3`             | NexeraID key for the Web3 banking app              |
-   | `NEXERA_ID_API_KEY_BANK_SYGNUM_WEB3`      | NexeraID API key for the Sygnum Web3 app           |
 
    You can get the NexeraID API keys for your apps by following the instructions on [Deploying the NexeraID Identity Widget](../using/setup/application.md#deploying-the-nexeraid-identity-widget). You need to set each of the `API_KEY` variables, even if you only want to use one of the example apps. If necessary, you can set them all to the same value.
 

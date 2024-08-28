@@ -1,5 +1,5 @@
 import { Button } from "@/features/bank/Components/Button";
-import { usePolkadotWallet } from "../../utils/usePolkadotWallet";
+import { usePolkadotWallet } from "../../../root/web3/wallet-hook/usePolkadotWallet";
 
 const ConnectPolkadot = (props: { wsUrl?: string }) => {
   const { wallet, connectPolkadot } = usePolkadotWallet(props.wsUrl);

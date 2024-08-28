@@ -24,7 +24,7 @@ export default async function handler(
     const userId = req.body.userId;
 
     const authSession = await apiClient.createSession({
-      externalUserId: userId,
+      externalCustomerId: userId,
       workflowId: env.NEXERA_ID_WORKFLOW_ID_BANK,
     });
 

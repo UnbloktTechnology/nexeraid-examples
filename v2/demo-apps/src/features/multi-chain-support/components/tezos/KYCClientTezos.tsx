@@ -1,6 +1,6 @@
 import { IdentityFlow } from "../../../kyc-widget/IdentityFlow";
 import ConnectTezos from "./ConnectTezos";
-import { useTezosWallet } from "../../utils/useTezosWallet";
+import { useTezosWallet } from "../../../root/web3/wallet-hook/useTezosWallet";
 
 export const KYCClientTezos = () => {
   const { wallet } = useTezosWallet();

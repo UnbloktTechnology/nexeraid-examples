@@ -3,7 +3,7 @@ import { GlobalModals } from "@/features/defi-offchain-zkp/Modals/GlobalModals";
 
 export type BackgroundType = "default" | "defi";
 
-export interface ILayout {
+interface ILayout {
   children: ReactNode;
   sidebar?: ReactNode;
   header?: ReactNode;

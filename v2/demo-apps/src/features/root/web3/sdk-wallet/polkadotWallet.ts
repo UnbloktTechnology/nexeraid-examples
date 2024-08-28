@@ -1,4 +1,4 @@
-import { getWallet } from "@/features/multi-chain-support/utils/usePolkadotWallet";
+import { getWallet } from "@/features/root/web3/wallet-hook/usePolkadotWallet";
 import { type Web3Wallet } from "@nexeraid/react-sdk";
 
 const getActiveAccount = async () => {

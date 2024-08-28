@@ -6,7 +6,7 @@ import { RpcClient } from "@taquito/rpc";
 
 import { TezosChainId } from "@nexeraid/identity-schemas";
 
-import { useTezosWallet } from "@/features/multi-chain-support/utils/useTezosWallet";
+import { useTezosWallet } from "@/features/root/web3/wallet-hook/useTezosWallet";
 import { useGetTxAuthDataSignature } from "@nexeraid/react-sdk";
 import { type TezosImplicitAddress } from "@nexeraid/identity-schemas";
 

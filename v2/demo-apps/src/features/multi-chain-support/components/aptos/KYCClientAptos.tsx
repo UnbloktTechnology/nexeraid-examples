@@ -1,6 +1,6 @@
 import { IdentityFlow } from "../../../kyc-widget/IdentityFlow";
 import ConnectAptos from "./ConnectAptos";
-import { useAptosWallet } from "../../utils/useAptosWallet";
+import { useAptosWallet } from "../../../root/web3/wallet-hook/useAptosWallet";
 
 export const KYCClientAptos = () => {
   const { wallet } = useAptosWallet();

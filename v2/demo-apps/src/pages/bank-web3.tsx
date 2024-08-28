@@ -7,12 +7,13 @@ import { WagmiProvider } from "wagmi";
 import { useCheckBankWeb3Compliance } from "@/features/bank-web3/identity/useCheckBankWeb3Compliance";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NexeraIdProvider } from "@nexeraid/react-sdk";
-import { nexeraIdConfig } from "@/features/bank-web3/identity/nexeraIdConfig";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { wagmiConfig } from "@/features/root/identity/wagmiConfig";
+import { createDemoWeb3WagmiSdkConfig } from "@/features/root/identity/createDemoWeb3WagmiSdkConfig";
+import { wagmiConfig } from "@/features/root/web3/wagmiConfig";
 
 const queryClient = new QueryClient();
+const nexeraIdConfig = createDemoWeb3WagmiSdkConfig("bank-web3");
 
 const Home = () => {
   return (

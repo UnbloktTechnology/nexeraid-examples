@@ -1,7 +1,7 @@
 import {
   COSMOS_CHAIN_ID,
   getWallet,
-} from "@/features/multi-chain-support/utils/useCosmosWallet";
+} from "@/features/root/web3/wallet-hook/useCosmosWallet";
 import { type Web3Wallet } from "@nexeraid/react-sdk";
 import { toHex } from "viem";
 

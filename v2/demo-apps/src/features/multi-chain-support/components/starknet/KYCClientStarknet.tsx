@@ -1,6 +1,6 @@
 import { IdentityFlow } from "../../../kyc-widget/IdentityFlow";
 import ConnectStarknet from "./ConnectStarknet";
-import { useStarknetWallet } from "../../utils/useStarknetWallet";
+import { useStarknetWallet } from "../../../root/web3/wallet-hook/useStarknetWallet";
 
 export const KYCClientStarknet = () => {
   const { wallet } = useStarknetWallet();

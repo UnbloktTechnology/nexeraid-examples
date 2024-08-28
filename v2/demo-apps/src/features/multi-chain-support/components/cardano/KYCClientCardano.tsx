@@ -1,6 +1,6 @@
 import { IdentityFlow } from "../../../kyc-widget/IdentityFlow";
 import ConnectCardano from "./ConnectCardano";
-import { useCardanoWallet } from "../../utils/useCardanoWallet";
+import { useCardanoWallet } from "../../../root/web3/wallet-hook/useCardanoWallet";
 
 export const KYCClientCardano = () => {
   const { wallet } = useCardanoWallet();

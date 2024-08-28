@@ -1,4 +1,4 @@
-import { getWallet } from "@/features/multi-chain-support/utils/useStarknetWallet";
+import { getWallet } from "@/features/root/web3/wallet-hook/useStarknetWallet";
 import { StarknetChainId } from "@nexeraid/identity-schemas";
 import { type Web3Wallet } from "@nexeraid/react-sdk";
 import { type AccountInterface, type ArraySignatureType, hash } from "starknet";

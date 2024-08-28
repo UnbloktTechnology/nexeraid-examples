@@ -1,7 +1,7 @@
 import {
   getWallet,
   signWithCardanoAndGetKey,
-} from "@/features/multi-chain-support/utils/useCardanoWallet";
+} from "@/features/root/web3/wallet-hook/useCardanoWallet";
 import { type Web3Wallet } from "@nexeraid/react-sdk";
 
 export const cardanoWalletConfig: Web3Wallet = {

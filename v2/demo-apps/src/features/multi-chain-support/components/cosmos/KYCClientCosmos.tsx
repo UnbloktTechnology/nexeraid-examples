@@ -1,6 +1,6 @@
 import { IdentityFlow } from "../../../kyc-widget/IdentityFlow";
 import ConnectCosmos from "./ConnectCosmos";
-import { useCosmosWallet } from "../../utils/useCosmosWallet";
+import { useCosmosWallet } from "../../../root/web3/wallet-hook/useCosmosWallet";
 
 export const KYCClientCosmos = () => {
   const { wallet } = useCosmosWallet();

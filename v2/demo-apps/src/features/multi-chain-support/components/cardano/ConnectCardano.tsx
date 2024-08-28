@@ -1,5 +1,5 @@
 import { Button } from "@/features/bank/Components/Button";
-import { useCardanoWallet } from "../../utils/useCardanoWallet";
+import { useCardanoWallet } from "../../../root/web3/wallet-hook/useCardanoWallet";
 
 const ConnectCardano = () => {
   const { wallet, connectCardano } = useCardanoWallet();

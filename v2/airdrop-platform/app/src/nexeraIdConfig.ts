@@ -15,7 +15,6 @@ export const nexeraIdConfig = createConfig({
         },
         body: JSON.stringify(params),
       });
-
       return challenge.json();
     },
   }),

@@ -1,12 +1,11 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { signTxAuthDataLibEthers } from '@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/lib'
 import chai, { expect } from 'chai'
+import { createBalanceTree, BalanceTree, parseBalanceMap, verifyProof } from '@nexeraid/merkle-tree-js'
 import { solidity } from 'ethereum-waffle'
 import { BigNumber, constants, Contract, ContractFactory } from 'ethers'
 import type { Wallet } from 'ethers'
 import { ethers } from 'hardhat'
-import { createBalanceTree, verifyProof } from '../src/balance-tree'
-import { parseBalanceMap } from '../src/parse-balance-map'
 import { type Address } from 'viem'
 
 import merkleDistributorArtifact from '../artifacts/contracts/MerkleDistributor.sol/MerkleDistributor.json'
@@ -193,7 +192,7 @@ for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline']) {
 
       describe('two account tree', () => {
         let distributor: Contract
-        let tree: ReturnType<typeof createBalanceTree>
+        let tree: BalanceTree
         beforeEach('deploy', async () => {
           tree = createBalanceTree({
             balances: [
@@ -586,10 +585,17 @@ for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline']) {
           }
         }
         beforeEach('deploy', async () => {
+          // const { claims: innerClaims, merkleRoot, tokenTotal } = parseBalanceMap({
+          //   [wallet0.address]: 200,
+          //   [wallet1.address]: 300,
+          //   [wallets[2].address]: 250,
+          // })
           const { claims: innerClaims, merkleRoot, tokenTotal } = parseBalanceMap({
-            [wallet0.address]: 200,
-            [wallet1.address]: 300,
-            [wallets[2].address]: 250,
+            balances: [
+              { address: wallet0.address as Address, earnings: "200", reasons: "" },
+              { address: wallet1.address as Address, earnings: "300", reasons: "" },
+              { address: wallets[2].address as Address, earnings: "250", reasons: "" },
+            ]
           })
           expect(tokenTotal).to.eq('0x02ee') // 750
           claims = innerClaims

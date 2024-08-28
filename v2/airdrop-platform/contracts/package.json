@@ -32,12 +32,13 @@
     "deploy-sepolia": "yarn prepare-merkle-root && yarn hardhat run ./scripts/deployTokenAndMerkleDistributor.ts --network sepolia"
   },
   "devDependencies": {
-    "@openzeppelin/contracts": "4.7.0",
+    "@nexeraid/merkle-tree-js": "^2.0.12-dev",
     "@nexeraprotocol/nexera-id-sig-gating-contracts": "^2.2.45",
     "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk": "^2.0.22",
     "@nomicfoundation/hardhat-verify": "^2.0.8",
     "@nomiclabs/hardhat-ethers": "^2.0.6",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "@openzeppelin/contracts": "4.7.0",
     "@types/chai": "^4.2.6",
     "@types/mocha": "^5.2.7",
     "axios": "^0.20.0",
@@ -48,14 +49,14 @@
     "ethereum-waffle": "^3.0.0",
     "ethereumjs-util": "^7.0.4",
     "ethers": "5.7.2",
-    "viem": "2.20.1",
     "hardhat": "^2.22.6",
     "mocha": "^6.2.2",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.0",
     "solc": "0.6.11",
     "ts-node": "^8.5.4",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "viem": "2.20.1"
   },
   "engines": {
     "node": ">=16"

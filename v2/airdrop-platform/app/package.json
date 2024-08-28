@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@nexeraid/js-sdk": "^2.0.8-dev",
+    "@nexeraid/merkle-tree-js": "^2.0.12-dev",
     "@nexeraid/react-sdk": "^2.0.11-dev",
     "@nexeraid/react-sdk-wallet-wagmi": "^2.0.1-dev",
     "@rainbow-me/rainbowkit": "^2.0.5",

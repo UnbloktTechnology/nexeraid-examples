@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { env } from "@/env.mjs";
 import { createApiClient, WalletChallengeRequest } from "@nexeraid/js-sdk";
 
-import "@/features/root/configureNodeDemoEnv";
+import "@/configureDemoEnv";
 
 const apiClient = createApiClient({
   apiKey: env.NEXERA_ID_API_KEY_KYC_AIRDROP,

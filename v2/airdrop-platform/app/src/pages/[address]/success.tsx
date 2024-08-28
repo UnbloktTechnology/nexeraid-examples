@@ -1,9 +1,9 @@
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
-import { AirdropLayout } from "@/features/kyc-airdrop/ui/AirdropLayout";
-import { useGetTokenBalance } from "@/features/kyc-airdrop/utils/useGetTokenBalance";
+import { AirdropLayout } from "@/kyc-airdrop/ui/AirdropLayout";
+import { useGetTokenBalance } from "@/kyc-airdrop/useGetTokenBalance";
 import { useRouter } from "next/router";
-import { RedirectToHomeButton } from "@/features/kyc-airdrop/ui/components/RedirectToHomeButton";
+import { RedirectToHomeButton } from "@/kyc-airdrop/ui/components/RedirectToHomeButton";
 
 const AirdropPageWrapper = () => {
   const balance = useGetTokenBalance();

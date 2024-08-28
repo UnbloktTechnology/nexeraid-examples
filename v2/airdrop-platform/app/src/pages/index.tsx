@@ -1,7 +1,7 @@
-import { AirdropLayout } from "@/features/kyc-airdrop/ui/AirdropLayout";
-import { SearchBar } from "@/features/kyc-airdrop/ui/components/SearchBar";
-import { ConnectButtonCustom } from "@/features/kyc-airdrop/ui/components/ConnectButtonCustom";
-import { generateSubtitleFromWalletState, generateTitleFromWalletState, useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
+import { AirdropLayout } from "@/kyc-airdrop/ui/AirdropLayout";
+import { SearchBar } from "@/kyc-airdrop/ui/components/SearchBar";
+import { ConnectButtonCustom } from "@/kyc-airdrop/ui/components/ConnectButtonCustom";
+import { generateSubtitleFromWalletState, generateTitleFromWalletState, useWalletCheck } from "@/kyc-airdrop/useWalletCheck";
 
 const Home = () => {
   const { isConnected } = useWalletCheck();

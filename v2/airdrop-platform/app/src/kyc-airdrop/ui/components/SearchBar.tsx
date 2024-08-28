@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Button } from "@/features/kyc-airdrop/ui/components/Button";
+import { Button } from "@/kyc-airdrop/ui/components/Button";
 import { type Address } from "@nexeraid/identity-schemas";
-import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
+import { useWalletCheck } from "@/kyc-airdrop/useWalletCheck";
 interface SearchBarProps {
   placeholder?: string;
 }

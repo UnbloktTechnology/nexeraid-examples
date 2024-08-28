@@ -1,11 +1,11 @@
 import dynamic from "next/dynamic";
 import React from "react";
-import { AirdropLayout } from "@/features/kyc-airdrop/ui/AirdropLayout";
+import { AirdropLayout } from "@/kyc-airdrop/ui/AirdropLayout";
 import { useRouter } from "next/router";
-import { Button } from "@/features/kyc-airdrop/ui/components/Button";
-import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
+import { Button } from "@/kyc-airdrop/ui/components/Button";
+import { useWalletCheck } from "@/kyc-airdrop/useWalletCheck";
 import { type Address } from "@nexeraid/identity-schemas";
-import { RedirectToHomeButton } from "@/features/kyc-airdrop/ui/components/RedirectToHomeButton";
+import { RedirectToHomeButton } from "@/kyc-airdrop/ui/components/RedirectToHomeButton";
 
 const AirdropPageWrapper = () => {
   const router = useRouter();

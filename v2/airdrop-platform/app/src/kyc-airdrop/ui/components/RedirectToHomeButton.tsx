@@ -1,4 +1,5 @@
-import { useWalletCheck } from "@/features/kyc-airdrop/hooks/useWalletCheck";
+
+import { useWalletCheck } from "../../useWalletCheck";
 import { Button } from "./Button";
 import { useState } from "react";
 

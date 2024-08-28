@@ -1,14 +1,15 @@
 import { isAddress, type Address } from "viem";
-import { useAccount, useWalletClient, useDisconnect } from "wagmi";
-import { useGetTokenBalance } from "@/features/kyc-airdrop/utils/useGetTokenBalance";
+import { useAccount, useWalletClient, useDisconnect, useChainId } from "wagmi";
+import { useGetTokenBalance } from "./useGetTokenBalance";
 import {
-  getUserAllowance,
+  claimToken,
+  getUserAirdropAmount,
   getUserIndex,
-} from "@/features/kyc-airdrop/utils/getUserAllowance";
+} from "./airdropActions";
 import { useRouter } from "next/router";
-import { useClaimToken } from "@/features/kyc-airdrop/utils/useClaimToken";
 import { z } from "zod";
 import { useMutation } from '@tanstack/react-query';
+import { EvmChainId } from "@nexeraid/react-sdk";
 
 export const WALLET_STATES = [
   "UNCHECKED",
@@ -25,29 +26,32 @@ export const useWalletCheck = () => {
   const router = useRouter();
   const address = router.query.address as string;
   const { balance, isPending } = useGetTokenBalance();
-  const { isConnected } = useAccount();
+  const chainId = useChainId();
+  const { isConnected, address: accountAddress } = useAccount();
   const isQualified = getUserIndex(address as Address) !== -1;
-  const allowance = getUserAllowance(address as Address);
-  const tryClaiming = useClaimToken();
+  const allowance = getUserAirdropAmount(address as Address);
 
   const { data: walletClient } = useWalletClient();
   const { disconnect } = useDisconnect();
 
   const claimMutation = useMutation({
     mutationFn: async () => {
-      if (!walletClient) {
-        throw new Error("walletClient not loaded");
+      if (!accountAddress || !chainId) {
+        throw new Error("No account in wallet Client - address" + accountAddress + " chainId" + chainId);
       }
-      return tryClaiming.mutateAsync();
+      const parsedChainId = EvmChainId.parse(chainId);
+      const result = await claimToken({
+        userAddress: accountAddress,
+        chainId: parsedChainId,
+      });
+      return result;
     },
     onSuccess: (sdkResponse) => {
       console.log("sdkResponse", sdkResponse.signatureResponse);
       if (sdkResponse?.signatureResponse.isAuthorized) {
-        redirectToClaimSuccess();
-      } else {
-        const errorMessage = sdkResponse?.error ?? "You are not authorized to claim tokens, please retry the identity verification process";
-        redirectToClaimError(errorMessage);
+        return redirectToClaimSuccess();
       }
+      return redirectToClaimError("You are not authorized to claim tokens, please retry the identity verification process");
     },
     onError: (error) => {
       console.error("Error while fetching signature", error);

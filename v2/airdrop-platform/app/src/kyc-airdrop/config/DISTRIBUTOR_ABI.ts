@@ -1,4 +1,4 @@
-export const distributorABI = [
+export const DISTRIBUTOR_ABI = [
   {
     "inputs": [
       {

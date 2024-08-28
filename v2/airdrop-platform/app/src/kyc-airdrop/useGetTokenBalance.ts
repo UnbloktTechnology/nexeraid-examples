@@ -2,18 +2,21 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAccount, useBlockNumber, useChainId, useReadContract } from "wagmi";
 import { EvmChainId } from "@nexeraid/identity-schemas";
 
-import { getTokenContractAddress } from "./getContractAddress";
+
 import { useEffect } from "react";
-import { tokenABI } from "./abis/tokenABI";
+import { erc20Abi } from "viem";
+import { CONTRACT_ADDRESSES } from "./config/CONTRACT_ADDRESSES";
+import { env } from "@/env.mjs";
 
 export const useGetTokenBalance = () => {
   const chainId = useChainId();
   const account = useAccount();
 
+  const erc20Address = CONTRACT_ADDRESSES[env.NEXT_PUBLIC_ENVIRONMENT][EvmChainId.parse(chainId)]?.token;
   // Use this hook to only update nfts after wagmi hook has loaded and nfts are defined
   const exampleTokenContract = {
-    address: getTokenContractAddress(EvmChainId.parse(chainId)),
-    abi: tokenABI,
+    address: erc20Address,
+    abi: erc20Abi,
   };
   const queryClient = useQueryClient();
   const { data: blockNumber } = useBlockNumber({ watch: true });
@@ -27,7 +30,7 @@ export const useGetTokenBalance = () => {
   } = useReadContract({
     ...exampleTokenContract,
     functionName: "balanceOf",
-    args: [account.address],
+    args: [account.address!],
   });
 
   // With wagmi v2, this is how we update contract reads

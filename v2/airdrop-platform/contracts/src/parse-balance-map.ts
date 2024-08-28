@@ -8,19 +8,15 @@ import { getAddress, isAddress, toHex } from 'viem'
 interface MerkleDistributorInfo {
   merkleRoot: string
   tokenTotal: string
-  claims: {
-    [account: string]: {
-      index: number
-      amount: string
-      proof: string[]
-      flags?: {
-        [flag: string]: boolean
-      }
-    }
-  }
+  claims: Record<string, {
+    index: number
+    amount: string
+    proof: (string | undefined)[]
+    flags?: Record<string, boolean>
+  }>
 }
 
-type OldFormat = { [account: string]: number | string }
+type OldFormat = Record<string, number | string>
 type NewFormat = { address: string; earnings: string; reasons: string }
 
 export function parseBalanceMap(balances: OldFormat | NewFormat[]): MerkleDistributorInfo {
@@ -30,14 +26,12 @@ export function parseBalanceMap(balances: OldFormat | NewFormat[]): MerkleDistri
     : Object.keys(balances).map(
       (account): NewFormat => ({
         address: account,
-        earnings: toHex(BigInt(balances[account])),
+        earnings: toHex(BigInt(balances[account] ?? 0)),
         reasons: '',
       })
     )
 
-  const dataByAddress = balancesInNewFormat.reduce<{
-    [address: string]: { amount: bigint; flags?: { [flag: string]: boolean } }
-  }>((memo, { address: account, earnings, reasons }) => {
+  const dataByAddress = balancesInNewFormat.reduce<Record<string, { amount: bigint; flags?: Record<string, boolean> }>>((memo, { address: account, earnings, reasons }) => {
     if (!isAddress(account)) {
       throw new Error(`Found invalid address: ${account}`)
     }
@@ -58,16 +52,16 @@ export function parseBalanceMap(balances: OldFormat | NewFormat[]): MerkleDistri
 
   const sortedAddresses = Object.keys(dataByAddress).sort()
 
-  const treeInput = sortedAddresses.map((address) => ({ account: getAddress(address), amount: dataByAddress[address].amount }))
+  const treeInput = sortedAddresses.map((address) => ({ account: getAddress(address), amount: dataByAddress[address]?.amount ?? BigInt(0) }))
 
   // construct a tree
   const tree = createBalanceTree({ balances: treeInput })
 
   // generate claims
-  const claims = sortedAddresses.reduce<{
-    [address: string]: { amount: string; index: number; proof: string[]; flags?: { [flag: string]: boolean } }
-  }>((memo, address, index) => {
-    const { amount, flags } = dataByAddress[address]
+  const claims = sortedAddresses.reduce<Record<string, { amount: string; index: number; proof: (string | undefined)[]; flags?: Record<string, boolean> }>>((memo, address, index) => {
+    const data = dataByAddress[address]
+    if (!data) return memo
+    const { amount, flags } = data
     memo[address] = {
       index,
       amount: toHex(amount),
@@ -78,7 +72,7 @@ export function parseBalanceMap(balances: OldFormat | NewFormat[]): MerkleDistri
   }, {})
 
   const tokenTotal: bigint = sortedAddresses.reduce<bigint>(
-    (memo, key) => memo + dataByAddress[key].amount,
+    (memo, key) => memo + (dataByAddress[key]?.amount ?? BigInt(0)),
     BigInt(0)
   )
 

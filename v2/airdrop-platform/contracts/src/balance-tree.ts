@@ -1,5 +1,6 @@
 import { createMerkleTree } from './merkle-tree'
-import { encodePacked, keccak256, type Address } from 'viem'
+import { encodePacked, keccak256 } from 'viem'
+import type { Address } from 'viem';
 
 export function createBalanceTree(props: { balances: { account: Address; amount: bigint }[] }) {
   const tree = createMerkleTree({
@@ -62,5 +63,5 @@ function combinedHash(props: { first: Buffer; second: Buffer }): Buffer {
 }
 
 function sortAndConcat(...args: Buffer[]): Buffer {
-  return Buffer.concat([...args].sort(Buffer.compare))
+  return Buffer.concat([...args].sort((a, b) => a.compare(b)))
 }

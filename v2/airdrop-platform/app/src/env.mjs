@@ -12,7 +12,7 @@ export const env = createEnv({
     NEXERA_ID_WORKSPACE_ID: z.string(),
     POSTGRES_URL: z
       .string()
-      .default("postgresql://postgres:postgres@localhost:5432/postgres"),
+      .default("postgres://airdrop:airdrop@localhost:5454/airdrop"),
   },
 
   /**

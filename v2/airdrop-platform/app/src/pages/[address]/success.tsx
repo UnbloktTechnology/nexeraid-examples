@@ -4,7 +4,7 @@ import { useGetTokenBalance } from "@/kyc-airdrop/lib/useGetTokenBalance";
 import { useWalletAddress } from "@/kyc-airdrop/lib/useWalletAddress";
 import { LogoutButton } from "@/kyc-airdrop/ui/components/LogoutButton";
 
-export const AllocationCheck = () => {
+export default function AllocationCheck() {
   const { address } = useWalletAddress();
   const { data: balance, isLoading: isBalanceLoading } = useGetTokenBalance();
 
@@ -21,4 +21,4 @@ export const AllocationCheck = () => {
       <LogoutButton variant="secondary" label="Try another wallet" />
     </AirdropLayout>
   );
-};
+}

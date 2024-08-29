@@ -7,7 +7,7 @@ import { useRedirectToCheckWallet } from "@/kyc-airdrop/lib/navigation";
 import { useWalletAddress } from "@/kyc-airdrop/lib/useWalletAddress";
 import { LogoutButton } from "@/kyc-airdrop/ui/components/LogoutButton";
 
-export const AllocationCheck = () => {
+export default function AllocationCheck() {
   const router = useRouter();
   const error = router.query.error as string;
   const { address } = useWalletAddress();

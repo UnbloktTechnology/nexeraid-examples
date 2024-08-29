@@ -1,19 +1,22 @@
 import React, { type ReactNode } from "react";
 import Image from "next/image";
 import stylesPeaq from "./peaq.module.css";
-import { BelowTheFold } from "./components/BelowTheFold";
+import { Footer } from "./components/Footer";
+import { useTitles } from "../lib/useUiState";
+import { DebugUiState } from "./components/DebugUiState";
 
 interface AirdropLayoutProps {
-  title: string;
-  subtitle: string;
+  titleOverwrite?: string;
+  subtitleOverwrite?: string;
   children: ReactNode;
 }
 
 export const AirdropLayout = ({
-  title,
-  subtitle,
+  titleOverwrite,
+  subtitleOverwrite,
   children,
 }: AirdropLayoutProps) => {
+  const { title, subtitle } = useTitles();
   return (
     <main className={`${stylesPeaq.main} bg-white !p-0`}>
       <header className="flex w-full items-center justify-between p-4 pb-0">
@@ -37,18 +40,21 @@ export const AirdropLayout = ({
             className={`${stylesPeaq.bg} flex min-h-screen items-center justify-center p-8`}
           >
             <section className="flex w-full max-w-3xl flex-col gap-2 rounded-lg px-8 py-20 text-center text-white">
-              <h1 className="text-[52px] font-normal">{title}</h1>
-              <h2 className="text-base">{subtitle}</h2>
+              <h1 className="text-[52px] font-normal">
+                {titleOverwrite ?? title}
+              </h1>
+              <h2 className="text-base">{subtitleOverwrite ?? subtitle}</h2>
               <div className="flex flex-col items-center justify-center gap-4 pt-4">
                 {children}
               </div>
+              <DebugUiState />
               <a className="opacity-40" href="#">
                 Terms and conditions
               </a>
             </section>
           </div>
         </div>
-        <BelowTheFold />
+        <Footer />
       </div>
     </main>
   );

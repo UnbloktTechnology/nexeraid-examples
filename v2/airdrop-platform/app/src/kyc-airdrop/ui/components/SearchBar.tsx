@@ -1,35 +1,46 @@
 import React, { useState } from "react";
 import { Button } from "@/kyc-airdrop/ui/components/Button";
-import { type Address } from "@nexeraid/identity-schemas";
-import { useWalletCheck } from "@/kyc-airdrop/useWalletCheck";
+import { useRedirectToCheckWallet } from "@/kyc-airdrop/lib/navigation";
+import { isAddress } from "viem";
 interface SearchBarProps {
   placeholder?: string;
 }
 
 export const SearchBar = ({ placeholder }: SearchBarProps) => {
   const [walletAddress, setWalletAddress] = useState<string>("");
-  const { redirectToCheckWallet, handleInvalidInput, isValidAddress } =
-    useWalletCheck();
+  const [error, setError] = useState<string | null>(null);
+  const redirectToCheckWallet = useRedirectToCheckWallet();
 
   const handlePasteAndCheck = async () => {
+    let text: string | null = null;
     try {
-      const text = await navigator.clipboard.readText();
-      if (isValidAddress(text)) {
-        setWalletAddress(text);
-        redirectToCheckWallet(text as Address);
-      } else {
-        handleInvalidInput(setWalletAddress);
-      }
+      text = await navigator.clipboard.readText();
     } catch (err) {
-      console.error("Failed to read clipboard contents: ", err);
+      setError("Error reading clipboard");
+    }
+
+    if (text === null) {
+      setError("Error reading clipboard");
+      return;
+    }
+
+    if (isAddress(text)) {
+      setWalletAddress(text);
+      setError(null);
+
+      redirectToCheckWallet(text);
+    } else {
+      setError("Invalid address");
     }
   };
 
   const handleInputChange = (value: string) => {
     setWalletAddress(value);
-    if (value.length >= 42) {
-      // A valid address is 42 characters long, we don't want to check before that
-      redirectToCheckWallet(value as Address);
+    setError(null);
+    if (isAddress(value)) {
+      redirectToCheckWallet(value);
+    } else if (value.length >= 42) {
+      setError("Invalid address");
     }
   };
 
@@ -42,8 +53,10 @@ export const SearchBar = ({ placeholder }: SearchBarProps) => {
         onChange={(e) => handleInputChange(e.target.value)}
         className="text-regular flex-grow bg-transparent px-4 py-2 text-black outline-none"
       />
+      {error && <span className="text-sm text-red-500">{error}</span>}
       <Button
         variant="secondary"
+        disabled={error !== null}
         onClick={() => void handlePasteAndCheck()}
         className="flex items-center space-x-1 !bg-transparent text-blue-500 shadow-none hover:underline"
       >

@@ -10,25 +10,29 @@ const apiClient = createApiClient({
   apiKey: env.NEXERA_ID_API_KEY_KYC_AIRDROP,
 });
 
-export default async function handler(props: { req: NextApiRequest, res: NextApiResponse }) {
-  if (props.req.method === "GET") {
-    try {
-      // Validate input
-      const address = BlockchainAddress.parse(props.req.query.id);
-      const workspaceId = env.NEXERA_ID_WORKSPACE_ID;
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
+  if (req.method !== "GET") {
+    res.setHeader("Allow", ["GET"]);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
+    return;
+  }
 
-      const response = await apiClient.getUserStatusByWallet({
-        walletAddress: address,
-        workspaceId: workspaceId,
-      });
+  try {
+    // Validate input
+    const address = BlockchainAddress.parse(req.query.id);
+    const workspaceId = env.NEXERA_ID_WORKSPACE_ID;
 
-      props.res.status(200).json({ status: response });
-    } catch (error) {
-      console.error("API call error:", error);
-      props.res.status(500).json({ error: "Failed to fetch customer status" });
-    }
-  } else {
-    props.res.setHeader("Allow", ["GET"]);
-    props.res.status(405).end(`Method ${props.req.method} Not Allowed`);
+    const response = await apiClient.getUserStatusByWallet({
+      walletAddress: address,
+      workspaceId: workspaceId,
+    });
+
+    res.status(200).json({ status: response });
+  } catch (error) {
+    console.error("API call error:", error);
+    res.status(500).json({ error: "Failed to fetch customer status" });
   }
 }

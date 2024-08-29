@@ -1,17 +1,18 @@
-import { type NextApiRequest, type NextApiResponse } from 'next';
-import { z } from 'zod';
-import { getDb } from '@/db/db';
+import { type NextApiRequest, type NextApiResponse } from "next";
+import { z } from "zod";
+import { getDb } from "@/db/db";
 import {
-  UuidString, ExternalCustomerId,
+  UuidString,
+  ExternalCustomerId,
   RiskScoreType,
   CustomerType,
   CustomerOnboardingLevel,
   CustomerStatus,
 } from "@nexeraid/identity-schemas";
-import { env } from '@/env.mjs';
-import { appConfig } from '@/appConfig';
-import { customerStatus } from '@/db/schema';
-import type { Address } from 'viem';
+import { env } from "@/env.mjs";
+import { appConfig } from "@/appConfig";
+import { customerStatus } from "@/db/schema";
+import type { Address } from "viem";
 
 // Import or define the CustomerWebhookPayload schema here
 // TODO import from @nexeraid/identity-schemas or js-sdk
@@ -33,15 +34,17 @@ export const CustomerWebhookPayload = z.object({
   deletedAt: z.coerce.date().nullish(),
 });
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method Not Allowed' });
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method Not Allowed" });
   }
 
   try {
     const payload = CustomerWebhookPayload.parse(req.body);
     const db = getDb();
-
 
     /**
      * curl -X 'GET' \
@@ -49,12 +52,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   -H 'accept: application/json'
      */
     // TODO use sdk
-    const response = await fetch(`${appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api}/customers/${payload.customerId}/wallets`, {
-      headers: {
-        'accept': 'application/json',
-        'Authorization': `Bearer ${env.NEXERA_ID_API_KEY_KYC_AIRDROP}`,
+    const response = await fetch(
+      `${appConfig[env.NEXT_PUBLIC_ENVIRONMENT].api}/customers/${payload.customerId}/wallets`,
+      {
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${env.NEXERA_ID_API_KEY_KYC_AIRDROP}`,
+        },
       },
-    });
+    );
     /**
      * [
   {
@@ -70,7 +76,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 ]
      */
-    const data = await response.json() as {
+    const data = (await response.json()) as {
       id: string;
       wallet: string;
       blockchainNamespace: string;
@@ -90,9 +96,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       updatedAt: new Date(),
     });
 
-    res.status(200).json({ message: 'Customer status updated successfully' });
+    res.status(200).json({ message: "Customer status updated successfully" });
   } catch (error) {
-    console.error('Error processing webhook:', error);
-    res.status(400).json({ message: 'Invalid payload' });
+    console.error("Error processing webhook:", error);
+    res.status(400).json({ message: "Invalid payload" });
   }
 }

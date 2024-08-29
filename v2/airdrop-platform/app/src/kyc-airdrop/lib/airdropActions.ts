@@ -1,10 +1,10 @@
 // TODO ExtendedTxAuthInput shold be exposed in react and web sdks
 import type { Address } from "@nexeraid/identity-schemas";
-import { CUSTOMERS_BALANCE_MAP } from "./config/CUSTOMERS_BALANCE_MAP";
+import { CUSTOMERS_BALANCE_MAP } from "../config/CUSTOMERS_BALANCE_MAP";
 import { parseBalanceMap } from "@nexeraid/merkle-tree-js";
 import { encodeFunctionData, type Hex } from "viem";
-import { MerkleDistributorAbi } from "./abis/MerkleDistributorAbi";
-import { getDistributorContractAddress } from "./config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
+import { MerkleDistributorAbi } from "../abis/MerkleDistributorAbi";
+import { getDistributorContractAddress } from "../config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
 import type { EvmChainId } from "@nexeraid/identity-schemas";
 import { getTxAuthDataSignature } from "@nexeraid/react-sdk";
 import { nexeraIdConfig } from "@/nexeraIdConfig";
@@ -13,23 +13,26 @@ import { wagmiConfig } from "@/wagmiConfig";
 
 const balanceMap = parseBalanceMap({ balances: CUSTOMERS_BALANCE_MAP });
 
-export const getUserAirdropAmount = (userAddress: Address): bigint | Error => {
+export const getUserAirdropAmount = (
+  userAddress: Address | undefined | null,
+): bigint => {
+  if (!userAddress) return 0n;
   const amount = balanceMap.claims[userAddress]?.amount;
-  return amount ? BigInt(amount) : Error("User not found");
+  return amount ? BigInt(amount) : 0n;
 };
 
 export const isUserQualified = (userAddress: Address): boolean => {
   return !!balanceMap.claims[userAddress];
 };
 
-export const getUserIndex = (userAddress: Address): bigint | Error => {
+export const getUserIndex = (userAddress: Address): bigint | null => {
   const index = balanceMap.claims[userAddress]?.index;
-  return index ? BigInt(index) : Error("User not found");
+  return index ? BigInt(index) : null;
 };
 
-export const getUserProof = (userAddress: Address): Hex[] | Error => {
+export const getUserProof = (userAddress: Address): Hex[] | null => {
   const proof = balanceMap.claims[userAddress]?.proof;
-  return proof ? (proof as Hex[]) : Error("User not found");
+  return proof ? (proof as Hex[]) : null;
 };
 
 export const claimToken = async (props: {
@@ -42,11 +45,7 @@ export const claimToken = async (props: {
   const index = getUserIndex(userAddress);
   const proof = getUserProof(userAddress);
 
-  if (
-    amount instanceof Error ||
-    index instanceof Error ||
-    proof instanceof Error
-  ) {
+  if (index === null || proof === null) {
     throw new Error("User not found");
   }
 

@@ -1,16 +1,16 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 import { Button } from "./Button";
-import { useWalletCheck } from "@/kyc-airdrop/useWalletCheck";
 import type { Address } from "@nexeraid/identity-schemas";
+import { useRedirectToCheckWallet } from "@/kyc-airdrop/lib/navigation";
 
 interface ConnectButtonProps {
   label: string;
   variant: "primary" | "secondary";
 }
 
-export const ConnectButtonCustom = ({ label, variant }: ConnectButtonProps) => {
-  const { redirectToCheckWallet } = useWalletCheck();
+export const ConnectWalletButton = ({ label, variant }: ConnectButtonProps) => {
+  const redirectToCheckWallet = useRedirectToCheckWallet();
 
   return (
     <ConnectButton.Custom>
@@ -76,7 +76,7 @@ export const ConnectButtonCustom = ({ label, variant }: ConnectButtonProps) => {
                     }
                     variant={variant}
                   >
-                    Check the wallet
+                    Check this wallet for airdrop eligibility
                   </Button>
                 </div>
               );

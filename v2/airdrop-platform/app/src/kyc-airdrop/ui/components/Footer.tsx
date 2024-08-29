@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-export const BelowTheFold = () => {
+export const Footer = () => {
   return (
     <footer>
       <div className="bg-black py-10 text-white">

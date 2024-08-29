@@ -27,7 +27,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
-  )
+  );
 };
 
 export default dynamic(() => Promise.resolve(MyApp), {

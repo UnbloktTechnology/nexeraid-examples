@@ -20,7 +20,9 @@ export default async function handler(
 
   try {
     // Get the challenge parameters from the request body
-    const params = WalletChallengeRequest.omit({ workflowId: true }).parse(req.body);
+    const params = WalletChallengeRequest.omit({ workflowId: true }).parse(
+      req.body,
+    );
 
     const challengeRes = await apiClient.createWeb3Challenge({
       ...params,

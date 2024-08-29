@@ -12,12 +12,15 @@ import {
 } from "viem";
 import { EvmChainId } from "@nexeraid/identity-schemas";
 import { useChainId, useAccount, useSendTransaction } from "wagmi";
-import { getDistributorContractAddress } from "./getContractAddress";
-import { distributorABI } from "./abis/distributorABI";
-import { getUserAllowance, getUserIndex } from "./getUserAllowance";
 import userAllowances from "./merkle-tree/complex_example.json";
 import { createBalanceTree } from "@nexeraid/merkle-tree-js";
 import { useGetTxAuthDataSignature } from "@nexeraid/react-sdk";
+import { getDistributorContractAddress } from "@/kyc-airdrop/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
+import { MerkleDistributorAbi } from "@/kyc-airdrop/abis/MerkleDistributorAbi";
+import {
+  getUserAirdropAmount,
+  getUserIndex,
+} from "@/kyc-airdrop/airdropActions";
 
 const tree = createBalanceTree({
   balances: Object.entries(userAllowances).map((ent) => {
@@ -49,20 +52,27 @@ export const useClaimToken = () => {
         }
 
         // build inputs
-        const amount = getUserAllowance(account.address);
+        const amount = getUserAirdropAmount(account.address);
+        if (amount instanceof Error) {
+          throw amount;
+        }
+
         const index = getUserIndex(account.address);
+        if (index instanceof Error) {
+          throw index;
+        }
+
         const proof = tree.getProof({
           account: account.address,
           index: BigInt(index),
           amount: BigInt(amount ?? 0),
         });
+        const distributorAddress = getDistributorContractAddress(chainId);
         const signatureResponse = await getTxAuthDataSignature({
           namespace: "eip155",
           userAddress: account.address,
-          contractAbi: Array.from(distributorABI),
-          contractAddress: getDistributorContractAddress(
-            EvmChainId.parse(chainId),
-          ),
+          contractAbi: Array.from(MerkleDistributorAbi),
+          contractAddress: distributorAddress,
           functionName: "claim",
           args: [index, account.address, amount, proof],
           chainId: EvmChainId.parse(chainId),
@@ -82,9 +92,9 @@ export const useClaimToken = () => {
 
         // Create function call data
         const unsignedTx = encodeFunctionData({
-          abi: Array.from(distributorABI),
+          abi: Array.from(MerkleDistributorAbi),
           functionName: "claim",
-          args: [index, account.address, amount, proof],
+          args: [BigInt(index), account.address, BigInt(amount), proof],
         });
 
         // Complete data with payload from UI (require blockExpiration+ signature)
@@ -92,7 +102,7 @@ export const useClaimToken = () => {
 
         // Claim with signature
         const result = await sendTx.sendTransactionAsync({
-          to: getDistributorContractAddress(EvmChainId.parse(chainId)),
+          to: distributorAddress,
           data: txData,
         });
 

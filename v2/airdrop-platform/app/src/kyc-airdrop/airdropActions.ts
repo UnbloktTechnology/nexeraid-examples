@@ -3,10 +3,9 @@ import type { Address } from "@nexeraid/identity-schemas";
 import { CUSTOMERS_BALANCE_MAP } from "./config/CUSTOMERS_BALANCE_MAP";
 import { parseBalanceMap } from "@nexeraid/merkle-tree-js";
 import { encodeFunctionData } from "viem";
-import { DISTRIBUTOR_ABI } from "./config/DISTRIBUTOR_ABI";
-import { EXAMPLE_AIRDROP_CONTRACT_ADDRESSES } from "./config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
+import { MerkleDistributorAbi } from "./abis/MerkleDistributorAbi";
+import { getDistributorContractAddress } from "./config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
 import { EvmChainId } from "@nexeraid/identity-schemas";
-import { env } from "@/env.mjs";
 import { getTxAuthDataSignature } from "@nexeraid/react-sdk";
 import { nexeraIdConfig } from "@/nexeraIdConfig";
 import { sendTransaction } from "@wagmi/core";
@@ -47,18 +46,12 @@ export const claimToken = async (props: {
     throw new Error("User not found");
   }
 
-  const distributorAddress =
-    EXAMPLE_AIRDROP_CONTRACT_ADDRESSES[env.NEXT_PUBLIC_ENVIRONMENT][
-      EvmChainId.parse(chainId)
-    ]?.distributor;
-  if (!distributorAddress) {
-    throw new Error("Distributor address not found");
-  }
+  const distributorAddress = getDistributorContractAddress(chainId);
 
   const signatureResponse = await getTxAuthDataSignature(nexeraIdConfig, {
     namespace: "eip155",
     userAddress: userAddress,
-    contractAbi: Array.from(DISTRIBUTOR_ABI),
+    contractAbi: Array.from(MerkleDistributorAbi),
     contractAddress: distributorAddress,
     functionName: "claim",
     args: [index, userAddress, amount, proof],
@@ -68,7 +61,7 @@ export const claimToken = async (props: {
   if (!signatureResponse.isAuthorized) throw new Error("User not authorized");
 
   const unsignedTx = encodeFunctionData({
-    abi: Array.from(DISTRIBUTOR_ABI),
+    abi: Array.from(MerkleDistributorAbi),
     functionName: "claim",
     args: [index, userAddress, amount, proof],
   });

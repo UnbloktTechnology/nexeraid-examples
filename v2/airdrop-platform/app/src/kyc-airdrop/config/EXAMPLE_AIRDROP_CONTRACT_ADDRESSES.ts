@@ -1,12 +1,43 @@
-import type { EvmChainId } from "@nexeraid/identity-schemas";
+import { EvmChainId } from "@nexeraid/identity-schemas";
 import {
   NEXERA_EVM_CHAINS,
   type Environment,
 } from "@nexeraid/identity-schemas";
 import type { Address } from "viem";
 
+import { env } from "@/env.mjs";
+
+export const getDistributorContractAddress = (chainId: EvmChainId | number) => {
+  const chainIdParsed =
+    typeof chainId === "number" ? EvmChainId.parse(chainId) : chainId;
+
+  const distributorAddress =
+    EXAMPLE_AIRDROP_CONTRACT_ADDRESSES[env.NEXT_PUBLIC_ENVIRONMENT][
+      chainIdParsed
+    ]?.distributor;
+  if (!distributorAddress) {
+    throw new Error("Distributor address not found");
+  }
+  return distributorAddress;
+};
+
+export const getExampleTokenContractAddress = (
+  chainId: EvmChainId | number,
+) => {
+  const chainIdParsed =
+    typeof chainId === "number" ? EvmChainId.parse(chainId) : chainId;
+  const tokenAddress =
+    EXAMPLE_AIRDROP_CONTRACT_ADDRESSES[env.NEXT_PUBLIC_ENVIRONMENT][
+      chainIdParsed
+    ]?.token;
+  if (!tokenAddress) {
+    throw new Error("Token address not found");
+  }
+  return tokenAddress;
+};
+
 // Contract addresses for different environments and chains
-export const EXAMPLE_AIRDROP_CONTRACT_ADDRESSES: {
+const EXAMPLE_AIRDROP_CONTRACT_ADDRESSES: {
   [key in Environment]: Partial<{
     [key in EvmChainId]: { token: Address; distributor: Address };
   }>;

@@ -109,19 +109,6 @@ const PROJECTS: AppCardProps[] = [
     name: "Multi Chain Support",
     image: "/images/kyc.webp",
   },
-  // TODO - IS REQUIRED A REBRANDING
-  // {
-  //   url: appConfig[env.NEXT_PUBLIC_ENVIRONMENT].aaveDemo,
-  //   name: "Gated Aave",
-  //   image: "/images/aave.svg",
-  //   tags: [ZKP_TAG, OCV_TAG, EW_TAG],
-  // },
-  // TODO - Not activated for now
-  // {
-  //   url: "/sygnum-web3",
-  //   name: "SYGNUM",
-  //   image: "/images/sygnum.png",
-  // },
 ];
 
 export default function Home() {

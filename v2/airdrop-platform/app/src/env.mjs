@@ -10,7 +10,7 @@ export const env = createEnv({
     NEXERA_ID_API_KEY_KYC_AIRDROP: z.string(),
     NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP: z.string(),
     NEXERA_ID_WORKSPACE_ID: z.string(),
-    DATABASE_URL: z
+    POSTGRES_URL: z
       .string()
       .default("postgresql://postgres:postgres@localhost:5432/postgres"),
   },
@@ -47,7 +47,7 @@ export const env = createEnv({
       process.env.NEXT_PUBLIC_AMOY_WS_PROVIDER_URL,
     NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL:
       process.env.NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL,
-    DATABASE_URL: process.env.DATABASE_URL,
+    POSTGRES_URL: process.env.POSTGRES_URL,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

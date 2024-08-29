@@ -2,12 +2,11 @@
 
 This repo contains several example apps that illustrate how to use the NexeraID Identity SDK. You can safely interact with them to get to know NexeraID. There are live versions of the apps on <https://examples.nexera.id>.
 
-* Compliant Uniswap: An example DeFi app that requires signer interaction with the NexeraID Identity SDK, and has an example swapping process.
-* Gated Uniswap: An example DeFi app that requires signer interaction with the NexeraID Identity SDK, and has an example swapping process. Off-chain verification.
-* Banking:  An example bank app that does not require signer interaction with the NexeraID Identity SDK.
-* Web3 Banking: An example Web3 bank app that requires signer interaction with the NexeraID Identity SDK.
-* KYC: A simple KYC example flow, using the NexeraID Identity SDK.
-* Gated Aave: Aave-cloned interface to demonstrate the KYC Identity Flow in a Web3 interface and interaction, and a whitelisted custom verification.
+- Compliant Uniswap: An example DeFi app that requires signer interaction with the NexeraID Identity SDK, and has an example swapping process.
+- Gated Uniswap: An example DeFi app that requires signer interaction with the NexeraID Identity SDK, and has an example swapping process. Off-chain verification.
+- Banking: An example bank app that does not require signer interaction with the NexeraID Identity SDK.
+- Web3 Banking: An example Web3 bank app that requires signer interaction with the NexeraID Identity SDK.
+- KYC: A simple KYC example flow, using the NexeraID Identity SDK.
 
 Follow these steps to run the example apps locally.
 
@@ -16,7 +15,7 @@ Follow these steps to run the example apps locally.
 2. Edit `example-apps/.env` as described in the following table.
 
    | Variable                              | Description                                    |
-   |---------------------------------------|------------------------------------------------|
+   | ------------------------------------- | ---------------------------------------------- |
    | `NODE_ENV`                            | Set to `production`                            |
    | `NEXT_PUBLIC_ENVIRONMENT`             | Set to `prod`                                  |
    | `UPSTASH_REDIS_REST_TOKEN`            | The token for the Upstash Redis REST API       |
@@ -42,5 +41,3 @@ Follow these steps to run the example apps locally.
 4. Run `npm run dev` in `example-apps`.
 
 The example apps can now be accessed at <http://localhost:3020>.
-
-For instructions on running the gated Aave app, see [its dedicated README](../example-aave/README.md)

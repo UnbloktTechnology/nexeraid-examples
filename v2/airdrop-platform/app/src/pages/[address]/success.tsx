@@ -1,21 +1,12 @@
-import dynamic from "next/dynamic";
-import React, { useEffect, useState } from "react";
-import { AirdropLayout } from "@/features/kyc-airdrop/ui/AirdropLayout";
-import { useGetTokenBalance } from "@/features/kyc-airdrop/utils/useGetTokenBalance";
-import { useRouter } from "next/router";
-import { RedirectToHomeButton } from "@/features/kyc-airdrop/ui/components/RedirectToHomeButton";
+import React from "react";
+import { AirdropLayout } from "@/kyc-airdrop/ui/AirdropLayout";
+import { useGetTokenBalance } from "@/kyc-airdrop/lib/useGetTokenBalance";
+import { useWalletAddress } from "@/kyc-airdrop/lib/useWalletAddress";
+import { LogoutButton } from "@/kyc-airdrop/ui/components/LogoutButton";
 
-const AirdropPageWrapper = () => {
-  const balance = useGetTokenBalance();
-  const [isBalanceLoading, setIsBalanceLoading] = useState(true);
-  const router = useRouter();
-  const address = router.query.address as string;
-
-  useEffect(() => {
-    if (balance.balance) {
-      setIsBalanceLoading(false);
-    }
-  }, [balance]);
+export default function AllocationCheck() {
+  const { address } = useWalletAddress();
+  const { data: balance, isLoading: isBalanceLoading } = useGetTokenBalance();
 
   const title = isBalanceLoading
     ? "Claiming your tokens..."
@@ -23,20 +14,11 @@ const AirdropPageWrapper = () => {
 
   const subtitle = isBalanceLoading
     ? "Checking wallet balance..."
-    : `Congrats! The allocated ${balance.balance} PEAQ were transferred to the wallet ${address}`;
+    : `Congrats! The allocated ${balance} PEAQ were transferred to the wallet ${address}`;
 
   return (
-    <AirdropLayout title={title} subtitle={subtitle}>
-      <RedirectToHomeButton variant="secondary" label="Try another wallet" />
+    <AirdropLayout titleOverwrite={title} subtitleOverwrite={subtitle}>
+      <LogoutButton variant="secondary" label="Try another wallet" />
     </AirdropLayout>
   );
-};
-
-const DynamicAirdropPageWrapper = dynamic(
-  () => Promise.resolve(AirdropPageWrapper),
-  { ssr: false },
-);
-
-export default function AllocationCheck() {
-  return <DynamicAirdropPageWrapper />;
 }

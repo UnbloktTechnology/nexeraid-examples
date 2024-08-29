@@ -4,7 +4,7 @@ import { CUSTOMERS_BALANCE_MAP } from "./config/CUSTOMERS_BALANCE_MAP";
 import { parseBalanceMap } from "@nexeraid/merkle-tree-js";
 import { encodeFunctionData } from "viem";
 import { DISTRIBUTOR_ABI } from "./config/DISTRIBUTOR_ABI";
-import { CONTRACT_ADDRESSES } from "./config/CONTRACT_ADDRESSES";
+import { EXAMPLE_AIRDROP_CONTRACT_ADDRESSES } from "./config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
 import { EvmChainId } from "@nexeraid/identity-schemas";
 import { env } from "@/env.mjs";
 import { getTxAuthDataSignature } from "@nexeraid/react-sdk";
@@ -12,23 +12,21 @@ import { nexeraIdConfig } from "@/nexeraIdConfig";
 import { sendTransaction } from "@wagmi/core";
 import { wagmiConfig } from "@/wagmiConfig";
 
-
-
 export const getUserAirdropAmount = (userAddress: Address) => {
   const balance = CUSTOMERS_BALANCE_MAP.find(
-    (balance) => balance.address === userAddress
+    (balance) => balance.address === userAddress,
   );
-  return balance ? parseInt(balance.earnings, 10) : Error("User not found")
+  return balance ? parseInt(balance.earnings, 10) : Error("User not found");
 };
 
 export const getUserIndex = (userAddress: Address) => {
-  const balanceMap = parseBalanceMap({ balances: CUSTOMERS_BALANCE_MAP })
-  return balanceMap.claims[userAddress]?.index ?? Error("User not found")
+  const balanceMap = parseBalanceMap({ balances: CUSTOMERS_BALANCE_MAP });
+  return balanceMap.claims[userAddress]?.index ?? Error("User not found");
 };
 
 export const getUserProof = (userAddress: Address) => {
-  const balanceMap = parseBalanceMap({ balances: CUSTOMERS_BALANCE_MAP })
-  return balanceMap.claims[userAddress]?.proof ?? Error("User not found")
+  const balanceMap = parseBalanceMap({ balances: CUSTOMERS_BALANCE_MAP });
+  return balanceMap.claims[userAddress]?.proof ?? Error("User not found");
 };
 
 export const claimToken = async (props: {
@@ -41,11 +39,18 @@ export const claimToken = async (props: {
   const index = getUserIndex(userAddress);
   const proof = getUserProof(userAddress);
 
-  if (amount instanceof Error || index instanceof Error || proof instanceof Error) {
+  if (
+    amount instanceof Error ||
+    index instanceof Error ||
+    proof instanceof Error
+  ) {
     throw new Error("User not found");
   }
 
-  const distributorAddress = CONTRACT_ADDRESSES[env.NEXT_PUBLIC_ENVIRONMENT][EvmChainId.parse(chainId)]?.distributor;
+  const distributorAddress =
+    EXAMPLE_AIRDROP_CONTRACT_ADDRESSES[env.NEXT_PUBLIC_ENVIRONMENT][
+      EvmChainId.parse(chainId)
+    ]?.distributor;
   if (!distributorAddress) {
     throw new Error("Distributor address not found");
   }
@@ -59,7 +64,6 @@ export const claimToken = async (props: {
     args: [index, userAddress, amount, proof],
     chainId: chainId,
   });
-
 
   if (!signatureResponse.isAuthorized) throw new Error("User not authorized");
 

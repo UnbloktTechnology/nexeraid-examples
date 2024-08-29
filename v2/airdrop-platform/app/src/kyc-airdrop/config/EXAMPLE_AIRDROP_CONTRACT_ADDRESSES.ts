@@ -1,12 +1,15 @@
 import type { EvmChainId } from "@nexeraid/identity-schemas";
-import { NEXERA_EVM_CHAINS, type Environment } from "@nexeraid/identity-schemas";
+import {
+  NEXERA_EVM_CHAINS,
+  type Environment,
+} from "@nexeraid/identity-schemas";
 import type { Address } from "viem";
 
 // Contract addresses for different environments and chains
-export const CONTRACT_ADDRESSES: {
+export const EXAMPLE_AIRDROP_CONTRACT_ADDRESSES: {
   [key in Environment]: Partial<{
-    [key in EvmChainId]: { token: Address; distributor: Address }
-  }>
+    [key in EvmChainId]: { token: Address; distributor: Address };
+  }>;
 } = {
   prod: {
     [NEXERA_EVM_CHAINS.SEPOLIA]: {
@@ -32,5 +35,5 @@ export const CONTRACT_ADDRESSES: {
   "test-dev-1": {},
   "test-dev-2": {},
   dev: {},
-  stage: {}
+  stage: {},
 } as const;

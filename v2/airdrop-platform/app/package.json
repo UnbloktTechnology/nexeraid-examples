@@ -1,0 +1,70 @@
+{
+  "name": "airdrop-platform",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev -p 3020",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit",
+    "start": "next start",
+    "prettier": "prettier 'src/' --check",
+    "prettier:fix": "prettier 'src/' --write",
+    "db:start": "docker compose -f postgres.yml up -d",
+    "db:stop": "docker compose -f postgres.yml down",
+    "db:clean": "docker compose -f postgres.yml down -v",
+    "db:generate": "SKIP_ENV_VALIDATION=1 dotenv -c pnpm drizzle-kit generate",
+    "db:migrate": "dotenv -c pnpm drizzle-kit migrate",
+    "db:studio": "dotenv -c pnpm drizzle-kit studio"
+  },
+  "dependencies": {
+    "@nexeraid/js-sdk": "^2.0.10-dev",
+    "@nexeraid/merkle-tree-js": "^2.0.12-dev",
+    "@nexeraid/react-sdk": "^2.0.13-dev",
+    "@nexeraid/react-sdk-wallet-wagmi": "^2.0.2-dev",
+    "@rainbow-me/rainbowkit": "^2.0.5",
+    "@t3-oss/env-nextjs": "^0.6.0",
+    "@tanstack/react-query": "^5.29.2",
+    "@tanstack/react-query-devtools": "^5.29.2",
+    "drizzle-orm": "^0.32.2",
+    "drizzle-zod": "^0.5.1",
+    "ethereumjs-util": "^7.1.5",
+    "next": "^13.4.19",
+    "postgres": "^3.4.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-jazzicon": "^1.0.4",
+    "react-toastify": "^9.1.3",
+    "superjson": "^1.13.1",
+    "viem": "^2.9.19",
+    "wagmi": "^2.5.20",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/eslint": "^8.44.2",
+    "@types/node": "^18.16.0",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.3.0",
+    "@typescript-eslint/parser": "^6.3.0",
+    "autoprefixer": "^10.4.14",
+    "dotenv": "^16.4.1",
+    "dotenv-cli": "^7.4.2",
+    "drizzle-kit": "^0.23.2",
+    "eslint": "^8.47.0",
+    "eslint-config-next": "^13.4.19",
+    "postcss": "^8.4.27",
+    "prettier": "^3.0.0",
+    "prettier-plugin-tailwindcss": "^0.5.1",
+    "tailwindcss": "^3.3.3",
+    "typescript": "5.4.5"
+  },
+  "ct3aMetadata": {
+    "initVersion": "7.20.2"
+  },
+  "packageManager": "npm@9.8.1",
+  "engines": {
+    "node": ">=18"
+  }
+}

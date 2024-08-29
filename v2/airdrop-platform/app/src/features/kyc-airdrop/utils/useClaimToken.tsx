@@ -12,7 +12,6 @@ import {
 } from "viem";
 import { EvmChainId } from "@nexeraid/identity-schemas";
 import { useChainId, useAccount, useSendTransaction } from "wagmi";
-import userAllowances from "./merkle-tree/complex_example.json";
 import { createBalanceTree } from "@nexeraid/merkle-tree-js";
 import { useGetTxAuthDataSignature } from "@nexeraid/react-sdk";
 import { getDistributorContractAddress } from "@/kyc-airdrop/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
@@ -21,12 +20,13 @@ import {
   getUserAirdropAmount,
   getUserIndex,
 } from "@/kyc-airdrop/airdropActions";
+import { CUSTOMERS_BALANCE_MAP } from "@/kyc-airdrop/config/CUSTOMERS_BALANCE_MAP";
 
 const tree = createBalanceTree({
-  balances: Object.entries(userAllowances).map((ent) => {
+  balances: CUSTOMERS_BALANCE_MAP.map((ent) => {
     return {
-      account: ent[0] as Address,
-      amount: BigInt(ent[1]),
+      account: ent.address as Address,
+      amount: BigInt(ent.earnings),
     };
   }),
 });

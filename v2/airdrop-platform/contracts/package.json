@@ -20,16 +20,16 @@
   ],
   "scripts": {
     "precompile": "rimraf ./build/",
-    "compile": "npx hardhat compile",
+    "compile": "hardhat compile",
     "generate-merkle-root": "ts-node scripts/generate-merkle-root.ts",
     "generate-merkle-root:input": "ts-node scripts/generate-merkle-root.ts --input outputFiles/allowListObj.json",
     "convert-csv-to-json": "ts-node scripts/convert-csv-to-json.ts",
-    "prepare-merkle-root": "yarn convert-csv-to-json && yarn generate-merkle-root:input",
-    "prepublishOnly": "yarn test",
-    "pretest": "yarn compile",
-    "test": "npx hardhat test",
-    "deploy-polygonAmoy": "yarn prepare-merkle-root && yarn hardhat run ./scripts/deployTokenAndMerkleDistributor.ts --network polygonAmoy",
-    "deploy-sepolia": "yarn prepare-merkle-root && yarn hardhat run ./scripts/deployTokenAndMerkleDistributor.ts --network sepolia"
+    "prepare-merkle-root": "npm run convert-csv-to-json && npm run generate-merkle-root:input",
+    "prepublishOnly": "npm test",
+    "pretest": "npm run compile",
+    "test": "hardhat test",
+    "deploy-polygonAmoy": "npm run prepare-merkle-root && hardhat run ./scripts/deployTokenAndMerkleDistributor.ts --network polygonAmoy",
+    "deploy-sepolia": "npm run prepare-merkle-root && hardhat run ./scripts/deployTokenAndMerkleDistributor.ts --network sepolia"
   },
   "devDependencies": {
     "@nexeraid/merkle-tree-js": "^2.0.12-dev",
@@ -58,5 +58,8 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "dependencies": {
+    "commander": "^12.1.0"
   }
 }

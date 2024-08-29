@@ -21,17 +21,12 @@ const AirdropPageWrapper = () => {
   const router = useRouter();
   const address = router.query.address as Address;
 
-  const {
-    claimWallet,
-    isClaiming,
-    walletClient,
-    isQualified,
-    allowance,
-  } = useWalletCheck();
+  const { claimWallet, isClaiming, walletClient, isQualified, allowance } =
+    useWalletCheck();
 
-
-  const walletState: WalletState = isQualified ? "HAS_ALLOWANCE_CONNECTED" : "IS_NOT_QUALIFIED"
-
+  const walletState: WalletState = isQualified
+    ? "HAS_ALLOWANCE_CONNECTED"
+    : "IS_NOT_QUALIFIED";
 
   const customerStatus = useCustomerStatus();
   const openWidget = useOpenWidget({});
@@ -73,39 +68,25 @@ const AirdropPageWrapper = () => {
 
   return (
     <AirdropLayout
-      title={
-        generateTitleFromWalletState(walletState)
-      }
-      subtitle={
-
-        generateSubtitleFromWalletState({
-          walletState,
-          address,
-          allowance: allowance instanceof Error ? 0 : allowance,
-          isCustomerActive,
-          isAuthorized: isCustomerActive,
-        })
-      }
+      title={generateTitleFromWalletState(walletState)}
+      subtitle={generateSubtitleFromWalletState({
+        walletState,
+        address,
+        allowance: allowance instanceof Error ? 0n : allowance,
+        isCustomerActive,
+        isAuthorized: isCustomerActive,
+      })}
     >
-
       {renderKycButton()}
       {renderClaimButton()}
 
       <Button isLoading={true} variant="secondary">
         Loading...
       </Button>
-      <RedirectToHomeButton
-        variant="primary"
-        label="Try another wallet"
-      />
-      <ConnectButtonCustom
-        label="Connect wallet"
-        variant="secondary"
-      />
+      <RedirectToHomeButton variant="primary" label="Try another wallet" />
+      <ConnectButtonCustom label="Connect wallet" variant="secondary" />
       <RedirectToHomeButton />
-
-
-    </AirdropLayout >
+    </AirdropLayout>
   );
 };
 

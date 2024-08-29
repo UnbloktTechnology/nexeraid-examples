@@ -2,30 +2,34 @@
 import type { Address } from "@nexeraid/identity-schemas";
 import { CUSTOMERS_BALANCE_MAP } from "./config/CUSTOMERS_BALANCE_MAP";
 import { parseBalanceMap } from "@nexeraid/merkle-tree-js";
-import { encodeFunctionData } from "viem";
+import { encodeFunctionData, type Hex } from "viem";
 import { MerkleDistributorAbi } from "./abis/MerkleDistributorAbi";
 import { getDistributorContractAddress } from "./config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
-import { EvmChainId } from "@nexeraid/identity-schemas";
+import type { EvmChainId } from "@nexeraid/identity-schemas";
 import { getTxAuthDataSignature } from "@nexeraid/react-sdk";
 import { nexeraIdConfig } from "@/nexeraIdConfig";
 import { sendTransaction } from "@wagmi/core";
 import { wagmiConfig } from "@/wagmiConfig";
 
-export const getUserAirdropAmount = (userAddress: Address) => {
-  const balance = CUSTOMERS_BALANCE_MAP.find(
-    (balance) => balance.address === userAddress,
-  );
-  return balance ? parseInt(balance.earnings, 10) : Error("User not found");
+const balanceMap = parseBalanceMap({ balances: CUSTOMERS_BALANCE_MAP });
+
+export const getUserAirdropAmount = (userAddress: Address): bigint | Error => {
+  const amount = balanceMap.claims[userAddress]?.amount;
+  return amount ? BigInt(amount) : Error("User not found");
 };
 
-export const getUserIndex = (userAddress: Address) => {
-  const balanceMap = parseBalanceMap({ balances: CUSTOMERS_BALANCE_MAP });
-  return balanceMap.claims[userAddress]?.index ?? Error("User not found");
+export const isUserQualified = (userAddress: Address): boolean => {
+  return !!balanceMap.claims[userAddress];
 };
 
-export const getUserProof = (userAddress: Address) => {
-  const balanceMap = parseBalanceMap({ balances: CUSTOMERS_BALANCE_MAP });
-  return balanceMap.claims[userAddress]?.proof ?? Error("User not found");
+export const getUserIndex = (userAddress: Address): bigint | Error => {
+  const index = balanceMap.claims[userAddress]?.index;
+  return index ? BigInt(index) : Error("User not found");
+};
+
+export const getUserProof = (userAddress: Address): Hex[] | Error => {
+  const proof = balanceMap.claims[userAddress]?.proof;
+  return proof ? (proof as Hex[]) : Error("User not found");
 };
 
 export const claimToken = async (props: {

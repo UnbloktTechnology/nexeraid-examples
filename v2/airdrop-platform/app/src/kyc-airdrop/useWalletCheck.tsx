@@ -4,11 +4,11 @@ import { useGetTokenBalance } from "./useGetTokenBalance";
 import {
   claimToken,
   getUserAirdropAmount,
-  getUserIndex,
+  isUserQualified,
 } from "./airdropActions";
 import { useRouter } from "next/router";
 import { z } from "zod";
-import { useMutation } from '@tanstack/react-query';
+import { useMutation } from "@tanstack/react-query";
 import { EvmChainId } from "@nexeraid/react-sdk";
 
 export const WALLET_STATES = [
@@ -28,7 +28,7 @@ export const useWalletCheck = () => {
   const { balance, isPending } = useGetTokenBalance();
   const chainId = useChainId();
   const { isConnected, address: accountAddress } = useAccount();
-  const isQualified = getUserIndex(address as Address) !== -1;
+  const isQualified = isUserQualified(address as Address);
   const allowance = getUserAirdropAmount(address as Address);
 
   const { data: walletClient } = useWalletClient();
@@ -37,7 +37,12 @@ export const useWalletCheck = () => {
   const claimMutation = useMutation({
     mutationFn: async () => {
       if (!accountAddress || !chainId) {
-        throw new Error("No account in wallet Client - address" + accountAddress + " chainId" + chainId);
+        throw new Error(
+          "No account in wallet Client - address" +
+            accountAddress +
+            " chainId" +
+            chainId,
+        );
       }
       const parsedChainId = EvmChainId.parse(chainId);
       const result = await claimToken({
@@ -51,7 +56,9 @@ export const useWalletCheck = () => {
       if (sdkResponse?.signatureResponse.isAuthorized) {
         return redirectToClaimSuccess();
       }
-      return redirectToClaimError("You are not authorized to claim tokens, please retry the identity verification process");
+      return redirectToClaimError(
+        "You are not authorized to claim tokens, please retry the identity verification process",
+      );
     },
     onError: (error) => {
       console.error("Error while fetching signature", error);
@@ -118,15 +125,13 @@ export const useWalletCheck = () => {
   };
 };
 
-export const generateSubtitleFromWalletState = (
-  props?: {
-    walletState?: WalletState,
-    address?: Address,
-    allowance?: number,
-    isCustomerActive?: boolean,
-    isAuthorized?: boolean,
-  }
-) => {
+export const generateSubtitleFromWalletState = (props?: {
+  walletState?: WalletState;
+  address?: Address;
+  allowance?: bigint;
+  isCustomerActive?: boolean;
+  isAuthorized?: boolean;
+}) => {
   switch (props?.walletState) {
     case "UNCHECKED":
       return "Connect your wallet to claim tokens";
@@ -167,14 +172,12 @@ export const generateTitleFromWalletState = (walletState?: WalletState) => {
 };
 
 export const checkWalletState = (props: {
-  isQualified: boolean,
-  isConnected: boolean,
-  balance: number | undefined,
-  allowance: number | undefined,
-  isBalancePending: boolean,
+  isQualified: boolean;
+  isConnected: boolean;
+  balance: number | undefined;
+  allowance: number | undefined;
+  isBalancePending: boolean;
 }): WalletState => {
-
-
   if (!props.isQualified) return "IS_NOT_QUALIFIED";
   if (!props.allowance) return "HAS_NO_ALLOWANCE";
   if (!props.isConnected) return "HAS_ALLOWANCE_NO_CONNECTED";

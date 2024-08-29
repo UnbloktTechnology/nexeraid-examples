@@ -1,25 +1,38 @@
 {
-  "id": "27e92e9b-dd4f-4c51-9c37-f7ed5df63032",
+  "id": "c633cebf-94f9-4042-ae19-f28cad58dc8d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.users": {
-      "name": "users",
+    "public.customer_status": {
+      "name": "customer_status",
       "schema": "",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
+        "address": {
+          "name": "address",
+          "type": "text",
           "primaryKey": true,
           "notNull": true
         },
-        "approved": {
-          "name": "approved",
-          "type": "boolean",
+        "status": {
+          "name": "status",
+          "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "default": false
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},

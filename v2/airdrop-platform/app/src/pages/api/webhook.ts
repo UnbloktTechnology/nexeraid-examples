@@ -1,6 +1,5 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { z } from "zod";
-import { getDb } from "@/db/db";
 import {
   UuidString,
   ExternalCustomerId,
@@ -13,6 +12,7 @@ import { env } from "@/env.mjs";
 import { appConfig } from "@/appConfig";
 import { customerStatus } from "@/db/schema";
 import type { Address } from "viem";
+import { db } from "@/db/db";
 
 // Import or define the CustomerWebhookPayload schema here
 // TODO import from @nexeraid/identity-schemas or js-sdk
@@ -44,7 +44,6 @@ export default async function handler(
 
   try {
     const payload = CustomerWebhookPayload.parse(req.body);
-    const db = getDb();
 
     /**
      * curl -X 'GET' \
@@ -85,16 +84,22 @@ export default async function handler(
       createdAt: string;
       updatedAt: string;
     }[];
-    console.log(data);
 
     const wallet = data[0]?.wallet;
 
     // Update the customer status in the database
-    await db.insert(customerStatus).values({
-      address: wallet as Address,
-      status: payload.status!,
-      updatedAt: new Date(),
-    });
+    await db
+      .insert(customerStatus)
+      .values({
+        address: wallet as Address,
+        status: payload.status!,
+      })
+      .onConflictDoUpdate({
+        target: [customerStatus.address],
+        set: {
+          status: payload.status!,
+        },
+      });
 
     res.status(200).json({ message: "Customer status updated successfully" });
   } catch (error) {

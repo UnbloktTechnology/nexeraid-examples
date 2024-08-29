@@ -2,11 +2,11 @@ version: "3.8"
 
 services:
   postgres:
-    image: postgres:16
+    image: postgres:14
     environment:
-      POSTGRES_USER: airdrop
-      POSTGRES_PASSWORD: airdrop
-      POSTGRES_DB: airdrop
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
     ports:
       - "5432:5432"
     volumes:

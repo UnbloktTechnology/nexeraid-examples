@@ -14,27 +14,21 @@ export const ENVSchema = z.enum(ENVS);
 export const appConfig = {
   [ENVSchema.enum.local]: {
     api: "http://localhost:3001/",
-    aaveDemo: "http://localhost:3006/",
   },
   [ENVSchema.enum.dev]: {
     api: "https://api-dev.nexera.id/",
-    aaveDemo: "https://aave-onchain-verification-dev.nexera.id/",
   },
   [ENVSchema.enum["test-dev-1"]]: {
     api: "https://api-test-dev-1.nexera.id/",
-    aaveDemo: "https://aave-onchain-verification-test-dev-1.nexera.id/",
   },
   [ENVSchema.enum["test-dev-2"]]: {
     api: "https://api-test-dev-2.nexera.id/",
-    aaveDemo: "https://aave-onchain-verification-test-dev-2.nexera.id/",
   },
   [ENVSchema.enum.stage]: {
     api: "https://api-staging.nexera.id/",
-    aaveDemo: "https://aave-onchain-verification-staging.nexera.id/",
   },
   [ENVSchema.enum.prod]: {
     api: "https://api.nexera.id/",
-    aaveDemo: "https://aave-onchain-verification.nexera.id/",
   },
 } as const;
 

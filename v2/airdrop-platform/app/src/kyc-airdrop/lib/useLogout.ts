@@ -10,7 +10,7 @@ export const useLogout = () => {
 
   return useCallback(() => {
     disconnectWagmi();
-    disconnectNexera();
+    void disconnectNexera();
     redirectToHome();
   }, [disconnectWagmi, redirectToHome, disconnectNexera]);
 };

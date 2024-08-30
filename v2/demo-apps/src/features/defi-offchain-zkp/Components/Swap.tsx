@@ -10,17 +10,18 @@ import {
   type ChainOptions,
   SwapOptions,
 } from "@/features/defi-offchain-zkp/SwapOptionsDemoData";
+import { useCustomerStatus } from "@nexeraid/react-sdk";
 
 const optionsToSwap = (options: ITokenInfo[], tokenInfo: ITokenInfo) => {
   return options.filter((token) => token.value !== tokenInfo.value);
 };
 
-export const Swap: React.FC<{ isCompliant: boolean | undefined }> = ({
-  isCompliant,
-}) => {
+export const Swap = () => {
   const { chain } = useAccount();
   const options = SwapOptions[(chain?.id as ChainOptions) ?? "80002"];
-  console.log(options, chain?.name);
+  const customerStatus = useCustomerStatus();
+  const isCompliant = customerStatus === "Active";
+
   const [fromAmount, setFromAmount] = useState("0");
   const [fromToken, setFromToken] = useState<ITokenInfo>(
     options?.[0] ?? {

@@ -1,16 +1,15 @@
 import { Swap } from "@/features/defi-offchain-zkp/Components/Swap";
-import { useCheckCompliance } from "@/features/defi-offchain-zkp/identity/useCheckDefiOffchainZKPCompliance";
 import { Header } from "@/features/defi-offchain-zkp/Layout/Header";
 import { Layout } from "@/features/defi-offchain-zkp/Layout/Layout";
 import { useGlobalModals } from "@/features/defi-offchain-zkp/Modals/Hooks/useGlobalModals";
 import { createDemoWeb3WagmiSdkConfig } from "@/features/root/identity/createDemoWeb3WagmiSdkConfig";
 import { wagmiConfig } from "@/features/root/web3/wagmiConfig";
-import { NexeraIdProvider } from "@nexeraid/react-sdk";
+import { NexeraIdProvider, useCustomerStatus } from "@nexeraid/react-sdk";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { WagmiProvider } from "wagmi";
 
 const queryClient = new QueryClient();
@@ -37,40 +36,20 @@ const HomeContent = () => {
     openModal: state.open,
     close: state.close,
   }));
-  const [kycCompletion, setKycCompletion] = useState(false);
-  const { data } = useCheckCompliance(kycCompletion);
-  const [isCompliance, setIsCompliance] = useState(false);
+  const customerStatus = useCustomerStatus();
   const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    console.log("EXECUTING isVerified check compliance ZK: ", data);
-    if (data !== undefined) {
-      if (data.isValid) {
-        toast(`Compliance Verification: Your identity has been verified`);
-        setKycCompletion(false);
-        setIsCompliance(true);
-      } else if (data.data === "unknown") {
-        setKycCompletion(true);
-      } else {
-        toast(`Compliance Verification: Your identity has not been verified`);
-        setKycCompletion(false);
-        setIsCompliance(false);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
-
-  useEffect(() => {
-    if (isCompliance) {
+    if (customerStatus === "Active") {
       close();
     }
-  }, [isCompliance, close]);
+  }, [customerStatus, close]);
 
   return (
     <Layout header={<Header />} bg={"defi"}>
       <>
-        <Swap isCompliant={isCompliance} />
-        {!isCompliance && !started && (
+        <Swap />
+        {!started && (
           <>
             <div className="absolute left-1/2 top-24 z-0 h-1/2 w-[480px] -translate-x-1/2 rounded-3xl bg-gradient-to-t from-[#ff57db95] to-[#a697ff00]" />
             <div className="absolute top-0 z-20 h-screen w-screen bg-gradient-to-t from-[#080A18] from-50% to-transparent to-95%">

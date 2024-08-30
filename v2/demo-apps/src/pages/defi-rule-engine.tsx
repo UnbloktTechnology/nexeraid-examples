@@ -2,14 +2,13 @@ import { Swap } from "@/features/defi-rule-engine/Components/Swap";
 import { Header } from "@/features/defi-rule-engine/Layout/Header";
 import { Layout } from "@/features/defi-rule-engine/Layout/Layout";
 import { useGlobalModals } from "@/features/defi-rule-engine/Modals/Hooks/useGlobalModals";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { NexeraIdProvider } from "@nexeraid/react-sdk";
+import { NexeraIdProvider, useCustomerStatus } from "@nexeraid/react-sdk";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { useCheckDefiRuleEngineCompliance } from "@/features/defi-rule-engine/identity/useCheckDefiRuleEngineCompliance";
 import { wagmiConfig } from "@/features/root/web3/wagmiConfig";
 import { createDemoWeb3WagmiSdkConfig } from "@/features/root/identity/createDemoWeb3WagmiSdkConfig";
 
@@ -34,41 +33,20 @@ const Home = () => {
 
 const HomeContent = () => {
   const close = useGlobalModals((state) => state.close);
-
-  const [kycCompletion, setKycCompletion] = useState(false);
-  const { data } = useCheckDefiRuleEngineCompliance(kycCompletion);
-  const [isCompliance, setIsCompliance] = useState(false);
+  const customerStatus = useCustomerStatus();
   const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    console.log("EXECUTING isVerified check compliance: ", data);
-    if (data === undefined) {
-      return;
-    }
-    if (data.isValid) {
-      toast("Compliance Verification: Your identity has been verified");
-      setKycCompletion(false);
-      setIsCompliance(true);
-    } else if (data.data === "unknown") {
-      setKycCompletion(true);
-    } else {
-      toast("Compliance Verification: Your identity has not been verified");
-      setKycCompletion(false);
-      setIsCompliance(false);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (isCompliance) {
+    if (customerStatus === "Active") {
       close();
     }
-  }, [isCompliance, close]);
+  }, [customerStatus, close]);
 
   return (
     <Layout header={<Header />} bg={"defi"}>
       <>
-        <Swap isCompliant={isCompliance} />
-        {!isCompliance && !started && (
+        <Swap />
+        {!started && (
           <>
             <div className="absolute left-1/2 top-24 z-0 h-1/2 w-[480px] -translate-x-1/2 rounded-3xl bg-gradient-to-t from-[#ff57db95] to-[#a697ff00]" />
             <div className="absolute top-0 z-20 h-screen w-screen bg-gradient-to-t from-[#080A18] from-50% to-transparent to-95%">

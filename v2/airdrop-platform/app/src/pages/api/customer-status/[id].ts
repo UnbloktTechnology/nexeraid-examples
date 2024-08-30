@@ -25,7 +25,7 @@ export default async function handler(
     const address = BlockchainAddress.parse(req.query.id);
     const workspaceId = env.NEXERA_ID_WORKSPACE_ID;
 
-    const response = await apiClient.getUserStatusByWallet({
+    const response = await apiClient.getCustomerStatusByWallet({
       walletAddress: address,
       workspaceId: workspaceId,
     });

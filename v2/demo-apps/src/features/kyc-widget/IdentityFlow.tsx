@@ -2,7 +2,7 @@ import React from "react";
 import { useOpenWidget } from "@nexeraid/react-sdk";
 
 export const IdentityFlow = () => {
-  const openWidget = useOpenWidget({});
+  const { openWidget, isLoading } = useOpenWidget({});
 
   return (
     <div>
@@ -25,6 +25,7 @@ export const IdentityFlow = () => {
             border: "none",
           }}
           onClick={openWidget}
+          disabled={isLoading}
           id="identity-btn"
         >
           Start KYC

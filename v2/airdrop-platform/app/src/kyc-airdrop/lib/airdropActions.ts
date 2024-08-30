@@ -57,7 +57,7 @@ export const claimToken = async (props: {
     contractAbi: Array.from(MerkleDistributorAbi),
     contractAddress: distributorAddress,
     functionName: "claim",
-    args: [index, userAddress, amount, proof],
+    args: [index.toString(), userAddress, amount.toString(), proof],
     chainId: chainId,
   });
 

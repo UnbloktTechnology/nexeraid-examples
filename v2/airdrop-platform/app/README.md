@@ -18,8 +18,6 @@ Follow these steps to run the example apps locally.
    | ----------------------------------------- | -------------------------------------------------- |
    | `NODE_ENV`                                | Set to `production`                                |
    | `NEXT_PUBLIC_ENVIRONMENT`                 | Set to `prod`                                      |
-   | `UPSTASH_REDIS_REST_TOKEN`                | The token for the Upstash Redis REST API           |
-   | `UPSTASH_REDIS_REST_URL`                  | The URL of the Upstash Redis REST API              |
    | `NEXERA_ID_API_KEY_BANK`                  | NexeraID API key for the banking app               |
    | `NEXERA_ID_WORKFLOW_ID_BANK`              | NexeraID workflow ID for the banking app           |
    | `NEXERA_ID_API_KEY_BANK_WEB3`             | NexeraID API key for the Web3 banking app          |
@@ -37,8 +35,6 @@ Follow these steps to run the example apps locally.
    | `NEXERA_ID_API_KEY_BANK_SYGNUM_WEB3`      | NexeraID API key for the Sygnum Web3 app           |
 
    You can get the NexeraID API keys for your apps by following the instructions on [Deploying the NexeraID Identity Widget](../using/setup/application.md#deploying-the-nexeraid-identity-widget). You need to set each of the `API_KEY` variables, even if you only want to use one of the example apps. If necessary, you can set them all to the same value.
-
-   You can get the values for `UPSTASH_REDIS_REST_TOKEN` and `UPSTASH_REDIS_REST_URL` from <https://console.upstash.com/redis/>.
 
    :::note
    For more information about these variables, see `example-apps/src/env.mjs`.

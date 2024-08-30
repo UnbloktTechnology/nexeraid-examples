@@ -90,11 +90,6 @@ export const env = createEnv({
       .describe(
         "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Multichain Demo dApp",
       ),
-    NEXERA_ID_API_PROJECT_ID: z
-      .string()
-      .describe(
-        "The API project ID which is used to identify the project in the Nexera ID API -> https://dashboard.nexera.id/",
-      ),
   },
 
   /**
@@ -150,9 +145,6 @@ export const env = createEnv({
       process.env.NEXERA_ID_API_KEY_MULTICHAIN_DEMO,
     NEXERA_ID_WORKFLOW_ID_MULTICHAIN_DEMO:
       process.env.NEXERA_ID_WORKFLOW_ID_MULTICHAIN_DEMO,
-
-    // TODO:
-    NEXERA_ID_API_PROJECT_ID: process.env.NEXERA_ID_API_PROJECT_ID,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

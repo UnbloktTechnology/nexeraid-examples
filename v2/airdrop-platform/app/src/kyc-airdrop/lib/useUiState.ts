@@ -3,10 +3,12 @@ import { type Address } from "viem";
 import { useCustomerStatus, useIsAuthenticated } from "@nexeraid/react-sdk";
 import { useWalletAddress } from "./useWalletAddress";
 import { useGetTokenBalance } from "./useGetTokenBalance";
+import { useRouter } from "next/router";
 
 export type UiState = {
   // wallet can be set but not connected as it's present in the url
   wallet: { connected: boolean; address: Address | undefined };
+  route: { check: boolean };
   eligibility: { qualified: boolean };
   kyc: { connected: true; active: boolean } | { connected: false };
   claim: { claimed: boolean };
@@ -15,16 +17,21 @@ export type UiState = {
 export const useUiState = (): UiState => {
   const { isConnected, address } = useWalletAddress();
   const customerStatus = useCustomerStatus();
+  const router = useRouter();
   const isKycAuthenticated = useIsAuthenticated();
   const isQualified = address ? isUserQualified(address) : false;
   const { data: balance } = useGetTokenBalance();
 
+  const isInCheckPage = router.query.address !== undefined;
+
   return {
     wallet: { connected: isConnected, address: address },
+    route: { check: isInCheckPage },
     eligibility: { qualified: isQualified },
-    kyc: isKycAuthenticated
-      ? { connected: true, active: customerStatus === "Active" }
-      : { connected: false },
+    kyc:
+      isKycAuthenticated || customerStatus === "Active" // TODO: this is not correct, happens when we reject the signature, is authenticated goes to false but shouldn't
+        ? { connected: true, active: customerStatus === "Active" }
+        : { connected: false },
     claim: { claimed: balance ? balance > 0n : false },
   };
 };
@@ -43,6 +50,7 @@ export const useCurrentUiStep = (): UiStep => {
   if (!uiState.wallet.address) return "wallet_set";
   if (!uiState.eligibility.qualified) return "eligibility";
   if (!uiState.wallet.connected) return "wallet_connect";
+  if (!uiState.route.check) return "wallet_connect";
   if (!uiState.kyc.connected || !uiState.kyc.active) return "kyc";
   if (!uiState.claim.claimed) return "claim";
 

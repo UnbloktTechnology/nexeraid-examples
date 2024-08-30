@@ -1,8 +1,7 @@
-import { useIsLoading, useOpenWidget } from "@nexeraid/react-sdk";
+import { useOpenWidget } from "@nexeraid/react-sdk";
 
 export const IdentityVerifyButton = () => {
-  const openWidget = useOpenWidget({});
-  const isLoading = useIsLoading();
+  const { openWidget, isLoading } = useOpenWidget({});
   return (
     <button
       id="kyc-btn-verify"

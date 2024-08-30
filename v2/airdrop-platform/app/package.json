@@ -19,9 +19,9 @@
     "db:studio": "dotenv -c pnpm drizzle-kit studio"
   },
   "dependencies": {
-    "@nexeraid/js-sdk": "^2.0.10-dev",
-    "@nexeraid/merkle-tree-js": "^2.0.12-dev",
-    "@nexeraid/react-sdk": "^2.0.13-dev",
+    "@nexeraid/js-sdk": "^2.0.12-dev",
+    "@nexeraid/merkle-tree-js": "^2.0.13-dev",
+    "@nexeraid/react-sdk": "^2.0.14-dev",
     "@nexeraid/react-sdk-wallet-wagmi": "^2.0.2-dev",
     "@rainbow-me/rainbowkit": "^2.0.5",
     "@t3-oss/env-nextjs": "^0.6.0",

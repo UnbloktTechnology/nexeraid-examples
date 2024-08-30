@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { DisclaimerOverlay } from "@/features/bank/Components/DisclaimerOverlay";
 import { Dashboard } from "@/features/bank/Dashboard";
 import { Banner, Content, Header, Layout } from "@/features/bank/Layout";
 import { useGlobalModals } from "@/features/bank/Modals/useGlobalModals";
-import { toast, ToastContainer } from "react-toastify";
-import { useCheckBankCompliance } from "@/features/bank/identity/useCheckBankCompliance";
-import { NexeraIdProvider } from "@nexeraid/react-sdk";
+import { ToastContainer } from "react-toastify";
+import { NexeraIdProvider, useCustomerStatus } from "@nexeraid/react-sdk";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { nexeraIdConfig } from "@/features/bank/identity/nexeraIdConfig";
@@ -30,33 +29,14 @@ const HomeContent = () => {
     close: state.close,
     data: state.data,
   }));
-  const [kycCompletion, setKycCompletion] = useState(false);
-  const [isCompliance, setIsCompliance] = useState(false);
-  const { data } = useCheckBankCompliance(kycCompletion);
 
+  const customerStatus = useCustomerStatus();
+  const isCompliant = customerStatus === "Active";
   useEffect(() => {
-    console.log("EXECUTING isVerified check compliance: ", data);
-    if (data === undefined) {
-      return;
-    }
-    if (data.isValid) {
-      toast("Compliance Verification: Your identity has been verified");
-      setKycCompletion(false);
-      setIsCompliance(true);
-    } else if (data.data === "unknown") {
-      setKycCompletion(true);
-    } else {
-      toast("Compliance Verification: Your identity has not been verified");
-      setKycCompletion(false);
-      setIsCompliance(false);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (isCompliance) {
+    if (customerStatus === "Active") {
       close();
     }
-  }, [isCompliance, close]);
+  }, [customerStatus, close]);
 
   const onClickLogOn = () => {
     console.log("openModal");
@@ -78,10 +58,10 @@ const HomeContent = () => {
 
   return (
     <Layout
-      header={!isCompliance ? <Header onClickLogOn={onClickLogOn} /> : <></>}
-      className={!isCompliance ? "px-[105px]" : "bg-[#F2F2F2]"}
+      header={!isCompliant ? <Header onClickLogOn={onClickLogOn} /> : <></>}
+      className={!isCompliant ? "px-[105px]" : "bg-[#F2F2F2]"}
     >
-      {!isCompliance ? (
+      {!isCompliant ? (
         <>
           <Banner />
           <Content />

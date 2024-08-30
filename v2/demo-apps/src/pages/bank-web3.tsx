@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Dashboard } from "@/features/bank-web3/Dashboard";
 import { Content, Header, Layout } from "@/features/bank-web3/Layout";
 import { useGlobalModals } from "@/features/bank-web3/Modals/useGlobalModals";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { WagmiProvider } from "wagmi";
-import { useCheckBankWeb3Compliance } from "@/features/bank-web3/identity/useCheckBankWeb3Compliance";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { NexeraIdProvider } from "@nexeraid/react-sdk";
+import { NexeraIdProvider, useCustomerStatus } from "@nexeraid/react-sdk";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { createDemoWeb3WagmiSdkConfig } from "@/features/root/identity/createDemoWeb3WagmiSdkConfig";
@@ -37,32 +36,13 @@ const HomeContent = () => {
     close: state.close,
     data: state.data,
   }));
-  const [isKycComplete, setIsKycComplete] = useState(false);
-  const [isCompliant, setIsCompliant] = useState(false);
-  const { data } = useCheckBankWeb3Compliance(isKycComplete);
-
+  const customerStatus = useCustomerStatus();
+  const isCompliant = customerStatus === "Active";
   useEffect(() => {
-    console.log("EXECUTING isVerified check compliance: ", data);
-    if (data) {
-      if (data.isValid) {
-        toast("Compliance Verification: Your identity has been verified");
-        setIsKycComplete(false);
-        setIsCompliant(true);
-      } else if (data.data === "unknown") {
-        setIsKycComplete(true);
-      } else {
-        toast("Compliance Verification: Your identity has not been verified");
-        setIsKycComplete(false);
-        setIsCompliant(false);
-      }
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (isCompliant) {
+    if (customerStatus === "Active") {
       close();
     }
-  }, [isCompliant, close]);
+  }, [customerStatus, close]);
 
   const onClickLogOn = () => {
     openModal(

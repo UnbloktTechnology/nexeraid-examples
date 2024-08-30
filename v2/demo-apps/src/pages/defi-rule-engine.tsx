@@ -2,14 +2,13 @@ import { Swap } from "@/features/defi-rule-engine/Components/Swap";
 import { Header } from "@/features/defi-rule-engine/Layout/Header";
 import { Layout } from "@/features/defi-rule-engine/Layout/Layout";
 import { useGlobalModals } from "@/features/defi-rule-engine/Modals/Hooks/useGlobalModals";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NexeraIdProvider, useCustomerStatus } from "@nexeraid/react-sdk";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { useCheckDefiRuleEngineCompliance } from "@/features/defi-rule-engine/identity/useCheckDefiRuleEngineCompliance";
 import { wagmiConfig } from "@/features/root/web3/wagmiConfig";
 import { createDemoWeb3WagmiSdkConfig } from "@/features/root/identity/createDemoWeb3WagmiSdkConfig";
 
@@ -35,7 +34,6 @@ const Home = () => {
 const HomeContent = () => {
   const close = useGlobalModals((state) => state.close);
   const customerStatus = useCustomerStatus();
-
   const [started, setStarted] = useState(false);
 
   useEffect(() => {

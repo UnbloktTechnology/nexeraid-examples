@@ -12,7 +12,7 @@ export const AirdropPage = () => {
   const uiStep = useCurrentUiStep();
   const { isConnected } = useWalletAddress();
   const customerStatus = useCustomerStatus();
-  const openWidget = useOpenWidget({});
+  const { openWidget, isLoading } = useOpenWidget({});
   const claimMutation = useClaimMutation();
 
   const isCustomerActive = customerStatus === "Active";
@@ -36,6 +36,7 @@ export const AirdropPage = () => {
           variant="secondary"
           onClick={openWidget}
           disabled={isCustomerActive}
+          isLoading={isLoading}
           id="identity-btn"
         >
           Begin identity verification

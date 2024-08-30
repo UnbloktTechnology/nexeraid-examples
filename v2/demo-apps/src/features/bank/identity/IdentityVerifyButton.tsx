@@ -1,9 +1,8 @@
-import { useIsLoading, useOpenWidget } from "@nexeraid/react-sdk";
+import { useOpenWidget } from "@nexeraid/react-sdk";
 import { Button } from "../Components/Button";
 
 export const IdentityVerifyButton = () => {
-  const openWidget = useOpenWidget({});
-  const isLoading = useIsLoading();
+  const { openWidget, isLoading } = useOpenWidget({});
 
   return (
     <Button

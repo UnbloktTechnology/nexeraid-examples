@@ -1,13 +1,16 @@
 import { useCallback } from "react";
 import { useRedirectToHome } from "./navigation";
-import { useDisconnect } from "wagmi";
+import { useDisconnect as useWagmiDisconnect } from "wagmi";
+import { useDisconnect as useNexeraDisconnect } from "@nexeraid/react-sdk";
 
 export const useLogout = () => {
   const redirectToHome = useRedirectToHome();
-  const { disconnect } = useDisconnect();
+  const { disconnect: disconnectWagmi } = useWagmiDisconnect();
+  const disconnectNexera = useNexeraDisconnect();
 
   return useCallback(() => {
-    disconnect();
+    disconnectWagmi();
+    disconnectNexera();
     redirectToHome();
-  }, [disconnect, redirectToHome]);
+  }, [disconnectWagmi, redirectToHome, disconnectNexera]);
 };

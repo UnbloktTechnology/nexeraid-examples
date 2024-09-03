@@ -64,10 +64,10 @@ export const SwapButton = (props: { amountWei: string }) => {
       )}
       {waitForTransaction.isSuccess && contractWrite.data && (
         <div className="text-green-600">
-          Successfully minted your NFT!
+          Successfully swapped
           <div>
-            <a href={`https://etherscan.io/tx/${contractWrite.data}`}>
-              Etherscan
+            <a href={`https://amoy.polygonscan.com/tx/${contractWrite.data}`}>
+              Polygon Amoy
             </a>
           </div>
         </div>

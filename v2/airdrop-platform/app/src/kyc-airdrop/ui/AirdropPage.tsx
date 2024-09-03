@@ -1,6 +1,10 @@
 import { AirdropLayout } from "@/kyc-airdrop/ui/AirdropLayout";
 import { Button } from "@/kyc-airdrop/ui/components/Button";
-import { useCustomerStatus, useOpenWidget } from "@nexeraid/react-sdk";
+import {
+  useCustomerStatus,
+  useLatestVerification,
+  useOpenWidget,
+} from "@nexeraid/react-sdk";
 import { ConnectWalletButton } from "@/kyc-airdrop/ui/components/ConnectWalletButton";
 import { useClaimMutation } from "@/kyc-airdrop/lib/useClaimMutation";
 import { useCurrentUiStep } from "@/kyc-airdrop/lib/useUiState";
@@ -14,8 +18,9 @@ export const AirdropPage = () => {
   const customerStatus = useCustomerStatus();
   const { openWidget, isLoading } = useOpenWidget({});
   const claimMutation = useClaimMutation();
-
+  const { data } = useLatestVerification();
   const isCustomerActive = customerStatus === "Active";
+  const isCustomerVerified = !!data?.isVerified;
 
   return (
     <AirdropLayout>
@@ -35,7 +40,7 @@ export const AirdropPage = () => {
         <Button
           variant="secondary"
           onClick={openWidget}
-          disabled={isCustomerActive}
+          disabled={isCustomerVerified}
           isLoading={isLoading}
           id="identity-btn"
         >

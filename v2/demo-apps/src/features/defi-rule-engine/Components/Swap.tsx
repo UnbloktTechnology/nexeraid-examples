@@ -10,7 +10,7 @@ import {
   type ChainOptions,
   SwapOptions,
 } from "@/features/defi-rule-engine/SwapOptionsDemoData";
-import { useCustomerStatus } from "@nexeraid/react-sdk";
+import { useCustomerStatus, useLatestVerification } from "@nexeraid/react-sdk";
 
 const optionsToSwap = (options: ITokenInfo[], tokenInfo: ITokenInfo) => {
   return options?.filter((token) => token.value !== tokenInfo.value);
@@ -20,7 +20,14 @@ export const Swap = () => {
   const { chain } = useAccount();
   const options = SwapOptions[(chain?.id as ChainOptions) ?? "80002"];
   const customerStatus = useCustomerStatus();
+  const {
+    data: latestVerification,
+    isLoading,
+    isError,
+    error,
+  } = useLatestVerification();
   const isCompliant = customerStatus === "Active";
+  const isVerified = latestVerification?.isVerified;
 
   const [fromAmount, setFromAmount] = useState("0");
   const [fromToken, setFromToken] = useState<ITokenInfo>(
@@ -131,16 +138,24 @@ export const Swap = () => {
           </div>
         </div>
 
-        {isCompliant && <SwapButton amountWei={fromAmount.toString()} />}
+        {isCompliant && isVerified && (
+          <SwapButton amountWei={fromAmount.toString()} />
+        )}
         {!isCompliant && (
           <button
             type="button"
             className="mt-3 h-14 w-full rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]"
             id={"kyc-btn-verify"}
             onClick={verifyUser}
+            disabled={isLoading}
           >
-            Verify
+            {isLoading ? "...Checking" : "Verify"}
           </button>
+        )}
+        {isError && (
+          <div className="mt-3 h-14 w-full rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]">
+            {typeof error === "string" ? error : "Error"}
+          </div>
         )}
       </div>
     </div>

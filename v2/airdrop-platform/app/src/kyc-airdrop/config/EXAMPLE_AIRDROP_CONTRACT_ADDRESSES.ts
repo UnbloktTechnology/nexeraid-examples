@@ -1,4 +1,4 @@
-import { EvmChainId } from "@nexeraid/identity-schemas";
+import { EvmChainId } from "@nexeraid/react-sdk";
 import {
   NEXERA_EVM_CHAINS,
   type Environment,

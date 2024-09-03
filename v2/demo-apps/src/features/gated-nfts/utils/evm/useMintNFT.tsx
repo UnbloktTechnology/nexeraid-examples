@@ -17,7 +17,6 @@ const WRONG_SIGNATURE: EIP155Signature =
 export const useMintGatedNFTFromSDK = () => {
   const chainId = useChainId();
   const account = useAccount();
-  const blockNumber = useBlockNumber();
   const getTxAuthDataSignature = useGetTxAuthDataSignature();
   const mintNFTGatedFromSDK = useSendTransaction();
 
@@ -39,23 +38,7 @@ export const useMintGatedNFTFromSDK = () => {
         });
 
         if (!signatureResponse.isAuthorized) {
-          // If user is not authorized, use wrong signature and dummy blockExpiration
-          const blockExpiration = blockNumber.data
-            ? Number(blockNumber.data) + 10
-            : 0;
-          return {
-            signatureResponse: {
-              isAuthorized: true,
-              signature: WRONG_SIGNATURE,
-              blockExpiration,
-              payload:
-                pad(
-                  // number to hex string number
-                  toHex(blockExpiration),
-                  { size: 32 },
-                ).slice(2) + WRONG_SIGNATURE.slice(2),
-            },
-          };
+          throw new Error("User not authorized");
         }
 
         // Create function call data

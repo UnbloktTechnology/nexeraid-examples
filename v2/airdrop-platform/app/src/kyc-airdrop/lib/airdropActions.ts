@@ -1,12 +1,10 @@
 // TODO ExtendedTxAuthInput shold be exposed in react and web sdks
-import type { Address } from "@nexeraid/identity-schemas";
 import { CUSTOMERS_BALANCE_MAP } from "../config/CUSTOMERS_BALANCE_MAP";
 import { parseBalanceMap } from "@nexeraid/merkle-tree-js";
-import { encodeFunctionData, type Hex } from "viem";
+import { type Address, encodeFunctionData, type Hex } from "viem";
 import { MerkleDistributorAbi } from "../abis/MerkleDistributorAbi";
 import { getDistributorContractAddress } from "../config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
-import type { EvmChainId } from "@nexeraid/identity-schemas";
-import { getTxAuthDataSignature } from "@nexeraid/react-sdk";
+import { getTxAuthDataSignature, type EvmChainId } from "@nexeraid/react-sdk";
 import { nexeraIdConfig } from "@/nexeraIdConfig";
 import { sendTransaction } from "@wagmi/core";
 import { wagmiConfig } from "@/wagmiConfig";

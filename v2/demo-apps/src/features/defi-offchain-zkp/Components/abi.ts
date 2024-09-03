@@ -22,7 +22,11 @@ export const mockSwapABi = [
   {
     inputs: [],
     name: "swapNativeForUSDT",
-    outputs: [],
+    outputs: [
+      { internalType: "address", name: "user", type: "address" },
+      { internalType: "uint256", name: "nativeAmount", type: "uint256" },
+      { internalType: "uint256", name: "usdtAmount", type: "uint256" },
+    ],
     stateMutability: "payable",
     type: "function",
   },

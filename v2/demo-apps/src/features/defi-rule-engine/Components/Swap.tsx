@@ -131,7 +131,7 @@ export const Swap = () => {
           </div>
         </div>
 
-        {isCompliant && <SwapButton amount={fromAmount.toString()} />}
+        {isCompliant && <SwapButton amountWei={fromAmount.toString()} />}
         {!isCompliant && (
           <button
             type="button"

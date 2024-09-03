@@ -10,7 +10,10 @@ contract MockSwap {
         uint256 usdtAmount
     );
 
-    function swapNativeForUSDT() payable public {
-        emit SwapNativeForUSDT(msg.sender, msg.value, msg.value * 1000);
+    function swapNativeForUSDT() payable public returns (address user, uint256 nativeAmount, uint256 usdtAmount) {
+        user = msg.sender;
+        nativeAmount = msg.value;
+        usdtAmount = msg.value * 1000;
+        emit SwapNativeForUSDT(user, nativeAmount, usdtAmount);
     }
 }

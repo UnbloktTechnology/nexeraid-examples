@@ -12,7 +12,7 @@ export const SwapButton = (props: { amount: string }) => {
   console.log("swap amount in matic: ", { amount: parseGwei(props.amount) });
   const debouncedTokenId = useDebounce(props.amount, 500);
   const { data } = useSimulateContract({
-    address: "0x10e26aE45a98CCA6bed4Ee58Ba6F5649Ab9FDA08",
+    address: "0xE352c14Dc08c280c8dA46D047D62FF29bc0e0F6a",
     abi: mockSwapABi,
     functionName: "swapNativeForUSDT",
     value: parseEther(props.amount),

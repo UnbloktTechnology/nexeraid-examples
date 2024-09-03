@@ -102,10 +102,10 @@ export const env = createEnv({
       .enum(["local", "dev", "stage", "prod", "test-dev-1", "test-dev-2"])
       .describe("The environment the app is running in")
       .default("prod"),
-    NEXT_PUBLIC_AMOY_WS_PROVIDER_URL: z
+    NEXT_PUBLIC_AMOY_HTTP_PROVIDER_URL: z
       .string()
       .describe("Amoy websocket url for better event support"),
-    NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL: z
+    NEXT_PUBLIC_SEPOLIA_HTTP_PROVIDER_URL: z
       .string()
       .describe("Sepolia websocket url for better event support"),
   },
@@ -119,10 +119,10 @@ export const env = createEnv({
     NEXT_PUBLIC_ENVIRONMENT: process.env.NEXT_PUBLIC_ENVIRONMENT,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
-    NEXT_PUBLIC_AMOY_WS_PROVIDER_URL:
-      process.env.NEXT_PUBLIC_AMOY_WS_PROVIDER_URL,
-    NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL:
-      process.env.NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL,
+    NEXT_PUBLIC_AMOY_HTTP_PROVIDER_URL:
+      process.env.NEXT_PUBLIC_AMOY_HTTP_PROVIDER_URL,
+    NEXT_PUBLIC_SEPOLIA_HTTP_PROVIDER_URL:
+      process.env.NEXT_PUBLIC_SEPOLIA_HTTP_PROVIDER_URL,
 
     NEXERA_ID_API_KEY_BANK: process.env.NEXERA_ID_API_KEY_BANK,
     NEXERA_ID_WORKFLOW_ID_BANK: process.env.NEXERA_ID_WORKFLOW_ID_BANK,

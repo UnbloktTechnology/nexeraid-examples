@@ -25,12 +25,12 @@ export const env = createEnv({
       .enum(["local", "dev", "stage", "prod", "test-dev-1", "test-dev-2"])
       .describe("The environment the app is running in")
       .default("prod"),
-    NEXT_PUBLIC_AMOY_WS_PROVIDER_URL: z
+    NEXT_PUBLIC_AMOY_HTTP_PROVIDER_URL: z
       .string()
-      .describe("Amoy websocket url for better event support"),
-    NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL: z
+      .describe("Amoy http RPC url"),
+    NEXT_PUBLIC_SEPOLIA_HTTP_PROVIDER_URL: z
       .string()
-      .describe("Sepolia websocket url for better event support"),
+      .describe("Sepolia http RPC url"),
   },
 
   /**
@@ -43,10 +43,10 @@ export const env = createEnv({
     NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP:
       process.env.NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP,
     NEXT_PUBLIC_ENVIRONMENT: process.env.NEXT_PUBLIC_ENVIRONMENT,
-    NEXT_PUBLIC_AMOY_WS_PROVIDER_URL:
-      process.env.NEXT_PUBLIC_AMOY_WS_PROVIDER_URL,
-    NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL:
-      process.env.NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL,
+    NEXT_PUBLIC_AMOY_HTTP_PROVIDER_URL:
+      process.env.NEXT_PUBLIC_AMOY_HTTP_PROVIDER_URL,
+    NEXT_PUBLIC_SEPOLIA_HTTP_PROVIDER_URL:
+      process.env.NEXT_PUBLIC_SEPOLIA_HTTP_PROVIDER_URL,
     POSTGRES_URL: process.env.POSTGRES_URL,
   },
   /**

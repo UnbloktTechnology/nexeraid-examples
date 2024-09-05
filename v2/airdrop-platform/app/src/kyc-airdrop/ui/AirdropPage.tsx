@@ -16,7 +16,6 @@ export const AirdropPage = () => {
   const openWidget = useOpenWidget();
   const claimMutation = useClaimMutation();
   const isCustomerActive = customerStatus === "Active";
-  const isLoading = customerStatusLoading || openWidget.isLoading;
 
   return (
     <AirdropLayout>
@@ -35,7 +34,7 @@ export const AirdropPage = () => {
       {uiStep === "kyc" && (
         <Button
           variant="secondary"
-          onClick={() => openWidget.mutateAsync()}
+          onClick={() => void openWidget.mutateAsync()}
           disabled={isCustomerActive}
           isLoading={openWidget.isLoading}
           id="identity-btn"

@@ -54,7 +54,7 @@ export const IdentityFlow = () => {
               fontSize: "16px",
               border: "none",
             }}
-            onClick={() => openWidget.mutateAsync()}
+            onClick={() => void openWidget.mutateAsync()}
             id="identity-btn"
           >
             {buttonText}

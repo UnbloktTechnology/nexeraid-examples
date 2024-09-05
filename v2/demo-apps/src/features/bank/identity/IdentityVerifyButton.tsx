@@ -8,7 +8,7 @@ export const IdentityVerifyButton = () => {
     <Button
       id="identity-btn-verify"
       className={"ml-auto px-6 py-4 text-base font-bold text-white"}
-      onClick={() => openWidget.mutateAsync()}
+      onClick={() => void openWidget.mutateAsync()}
       disabled={openWidget.isLoading}
     >
       {openWidget.isLoading ? "..." : "Verify"}

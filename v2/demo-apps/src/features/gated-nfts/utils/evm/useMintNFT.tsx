@@ -1,13 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import { encodeFunctionData, pad, toHex } from "viem";
+import { encodeFunctionData } from "viem";
 import { ExampleGatedNFTMinterABI } from "@nexeraid/sig-gating-contracts-sdk/abis";
 import { EvmChainId, type EIP155Signature } from "@nexeraid/identity-schemas";
-import {
-  useChainId,
-  useAccount,
-  useBlockNumber,
-  useSendTransaction,
-} from "wagmi";
+import { useChainId, useAccount, useSendTransaction } from "wagmi";
 import { getGatedContractAddress } from "./getContractAddress";
 import { useGetTxAuthDataSignature } from "@nexeraid/react-sdk";
 
@@ -27,7 +22,7 @@ export const useMintGatedNFTFromSDK = () => {
           throw new Error("No account in wallet Client - address");
         }
 
-        const signatureResponse = await getTxAuthDataSignature({
+        const signatureResponse = await getTxAuthDataSignature.mutateAsync({
           namespace: "eip155",
           userAddress: account.address,
           contractAbi: Array.from(ExampleGatedNFTMinterABI),

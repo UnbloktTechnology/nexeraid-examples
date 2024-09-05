@@ -33,14 +33,15 @@ const Home = () => {
 
 const HomeContent = () => {
   const close = useGlobalModals((state) => state.close);
-  const customerStatus = useCustomerStatus();
   const [started, setStarted] = useState(false);
 
+  const customerStatus = useCustomerStatus();
+  const isCompliant = customerStatus.data === "Active";
   useEffect(() => {
-    if (customerStatus === "Active") {
+    if (isCompliant) {
       close();
     }
-  }, [customerStatus, close]);
+  }, [isCompliant, close]);
 
   return (
     <Layout header={<Header />} bg={"defi"}>

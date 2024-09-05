@@ -2,20 +2,34 @@ import React from "react";
 import {
   useIsAuthenticated,
   useOpenWidget,
-  useLatestVerification,
   useCustomerStatus,
 } from "@nexeraid/react-sdk";
 
 export const IdentityFlow = () => {
-  const { openWidget, isLoading: isOpenLoading } = useOpenWidget({});
-  const { isAuthenticated, isLoading: isAuthLoading } = useIsAuthenticated();
-  const { data, isLoading: isVerificationLoading } = useLatestVerification();
-  const status = useCustomerStatus();
+  const openWidget = useOpenWidget();
+  const isAuthenticated = useIsAuthenticated();
+  const customerStatus = useCustomerStatus();
+  const isCompliant = customerStatus.data === "Active";
+  const isLoading =
+    openWidget.isLoading ||
+    isAuthenticated.isLoading ||
+    customerStatus.isLoading;
 
-  const isVerified = data?.isVerified;
-  const isCompliant = status === "Active";
-
-  const isLoading = isOpenLoading || isAuthLoading || isVerificationLoading;
+  let buttonText: string;
+  let buttonEnabled = true;
+  if (isLoading) {
+    buttonText = "Loading...";
+  } else if (isAuthenticated.data === false) {
+    buttonText = "Start KYC";
+  } else if (customerStatus.data && customerStatus.data !== "Active") {
+    buttonText = "Not Compliant";
+    buttonEnabled = false;
+  } else if (customerStatus.data === "Active") {
+    buttonText = "Verified!";
+    buttonEnabled = false;
+  } else {
+    buttonText = "Verify";
+  }
 
   return (
     <div>
@@ -26,33 +40,26 @@ export const IdentityFlow = () => {
           justifyContent: "center",
         }}
       >
-        {!data?.isVerified && (
+        {isCompliant && <div className="text-green-500">Verified!</div>}
+        {!isCompliant && (
           <button
+            disabled={!buttonEnabled}
             style={{
               padding: "16px 24px",
               borderRadius: 16,
-              cursor: "pointer",
-              backgroundColor: "#0258FD",
-              color: "white",
-              fontWeight: "bold",
+              cursor: buttonEnabled ? "pointer" : "not-allowed",
+              backgroundColor: buttonEnabled ? "#0258FD" : "#ccc",
+              color: buttonEnabled ? "white" : "black",
+              fontWeight: buttonEnabled ? "bold" : "normal",
               fontSize: "16px",
               border: "none",
             }}
-            onClick={openWidget}
+            onClick={void openWidget.mutateAsync}
             id="identity-btn"
           >
-            {isLoading
-              ? "Loading..."
-              : !isAuthenticated
-                ? "Start KYC"
-                : !isCompliant
-                  ? "Not Compliant"
-                  : isVerified
-                    ? "Verified!"
-                    : "Verify"}
+            {buttonText}
           </button>
         )}
-        {data?.isVerified && <div className="text-green-500">Verified!</div>}
       </div>
     </div>
   );

@@ -79,7 +79,7 @@ export const useMintGatedNFTTezos = () => {
           functionCallArgs.token_id,
         );
         const functionName = "%mint_gated";
-        const signatureResponse = await getTxAuthDataSignature({
+        const signatureResponse = await getTxAuthDataSignature.mutateAsync({
           namespace: "tezos",
           userAddress,
           contractAddress: NFTClaimerAddressForTezosGhostnet,

@@ -1,13 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import { encodeFunctionData, pad, toHex } from "viem";
+import { encodeFunctionData } from "viem";
 import { ExampleGatedNFTMinterABI } from "@nexeraid/sig-gating-contracts-sdk/abis";
 import { EvmChainId, type EIP155Signature } from "@nexeraid/identity-schemas";
-import {
-  useChainId,
-  useAccount,
-  useBlockNumber,
-  useSendTransaction,
-} from "wagmi";
+import { useChainId, useAccount, useSendTransaction } from "wagmi";
 import { getGatedContractAddress } from "./getContractAddress";
 import { useGetTxAuthDataSignature } from "@nexeraid/react-sdk";
 
@@ -17,7 +12,6 @@ const WRONG_SIGNATURE: EIP155Signature =
 export const useMintGatedNFTFromSDK = () => {
   const chainId = useChainId();
   const account = useAccount();
-  const blockNumber = useBlockNumber();
   const getTxAuthDataSignature = useGetTxAuthDataSignature();
   const mintNFTGatedFromSDK = useSendTransaction();
 
@@ -28,7 +22,7 @@ export const useMintGatedNFTFromSDK = () => {
           throw new Error("No account in wallet Client - address");
         }
 
-        const signatureResponse = await getTxAuthDataSignature({
+        const signatureResponse = await getTxAuthDataSignature.mutateAsync({
           namespace: "eip155",
           userAddress: account.address,
           contractAbi: Array.from(ExampleGatedNFTMinterABI),
@@ -39,23 +33,7 @@ export const useMintGatedNFTFromSDK = () => {
         });
 
         if (!signatureResponse.isAuthorized) {
-          // If user is not authorized, use wrong signature and dummy blockExpiration
-          const blockExpiration = blockNumber.data
-            ? Number(blockNumber.data) + 10
-            : 0;
-          return {
-            signatureResponse: {
-              isAuthorized: true,
-              signature: WRONG_SIGNATURE,
-              blockExpiration,
-              payload:
-                pad(
-                  // number to hex string number
-                  toHex(blockExpiration),
-                  { size: 32 },
-                ).slice(2) + WRONG_SIGNATURE.slice(2),
-            },
-          };
+          throw new Error("User not authorized");
         }
 
         // Create function call data

@@ -16,7 +16,7 @@ export type UiState = {
 
 export const useUiState = (): UiState => {
   const { isConnected, address } = useWalletAddress();
-  const customerStatus = useCustomerStatus();
+  const { data: customerStatus } = useCustomerStatus();
   const router = useRouter();
   const isKycAuthenticated = useIsAuthenticated();
   const isQualified = address ? isUserQualified(address) : false;

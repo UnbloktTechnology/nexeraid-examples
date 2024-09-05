@@ -20,7 +20,7 @@ export const Swap = () => {
   const { chain } = useAccount();
   const options = SwapOptions[(chain?.id as ChainOptions) ?? "80002"];
   const customerStatus = useCustomerStatus();
-  const isCompliant = customerStatus === "Active";
+  const isCompliant = customerStatus.data === "Active";
 
   const [fromAmount, setFromAmount] = useState("0");
   const [fromToken, setFromToken] = useState<ITokenInfo>(
@@ -138,9 +138,15 @@ export const Swap = () => {
             className="mt-3 h-14 w-full rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]"
             id={"kyc-btn-verify"}
             onClick={verifyUser}
+            disabled={customerStatus.isLoading}
           >
-            Verify
+            {customerStatus.isLoading ? "...Checking" : "Verify"}
           </button>
+        )}
+        {customerStatus.isError && (
+          <div className="mt-3 h-14 w-full rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]">
+            {customerStatus.error.message}
+          </div>
         )}
       </div>
     </div>

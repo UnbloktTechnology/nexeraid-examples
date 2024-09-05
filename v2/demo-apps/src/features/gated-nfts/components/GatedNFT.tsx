@@ -73,14 +73,11 @@ export const GatedNFT = () => {
               disabled={!walletClient}
               onClick={() => {
                 if (walletClient) {
-                  tryMintingGatedNFTFromSDK
+                  void tryMintingGatedNFTFromSDK
                     .mutateAsync()
-                    .then((_sdkResponse) => {
-                      setSdkResponse(_sdkResponse as MintResponse);
-                    })
-                    .catch((e) => {
-                      console.log("error while fetching signature", e);
-                    });
+                    .then((_sdkResponse) =>
+                      setSdkResponse(_sdkResponse as MintResponse),
+                    );
                 } else {
                   console.log("walletClient not loaded");
                 }

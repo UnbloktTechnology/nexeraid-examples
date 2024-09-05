@@ -20,7 +20,7 @@ export const Swap = () => {
   const { chain } = useAccount();
   const options = SwapOptions[(chain?.id as ChainOptions) ?? "80002"];
   const customerStatus = useCustomerStatus();
-  const isCompliant = customerStatus === "Active";
+  const isCompliant = customerStatus.data === "Active";
 
   const [fromAmount, setFromAmount] = useState("0");
   const [fromToken, setFromToken] = useState<ITokenInfo>(

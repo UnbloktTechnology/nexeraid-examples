@@ -11,11 +11,13 @@ import { LogoutButton } from "./components/LogoutButton";
 export const AirdropPage = () => {
   const uiStep = useCurrentUiStep();
   const { isConnected } = useWalletAddress();
-  const customerStatus = useCustomerStatus();
-  const { openWidget, isLoading } = useOpenWidget({});
+  const { data: customerStatus, isLoading: customerStatusLoading } =
+    useCustomerStatus();
+  const { mutateAsync: openWidget, isLoading: openWidgetLoading } =
+    useOpenWidget();
   const claimMutation = useClaimMutation();
-
   const isCustomerActive = customerStatus === "Active";
+  const isLoading = customerStatusLoading || openWidgetLoading;
 
   return (
     <AirdropLayout>
@@ -34,7 +36,7 @@ export const AirdropPage = () => {
       {uiStep === "kyc" && (
         <Button
           variant="secondary"
-          onClick={openWidget}
+          onClick={void openWidget}
           disabled={isCustomerActive}
           isLoading={isLoading}
           id="identity-btn"

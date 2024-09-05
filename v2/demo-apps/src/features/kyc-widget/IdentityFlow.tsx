@@ -1,8 +1,35 @@
 import React from "react";
-import { useOpenWidget } from "@nexeraid/react-sdk";
+import {
+  useIsAuthenticated,
+  useOpenWidget,
+  useCustomerStatus,
+} from "@nexeraid/react-sdk";
 
 export const IdentityFlow = () => {
-  const { openWidget, isLoading } = useOpenWidget({});
+  const openWidget = useOpenWidget();
+  const isAuthenticated = useIsAuthenticated();
+  const customerStatus = useCustomerStatus();
+  const isCompliant = customerStatus.data === "Active";
+  const isLoading =
+    openWidget.isLoading ||
+    isAuthenticated.isLoading ||
+    customerStatus.isLoading;
+
+  let buttonText: string;
+  let buttonEnabled = true;
+  if (isLoading) {
+    buttonText = "Loading...";
+  } else if (isAuthenticated.data === false) {
+    buttonText = "Start KYC";
+  } else if (customerStatus.data && customerStatus.data !== "Active") {
+    buttonText = "Not Compliant";
+    buttonEnabled = false;
+  } else if (customerStatus.data === "Active") {
+    buttonText = "Verified!";
+    buttonEnabled = false;
+  } else {
+    buttonText = "Verify";
+  }
 
   return (
     <div>
@@ -13,23 +40,26 @@ export const IdentityFlow = () => {
           justifyContent: "center",
         }}
       >
-        <button
-          style={{
-            padding: "16px 24px",
-            borderRadius: 16,
-            cursor: "pointer",
-            backgroundColor: "#0258FD",
-            color: "white",
-            fontWeight: "bold",
-            fontSize: "16px",
-            border: "none",
-          }}
-          onClick={openWidget}
-          disabled={isLoading}
-          id="identity-btn"
-        >
-          Start KYC
-        </button>
+        {isCompliant && <div className="text-green-500">Verified!</div>}
+        {!isCompliant && (
+          <button
+            disabled={!buttonEnabled}
+            style={{
+              padding: "16px 24px",
+              borderRadius: 16,
+              cursor: buttonEnabled ? "pointer" : "not-allowed",
+              backgroundColor: buttonEnabled ? "#0258FD" : "#ccc",
+              color: buttonEnabled ? "white" : "black",
+              fontWeight: buttonEnabled ? "bold" : "normal",
+              fontSize: "16px",
+              border: "none",
+            }}
+            onClick={void openWidget.mutateAsync}
+            id="identity-btn"
+          >
+            {buttonText}
+          </button>
+        )}
       </div>
     </div>
   );

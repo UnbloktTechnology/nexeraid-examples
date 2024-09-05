@@ -31,12 +31,12 @@ const HomeContent = () => {
   }));
 
   const customerStatus = useCustomerStatus();
-  const isCompliant = customerStatus === "Active";
+  const isCompliant = customerStatus.data === "Active";
   useEffect(() => {
-    if (customerStatus === "Active") {
+    if (isCompliant) {
       close();
     }
-  }, [customerStatus, close]);
+  }, [isCompliant, close]);
 
   const onClickLogOn = () => {
     console.log("openModal");

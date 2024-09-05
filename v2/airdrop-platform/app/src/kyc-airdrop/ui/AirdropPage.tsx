@@ -13,11 +13,10 @@ export const AirdropPage = () => {
   const { isConnected } = useWalletAddress();
   const { data: customerStatus, isLoading: customerStatusLoading } =
     useCustomerStatus();
-  const { mutateAsync: openWidget, isLoading: openWidgetLoading } =
-    useOpenWidget();
+  const openWidget = useOpenWidget();
   const claimMutation = useClaimMutation();
   const isCustomerActive = customerStatus === "Active";
-  const isLoading = customerStatusLoading || openWidgetLoading;
+  const isLoading = customerStatusLoading || openWidget.isLoading;
 
   return (
     <AirdropLayout>
@@ -36,9 +35,9 @@ export const AirdropPage = () => {
       {uiStep === "kyc" && (
         <Button
           variant="secondary"
-          onClick={void openWidget}
+          onClick={() => openWidget.mutateAsync()}
           disabled={isCustomerActive}
-          isLoading={isLoading}
+          isLoading={openWidget.isLoading}
           id="identity-btn"
         >
           Begin identity verification

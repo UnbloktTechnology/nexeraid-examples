@@ -6,11 +6,11 @@ import { useDisconnect as useNexeraDisconnect } from "@nexeraid/react-sdk";
 export const useLogout = () => {
   const redirectToHome = useRedirectToHome();
   const { disconnect: disconnectWagmi } = useWagmiDisconnect();
-  const { mutateAsync: disconnectNexera } = useNexeraDisconnect();
+  const disconnectNexera = useNexeraDisconnect();
 
   return useCallback(() => {
     disconnectWagmi();
-    void disconnectNexera();
+    void disconnectNexera.mutateAsync();
     redirectToHome();
   }, [disconnectWagmi, redirectToHome, disconnectNexera]);
 };

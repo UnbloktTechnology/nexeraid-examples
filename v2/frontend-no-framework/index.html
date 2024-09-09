@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <title>Nexera: no frontend, no framework demo</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "@nexeraid/web-sdk": "https://esm.sh/@nexeraid/web-sdk@2.0.21-dev"
+        }
+      }
+    </script>
+    <script>
+      var nexeraIdConfig;
+      var onclick;
+    </script>
+    <script type="module">
+      import {
+        openWidget,
+        watchWidgetVisibleState,
+        createAuthAdapter,
+        createConfig,
+      } from "@nexeraid/web-sdk";
+
+      nexeraIdConfig = createConfig({
+        authAdapter: createAuthAdapter({
+          // This is a fake implementation of the auth adapter
+          createSession: async () => {
+            alert(
+              "TODO: implement createSession using your own backend. You may want to use @nexeraid/js-sdk to help you with this."
+            );
+          },
+        }),
+      });
+
+      watchWidgetVisibleState(nexeraIdConfig, {
+        onChange: (isVisible) => {
+          alert("Widget changed visibility. Is visible: ", isVisible);
+        },
+      });
+
+      onclick = () => {
+        alert("Opening widget");
+        openWidget(nexeraIdConfig);
+      };
+    </script>
+  </head>
+  <body>
+    <button onclick="onclick">Open widget</button>
+  </body>
+</html>

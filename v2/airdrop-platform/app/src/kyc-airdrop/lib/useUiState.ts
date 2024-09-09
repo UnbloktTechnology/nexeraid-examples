@@ -1,9 +1,10 @@
 import { getUserAirdropAmount, isUserQualified } from "./airdropActions";
 import { type Address } from "viem";
-import { useCustomerStatus, useIsAuthenticated } from "@nexeraid/react-sdk";
+import { useIsAuthenticated } from "@nexeraid/react-sdk";
 import { useWalletAddress } from "./useWalletAddress";
 import { useGetTokenBalance } from "./useGetTokenBalance";
 import { useRouter } from "next/router";
+import { useCustomerData } from "./useCustomerData";
 
 export type UiState = {
   // wallet can be set but not connected as it's present in the url
@@ -16,7 +17,7 @@ export type UiState = {
 
 export const useUiState = (): UiState => {
   const { isConnected, address } = useWalletAddress();
-  const { data: customerStatus } = useCustomerStatus();
+  const customerData = useCustomerData();
   const router = useRouter();
   const isKycAuthenticated = useIsAuthenticated();
   const isQualified = address ? isUserQualified(address) : false;
@@ -29,8 +30,11 @@ export const useUiState = (): UiState => {
     route: { check: isInCheckPage },
     eligibility: { qualified: isQualified },
     kyc:
-      isKycAuthenticated || customerStatus === "Active" // TODO: this is not correct, happens when we reject the signature, is authenticated goes to false but shouldn't
-        ? { connected: true, active: customerStatus === "Active" }
+      isKycAuthenticated || customerData?.data?.userStatus === "Active"
+        ? {
+            connected: true,
+            active: customerData?.data?.userStatus === "Active",
+          }
         : { connected: false },
     claim: { claimed: balance ? balance > 0n : false },
   };

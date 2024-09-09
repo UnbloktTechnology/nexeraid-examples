@@ -1,10 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { env } from "@/env.mjs";
-import { createApiClient } from "@nexeraid/js-sdk";
+import { createNexeraSdk } from "@nexeraid/js-sdk";
 
 import "@/features/root/configureNodeDemoEnv";
 
-const apiClient = createApiClient({
+const apiClient = createNexeraSdk({
+  webhookSecret: env.NEXERA_ID_WEBHOOK_SECRET_BANK,
   apiKey: env.NEXERA_ID_API_KEY_BANK,
 });
 

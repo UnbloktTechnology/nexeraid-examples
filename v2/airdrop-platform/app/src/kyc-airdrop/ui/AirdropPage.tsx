@@ -1,21 +1,21 @@
 import { AirdropLayout } from "@/kyc-airdrop/ui/AirdropLayout";
 import { Button } from "@/kyc-airdrop/ui/components/Button";
-import { useCustomerStatus, useOpenWidget } from "@nexeraid/react-sdk";
+import { useOpenWidget } from "@nexeraid/react-sdk";
 import { ConnectWalletButton } from "@/kyc-airdrop/ui/components/ConnectWalletButton";
 import { useClaimMutation } from "@/kyc-airdrop/lib/useClaimMutation";
 import { useCurrentUiStep } from "@/kyc-airdrop/lib/useUiState";
 import { useWalletAddress } from "@/kyc-airdrop/lib/useWalletAddress";
 import { SearchBar } from "./components/SearchBar";
 import { LogoutButton } from "./components/LogoutButton";
+import { useCustomerData } from "../lib/useCustomerData";
 
 export const AirdropPage = () => {
   const uiStep = useCurrentUiStep();
   const { isConnected } = useWalletAddress();
-  const { data: customerStatus, isLoading: customerStatusLoading } =
-    useCustomerStatus();
+  const customerData = useCustomerData();
   const openWidget = useOpenWidget();
   const claimMutation = useClaimMutation();
-  const isCustomerActive = customerStatus === "Active";
+  const isCustomerActive = customerData.data?.userStatus === "Active";
 
   return (
     <AirdropLayout>

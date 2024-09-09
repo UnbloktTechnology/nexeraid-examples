@@ -19,6 +19,13 @@ export const env = createEnv({
         "The URL of the Upstash Redis REST API -> https://console.upstash.com/redis/",
       ),
 
+    NEXERA_ID_WEBHOOK_SECRET_DEFI_RULE_ENGINE: z
+      .string()
+      .optional()
+      .default("changeme")
+      .describe(
+        "The webhook secret for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Defi Rule Engine Example dApp",
+      ),
     NEXERA_ID_API_KEY_DEFI_RULE_ENGINE: z
       .string()
       .describe(
@@ -28,6 +35,14 @@ export const env = createEnv({
       .string()
       .describe(
         "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Defi Rule Engine Example dApp",
+      ),
+
+    NEXERA_ID_WEBHOOK_SECRET_DEFI_OFFCHAIN_ZKP: z
+      .string()
+      .optional()
+      .default("changeme")
+      .describe(
+        "The webhook secret for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Defi Offchain ZKP Example dApp",
       ),
     NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP: z
       .string()
@@ -40,6 +55,13 @@ export const env = createEnv({
         "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Defi Offchain ZKP Example dApp",
       ),
 
+    NEXERA_ID_WEBHOOK_SECRET_BANK: z
+      .string()
+      .optional()
+      .default("changeme")
+      .describe(
+        "The webhook secret for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank App",
+      ),
     NEXERA_ID_API_KEY_BANK: z
       .string()
       .describe(
@@ -49,6 +71,14 @@ export const env = createEnv({
       .string()
       .describe(
         "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank App",
+      ),
+
+    NEXERA_ID_WEBHOOK_SECRET_BANK_WEB3: z
+      .string()
+      .optional()
+      .default("changeme")
+      .describe(
+        "The webhook secret for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank Web3 dApp",
       ),
     NEXERA_ID_API_KEY_BANK_WEB3: z
       .string()
@@ -60,6 +90,14 @@ export const env = createEnv({
       .describe(
         "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank Web3 dApp",
       ),
+
+    NEXERA_ID_WEBHOOK_SECRET_BANK_KYB: z
+      .string()
+      .optional()
+      .default("changeme")
+      .describe(
+        "The webhook secret for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank Web3 dApp Mocked",
+      ),
     NEXERA_ID_API_KEY_BANK_KYB: z
       .string()
       .describe(
@@ -70,6 +108,14 @@ export const env = createEnv({
       .describe(
         "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank Web3 dApp Mocked",
       ),
+
+    NEXERA_ID_WEBHOOK_SECRET_KYC: z
+      .string()
+      .optional()
+      .default("changeme")
+      .describe(
+        "The webhook secret for the Nexera ID API -> https://dashboard.nexera.id/: Nexera KYC dApp",
+      ),
     NEXERA_ID_API_KEY_KYC: z
       .string()
       .describe(
@@ -79,6 +125,14 @@ export const env = createEnv({
       .string()
       .describe(
         "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera KYC dApp",
+      ),
+
+    NEXERA_ID_WEBHOOK_SECRET_MULTICHAIN_DEMO: z
+      .string()
+      .optional()
+      .default("changeme")
+      .describe(
+        "The webhook secret for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Multichain Demo dApp",
       ),
     NEXERA_ID_API_KEY_MULTICHAIN_DEMO: z
       .string()
@@ -124,23 +178,41 @@ export const env = createEnv({
     NEXT_PUBLIC_SEPOLIA_HTTP_PROVIDER_URL:
       process.env.NEXT_PUBLIC_SEPOLIA_HTTP_PROVIDER_URL,
 
+    NEXERA_ID_WEBHOOK_SECRET_BANK: process.env.NEXERA_ID_WEBHOOK_SECRET_BANK,
     NEXERA_ID_API_KEY_BANK: process.env.NEXERA_ID_API_KEY_BANK,
     NEXERA_ID_WORKFLOW_ID_BANK: process.env.NEXERA_ID_WORKFLOW_ID_BANK,
+
+    NEXERA_ID_WEBHOOK_SECRET_BANK_KYB:
+      process.env.NEXERA_ID_WEBHOOK_SECRET_BANK_KYB,
     NEXERA_ID_API_KEY_BANK_KYB: process.env.NEXERA_ID_API_KEY_BANK_KYB,
     NEXERA_ID_WORKFLOW_ID_BANK_KYB: process.env.NEXERA_ID_WORKFLOW_ID_BANK_KYB,
+
+    NEXERA_ID_WEBHOOK_SECRET_BANK_WEB3:
+      process.env.NEXERA_ID_WEBHOOK_SECRET_BANK_WEB3,
     NEXERA_ID_API_KEY_BANK_WEB3: process.env.NEXERA_ID_API_KEY_BANK_WEB3,
     NEXERA_ID_WORKFLOW_ID_BANK_WEB3:
       process.env.NEXERA_ID_WORKFLOW_ID_BANK_WEB3,
+
+    NEXERA_ID_WEBHOOK_SECRET_DEFI_RULE_ENGINE:
+      process.env.NEXERA_ID_WEBHOOK_SECRET_DEFI_RULE_ENGINE,
     NEXERA_ID_API_KEY_DEFI_RULE_ENGINE:
       process.env.NEXERA_ID_API_KEY_DEFI_RULE_ENGINE,
     NEXERA_ID_WORKFLOW_ID_DEFI_RULE_ENGINE:
       process.env.NEXERA_ID_WORKFLOW_ID_DEFI_RULE_ENGINE,
+
+    NEXERA_ID_WEBHOOK_SECRET_DEFI_OFFCHAIN_ZKP:
+      process.env.NEXERA_ID_WEBHOOK_SECRET_DEFI_OFFCHAIN_ZKP,
     NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP:
       process.env.NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP,
     NEXERA_ID_WORKFLOW_ID_DEFI_OFFCHAIN_ZKP:
       process.env.NEXERA_ID_WORKFLOW_ID_DEFI_OFFCHAIN_ZKP,
+
+    NEXERA_ID_WEBHOOK_SECRET_KYC: process.env.NEXERA_ID_WEBHOOK_SECRET_KYC,
     NEXERA_ID_API_KEY_KYC: process.env.NEXERA_ID_API_KEY_KYC,
     NEXERA_ID_WORKFLOW_ID_KYC: process.env.NEXERA_ID_WORKFLOW_ID_KYC,
+
+    NEXERA_ID_WEBHOOK_SECRET_MULTICHAIN_DEMO:
+      process.env.NEXERA_ID_WEBHOOK_SECRET_MULTICHAIN_DEMO,
     NEXERA_ID_API_KEY_MULTICHAIN_DEMO:
       process.env.NEXERA_ID_API_KEY_MULTICHAIN_DEMO,
     NEXERA_ID_WORKFLOW_ID_MULTICHAIN_DEMO:

@@ -7,6 +7,7 @@ export const env = createEnv({
    * isn't built with invalid env vars.
    */
   server: {
+    NEXERA_ID_WEBHOOK_SECRET_KYC_AIRDROP: z.string(),
     NEXERA_ID_API_KEY_KYC_AIRDROP: z.string(),
     NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP: z.string(),
     NEXERA_ID_WORKSPACE_ID: z.string(),
@@ -39,6 +40,8 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NEXERA_ID_WORKSPACE_ID: process.env.NEXERA_ID_WORKSPACE_ID,
+    NEXERA_ID_WEBHOOK_SECRET_KYC_AIRDROP:
+      process.env.NEXERA_ID_WEBHOOK_SECRET_KYC_AIRDROP,
     NEXERA_ID_API_KEY_KYC_AIRDROP: process.env.NEXERA_ID_API_KEY_KYC_AIRDROP,
     NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP:
       process.env.NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP,

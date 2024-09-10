@@ -24,7 +24,7 @@ app.use(express.json());
 //WEB3 route
 app.post("/api/generate-web3-challenge", async (req, res) => {
     const sessionRes = await apiClient.createWeb3Challenge({
-        workflowId: WEB3_WORKFLOW_ID,
+        workflowId: process.env.WEB3_WORKFLOW_ID,
         ...req.body,
     });
     res.status(200).json(sessionRes);

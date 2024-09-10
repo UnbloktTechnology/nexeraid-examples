@@ -1,9 +1,6 @@
 const { createApiClient } = require('@nexeraid/js-sdk');
-const { _setInternalConfig } = require('@nexeraid/js-sdk');
-const _setInternalConfigNode = _setInternalConfig
 require('dotenv').config();
-console.log("_setInternalConfigNode", { env: 'dev' });
-_setInternalConfigNode({ env: 'dev' });
+
 
 const apiClient = createApiClient({
     apiKey: process.env.API_KEY,

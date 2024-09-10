@@ -4,7 +4,7 @@ import { reconnect } from '@wagmi/core'
 
 
 // 1. Get a project ID at https://cloud.walletconnect.com
-const projectId = '305d1ae1e7b1f3415cb3de428d978823'
+const projectId = 'YOUR_PROJECT_ID'
 
 // 2. Create wagmiConfig
 const metadata = {

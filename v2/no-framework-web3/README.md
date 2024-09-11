@@ -13,6 +13,6 @@ WEB3_WORKFLOW_ID is the workflow id you want to connect to. It can be found in y
 WEBHOOK_SECRET=
 WEBHOOK_SECRET is found in settings/webhooks.
 
-4) start the server the backend server.
+4) start the backend server.
 5) start the frontend server.
 

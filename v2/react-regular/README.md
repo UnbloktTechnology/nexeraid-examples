@@ -15,6 +15,6 @@ Any unique identifier to represent a customer. when integrating the sdk in a liv
 WEBHOOK_SECRET=
 WEBHOOK_SECRET is found in settings/webhooks.
 
-4) start the server the backend server.
+4) start the backend server.
 5) start the frontend server.
 

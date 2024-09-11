@@ -39,7 +39,7 @@ export const AirdropLayout = ({
           <div
             className={`${stylesPeaq.bg} flex min-h-screen items-center justify-center p-8`}
           >
-            <section className="flex w-full max-w-3xl flex-col gap-2 rounded-lg px-8 py-20 text-center text-white">
+            <section className="flex w-full max-w-4xl flex-col gap-2 rounded-lg px-8 py-20 text-center text-white">
               <h1 className="text-[52px] font-normal">
                 {titleOverwrite ?? title}
               </h1>

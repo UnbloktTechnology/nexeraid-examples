@@ -11,7 +11,9 @@ export type UiState = {
   wallet: { connected: boolean; address: Address | undefined };
   route: { check: boolean };
   eligibility: { qualified: boolean };
-  kyc: { connected: true; active: boolean } | { connected: false };
+  kyc:
+    | { connected: true; active: boolean; processing: boolean }
+    | { connected: false };
   claim: { claimed: boolean };
 };
 
@@ -29,13 +31,15 @@ export const useUiState = (): UiState => {
     wallet: { connected: isConnected, address: address },
     route: { check: isInCheckPage },
     eligibility: { qualified: isQualified },
-    kyc:
-      isKycAuthenticated || customerData?.data?.userStatus === "Active"
-        ? {
-            connected: true,
-            active: customerData?.data?.userStatus === "Active",
-          }
-        : { connected: false },
+    kyc: isKycAuthenticated
+      ? {
+          connected: true,
+          active: customerData?.data?.userStatus === "Active",
+          processing:
+            !!customerData?.data?.userStatus &&
+            customerData?.data?.userStatus !== "Active",
+        }
+      : { connected: false },
     claim: { claimed: balance ? balance > 0n : false },
   };
 };
@@ -45,6 +49,7 @@ export type UiStep =
   | "eligibility" // check if the address is qualified
   | "wallet_connect" // connect the wallet if needed
   | "kyc" // ask for kyc
+  | "kyc_processing" // kyc is being processed
   | "claim" // claim the tokens
   | "done"; // all done
 
@@ -56,6 +61,7 @@ export const useCurrentUiStep = (): UiStep => {
   if (!uiState.wallet.connected) return "wallet_connect";
   if (!uiState.route.check) return "wallet_connect";
   if (!uiState.kyc.connected || !uiState.kyc.active) return "kyc";
+  if (uiState.kyc.processing) return "kyc_processing";
   if (!uiState.claim.claimed) return "claim";
 
   return "done";
@@ -96,6 +102,12 @@ export const useTitles = (): { title: string; subtitle: string } => {
       title: "Let's claim some tokens",
       subtitle:
         "Now we need to verify your identity before you can claim tokens",
+    };
+
+  if (uiState.kyc.processing)
+    return {
+      title: "Identity verification in progress",
+      subtitle: "Please wait while we verify your identity",
     };
 
   if (!uiState.claim.claimed && isBalanceLoading)

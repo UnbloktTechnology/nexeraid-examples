@@ -20,7 +20,7 @@ export const AirdropPage = () => {
 
   return (
     <AirdropLayout>
-      {(uiStep === "wallet_set" || uiStep === "wallet_connect") && (
+      {uiStep === "wallet_set" && (
         <>
           {!isConnected && (
             <>
@@ -28,47 +28,79 @@ export const AirdropPage = () => {
               or
             </>
           )}
-          <ConnectWalletButton label="Connect wallet" variant="secondary" />
+          <ConnectWalletButton
+            label="Connect your wallet"
+            variant="secondary"
+          />
         </>
       )}
 
+      {uiStep === "eligibility" && (
+        <LogoutButton variant="secondary" label="Try another wallet" />
+      )}
+
+      {uiStep === "wallet_connect" && (
+        <div className="flex justify-center space-x-4">
+          <LogoutButton variant="primary" label="Try another wallet" />
+          <ConnectWalletButton
+            label="Connect your wallet"
+            variant="secondary"
+          />
+        </div>
+      )}
+
       {uiStep === "kyc" && (
-        <Button
-          variant="secondary"
-          onClick={() => void openWidget.mutateAsync()}
-          disabled={isCustomerActive || openWidget.isPending}
-          isLoading={openWidget.isPending}
-          id="identity-btn"
-        >
-          Begin identity verification
-        </Button>
+        <div className="flex justify-center space-x-4">
+          <LogoutButton variant="primary" label="Try another wallet" />
+          <Button
+            variant="secondary"
+            onClick={() => void openWidget.mutateAsync()}
+            disabled={isCustomerActive}
+            isLoading={openWidget.isPending}
+            id="identity-btn"
+          >
+            Begin identity verification
+          </Button>
+        </div>
       )}
 
-      {uiStep === "claim" && isAuthenticated.data === false && (
-        <Button
-          variant="secondary"
-          onClick={() => void openWidget.mutateAsync()}
-          disabled={openWidget.isPending}
-          isLoading={openWidget.isPending}
-          id="identity-btn"
-        >
-          Authenticate wallet to claim
-        </Button>
-      )}
-      {uiStep === "claim" && isAuthenticated.data === true && (
-        <Button
-          variant="secondary"
-          disabled={!isCustomerActive || claimMutation.isPending}
-          onClick={() => claimMutation.mutate()}
-          id="claim-btn"
-          isLoading={claimMutation.isPending}
-        >
-          Claim tokens
-        </Button>
+      {uiStep === "kyc_processing" && (
+        <div className="flex justify-center space-x-4">
+          <LogoutButton variant="primary" label="Try another wallet" />
+          <Button variant="secondary" disabled>
+            Identity verification in progress
+          </Button>
+        </div>
       )}
 
-      {isConnected && (
-        <LogoutButton variant="primary" label="Try another wallet" />
+      {uiStep === "claim" && (
+        <>
+          <LogoutButton variant="primary" label="Use another wallet" />
+
+          {isAuthenticated.data === true && (
+            <Button
+              variant="secondary"
+              disabled={!isCustomerActive || claimMutation.isPending}
+              onClick={() => claimMutation.mutate()}
+              id="claim-btn"
+              isLoading={claimMutation.isPending}
+            >
+              Claim tokens
+            </Button>
+          )}
+
+          {isAuthenticated.data === false && (
+            <Button
+              variant="secondary"
+              onClick={() => void openWidget.mutateAsync()}
+              disabled={openWidget.isPending}
+              isLoading={openWidget.isPending}
+              id="identity-btn"
+            >
+              Authenticate wallet to claim
+            </Button>
+          )}
+        </>
       )}
     </AirdropLayout>
   );

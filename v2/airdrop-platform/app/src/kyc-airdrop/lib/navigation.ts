@@ -11,7 +11,7 @@ export const useRedirectToClaimSuccess = () => {
     (address: Address) => {
       void router.push({
         pathname: "/[address]/success",
-        query: { address, debug: isDebugMode ? "true" : undefined },
+        query: isDebugMode ? { address, debug: true } : { address },
       });
     },
     [router, isDebugMode],
@@ -26,7 +26,9 @@ export const useRedirectToClaimError = () => {
     (address: Address, error: string) => {
       void router.push({
         pathname: "/[address]/error",
-        query: { address, error, debug: isDebugMode ? "true" : undefined },
+        query: isDebugMode
+          ? { address, error, debug: true }
+          : { address, error },
       });
     },
     [router, isDebugMode],
@@ -41,10 +43,7 @@ export const useRedirectToCheckWallet = () => {
     (address: Address) => {
       void router.push({
         pathname: "/[address]/check",
-        query: {
-          address,
-          debug: isDebugMode ? "true" : undefined,
-        },
+        query: isDebugMode ? { address, debug: true } : { address },
       });
     },
     [router, isDebugMode],
@@ -58,9 +57,7 @@ export const useRedirectToHome = () => {
   return useCallback(() => {
     void router.push({
       pathname: "/",
-      query: {
-        debug: isDebugMode ? "true" : undefined,
-      },
+      query: isDebugMode ? { debug: true } : {},
     });
   }, [router, isDebugMode]);
 };

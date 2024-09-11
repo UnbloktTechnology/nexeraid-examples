@@ -28,7 +28,8 @@
         createSession: async () => {
           try {
             // Make a POST request to your API endpoint, previously created with wit nexera js-sdk, considering you created the path api/create-nexera-session.
-            const response = await fetch('yourApiUrl/api/create-nexera-session', {
+            // please make sure that your backend-regular API is running on port 5001
+            const response = await fetch('http://localhost:5001/api/create-nexera-session', {
               method: 'POST', // HTTP method POST
               headers: {
                 'Content-Type': 'application/json',

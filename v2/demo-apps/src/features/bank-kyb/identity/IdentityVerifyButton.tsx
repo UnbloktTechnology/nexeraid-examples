@@ -9,9 +9,9 @@ export const IdentityVerifyButton = () => {
       id="identity-btn-verify"
       className={"ml-auto px-6 py-4 text-base font-bold text-white"}
       onClick={() => void openWidget.mutateAsync()}
-      disabled={openWidget.isLoading}
+      disabled={openWidget.isPending}
     >
-      {openWidget.isLoading ? "..." : "Verify"}
+      {openWidget.isPending ? "..." : "Verify"}
     </Button>
   );
 };

@@ -36,7 +36,7 @@ export const AirdropPage = () => {
           variant="secondary"
           onClick={() => void openWidget.mutateAsync()}
           disabled={isCustomerActive}
-          isLoading={openWidget.isLoading}
+          isLoading={openWidget.isPending}
           id="identity-btn"
         >
           Begin identity verification

@@ -451,14 +451,14 @@
     zod "3.22.4"
     zod-validation-error "^3.3.1"
 
-"@nexeraid/identity-schemas@1.12.21-dev":
-  version "1.12.21-dev"
-  resolved "https://registry.yarnpkg.com/@nexeraid/identity-schemas/-/identity-schemas-1.12.21-dev.tgz#e4ab0a678eda971cdba94ad35b9eda4ff5219411"
-  integrity sha512-sAGY2QIg9vNEyU+BdT2oj1RjwVtrrqjrb03zbzz2tggmgBAkgf3KPzD8mR5mttAFqmXDYn4YlehXpU6T2v9f7A==
+"@nexeraid/identity-schemas@1.12.27-dev":
+  version "1.12.27-dev"
+  resolved "https://registry.yarnpkg.com/@nexeraid/identity-schemas/-/identity-schemas-1.12.27-dev.tgz#f9a3bdb9dc0f8e92935f8c3cab6601efa88743bd"
+  integrity sha512-68GBSzy6JHWL/y4y5T3a73MY3M9rU+eYH3K3zFQF54afZboDiGIhk2EkcQqGzfCzqL7e54a9bQ6HfT/HGUPTPQ==
   dependencies:
     nanoid "3.3.4"
     zod "^3.23.8"
-    zod-to-json-schema "^3.23.2"
+    zod-to-json-schema "^3.23.3"
 
 "@nexeraid/identity-schemas@1.12.6-dev":
   version "1.12.6-dev"
@@ -484,13 +484,13 @@
   resolved "https://registry.yarnpkg.com/@nexeraid/react-sdk-wallet-wagmi/-/react-sdk-wallet-wagmi-2.0.2.tgz#f088d407f3f6600511963e4288241cd37bd85009"
   integrity sha512-jNwAg982kb2Bg//JN+0tEmAKxF2wwZXOrjMFhOi3jsGbq+8caBCEbHZ1V43O1kmc00ka+Rc7Z/w8r3l0rf29gA==
 
-"@nexeraid/web-sdk@2.0.21-dev":
-  version "2.0.21-dev"
-  resolved "https://registry.yarnpkg.com/@nexeraid/web-sdk/-/web-sdk-2.0.21-dev.tgz#3f2e0bcf9dbf8e017698ba1c8bc3e534472e6469"
-  integrity sha512-IQf730vH8NAfg+aRUfZDo/cYwQ/hr+cg3KIEyQcYvUC9E+I9yrSR1j3NsoJUYySZY/Ovk8pQODtzxL083sUCZA==
+"@nexeraid/web-sdk@2.0.29-dev":
+  version "2.0.29-dev"
+  resolved "https://registry.yarnpkg.com/@nexeraid/web-sdk/-/web-sdk-2.0.29-dev.tgz#2a3034bc343869ac7306429b1709ee3200c88487"
+  integrity sha512-JnK4Ob/iGVxWFKVwoC3X6E1kd6aqM7TlvrRfy07mqTliKi3USI2vop8dYqbplDR3uLMPLbU8GrUUj8a/X5AJ3Q==
   dependencies:
     "@nexeraid/identity-api-client" "1.3.215-dev"
-    "@nexeraid/identity-schemas" "1.12.21-dev"
+    "@nexeraid/identity-schemas" "1.12.27-dev"
     "@nexeraid/logger" "0.1.2-dev"
     eventemitter3 "^5.0.1"
     jwt-decode "^3.1.2"
@@ -4423,7 +4423,7 @@ yargs@^17.5.1:
     y18n "^5.0.5"
     yargs-parser "^21.1.1"
 
-zod-to-json-schema@^3.23.2:
+zod-to-json-schema@^3.23.2, zod-to-json-schema@^3.23.3:
   version "3.23.3"
   resolved "https://registry.yarnpkg.com/zod-to-json-schema/-/zod-to-json-schema-3.23.3.tgz#56cf4e0bd5c4096ab46e63159e20998ec7b19c39"
   integrity sha512-TYWChTxKQbRJp5ST22o/Irt9KC5nj7CdBKYB/AosCRdj/wxEMvv4NNaj9XVUHDOIp53ZxArGhnw5HMZziPFjog==

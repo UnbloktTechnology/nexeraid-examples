@@ -20,8 +20,8 @@
   },
   "dependencies": {
     "@nexeraid/merkle-tree-js": "^2.0.13",
-    "@nexeraid/js-sdk": "^2.0.25-dev",
-    "@nexeraid/react-sdk": "^2.0.28-dev",
+    "@nexeraid/js-sdk": "^2.0.28-dev",
+    "@nexeraid/react-sdk": "^2.0.34-dev",
     "@nexeraid/react-sdk-wallet-wagmi": "^2.0.4-dev",
     "@rainbow-me/rainbowkit": "^2.0.5",
     "@t3-oss/env-nextjs": "^0.6.0",
@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@types/eslint": "^8.44.2",
-    "@types/node": "^18.16.0",
+    "@types/node": "^20.16.5",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.3.0",
@@ -64,8 +64,8 @@
   "ct3aMetadata": {
     "initVersion": "7.20.2"
   },
-  "packageManager": "npm@9.8.1",
+  "packageManager": "npm@10.8.3",
   "engines": {
-    "node": ">=18"
+    "node": ">=20.17.0"
   }
 }

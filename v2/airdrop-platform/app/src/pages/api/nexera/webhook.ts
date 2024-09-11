@@ -2,6 +2,7 @@ import { type NextApiRequest, type NextApiResponse } from "next";
 import { env } from "@/env.mjs";
 import { createNexeraSdk } from "@nexeraid/js-sdk";
 import { CustomerRepo } from "@/db/customer.repo";
+import "@/configureDemoEnv";
 
 const apiClient = createNexeraSdk({
   webhookSecret: env.NEXERA_ID_WEBHOOK_SECRET_KYC_AIRDROP,

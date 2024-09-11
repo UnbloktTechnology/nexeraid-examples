@@ -11,7 +11,7 @@ export const IdentityFlow = () => {
   const customerStatus = useCustomerStatus();
   const isCompliant = customerStatus.data === "Active";
   const isLoading =
-    openWidget.isLoading ||
+    openWidget.isPending ||
     isAuthenticated.isLoading ||
     customerStatus.isLoading;
 

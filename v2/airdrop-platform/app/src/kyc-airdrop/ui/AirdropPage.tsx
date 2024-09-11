@@ -1,6 +1,6 @@
 import { AirdropLayout } from "@/kyc-airdrop/ui/AirdropLayout";
 import { Button } from "@/kyc-airdrop/ui/components/Button";
-import { useOpenWidget } from "@nexeraid/react-sdk";
+import { useIsAuthenticated, useOpenWidget } from "@nexeraid/react-sdk";
 import { ConnectWalletButton } from "@/kyc-airdrop/ui/components/ConnectWalletButton";
 import { useClaimMutation } from "@/kyc-airdrop/lib/useClaimMutation";
 import { useCurrentUiStep } from "@/kyc-airdrop/lib/useUiState";
@@ -15,11 +15,12 @@ export const AirdropPage = () => {
   const customerData = useCustomerData();
   const openWidget = useOpenWidget();
   const claimMutation = useClaimMutation();
+  const isAuthenticated = useIsAuthenticated();
   const isCustomerActive = customerData.data?.userStatus === "Active";
 
   return (
     <AirdropLayout>
-      {(uiStep === "wallet_set" || uiStep === "wallet_connect") && (
+      {uiStep === "wallet_set" && (
         <>
           {!isConnected && (
             <>
@@ -27,36 +28,79 @@ export const AirdropPage = () => {
               or
             </>
           )}
-          <ConnectWalletButton label="Connect wallet" variant="secondary" />
+          <ConnectWalletButton
+            label="Connect your wallet"
+            variant="secondary"
+          />
         </>
       )}
 
+      {uiStep === "eligibility" && (
+        <LogoutButton variant="secondary" label="Try another wallet" />
+      )}
+
+      {uiStep === "wallet_connect" && (
+        <div className="flex justify-center space-x-4">
+          <LogoutButton variant="primary" label="Try another wallet" />
+          <ConnectWalletButton
+            label="Connect your wallet"
+            variant="secondary"
+          />
+        </div>
+      )}
+
       {uiStep === "kyc" && (
-        <Button
-          variant="secondary"
-          onClick={() => void openWidget.mutateAsync()}
-          disabled={isCustomerActive}
-          isLoading={openWidget.isLoading}
-          id="identity-btn"
-        >
-          Begin identity verification
-        </Button>
+        <div className="flex justify-center space-x-4">
+          <LogoutButton variant="primary" label="Try another wallet" />
+          <Button
+            variant="secondary"
+            onClick={() => void openWidget.mutateAsync()}
+            disabled={isCustomerActive}
+            isLoading={openWidget.isPending}
+            id="identity-btn"
+          >
+            Begin identity verification
+          </Button>
+        </div>
+      )}
+
+      {uiStep === "kyc_processing" && (
+        <div className="flex justify-center space-x-4">
+          <LogoutButton variant="primary" label="Try another wallet" />
+          <Button variant="secondary" disabled>
+            Identity verification in progress
+          </Button>
+        </div>
       )}
 
       {uiStep === "claim" && (
-        <Button
-          variant="secondary"
-          disabled={!isCustomerActive || claimMutation.isPending}
-          onClick={() => claimMutation.mutate()}
-          id="claim-btn"
-          isLoading={claimMutation.isPending}
-        >
-          Claim tokens
-        </Button>
-      )}
+        <>
+          <LogoutButton variant="primary" label="Use another wallet" />
 
-      {isConnected && (
-        <LogoutButton variant="primary" label="Try another wallet" />
+          {isAuthenticated.data === true && (
+            <Button
+              variant="secondary"
+              disabled={!isCustomerActive || claimMutation.isPending}
+              onClick={() => claimMutation.mutate()}
+              id="claim-btn"
+              isLoading={claimMutation.isPending}
+            >
+              Claim tokens
+            </Button>
+          )}
+
+          {isAuthenticated.data === false && (
+            <Button
+              variant="secondary"
+              onClick={() => void openWidget.mutateAsync()}
+              disabled={openWidget.isPending}
+              isLoading={openWidget.isPending}
+              id="identity-btn"
+            >
+              Authenticate wallet to claim
+            </Button>
+          )}
+        </>
       )}
     </AirdropLayout>
   );

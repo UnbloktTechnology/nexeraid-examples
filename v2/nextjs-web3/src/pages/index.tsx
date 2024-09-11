@@ -1,7 +1,7 @@
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import type { NextPage } from "next";
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
 import { useOpenWidget } from "@nexeraid/react-sdk";
 
 const Home: NextPage = () => {
@@ -10,32 +10,31 @@ const Home: NextPage = () => {
     <div className={styles.container}>
       <Head>
         <title>NexeraID Next.Js Web3</title>
-        <meta
-          content="NexeraID Example"
-          name="description"
-        />
+        <meta content="NexeraID Example" name="description" />
       </Head>
 
       <main className={styles.main}>
         <ConnectButton />
 
-        <button id="nexera-button"
-          disabled={openWidget.isLoading}
+        <button
+          id="nexera-button"
+          disabled={openWidget.isPending}
           onClick={() => openWidget.mutateAsync()}
         >
           Open Widget
         </button>
         <h1 className={styles.title}>
-          Welcome to <a href="">NexeraID</a><br /> NextJS Web3 example.
+          Welcome to <a href="">NexeraID</a>
+          <br /> NextJS Web3 example.
         </h1>
 
         <p className={styles.description}>
-          This example uses RainbowKit and Wagmi. Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code><br />
-          Check _app.tsx , nexera-config.ts and challenge.ts to work on NexeraID integration
-
+          This example uses RainbowKit and Wagmi. Get started by editing{" "}
+          <code className={styles.code}>pages/index.tsx</code>
+          <br />
+          Check _app.tsx , nexera-config.ts and challenge.ts to work on NexeraID
+          integration
         </p>
-
 
         <div className={styles.grid}>
           <a className={styles.card} href="https://docs.nexera.id">

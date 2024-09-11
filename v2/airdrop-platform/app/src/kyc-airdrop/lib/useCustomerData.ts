@@ -32,7 +32,10 @@ export const useCustomerData = () => {
     queryFn: async (): Promise<SelectCustomer | null> => {
       try {
         const res = await fetch(`/api/customer/${address}`);
-        return res.json() as Promise<SelectCustomer | null>;
+        const resObj = (await res.json()) as {
+          customer: SelectCustomer | null;
+        };
+        return resObj.customer;
       } catch (error) {
         console.error("API call error:", error);
         return null;

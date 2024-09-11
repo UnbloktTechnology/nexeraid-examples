@@ -5,7 +5,7 @@ console.log("_setInternalConfigNode", { env: 'dev' });
 _setInternalConfigNode({ env: 'dev' });
 
 const apiClient = createApiClient({
-    apiKey: process.env.API_KEY!,
+    apiKey: process.env.NEXERA_ID_API_KEY_NEXTJS_WEB3!,
 });
 
 export default async function handler(
@@ -20,7 +20,7 @@ export default async function handler(
 
     try {
         const sessionRes = await apiClient.createWeb3Challenge({
-            workflowId: process.env.WORKFLOW_ID,
+            workflowId: process.env.NEXERA_ID_WORKFLOW_ID_NEXTJS_WEB3,
             ...req.body,
         });
         res.status(200).json(sessionRes);

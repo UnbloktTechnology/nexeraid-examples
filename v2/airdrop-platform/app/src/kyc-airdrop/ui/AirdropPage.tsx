@@ -1,6 +1,6 @@
 import { AirdropLayout } from "@/kyc-airdrop/ui/AirdropLayout";
 import { Button } from "@/kyc-airdrop/ui/components/Button";
-import { useOpenWidget } from "@nexeraid/react-sdk";
+import { useIsAuthenticated, useOpenWidget } from "@nexeraid/react-sdk";
 import { ConnectWalletButton } from "@/kyc-airdrop/ui/components/ConnectWalletButton";
 import { useClaimMutation } from "@/kyc-airdrop/lib/useClaimMutation";
 import { useCurrentUiStep } from "@/kyc-airdrop/lib/useUiState";
@@ -15,6 +15,7 @@ export const AirdropPage = () => {
   const customerData = useCustomerData();
   const openWidget = useOpenWidget();
   const claimMutation = useClaimMutation();
+  const isAuthenticated = useIsAuthenticated();
   const isCustomerActive = customerData.data?.userStatus === "Active";
 
   return (
@@ -35,7 +36,7 @@ export const AirdropPage = () => {
         <Button
           variant="secondary"
           onClick={() => void openWidget.mutateAsync()}
-          disabled={isCustomerActive}
+          disabled={isCustomerActive || openWidget.isPending}
           isLoading={openWidget.isPending}
           id="identity-btn"
         >
@@ -43,7 +44,18 @@ export const AirdropPage = () => {
         </Button>
       )}
 
-      {uiStep === "claim" && (
+      {uiStep === "claim" && isAuthenticated.data === false && (
+        <Button
+          variant="secondary"
+          onClick={() => void openWidget.mutateAsync()}
+          disabled={openWidget.isPending}
+          isLoading={openWidget.isPending}
+          id="identity-btn"
+        >
+          Authenticate wallet to claim
+        </Button>
+      )}
+      {uiStep === "claim" && isAuthenticated.data === true && (
         <Button
           variant="secondary"
           disabled={!isCustomerActive || claimMutation.isPending}

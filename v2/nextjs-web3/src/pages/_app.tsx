@@ -9,6 +9,9 @@ import { config } from "../wagmi";
 import { createWagmiWalletAdapter } from "@nexeraid/react-sdk-wallet-wagmi";
 import { createWeb3AuthAdapter, createConfig } from "@nexeraid/react-sdk";
 import { generateChallenge } from "../nexera-config";
+import { createWagmiWalletAdapter } from "@nexeraid/react-sdk-wallet-wagmi";
+import { NexeraIdProvider, createWeb3AuthAdapter, createConfig } from "@nexeraid/react-sdk";
+
 
 const walletAdapter = createWagmiWalletAdapter(config);
 const authAdapter = createWeb3AuthAdapter({

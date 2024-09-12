@@ -22,6 +22,7 @@ export default async function handler(
       ...req.body,
     });
     res.status(200).json(sessionRes);
+
   } catch (error) {
     console.error("API call error:", error);
     res.status(500).json({ error: "Failed to fetch access token" });

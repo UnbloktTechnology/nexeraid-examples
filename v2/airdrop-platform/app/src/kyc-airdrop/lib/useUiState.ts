@@ -5,6 +5,7 @@ import { useWalletAddress } from "./useWalletAddress";
 import { useGetTokenBalance } from "./useGetTokenBalance";
 import { useRouter } from "next/router";
 import { useCustomerData } from "./useCustomerData";
+import { useClaimMutation } from "./useClaimMutation";
 
 export type UiState = {
   // wallet can be set but not connected as it's present in the url
@@ -14,7 +15,7 @@ export type UiState = {
   kyc:
     | { connected: true; active: boolean; processing: boolean }
     | { connected: false };
-  claim: { claimed: boolean };
+  claim: { claimed: boolean; claiming: boolean };
 };
 
 export const useUiState = (): UiState => {
@@ -24,6 +25,7 @@ export const useUiState = (): UiState => {
   const isKycAuthenticated = useIsAuthenticated();
   const isQualified = address ? isUserQualified(address) : false;
   const { data: balance } = useGetTokenBalance();
+  const claimMutation = useClaimMutation();
 
   const isInCheckPage = router.query.address !== undefined;
 
@@ -40,7 +42,10 @@ export const useUiState = (): UiState => {
             customerData?.data?.userStatus !== "Active",
         }
       : { connected: false },
-    claim: { claimed: balance ? balance > 0n : false },
+    claim: {
+      claimed: balance ? balance > 0n : false,
+      claiming: claimMutation.isPending,
+    },
   };
 };
 
@@ -57,12 +62,13 @@ export const useCurrentUiStep = (): UiStep => {
   const uiState = useUiState();
 
   if (!uiState.wallet.address) return "wallet_set";
+  if (!uiState.route.check) return "wallet_set";
   if (!uiState.eligibility.qualified) return "eligibility";
   if (!uiState.wallet.connected) return "wallet_connect";
-  if (!uiState.route.check) return "wallet_connect";
   if (!uiState.kyc.connected || !uiState.kyc.active) return "kyc";
   if (uiState.kyc.processing) return "kyc_processing";
   if (!uiState.claim.claimed) return "claim";
+  if (uiState.claim.claiming) return "claim";
 
   return "done";
 };
@@ -94,14 +100,13 @@ export const useTitles = (): { title: string; subtitle: string } => {
   if (!uiState.wallet.connected)
     return {
       title: "You scored allocation!",
-      subtitle: `Congrats, the allocation for the wallet ${address} is ${allowance} PEAQ.`,
+      subtitle: `Congrats, the allocation for the wallet ${address} is ${allowance} $PEAQ.`,
     };
 
   if (!uiState.kyc.connected || !uiState.kyc.active)
     return {
       title: "Let's claim some tokens",
-      subtitle:
-        "Now we need to verify your identity before you can claim tokens",
+      subtitle: `Now we need to verify your identity before you can claim ${allowance} $PEAQ for ${address}.`,
     };
 
   if (uiState.kyc.processing)
@@ -118,8 +123,8 @@ export const useTitles = (): { title: string; subtitle: string } => {
 
   if (!uiState.claim.claimed)
     return {
-      title: "You scored allocation!",
-      subtitle: "You can claim tokens now",
+      title: "Let's claim some $PEAQ",
+      subtitle: `You can claim ${allowance} $PEAQ now.`,
     };
 
   return {

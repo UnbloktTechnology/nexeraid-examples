@@ -23,7 +23,10 @@ export const CustomerRepo = {
       .select()
       .from(CustomerTable)
       .where(
-        eq(addressFormat(CustomerTable.walletAddress), addressFormat(address)),
+        eq(
+          addressFormat(CustomerTable.walletAddress),
+          address.toLocaleLowerCase(),
+        ),
       )
       .limit(1)
       .execute();

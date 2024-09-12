@@ -74,8 +74,14 @@ export const AirdropPage = () => {
       )}
 
       {uiStep === "claim" && (
-        <>
+        <div className="flex justify-center space-x-4">
           <LogoutButton variant="primary" label="Use another wallet" />
+
+          {isAuthenticated.data === undefined && (
+            <Button variant="secondary" disabled>
+              Loading wallet data
+            </Button>
+          )}
 
           {isAuthenticated.data === true && (
             <Button
@@ -100,7 +106,7 @@ export const AirdropPage = () => {
               Authenticate wallet to claim
             </Button>
           )}
-        </>
+        </div>
       )}
     </AirdropLayout>
   );

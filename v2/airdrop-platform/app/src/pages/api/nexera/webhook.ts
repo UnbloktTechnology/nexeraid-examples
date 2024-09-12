@@ -17,6 +17,8 @@ export default async function handler(
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
+  console.log("Received webhook event", req.body);
+
   try {
     const event = apiClient.validateWebhookEvent({
       // those are the only headers we are interested in
@@ -32,18 +34,17 @@ export default async function handler(
       event.eventType === "customer.created" ||
       event.eventType === "customer.updated"
     ) {
-      // fetch additional data from the API
+      if (!event.payload.status) {
+        return res.status(400).json({ message: "No status found" });
+      }
+
+      // OPTIONAL: fetch additional data from the API
       const wallets = await apiClient.getCustomerWallets({
         customerId: event.payload.customerId,
       });
-
-      // verify we have all the infos we need
       const wallet = wallets[0];
       if (!wallet) {
         return res.status(400).json({ message: "No wallet found" });
-      }
-      if (!event.payload.status) {
-        return res.status(400).json({ message: "No status found" });
       }
 
       // upsert the customer in the project database for fast access

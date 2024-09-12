@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { createNexeraSdk } from "@nexeraid/js-sdk";
 
-const apiClient = createApiClient({
+const apiClient = createNexeraSdk({
+  webhookSecret: process.env.WEBHOOK_SECRET!,
   apiKey: process.env.API_KEY!,
 });
 

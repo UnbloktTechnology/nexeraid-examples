@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import '../styles/globals.css';
-import '@rainbow-me/rainbowkit/styles.css';
-import type { AppProps } from 'next/app';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { WagmiProvider } from 'wagmi';
-import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
-import { config } from '../wagmi';
-=======
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import type { AppProps } from "next/app";
@@ -17,7 +8,6 @@ import { NexeraIdProvider } from "@nexeraid/react-sdk";
 import { config } from "../wagmi";
 import { createWagmiWalletAdapter } from "@nexeraid/react-sdk-wallet-wagmi";
 import { createWeb3AuthAdapter, createConfig } from "@nexeraid/react-sdk";
->>>>>>> ca9d6f6b9cc04915aff9b49925d90e3faa6c146a
 import { generateChallenge } from "../nexera-config";
 import { createWagmiWalletAdapter } from "@nexeraid/react-sdk-wallet-wagmi";
 import { NexeraIdProvider, createWeb3AuthAdapter, createConfig } from "@nexeraid/react-sdk";

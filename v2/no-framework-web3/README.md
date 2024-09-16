@@ -52,4 +52,4 @@ Compilot technical documentation :   https://docs.compilot.io/developing
 
 ## Credits :
 
-This is a [Compilot] (https://compilot.io) project
+This is a [Compilot] (https://compilot.io) + [WalletConnect] (https://walletconnect.com/) project

@@ -1,15 +1,15 @@
 
-Compilot widget integration example : for React in regular mode. 
+NexeraID widget integration example : for React in regular mode. 
 ===========================================================
 
-This example demonstrates how to integrate the Compilot Widget for KYC (Know Your Customer) and KYB (Know Your Business) processes. In this implementation, we uses react and a customer ID. 
+This example demonstrates how to integrate the NexeraID Widget for KYC (Know Your Customer) and KYB (Know Your Business) processes. In this implementation, we uses react and a customer ID. 
 
 ## pre-requisite :
 
 To run this example dApp, you need:
-	•	Access to the Compilot dashboard with an API key.
+	•	Access to the NexeraID dashboard with an API key.
 	•	A workflow set up in your workspace.
-	•	To authenticate a user before opening a Compilot session and be able to provide a unique ID for this user (such as an email address or any other ID).
+	•	To authenticate a user before opening a NexeraID session and be able to provide a unique ID for this user (such as an email address or any other ID).
 
 
 ## running the sample :
@@ -47,10 +47,10 @@ npm dev
 
 ## For more details, visit : 
 
-SDKs documentation : https://docs.compilot.io/developing/sdk/
-Compilot KYC/KYB documentation : https://docs.compilot.io/usescases/
-Compilot technical documentation :   https://docs.compilot.io/developing
+SDKs documentation : https://docs.Nexera.id/developing/sdk/
+NexeraID KYC/KYB documentation : https://docs.Nexera.id/usescases/
+NexeraID technical documentation :   https://docs.Nexera.id/developing
 
 ## Credits :
 
-This is a [Compilot] (https://compilot.io)+ [React](https://react.dev/) project
+This is a [NexeraID] (https://Nexera.id)+ [React](https://react.dev/) project

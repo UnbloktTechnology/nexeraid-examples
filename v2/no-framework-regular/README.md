@@ -1,15 +1,15 @@
 
-Compilot widget integration example : for JS in regular mode. 
+NexeraID widget integration example : for JS in regular mode. 
 ===========================================================
 
-This example demonstrates how to integrate the Compilot Widget for KYC (Know Your Customer) and KYB (Know Your Business) processes. In this implementation, we uses no framework and a customer ID as an environment variable to illustrate the integration.
+This example demonstrates how to integrate the NexeraID Widget for KYC (Know Your Customer) and KYB (Know Your Business) processes. In this implementation, we uses no framework and a customer ID as an environment variable to illustrate the integration.
 
 ## pre-requisite :
 
 To run this example dApp, you need:
-	•	Access to the Compilot dashboard with an API key.
+	•	Access to the NexeraID dashboard with an API key.
 	•	A workflow set up in your workspace.
-	•	User authentication before opening a Compilot session, with a unique ID for this user (such as an email address or another ID).
+	•	User authentication before opening a NexeraID session, with a unique ID for this user (such as an email address or another ID).
 
 
 
@@ -48,10 +48,10 @@ npm dev
 
 ## For more details, visit : 
 
-SDKs documentation : https://docs.compilot.io/developing/sdk/
-Compilot KYC/KYB documentation : https://docs.compilot.io/usescases/
-Compilot technical documentation :   https://docs.compilot.io/developing
+SDKs documentation : https://docs.nexera.id/developing/sdk/
+NexeraID KYC/KYB documentation : https://docs.nexera.id/usescases/
+NexeraID technical documentation :   https://docs.nexera.id/developing
 
 ## Credits :
 
-This is a [Compilot] (https://compilot.io) project
+This is a [NexeraID] (https://nexera.id) project

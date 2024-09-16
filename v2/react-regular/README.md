@@ -1,20 +1,56 @@
-This is an example of NexeraID (https://nexera.id) integration : it's a React based project running in regular mode (users do not need a wallet to pass a kyc)
 
-To run this example : 
+Compilot widget integration example : for React in regular mode. 
+===========================================================
 
-1) install all dependencies using npm,yarn or pnpm
-2) copy backend/.env.example and rename it to .env
-3) give a value to :
+This example demonstrates how to integrate the Compilot Widget for KYC (Know Your Customer) and KYB (Know Your Business) processes. In this implementation, we uses react and a customer ID. 
 
-API_KEY=
-API_KEY is your Nexera API key. it can be found in you NexeraID Dashboard, in settings/api . 
-REGULAR_WORKFLOW_ID=
-REGULAR_WORKFLOW_ID is the workflow id you want to connect to. It can be found in you NexeraID Dashboard, in settings/workflows. 
-CUSTOMER_ID=
-Any unique identifier to represent a customer. when integrating the sdk in a live context, it is expected that this value is replaced by a dynamic customer ID value.
-WEBHOOK_SECRET=
-WEBHOOK_SECRET is found in settings/webhooks.
+## pre-requisite :
 
-4) start the backend server.
-5) start the frontend server.
+To run this example dApp, you need:
+	•	Access to the Compilot dashboard with an API key.
+	•	A workflow set up in your workspace.
+	•	To authenticate a user before opening a Compilot session and be able to provide a unique ID for this user (such as an email address or any other ID).
 
+
+## running the sample :
+
+1. Install dependencies for frontend and backend :
+
+~~~~
+
+cd nexeraid-examples/v2/react-regular/frontend 
+npm install
+cd ../backend
+npm install
+
+~~~~
+
+2) Copy .env.example and rename it to .env :
+
+~~~~
+
+cp .env.example .env 
+
+~~~~
+
+3) Fill out all required variables in the .env file.
+
+4) Start the servers.
+
+~~~~
+
+npm start
+cd ../frontend
+npm dev
+
+~~~~
+
+## For more details, visit : 
+
+SDKs documentation : https://docs.compilot.io/developing/sdk/
+Compilot KYC/KYB documentation : https://docs.compilot.io/usescases/
+Compilot technical documentation :   https://docs.compilot.io/developing
+
+## Credits :
+
+This is a [Compilot] (https://compilot.io)+ [React](https://react.dev/) project

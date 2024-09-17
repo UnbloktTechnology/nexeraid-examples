@@ -1,12 +1,50 @@
-To run this example : 
 
-1) install all dependencies using npm,yarn or pnpm
-2) copy .env.example and rename it to .env
-3) give a value to :
-NEXERA_ID_API_KEY_NEXTJS_WEB3
-NEXERA_ID_WORKFLOW_ID_NEXTJS_WEB3
-API_KEY0 is your Nexera API key. it can be found in you NexeraID Dashboard, in settings/api . 
-WORKFLOW_ID is the workflow id you want to connect to. It can be found in you NexeraID Dashboard, in settings/workflows. 
-4) start the server.
+NexeraID widget integration example : for Next.JS and Web3. 
+===========================================================
 
-This is a [NexeraID] (https://nexera.id)+ [RainbowKit](https://rainbowkit.com) + [wagmi](https://wagmi.sh) + [Next.js](https://nextjs.org/) project bootstrapped with [`create-rainbowkit`](/packages/create-rainbowkit).
+This example demonstrates how to integrate the NexeraID Widget for KYC (Know Your Customer) and KYB (Know Your Business) processes. In this implementation, the widget initialization requires a wallet signature. For this example, we’ve used RainbowKit for wallet management. However, note that RainbowKit is not a project dependency and the NexeraID widget is compatible with any wallet adapter of your choice.
+
+## pre-requisite :
+
+To run this example dApp, you need:
+	•	Access to the NexeraID dashboard with an API key.
+	•	A workflow set up in your workspace.
+
+
+## running the sample :
+
+1. Install dependencies:
+
+~~~~
+
+npm install
+
+~~~~
+
+2) Copy .env.example and rename it to .env :
+
+~~~~
+
+cp .env.example .env 
+
+~~~~
+
+3) Fill out all required variables in the .env file.
+
+4) Start the server.
+
+~~~~
+
+npm dev
+
+~~~~
+
+## For more details, visit : 
+
+SDKs documentation : https://docs.Nexera.id/developing/sdk/
+NexeraID KYC/KYB documentation : https://docs.nexera.id/usescases/
+NexeraID technical documentation :   https://docs.nexera.id/developing
+
+## Credits :
+
+This is a [NexeraID] (https://nexera.id)+ [RainbowKit](https://rainbowkit.com) + [wagmi](https://wagmi.sh) + [Next.js](https://nextjs.org/) project bootstrapped using [`create-rainbowkit`](/packages/create-rainbowkit).

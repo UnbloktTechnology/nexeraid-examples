@@ -6,10 +6,16 @@ import { useGetTokenBalance } from "./useGetTokenBalance";
 import { useRouter } from "next/router";
 import { useCustomerData } from "./useCustomerData";
 import { useClaimMutation } from "./useClaimMutation";
+import { useChainId } from "wagmi";
+import { getDeploymentChain } from "../config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
 
 export type UiState = {
   // wallet can be set but not connected as it's present in the url
-  wallet: { connected: boolean; address: Address | undefined };
+  wallet: {
+    connected: boolean;
+    address: Address | undefined;
+    chainIsCorrect: boolean;
+  };
   route: { check: boolean };
   eligibility: { qualified: boolean };
   kyc:
@@ -26,11 +32,12 @@ export const useUiState = (): UiState => {
   const isQualified = address ? isUserQualified(address) : false;
   const { data: balance } = useGetTokenBalance();
   const claimMutation = useClaimMutation();
-
+  const chainId = useChainId();
+  const chainIsCorrect = chainId === getDeploymentChain().id;
   const isInCheckPage = router.query.address !== undefined;
 
   return {
-    wallet: { connected: isConnected, address: address },
+    wallet: { connected: isConnected, address: address, chainIsCorrect },
     route: { check: isInCheckPage },
     eligibility: { qualified: isQualified },
     kyc: isKycAuthenticated
@@ -53,6 +60,7 @@ export const useUiState = (): UiState => {
 
 export type UiStep =
   | "wallet_set" // we need an address to work with
+  | "chain_set" // we need the correct chain
   | "eligibility" // check if the address is qualified
   | "wallet_connect" // connect the wallet if needed
   | "kyc" // ask for kyc
@@ -66,6 +74,7 @@ export const useCurrentUiStep = (): UiStep => {
 
   if (!uiState.wallet.address) return "wallet_set";
   if (!uiState.route.check) return "wallet_set";
+  if (!uiState.wallet.chainIsCorrect) return "chain_set";
   if (!uiState.eligibility.qualified) return "eligibility";
   if (!uiState.wallet.connected) return "wallet_connect";
   if (!uiState.kyc.connected) return "kyc";
@@ -106,6 +115,12 @@ export const useTitles = (): { title: string; subtitle: string } => {
     return {
       title: "You scored allocation!",
       subtitle: `Congrats, the allocation for the wallet ${address} is ${allowance} $PEAQ.`,
+    };
+
+  if (!uiState.wallet.chainIsCorrect)
+    return {
+      title: "Wrong chain",
+      subtitle: `Please switch to ${getDeploymentChain().name} to claim ${allowance} $PEAQ for ${address}.`,
     };
 
   if (!uiState.kyc.connected)

@@ -1,6 +1,5 @@
-import { EvmChainId } from "@nexeraid/react-sdk";
 import { useMutation } from "@tanstack/react-query";
-import { useAccount, useChainId } from "wagmi";
+import { useAccount } from "wagmi";
 import { claimToken } from "./airdropActions";
 import {
   useRedirectToClaimError,
@@ -9,7 +8,6 @@ import {
 
 export const useClaimMutation = () => {
   const account = useAccount();
-  const chainId = useChainId();
   const accountAddress = account.address!;
 
   const redirectToClaimSuccess = useRedirectToClaimSuccess();
@@ -17,18 +15,8 @@ export const useClaimMutation = () => {
 
   return useMutation({
     mutationFn: async () => {
-      if (!accountAddress || !chainId) {
-        throw new Error(
-          "No account in wallet Client - address" +
-            accountAddress +
-            " chainId" +
-            chainId,
-        );
-      }
-      const parsedChainId = EvmChainId.parse(chainId);
       const result = await claimToken({
         userAddress: accountAddress,
-        chainId: parsedChainId,
       });
       return result;
     },

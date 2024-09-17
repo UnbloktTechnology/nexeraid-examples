@@ -4,6 +4,7 @@ import { useCurrentUiStep, useUiState } from "@/kyc-airdrop/lib/useUiState";
 import { useIsAuthenticated } from "@nexeraid/react-sdk";
 
 import { useRouter } from "next/router";
+import { useChainId } from "wagmi";
 
 export const DebugUiState = () => {
   const uiState = useUiState();
@@ -11,6 +12,7 @@ export const DebugUiState = () => {
   const router = useRouter();
   const customerData = useCustomerData();
   const isAuthenticated = useIsAuthenticated();
+  const chainId = useChainId();
   const debug = router.query.debug === "true";
 
   const { data: balance, isLoading: isBalanceLoading } = useGetTokenBalance();
@@ -21,6 +23,7 @@ export const DebugUiState = () => {
     <pre className="text- m-auto text-left">
       {JSON.stringify(
         {
+          chainId,
           currentStep,
           uiState,
           isAuthenticated,

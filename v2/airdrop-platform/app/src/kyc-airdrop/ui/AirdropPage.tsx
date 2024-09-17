@@ -17,6 +17,7 @@ export const AirdropPage = () => {
   const claimMutation = useClaimMutation();
   const isAuthenticated = useIsAuthenticated();
   const isCustomerActive = customerData.data?.userStatus === "Active";
+  const isCustomerRejected = customerData.data?.userStatus === "Rejected";
 
   return (
     <AirdropLayout>

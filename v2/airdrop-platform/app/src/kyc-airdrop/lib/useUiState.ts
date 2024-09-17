@@ -13,7 +13,7 @@ export type UiState = {
   route: { check: boolean };
   eligibility: { qualified: boolean };
   kyc:
-    | { connected: true; active: boolean; processing: boolean }
+    | { connected: true; active: boolean; failed: boolean; processing: boolean }
     | { connected: false };
   claim: { claimed: boolean; claiming: boolean };
 };
@@ -36,7 +36,9 @@ export const useUiState = (): UiState => {
     kyc: isKycAuthenticated
       ? {
           connected: true,
+
           active: customerData?.data?.userStatus === "Active",
+          failed: customerData?.data?.userStatus === "Rejected",
           processing:
             !!customerData?.data?.userStatus &&
             customerData?.data?.userStatus !== "Active",
@@ -55,6 +57,7 @@ export type UiStep =
   | "wallet_connect" // connect the wallet if needed
   | "kyc" // ask for kyc
   | "kyc_processing" // kyc is being processed
+  | "kyc_failed" // kyc failed
   | "claim" // claim the tokens
   | "done"; // all done
 
@@ -65,8 +68,10 @@ export const useCurrentUiStep = (): UiStep => {
   if (!uiState.route.check) return "wallet_set";
   if (!uiState.eligibility.qualified) return "eligibility";
   if (!uiState.wallet.connected) return "wallet_connect";
-  if (!uiState.kyc.connected || !uiState.kyc.active) return "kyc";
+  if (!uiState.kyc.connected) return "kyc";
+  if (uiState.kyc.failed) return "kyc_failed";
   if (uiState.kyc.processing) return "kyc_processing";
+  if (!uiState.kyc.active) return "kyc";
   if (!uiState.claim.claimed) return "claim";
   if (uiState.claim.claiming) return "claim";
 
@@ -103,7 +108,20 @@ export const useTitles = (): { title: string; subtitle: string } => {
       subtitle: `Congrats, the allocation for the wallet ${address} is ${allowance} $PEAQ.`,
     };
 
-  if (!uiState.kyc.connected || !uiState.kyc.active)
+  if (!uiState.kyc.connected)
+    return {
+      title: "Let's claim some tokens",
+      subtitle: `Now we need to verify your identity before you can claim ${allowance} $PEAQ for ${address}.`,
+    };
+
+  if (!uiState.kyc.active && uiState.kyc.failed)
+    return {
+      title: "Identity verification rejected",
+      subtitle:
+        "Following the identity verification we determined that you are not allowed to claim the airdrop.",
+    };
+
+  if (!uiState.kyc.active)
     return {
       title: "Let's claim some tokens",
       subtitle: `Now we need to verify your identity before you can claim ${allowance} $PEAQ for ${address}.`,

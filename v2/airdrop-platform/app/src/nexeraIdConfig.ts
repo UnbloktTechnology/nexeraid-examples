@@ -9,6 +9,7 @@ import { wagmiConfig } from "@/wagmiConfig";
 
 import "@/configureDemoEnv";
 import { watchAccount, watchConnections } from "wagmi/actions";
+import { queryClient } from "./reactQueryConfig";
 
 export const nexeraIdConfig = createConfig({
   authAdapter: createWeb3AuthAdapter({
@@ -26,15 +27,17 @@ export const nexeraIdConfig = createConfig({
   }),
 });
 
-// when the web2 widget is not visible anymore, disconnect the instance
+// on widget close, immediately invalidate the query
+// to prevent showing the previous user data
 watchWidgetVisibleState(nexeraIdConfig, {
-  onChange: (isVisible) => {
-    if (!isVisible) {
-      void disconnect(nexeraIdConfig);
+  onChange: (visible) => {
+    if (!visible) {
+      void queryClient.invalidateQueries();
     }
   },
 });
 // listen for wallet changes and disconnect the instance
+// when that's the case
 watchAccount(wagmiConfig, {
   onChange: () => {
     void disconnect(nexeraIdConfig);

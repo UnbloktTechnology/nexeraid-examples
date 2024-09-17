@@ -8,6 +8,8 @@ import { useWalletAddress } from "@/kyc-airdrop/lib/useWalletAddress";
 import { SearchBar } from "./components/SearchBar";
 import { LogoutButton } from "./components/LogoutButton";
 import { useCustomerData } from "../lib/useCustomerData";
+import { useSwitchChain } from "wagmi";
+import { getDeploymentChain } from "../config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
 
 export const AirdropPage = () => {
   const uiStep = useCurrentUiStep();
@@ -16,6 +18,7 @@ export const AirdropPage = () => {
   const openWidget = useOpenWidget();
   const claimMutation = useClaimMutation();
   const isAuthenticated = useIsAuthenticated();
+  const { switchChain } = useSwitchChain();
   const isCustomerActive = customerData.data?.userStatus === "Active";
 
   return (
@@ -37,6 +40,18 @@ export const AirdropPage = () => {
 
       {uiStep === "eligibility" && (
         <LogoutButton variant="secondary" label="Try another wallet" />
+      )}
+
+      {uiStep === "chain_set" && (
+        <div className="flex justify-center space-x-4">
+          <LogoutButton variant="primary" label="Try another wallet" />
+          <Button
+            variant="secondary"
+            onClick={() => switchChain({ chainId: getDeploymentChain().id })}
+          >
+            Switch to {getDeploymentChain().name}
+          </Button>
+        </div>
       )}
 
       {uiStep === "wallet_connect" && (

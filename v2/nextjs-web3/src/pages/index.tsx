@@ -37,7 +37,7 @@ const Home: NextPage = () => {
         </p>
 
         <div className={styles.grid}>
-          <a className={styles.card} href="https://docs.nexera.id">
+          <a className={styles.card} href="https://docs.compilot.ai">
             <h2>NexeraID Documentation &rarr;</h2>
             <p>Learn how to Implement our compliance widget on your App.</p>
           </a>

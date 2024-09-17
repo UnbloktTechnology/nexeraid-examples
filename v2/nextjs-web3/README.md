@@ -41,9 +41,9 @@ npm dev
 
 ## For more details, visit : 
 
-SDKs documentation : https://docs.Nexera.id/developing/sdk/
-NexeraID KYC/KYB documentation : https://docs.nexera.id/usescases/
-NexeraID technical documentation :   https://docs.nexera.id/developing
+SDKs documentation : https://docs.compilot.ai/developing/sdk/
+NexeraID KYC/KYB documentation : https://docs.compilot.ai/usescases/
+NexeraID technical documentation :   https://docs.compilot.ai/developing
 
 ## Credits :
 

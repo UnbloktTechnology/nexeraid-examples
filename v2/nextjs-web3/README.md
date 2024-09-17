@@ -47,4 +47,4 @@ NexeraID technical documentation :   https://docs.nexera.id/developing
 
 ## Credits :
 
-This is a [NexeraID] (https://nexera.id)+ [RainbowKit](https://rainbowkit.com) + [wagmi](https://wagmi.sh) + [Next.js](https://nextjs.org/) project bootstrapped using [`create-rainbowkit`](/packages/create-rainbowkit).
+This is a [NexeraID] (https://nexera.id) + [RainbowKit](https://rainbowkit.com) + [wagmi](https://wagmi.sh) + [Next.js](https://nextjs.org/) project bootstrapped using [`create-rainbowkit`](/packages/create-rainbowkit).

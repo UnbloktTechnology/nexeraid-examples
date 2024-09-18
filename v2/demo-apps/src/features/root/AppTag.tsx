@@ -1,15 +1,14 @@
-type AppTagProps = {
+export type AppTagProps = {
   text: string;
-  color: string;
+  bgColor: string;
+  textColor: string;
 };
 
 export default function AppTag(props: AppTagProps) {
   return (
     <div
-      className={
-        "flex h-7 w-7 items-center justify-center rounded-full px-1 text-xs font-bold text-white"
-      }
-      style={{ backgroundColor: props.color }}
+      className={`flex h-6 w-10 items-center justify-center rounded-lg px-1 text-xs`}
+      style={{ backgroundColor: props.bgColor, color: props.textColor }}
     >
       {props.text}
     </div>

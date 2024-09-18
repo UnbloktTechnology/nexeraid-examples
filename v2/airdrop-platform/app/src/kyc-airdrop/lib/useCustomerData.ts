@@ -13,9 +13,10 @@ export const useCustomerData = () => {
       try {
         const res = await fetch(`/api/customer/${address}`);
         const resObj = (await res.json()) as {
-          customer: SelectCustomer | null;
+          customer?: SelectCustomer | null;
         };
-        return resObj.customer;
+
+        return resObj.customer ?? null;
       } catch (error) {
         console.error("API call error:", error);
         return null;

@@ -10,7 +10,6 @@ export const env = createEnv({
     NEXERA_ID_WEBHOOK_SECRET_KYC_AIRDROP: z.string(),
     NEXERA_ID_API_KEY_KYC_AIRDROP: z.string(),
     NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP: z.string(),
-    NEXERA_ID_WORKSPACE_ID: z.string(),
     POSTGRES_URL: z
       .string()
       .default("postgres://airdrop:airdrop@localhost:5454/airdrop"),
@@ -39,7 +38,6 @@ export const env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
-    NEXERA_ID_WORKSPACE_ID: process.env.NEXERA_ID_WORKSPACE_ID,
     NEXERA_ID_WEBHOOK_SECRET_KYC_AIRDROP:
       process.env.NEXERA_ID_WEBHOOK_SECRET_KYC_AIRDROP,
     NEXERA_ID_API_KEY_KYC_AIRDROP: process.env.NEXERA_ID_API_KEY_KYC_AIRDROP,

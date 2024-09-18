@@ -99,6 +99,12 @@ export const useTitles = (): { title: string; subtitle: string } => {
       subtitle: "Connect your wallet to claim tokens",
     };
 
+  if (!uiState.route.check)
+    return {
+      title: "Let's claim some tokens",
+      subtitle: "Let's check if you qualify for the airdrop",
+    };
+
   if (!uiState.eligibility.qualified)
     return {
       title: "This wallet doesn't qualify",

@@ -7,13 +7,14 @@ import {
 export const CustomerTable = pgTable("customer", {
   id: serial("id").primaryKey(),
 
-  compilotCustomerId: text("compilot_customer_id").notNull().unique(),
+  compilotCustomerId: text("compilot_customer_id").unique(),
 
   walletAddress: text("wallet_address").unique().notNull(),
-  userStatus: text("user_status", { enum: CustomerStatuses })
-    .notNull()
-    .$type<CustomerStatus>(),
+  userStatus: text("user_status", {
+    enum: CustomerStatuses,
+  }).$type<CustomerStatus>(),
 
+  lastLogin: timestamp("last_login"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at")
     .notNull()

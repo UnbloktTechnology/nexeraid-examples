@@ -113,9 +113,9 @@ export const AirdropPage = () => {
           {authenticate.data === false && (
             <Button
               variant="secondary"
-              onClick={() => void openWidget.openWidget()}
-              disabled={openWidget.isPending}
-              isLoading={openWidget.isPending}
+              onClick={() => void authenticate.authenticate()}
+              disabled={authenticate.isPending}
+              isLoading={authenticate.isPending}
               id="identity-btn"
             >
               Authenticate wallet to claim

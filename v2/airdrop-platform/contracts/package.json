@@ -1,16 +1,16 @@
 {
-  "name": "nexera-id-kyc-airdrop",
+  "name": "compilot-id-kyc-airdrop",
   "version": "1.0.1",
-  "description": "📦 A smart contract that distributes a balance of tokens according to a merkle root, gated by Nexera ID",
+  "description": "📦 A smart contract that distributes a balance of tokens according to a merkle root, gated by ComPilot",
   "keywords": [
-    "nexera",
+    "compilot",
     "erc20",
     "signature gating"
   ],
-  "homepage": "https://nexera.id",
+  "homepage": "https://compilot.ai",
   "repository": {
     "type": "git",
-    "url": "https://github.com/NexeraProtocol/nexera-id-kyc-airdrop"
+    "url": "https://github.com/UnbloktTechnology/ComPilot-Examples"
   },
   "author": {
     "name": "Moody Salem"
@@ -32,7 +32,7 @@
     "deploy-sepolia": "npm run prepare-merkle-root && hardhat run ./scripts/deployTokenAndMerkleDistributor.ts --network sepolia"
   },
   "devDependencies": {
-    "@nexeraid/merkle-tree-js": "^2.0.12-dev",
+    "@compilot/merkle-tree-js": "^2.0.21-dev",
     "@nexeraprotocol/nexera-id-sig-gating-contracts": "^2.2.45",
     "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk": "^2.0.22",
     "@nomicfoundation/hardhat-verify": "^2.0.8",

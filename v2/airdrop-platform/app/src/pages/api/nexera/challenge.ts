@@ -1,12 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { env } from "@/env.mjs";
-import { createNexeraSdk, WalletChallengeRequest } from "@nexeraid/js-sdk";
+import { createSdk, WalletChallengeRequest } from "@compilot/js-sdk";
 
 import "@/configureDemoEnv";
 
-const apiClient = createNexeraSdk({
-  webhookSecret: env.NEXERA_ID_WEBHOOK_SECRET_KYC_AIRDROP,
-  apiKey: env.NEXERA_ID_API_KEY_KYC_AIRDROP,
+const apiClient = createSdk({
+  webhookSecret: env.COMPILOT_WEBHOOK_SECRET_KYC_AIRDROP,
+  apiKey: env.COMPILOT_API_KEY_KYC_AIRDROP,
 });
 
 export default async function handler(
@@ -27,7 +27,7 @@ export default async function handler(
 
     const challengeRes = await apiClient.createWeb3Challenge({
       ...params,
-      workflowId: env.NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP,
+      workflowId: env.COMPILOT_WORKFLOW_ID_KYC_AIRDROP,
     });
 
     res.status(200).json(challengeRes);

@@ -1,6 +1,6 @@
 import { getWallet } from "@/features/root/web3/wallet-hook/useStarknetWallet";
 import { StarknetChainId } from "@nexeraid/identity-schemas";
-import { type Web3Wallet } from "@nexeraid/react-sdk";
+import { type Web3Wallet } from "@compilot/react-sdk";
 import { type AccountInterface, type ArraySignatureType, hash } from "starknet";
 
 const getAccount = async (): Promise<AccountInterface> => {
@@ -39,7 +39,7 @@ export const starknetWalletConfig: Web3Wallet = {
       },
       primaryType: "Message",
       domain: {
-        name: "Nexera ID Auth Message",
+        name: "ComPilot Auth Message",
       },
       message: {
         hash: messageHash,

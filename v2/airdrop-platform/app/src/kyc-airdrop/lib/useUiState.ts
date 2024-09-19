@@ -1,6 +1,6 @@
 import { getUserAirdropAmount, isUserQualified } from "./airdropActions";
 import { type Address } from "viem";
-import { useIsAuthenticated } from "@nexeraid/react-sdk";
+import { useAuthenticate } from "@compilot/react-sdk";
 import { useWalletAddress } from "./useWalletAddress";
 import { useGetTokenBalance } from "./useGetTokenBalance";
 import { useRouter } from "next/router";
@@ -28,7 +28,7 @@ export const useUiState = (): UiState => {
   const { isConnected, address } = useWalletAddress();
   const customerData = useCustomerData();
   const router = useRouter();
-  const isKycAuthenticated = useIsAuthenticated();
+  const { data: isKycAuthenticated } = useAuthenticate();
   const isQualified = address ? isUserQualified(address) : false;
   const { data: balance } = useGetTokenBalance();
   const claimMutation = useClaimMutation();

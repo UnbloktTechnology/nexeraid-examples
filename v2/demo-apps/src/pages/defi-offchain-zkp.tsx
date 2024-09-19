@@ -4,7 +4,7 @@ import { Layout } from "@/features/defi-offchain-zkp/Layout/Layout";
 import { useGlobalModals } from "@/features/defi-offchain-zkp/Modals/Hooks/useGlobalModals";
 import { createDemoWeb3WagmiSdkConfig } from "@/features/root/identity/createDemoWeb3WagmiSdkConfig";
 import { wagmiConfig } from "@/features/root/web3/wagmiConfig";
-import { NexeraIdProvider, useCustomerStatus } from "@nexeraid/react-sdk";
+import { ComPilotProvider, useCustomerStatus } from "@compilot/react-sdk";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -13,18 +13,18 @@ import { ToastContainer } from "react-toastify";
 import { WagmiProvider } from "wagmi";
 
 const queryClient = new QueryClient();
-const nexeraIdConfig = createDemoWeb3WagmiSdkConfig("defi-offchain-zkp");
+const compilotConfig = createDemoWeb3WagmiSdkConfig("defi-offchain-zkp");
 
 const Home = () => {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
-          <NexeraIdProvider config={nexeraIdConfig}>
+          <ComPilotProvider config={compilotConfig}>
             <HomeContent />
             <ReactQueryDevtools initialIsOpen={false} />
             <ToastContainer />
-          </NexeraIdProvider>
+          </ComPilotProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

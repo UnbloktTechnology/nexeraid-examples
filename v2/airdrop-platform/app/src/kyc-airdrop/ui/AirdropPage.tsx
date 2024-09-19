@@ -1,6 +1,6 @@
 import { AirdropLayout } from "@/kyc-airdrop/ui/AirdropLayout";
 import { Button } from "@/kyc-airdrop/ui/components/Button";
-import { useIsAuthenticated, useOpenWidget } from "@nexeraid/react-sdk";
+import { useAuthenticate, useOpenWidget } from "@compilot/react-sdk";
 import { ConnectWalletButton } from "@/kyc-airdrop/ui/components/ConnectWalletButton";
 import { useClaimMutation } from "@/kyc-airdrop/lib/useClaimMutation";
 import { useCurrentUiStep } from "@/kyc-airdrop/lib/useUiState";
@@ -17,7 +17,7 @@ export const AirdropPage = () => {
   const customerData = useCustomerData();
   const openWidget = useOpenWidget();
   const claimMutation = useClaimMutation();
-  const isAuthenticated = useIsAuthenticated();
+  const authenticate = useAuthenticate();
   const { switchChain } = useSwitchChain();
   const isCustomerActive = customerData.data?.userStatus === "Active";
 
@@ -69,7 +69,7 @@ export const AirdropPage = () => {
           <LogoutButton variant="primary" label="Try another wallet" />
           <Button
             variant="secondary"
-            onClick={() => void openWidget.mutateAsync()}
+            onClick={() => void openWidget.openWidget()}
             disabled={isCustomerActive}
             isLoading={openWidget.isPending}
             id="identity-btn"
@@ -92,13 +92,13 @@ export const AirdropPage = () => {
         <div className="flex justify-center space-x-4">
           <LogoutButton variant="primary" label="Use another wallet" />
 
-          {isAuthenticated.data === undefined && (
+          {authenticate.data === undefined && (
             <Button variant="secondary" disabled>
               Loading wallet data
             </Button>
           )}
 
-          {isAuthenticated.data === true && (
+          {authenticate.data === true && (
             <Button
               variant="secondary"
               disabled={!isCustomerActive || claimMutation.isPending}
@@ -110,10 +110,10 @@ export const AirdropPage = () => {
             </Button>
           )}
 
-          {isAuthenticated.data === false && (
+          {authenticate.data === false && (
             <Button
               variant="secondary"
-              onClick={() => void openWidget.mutateAsync()}
+              onClick={() => void openWidget.openWidget()}
               disabled={openWidget.isPending}
               isLoading={openWidget.isPending}
               id="identity-btn"

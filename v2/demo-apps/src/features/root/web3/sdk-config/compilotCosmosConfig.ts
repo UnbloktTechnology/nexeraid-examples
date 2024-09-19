@@ -1,12 +1,12 @@
-import { createConfig, createWeb3AuthAdapter } from "@nexeraid/react-sdk";
+import { createConfig, createWeb3AuthAdapter } from "@compilot/react-sdk";
 import { createDemoAppGenerateChallengeCallback } from "@/features/root/identity/createDemoAppGenerateChallengeCallback";
-import { polkadotWalletConfig } from "@/features/root/web3/sdk-wallet/polkadotWallet";
+import { cosmosWalletConfig } from "@/features/root/web3/sdk-wallet/cosmosWallet";
 
 import "@/features/root/configureReactDemoEnv";
 
-export const nexeraIdPolkadotConfig = createConfig({
+export const compilotCosmosConfig = createConfig({
   authAdapter: createWeb3AuthAdapter({
-    wallet: polkadotWalletConfig,
+    wallet: cosmosWalletConfig,
     generateChallenge: createDemoAppGenerateChallengeCallback(
       "multi-chain-support",
     ),

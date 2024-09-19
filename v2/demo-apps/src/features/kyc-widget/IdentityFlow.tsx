@@ -1,25 +1,23 @@
 import React from "react";
 import {
-  useIsAuthenticated,
+  useAuthenticate,
   useOpenWidget,
   useCustomerStatus,
-} from "@nexeraid/react-sdk";
+} from "@compilot/react-sdk";
 
 export const IdentityFlow = () => {
   const openWidget = useOpenWidget();
-  const isAuthenticated = useIsAuthenticated();
+  const authenticate = useAuthenticate();
   const customerStatus = useCustomerStatus();
   const isCompliant = customerStatus.data === "Active";
   const isLoading =
-    openWidget.isPending ||
-    isAuthenticated.isLoading ||
-    customerStatus.isLoading;
+    openWidget.isPending || authenticate.isPending || customerStatus.isLoading;
 
   let buttonText: string;
   let buttonEnabled = true;
   if (isLoading) {
     buttonText = "Loading...";
-  } else if (isAuthenticated.data === false) {
+  } else if (authenticate.data === false) {
     buttonText = "Start KYC";
   } else if (customerStatus.data && customerStatus.data !== "Active") {
     buttonText = "Not Compliant";
@@ -54,7 +52,7 @@ export const IdentityFlow = () => {
               fontSize: "16px",
               border: "none",
             }}
-            onClick={() => void openWidget.mutateAsync()}
+            onClick={() => void openWidget.openWidget()}
             id="identity-btn"
           >
             {buttonText}

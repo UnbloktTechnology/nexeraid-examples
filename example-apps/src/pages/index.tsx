@@ -182,7 +182,7 @@ export default function Home() {
                 />
               </div>
               <div className="flex gap-4">
-                <Button className="rounded-lg border border-solid border-[#D0D5DD] bg-transparent p-2 text-[#00040A]">
+                <Button className="rounded-lg border border-solid border-[#D0D5DD] bg-transparent p-2 text-[#1A1A1A]">
                   Request demo
                 </Button>
                 <Button className="rounded-lg p-2">Login</Button>

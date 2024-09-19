@@ -1,14 +1,14 @@
 // TODO ExtendedTxAuthInput shold be exposed in react and web sdks
 import { CUSTOMERS_BALANCE_MAP } from "../config/CUSTOMERS_BALANCE_MAP";
-import { parseBalanceMap } from "@nexeraid/merkle-tree-js";
+import { parseBalanceMap } from "@compilot/merkle-tree-js";
 import { type Address, encodeFunctionData, type Hex } from "viem";
 import { MerkleDistributorAbi } from "../abis/MerkleDistributorAbi";
 import {
   getDeploymentChain,
   getDistributorContractAddress,
 } from "../config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
-import { getTxAuthDataSignature } from "@nexeraid/react-sdk";
-import { nexeraIdConfig } from "@/nexeraIdConfig";
+import { getTxAuthDataSignature } from "@compilot/react-sdk";
+import { compilotConfig } from "@/compilotConfig";
 import { sendTransaction } from "@wagmi/core";
 import { wagmiConfig } from "@/wagmiConfig";
 
@@ -49,7 +49,7 @@ export const claimToken = async (props: { userAddress: Address }) => {
 
   const distributorAddress = getDistributorContractAddress();
 
-  const signatureResponse = await getTxAuthDataSignature(nexeraIdConfig, {
+  const signatureResponse = await getTxAuthDataSignature(compilotConfig, {
     namespace: "eip155",
     userAddress: userAddress,
     contractAbi: Array.from(MerkleDistributorAbi),

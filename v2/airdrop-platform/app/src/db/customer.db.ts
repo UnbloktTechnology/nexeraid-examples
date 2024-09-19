@@ -7,7 +7,7 @@ import {
 export const CustomerTable = pgTable("customer", {
   id: serial("id").primaryKey(),
 
-  nexeraCustomerId: text("nexera_customer_id").notNull().unique(),
+  compilotCustomerId: text("compilot_customer_id").notNull().unique(),
 
   walletAddress: text("wallet_address").unique().notNull(),
   userStatus: text("user_status", { enum: CustomerStatuses })

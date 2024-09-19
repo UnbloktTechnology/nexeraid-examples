@@ -7,9 +7,9 @@ export const env = createEnv({
    * isn't built with invalid env vars.
    */
   server: {
-    NEXERA_ID_WEBHOOK_SECRET_KYC_AIRDROP: z.string(),
-    NEXERA_ID_API_KEY_KYC_AIRDROP: z.string(),
-    NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP: z.string(),
+    COMPILOT_WEBHOOK_SECRET_KYC_AIRDROP: z.string(),
+    COMPILOT_API_KEY_KYC_AIRDROP: z.string(),
+    COMPILOT_WORKFLOW_ID_KYC_AIRDROP: z.string(),
     POSTGRES_URL: z
       .string()
       .default("postgres://airdrop:airdrop@localhost:5454/airdrop"),
@@ -38,11 +38,11 @@ export const env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
-    NEXERA_ID_WEBHOOK_SECRET_KYC_AIRDROP:
-      process.env.NEXERA_ID_WEBHOOK_SECRET_KYC_AIRDROP,
-    NEXERA_ID_API_KEY_KYC_AIRDROP: process.env.NEXERA_ID_API_KEY_KYC_AIRDROP,
-    NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP:
-      process.env.NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP,
+    COMPILOT_WEBHOOK_SECRET_KYC_AIRDROP:
+      process.env.COMPILOT_WEBHOOK_SECRET_KYC_AIRDROP,
+    COMPILOT_API_KEY_KYC_AIRDROP: process.env.COMPILOT_API_KEY_KYC_AIRDROP,
+    COMPILOT_WORKFLOW_ID_KYC_AIRDROP:
+      process.env.COMPILOT_WORKFLOW_ID_KYC_AIRDROP,
     NEXT_PUBLIC_ENVIRONMENT: process.env.NEXT_PUBLIC_ENVIRONMENT,
     NEXT_PUBLIC_AMOY_HTTP_PROVIDER_URL:
       process.env.NEXT_PUBLIC_AMOY_HTTP_PROVIDER_URL,

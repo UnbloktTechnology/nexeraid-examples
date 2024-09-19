@@ -10,7 +10,7 @@ import {
   type ChainOptions,
   SwapOptions,
 } from "@/features/defi-rule-engine/SwapOptionsDemoData";
-import { useCustomerStatus } from "@nexeraid/react-sdk";
+import { useCustomerStatus } from "@compilot/react-sdk";
 
 const optionsToSwap = (options: ITokenInfo[], tokenInfo: ITokenInfo) => {
   return options?.filter((token) => token.value !== tokenInfo.value);

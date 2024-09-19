@@ -11,7 +11,7 @@ Key features:
 
 - Efficient airdrop distribution using Merkle proofs
 - Flexible claiming process with optional time-based restrictions
-- Integration with NexeraID for KYC/AML compliance
+- Integration with ComPilot for KYC/AML compliance
 
 The contracts are written in Solidity and use the Hardhat development environment for testing, deployment, and verification.
 

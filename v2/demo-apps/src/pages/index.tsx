@@ -153,10 +153,10 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>NexeraID Examples Root Portfolio</title>
+        <title>ComPilot Examples Root Portfolio</title>
         <meta
           name="description"
-          content="NexeraID Examples Root Portfolio page"
+          content="ComPilot Examples Root Portfolio page"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

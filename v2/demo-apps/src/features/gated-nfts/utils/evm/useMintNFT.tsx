@@ -4,7 +4,7 @@ import { ExampleGatedNFTMinterABI } from "@nexeraid/sig-gating-contracts-sdk/abi
 import { EvmChainId, type EIP155Signature } from "@nexeraid/identity-schemas";
 import { useChainId, useAccount, useSendTransaction } from "wagmi";
 import { getGatedContractAddress } from "./getContractAddress";
-import { useGetTxAuthDataSignature } from "@nexeraid/react-sdk";
+import { useGetTxAuthDataSignature } from "@compilot/react-sdk";
 
 const WRONG_SIGNATURE: EIP155Signature =
   "0xc6fd40ac16944fd0fef20071149270a2c283c8ae92ffcbb5e61f44348490dc3b65e786637aaa82f46ac3c01941a9875046a2ceb9bad189362014b35f6e74df231b";
@@ -12,7 +12,7 @@ const WRONG_SIGNATURE: EIP155Signature =
 export const useMintGatedNFTFromSDK = () => {
   const chainId = useChainId();
   const account = useAccount();
-  const getTxAuthDataSignature = useGetTxAuthDataSignature();
+  const { getTxAuthDataSignature } = useGetTxAuthDataSignature();
   const mintNFTGatedFromSDK = useSendTransaction();
 
   return useMutation({
@@ -22,7 +22,7 @@ export const useMintGatedNFTFromSDK = () => {
           throw new Error("No account in wallet Client - address");
         }
 
-        const signatureResponse = await getTxAuthDataSignature.mutateAsync({
+        const signatureResponse = await getTxAuthDataSignature({
           namespace: "eip155",
           userAddress: account.address,
           contractAbi: Array.from(ExampleGatedNFTMinterABI),

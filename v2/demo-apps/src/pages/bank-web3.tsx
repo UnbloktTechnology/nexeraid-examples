@@ -5,25 +5,25 @@ import { useGlobalModals } from "@/features/bank-web3/Modals/useGlobalModals";
 import { ToastContainer } from "react-toastify";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { NexeraIdProvider, useCustomerStatus } from "@nexeraid/react-sdk";
+import { ComPilotProvider, useCustomerStatus } from "@compilot/react-sdk";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { createDemoWeb3WagmiSdkConfig } from "@/features/root/identity/createDemoWeb3WagmiSdkConfig";
 import { wagmiConfig } from "@/features/root/web3/wagmiConfig";
 
 const queryClient = new QueryClient();
-const nexeraIdConfig = createDemoWeb3WagmiSdkConfig("bank-web3");
+const compilotConfig = createDemoWeb3WagmiSdkConfig("bank-web3");
 
 const Home = () => {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
-          <NexeraIdProvider config={nexeraIdConfig}>
+          <ComPilotProvider config={compilotConfig}>
             <HomeContent />
             <ReactQueryDevtools initialIsOpen={false} />
             <ToastContainer />
-          </NexeraIdProvider>
+          </ComPilotProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

@@ -11,7 +11,7 @@ export const CustomerRepo = {
       .insert(CustomerTable)
       .values(values)
       .onConflictDoUpdate({
-        target: [CustomerTable.nexeraCustomerId],
+        target: [CustomerTable.compilotCustomerId],
         set: {
           userStatus: values.userStatus,
           walletAddress: values.walletAddress,

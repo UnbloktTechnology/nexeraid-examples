@@ -16,7 +16,7 @@ export const appConfig = {
     api: "http://localhost:3001/",
   },
   [ENVSchema.enum.dev]: {
-    api: "https://api-dev.nexera.id/",
+    api: "https://api-dev.compilot.ai/",
   },
   [ENVSchema.enum["test-dev-1"]]: {
     api: "https://api-test-dev-1.nexera.id/",
@@ -25,7 +25,7 @@ export const appConfig = {
     api: "https://api-test-dev-2.nexera.id/",
   },
   [ENVSchema.enum.stage]: {
-    api: "https://api-staging.nexera.id/",
+    api: "https://api-staging.compilot.ai/",
   },
   [ENVSchema.enum.prod]: {
     api: "https://api.nexera.id/",

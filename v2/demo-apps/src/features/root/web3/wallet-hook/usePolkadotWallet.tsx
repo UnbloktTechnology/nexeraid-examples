@@ -12,7 +12,7 @@ export const getWallet = async (wsUrl = "wss://rpc.polkadot.io") => {
   const provider = new WsProvider(wsUrl);
   await ApiPromise.create({ provider });
   // Enable extension (this pops up the extension and asks the user to give access to your website)
-  const extensions = await web3Enable("NexeraID Widget");
+  const extensions = await web3Enable("ComPilot Widget");
   if (extensions.length === 0) {
     throw new Error("No extension found. Please install Talisman extension.");
   }

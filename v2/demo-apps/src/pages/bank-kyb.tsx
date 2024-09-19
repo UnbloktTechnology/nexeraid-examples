@@ -5,20 +5,20 @@ import { Banner, Content, Header, Layout } from "@/features/bank-kyb/Layout";
 import { useGlobalModals } from "@/features/bank-kyb/Modals/useGlobalModals";
 import { ToastContainer } from "react-toastify";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { NexeraIdProvider, useCustomerStatus } from "@nexeraid/react-sdk";
+import { ComPilotProvider, useCustomerStatus } from "@compilot/react-sdk";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { nexeraIdConfig } from "@/features/bank-kyb/identity/nexeraIdConfig";
+import { compilotConfig } from "@/features/bank-kyb/identity/compilotConfig";
 
 const queryClient = new QueryClient();
 
 const Home = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <NexeraIdProvider config={nexeraIdConfig}>
+      <ComPilotProvider config={compilotConfig}>
         <HomeContent />
         <ReactQueryDevtools initialIsOpen={false} />
         <ToastContainer />
-      </NexeraIdProvider>
+      </ComPilotProvider>
     </QueryClientProvider>
   );
 };
@@ -68,7 +68,7 @@ const HomeContent = () => {
         <Dashboard />
       )}
       <DisclaimerOverlay
-        content="This web application  is a simulated, mockup bank-kybing application developed solely for the purpose of demonstrating the functionalities and capabilities of the NexeraID product. It is not affiliated with, endorsed by, or in any way associated with any real-world bank-kybing or financial institution."
+        content="This web application  is a simulated, mockup bank-kybing application developed solely for the purpose of demonstrating the functionalities and capabilities of the ComPilot product. It is not affiliated with, endorsed by, or in any way associated with any real-world bank-kybing or financial institution."
         textButton="I understood"
         className="bg-[#3E505D]"
         classNameButton="border-none !rounded-none !bg-[#DB0011] font-normal"

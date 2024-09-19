@@ -3,8 +3,11 @@ import { CUSTOMERS_BALANCE_MAP } from "../config/CUSTOMERS_BALANCE_MAP";
 import { parseBalanceMap } from "@nexeraid/merkle-tree-js";
 import { type Address, encodeFunctionData, type Hex } from "viem";
 import { MerkleDistributorAbi } from "../abis/MerkleDistributorAbi";
-import { getDistributorContractAddress } from "../config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
-import { getTxAuthDataSignature, type EvmChainId } from "@nexeraid/react-sdk";
+import {
+  getDeploymentChain,
+  getDistributorContractAddress,
+} from "../config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
+import { getTxAuthDataSignature } from "@nexeraid/react-sdk";
 import { nexeraIdConfig } from "@/nexeraIdConfig";
 import { sendTransaction } from "@wagmi/core";
 import { wagmiConfig } from "@/wagmiConfig";
@@ -33,11 +36,8 @@ export const getUserProof = (userAddress: Address): Hex[] | null => {
   return proof ? (proof as Hex[]) : null;
 };
 
-export const claimToken = async (props: {
-  userAddress: Address;
-  chainId: EvmChainId;
-}) => {
-  const { userAddress, chainId } = props;
+export const claimToken = async (props: { userAddress: Address }) => {
+  const { userAddress } = props;
 
   const amount = getUserAirdropAmount(userAddress);
   const index = getUserIndex(userAddress);
@@ -47,7 +47,7 @@ export const claimToken = async (props: {
     throw new Error("User not found");
   }
 
-  const distributorAddress = getDistributorContractAddress(chainId);
+  const distributorAddress = getDistributorContractAddress();
 
   const signatureResponse = await getTxAuthDataSignature(nexeraIdConfig, {
     namespace: "eip155",
@@ -56,7 +56,7 @@ export const claimToken = async (props: {
     contractAddress: distributorAddress,
     functionName: "claim",
     args: [index.toString(), userAddress, amount.toString(), proof],
-    chainId: chainId,
+    chainId: getDeploymentChain().parsedId,
   });
 
   if (!signatureResponse.isAuthorized) throw new Error("User not authorized");

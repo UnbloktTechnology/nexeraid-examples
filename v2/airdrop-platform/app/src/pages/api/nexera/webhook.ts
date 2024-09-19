@@ -35,15 +35,22 @@ export default async function handler(
       event.eventType === "customer.updated"
     ) {
       if (!event.payload.status) {
+        console.error("No status found in the event payload", event.payload);
         return res.status(400).json({ message: "No status found" });
       }
 
+      console.log(
+        "Fetching wallet for customer",
+        event.payload.customerId,
+        env.NEXERA_ID_API_KEY_KYC_AIRDROP,
+      );
       // OPTIONAL: fetch additional data from the API
       const wallets = await apiClient.getCustomerWallets({
         customerId: event.payload.customerId,
       });
       const wallet = wallets[0];
       if (!wallet) {
+        console.error("No wallet found for customer", event.payload.customerId);
         return res.status(400).json({ message: "No wallet found" });
       }
 

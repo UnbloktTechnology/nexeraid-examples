@@ -8,11 +8,10 @@ import { nexeraIdConfig } from "@/nexeraIdConfig";
 import { wagmiConfig } from "@/wagmiConfig";
 import { NexeraIdProvider } from "@nexeraid/react-sdk";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ToastContainer } from "react-toastify";
-
-const queryClient = new QueryClient();
+import { queryClient } from "@/reactQueryConfig";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (

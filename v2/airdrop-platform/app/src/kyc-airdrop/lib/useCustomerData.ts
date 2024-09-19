@@ -1,29 +1,9 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useWalletAddress } from "./useWalletAddress";
 import { type SelectCustomer } from "@/db/customer.repo";
-import {
-  useNexeraIdConfig,
-  watchWidgetVisibleState,
-} from "@nexeraid/react-sdk";
-import { useEffect } from "react";
 
 export const useCustomerData = () => {
   const { address } = useWalletAddress();
-
-  // on widget close, immediately invalidate the query
-  // to prevent showing the previous user data
-  const nexeraConfig = useNexeraIdConfig();
-  const queryClient = useQueryClient();
-  useEffect(() => {
-    const unsubscribe = watchWidgetVisibleState(nexeraConfig, {
-      onChange: (visible) => {
-        if (!visible) {
-          void queryClient.invalidateQueries();
-        }
-      },
-    });
-    return unsubscribe;
-  }, [nexeraConfig]);
 
   return useQuery({
     queryKey: ["useCustomerData", address],
@@ -33,9 +13,10 @@ export const useCustomerData = () => {
       try {
         const res = await fetch(`/api/customer/${address}`);
         const resObj = (await res.json()) as {
-          customer: SelectCustomer | null;
+          customer?: SelectCustomer | null;
         };
-        return resObj.customer;
+
+        return resObj.customer ?? null;
       } catch (error) {
         console.error("API call error:", error);
         return null;

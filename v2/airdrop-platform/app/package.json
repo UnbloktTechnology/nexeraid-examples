@@ -20,8 +20,8 @@
   },
   "dependencies": {
     "@nexeraid/merkle-tree-js": "^2.0.13",
-    "@nexeraid/js-sdk": "^2.0.30-dev",
-    "@nexeraid/react-sdk": "^2.0.37-dev",
+    "@nexeraid/js-sdk": "^2.0.36-dev",
+    "@nexeraid/react-sdk": "^2.0.43-dev",
     "@nexeraid/react-sdk-wallet-wagmi": "^2.0.4-dev",
     "@rainbow-me/rainbowkit": "^2.0.5",
     "@t3-oss/env-nextjs": "^0.6.0",

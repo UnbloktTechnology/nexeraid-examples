@@ -138,7 +138,7 @@ export const Swap = () => {
             id={"kyc-btn-verify"}
             onClick={verifyUser}
           >
-            Verify
+            Prove compliance to swap
           </button>
         )}
       </div>

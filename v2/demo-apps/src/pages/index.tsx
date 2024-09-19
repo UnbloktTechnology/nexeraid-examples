@@ -110,20 +110,20 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>NexeraID Examples Root Portfolio</title>
+        <title>ComPilot Examples Root Portfolio</title>
         <meta
           name="description"
-          content="NexeraID Examples Root Portfolio page"
+          content="ComPilot Examples Root Portfolio page"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center bg-white">
         <div className="mb-12 mt-8 flex w-full flex-col items-center text-center">
           <h1 className="mb-4 text-5xl font-bold">
-            NexeraID Example Applications
+            ComPilot Example Applications
           </h1>
           <p className="w-[450px] text-[#6e6d7a]">
-            These examples demonstrate the NexeraID identity verification
+            These examples demonstrate the ComPilot identity verification
             process working in different circumstances.
           </p>
           <div className="mt-2 flex flex-wrap gap-4">

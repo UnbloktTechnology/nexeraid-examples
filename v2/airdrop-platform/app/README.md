@@ -1,13 +1,13 @@
 # Airdrop Platform Frontend
 
-This folder contains the frontend application for the Airdrop Platform. It's built using Next.js and integrates with the smart contracts deployed in the `contracts` folder and the NexeraID Identity SDK for KYC/AML compliance.
+This folder contains the frontend application for the Airdrop Platform. It's built using Next.js and integrates with the smart contracts deployed in the `contracts` folder and the ComPilot Identity SDK for KYC/AML compliance.
 
 ## Features
 
 - User-friendly interface for airdrop participants
 - Wallet connection and management
 - Eligibility checking for airdrop claims
-- Integration with NexeraID for identity verification
+- Integration with ComPilot for identity verification
 - Airdrop claiming process
 
 ## Setup

@@ -8,7 +8,7 @@ This repository contains the Airdrop Platform, which consists of two main compon
 ## Repository Structure
 
 - `contracts/`: Contains the smart contracts for the Airdrop Platform
-- `app/`: Contains the NextJS application for interacting with the smart contracts and the NexeraID Identity SDK
+- `app/`: Contains the NextJS application for interacting with the smart contracts and the ComPilot Identity SDK
 
 For detailed information on how to set up and run each component, please refer to the README files in their respective folders:
 

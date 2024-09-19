@@ -1,12 +1,12 @@
-import { createConfig, createWeb3AuthAdapter } from "@nexeraid/react-sdk";
+import { createConfig, createWeb3AuthAdapter } from "@compilot/react-sdk";
 import { createDemoAppGenerateChallengeCallback } from "@/features/root/identity/createDemoAppGenerateChallengeCallback";
-import { starknetWalletConfig } from "@/features/root/web3/sdk-wallet/starknetWallet";
+import { tezosWalletConfig } from "@/features/root/web3/sdk-wallet/tezosWallet";
 
 import "@/features/root/configureReactDemoEnv";
 
-export const nexeraIdStarknetConfig = createConfig({
+export const compilotTezosConfig = createConfig({
   authAdapter: createWeb3AuthAdapter({
-    wallet: starknetWalletConfig,
+    wallet: tezosWalletConfig,
     generateChallenge: createDemoAppGenerateChallengeCallback(
       "multi-chain-support",
     ),

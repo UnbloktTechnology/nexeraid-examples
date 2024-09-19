@@ -14,8 +14,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "nexera_customer_id": {
-          "name": "nexera_customer_id",
+        "compilot_customer_id": {
+          "name": "compilot_customer_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -51,19 +51,15 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "customer_nexera_customer_id_unique": {
-          "name": "customer_nexera_customer_id_unique",
+        "customer_compilot_customer_id_unique": {
+          "name": "customer_compilot_customer_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "nexera_customer_id"
-          ]
+          "columns": ["compilot_customer_id"]
         },
         "customer_wallet_address_unique": {
           "name": "customer_wallet_address_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "wallet_address"
-          ]
+          "columns": ["wallet_address"]
         }
       }
     }

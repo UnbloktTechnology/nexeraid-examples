@@ -2,7 +2,7 @@ import { type Environment } from "@nexeraid/identity-schemas";
 import type { Address } from "viem";
 
 import { env } from "@/env.mjs";
-import { EvmChainId } from "@nexeraid/react-sdk";
+import { EvmChainId } from "@compilot/react-sdk";
 
 export const getDistributorContractAddress = () => {
   const distributorAddress =

@@ -1,12 +1,12 @@
-import { createConfig, createWeb3AuthAdapter } from "@nexeraid/react-sdk";
+import { createConfig, createWeb3AuthAdapter } from "@compilot/react-sdk";
 import { createDemoAppGenerateChallengeCallback } from "@/features/root/identity/createDemoAppGenerateChallengeCallback";
-import { cosmosWalletConfig } from "@/features/root/web3/sdk-wallet/cosmosWallet";
+import { cardanoWalletConfig } from "@/features/root/web3/sdk-wallet/cardanoWallet";
 
 import "@/features/root/configureReactDemoEnv";
 
-export const nexeraIdCosmosConfig = createConfig({
+export const compilotCardanoConfig = createConfig({
   authAdapter: createWeb3AuthAdapter({
-    wallet: cosmosWalletConfig,
+    wallet: cardanoWalletConfig,
     generateChallenge: createDemoAppGenerateChallengeCallback(
       "multi-chain-support",
     ),

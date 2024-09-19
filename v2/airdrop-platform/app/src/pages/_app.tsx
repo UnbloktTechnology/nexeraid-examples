@@ -4,9 +4,9 @@ import "@rainbow-me/rainbowkit/styles.css";
 import "react-toastify/dist/ReactToastify.css";
 import dynamic from "next/dynamic";
 import { WagmiProvider } from "wagmi";
-import { nexeraIdConfig } from "@/nexeraIdConfig";
+import { compilotConfig } from "@/compilotConfig";
 import { wagmiConfig } from "@/wagmiConfig";
-import { NexeraIdProvider } from "@nexeraid/react-sdk";
+import { ComPilotProvider } from "@compilot/react-sdk";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -18,11 +18,11 @@ const MyApp: AppType = ({ Component, pageProps }) => {
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
-          <NexeraIdProvider config={nexeraIdConfig}>
+          <ComPilotProvider config={compilotConfig}>
             <Component {...pageProps} />
             <ReactQueryDevtools initialIsOpen={false} />
             <ToastContainer />
-          </NexeraIdProvider>
+          </ComPilotProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

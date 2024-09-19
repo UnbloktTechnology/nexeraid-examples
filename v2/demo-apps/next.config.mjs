@@ -19,7 +19,7 @@ const config = {
     defaultLocale: "en",
   },
 
-  transpilePackages: ["@nexeraid/react-sdk-wallet-wagmi"],
+  transpilePackages: ["@compilot/web-sdk-wallet-wagmi"],
   webpack: function (config, options) {
     if (!options.isServer) {
       config.resolve.fallback.fs = false;

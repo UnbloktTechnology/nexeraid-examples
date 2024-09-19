@@ -13,7 +13,7 @@ export const Button: React.FC<IButton> = forwardRef<HTMLButtonElement, IButton>(
         type="submit"
         {...props}
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-        className={`cursor-pointer rounded-full bg-[#2849F5] px-6 py-4  text-base font-normal text-white ${props.className}`}
+        className={`cursor-pointer rounded-full bg-[#2849F5] text-base font-normal text-white ${props.className}`}
       >
         {props.children}
       </button>

@@ -16,13 +16,14 @@
     "db:clean": "docker compose -f postgres.yml down -v",
     "db:generate": "SKIP_ENV_VALIDATION=1 dotenv -c pnpm drizzle-kit generate",
     "db:migrate": "dotenv -c pnpm drizzle-kit migrate",
-    "db:studio": "dotenv -c pnpm drizzle-kit studio"
+    "db:studio": "dotenv -c pnpm drizzle-kit studio",
+    "db:rollback": "dotenv -c pnpm drizzle-kit drop"
   },
   "dependencies": {
-    "@compilot/merkle-tree-js": "^2.0.21-dev",
-    "@compilot/js-sdk": "^2.0.43-dev",
-    "@compilot/react-sdk": "^2.0.51-dev",
-    "@compilot/web-sdk-wallet-wagmi": "^2.0.8-dev",
+    "@compilot/merkle-tree-js": "^2.1.3-dev",
+    "@compilot/js-sdk": "^2.1.3-dev",
+    "@compilot/react-sdk": "^2.1.3-dev",
+    "@compilot/web-sdk-wallet-wagmi": "^2.1.3-dev",
     "@rainbow-me/rainbowkit": "^2.0.5",
     "@t3-oss/env-nextjs": "^0.6.0",
     "@tanstack/react-query": "^5.29.2",

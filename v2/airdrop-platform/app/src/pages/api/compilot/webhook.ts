@@ -39,26 +39,17 @@ export default async function handler(
         return res.status(400).json({ message: "No status found" });
       }
 
-      console.log(
-        "Fetching wallet for customer",
-        event.payload.customerId,
-        env.COMPILOT_API_KEY_KYC_AIRDROP,
-      );
-      // OPTIONAL: fetch additional data from the API
-      const wallets = await apiClient.getCustomerWallets({
-        customerId: event.payload.customerId,
-      });
-      const wallet = wallets[0];
-      if (!wallet) {
-        console.error("No wallet found for customer", event.payload.customerId);
-        return res.status(400).json({ message: "No wallet found" });
+      if (!event.payload.externalClientId) {
+        throw new Error("No externalClientId in payload");
       }
+      const myUserId = parseInt(event.payload.externalClientId, 10);
+      await CustomerRepo.setLastLogin(myUserId);
 
       // upsert the customer in the project database for fast access
-      await CustomerRepo.upsert({
+      await CustomerRepo.updateById({
+        id: parseInt(event.payload.externalClientId, 10),
         compilotCustomerId: event.payload.customerId,
         userStatus: event.payload.status,
-        walletAddress: wallet.address,
       });
     }
 

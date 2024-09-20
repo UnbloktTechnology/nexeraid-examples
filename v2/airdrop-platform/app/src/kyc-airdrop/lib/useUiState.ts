@@ -46,7 +46,9 @@ export const useUiState = (): UiState => {
     kyc: {
       connected: isKycAuthenticated === true,
       active: customerData?.data?.userStatus === "Active",
-      failed: customerData?.data?.userStatus === "Rejected",
+      failed:
+        customerData?.data?.userStatus === "Rejected" ||
+        customerData?.data?.userStatus === "Failed",
       processing:
         !!customerData?.data?.userStatus &&
         customerData?.data?.userStatus !== "Active",
@@ -78,9 +80,9 @@ export const useCurrentUiStep = (): UiStep => {
   if (!uiState.eligibility.qualified) return "eligibility";
   if (!uiState.wallet.connected) return "wallet_connect";
   if (!uiState.kyc.active) {
-    if (!uiState.kyc.connected) return "kyc";
     if (uiState.kyc.failed) return "kyc_failed";
     if (uiState.kyc.processing) return "kyc_processing";
+    return "kyc";
   }
   if (!uiState.claim.claimed) return "claim";
   if (uiState.claim.claiming) return "claim";
@@ -130,12 +132,6 @@ export const useTitles = (): { title: string; subtitle: string } => {
       subtitle: `Please switch to ${getDeploymentChain().name} to claim ${allowance} $PEAQ for ${address}.`,
     };
 
-  if (!uiState.kyc.connected)
-    return {
-      title: "Let's claim some tokens",
-      subtitle: `Now we need to verify your identity before you can claim ${allowance} $PEAQ for ${address}.`,
-    };
-
   if (!uiState.kyc.active && uiState.kyc.failed)
     return {
       title: "Identity verification rejected",
@@ -153,6 +149,12 @@ export const useTitles = (): { title: string; subtitle: string } => {
     return {
       title: "Identity verification in progress",
       subtitle: "Please wait while we verify your identity",
+    };
+
+  if (!uiState.kyc.connected)
+    return {
+      title: "Let's claim some tokens",
+      subtitle: `Now we need to verify your identity before you can claim ${allowance} $PEAQ for ${address}.`,
     };
 
   if (!uiState.claim.claimed && isBalanceLoading)

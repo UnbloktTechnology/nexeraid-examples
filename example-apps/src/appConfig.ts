@@ -16,19 +16,19 @@ export const appConfig = {
     api: "http://localhost:3001/",
   },
   [ENVSchema.enum.dev]: {
-    api: "https://api-dev.compilot.ai/",
+    api: "https://api.bjrcom.xyz/",
   },
   [ENVSchema.enum["test-dev-1"]]: {
-    api: "https://api-test-dev-1.nexera.id/",
+    api: "https://api-test-dev-1.bjrcom.xyz/",
   },
   [ENVSchema.enum["test-dev-2"]]: {
-    api: "https://api-test-dev-2.nexera.id/",
+    api: "https://api-test-dev-2.bjrcom.xyz/",
   },
   [ENVSchema.enum.stage]: {
-    api: "https://api-staging.compilot.ai/",
+    api: "https://api.bjrpilot.xyz/",
   },
   [ENVSchema.enum.prod]: {
-    api: "https://api.nexera.id/",
+    api: "https://api.compilot.ai/",
   },
 } as const;
 

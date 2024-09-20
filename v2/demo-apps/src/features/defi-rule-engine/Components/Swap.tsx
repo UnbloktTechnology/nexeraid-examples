@@ -140,7 +140,9 @@ export const Swap = () => {
             onClick={verifyUser}
             disabled={customerStatus.isLoading}
           >
-            {customerStatus.isLoading ? "...Checking" : "Verify"}
+            {customerStatus.isLoading
+              ? "...Checking"
+              : "Prove compliance to swap"}
           </button>
         )}
         {customerStatus.isError && (

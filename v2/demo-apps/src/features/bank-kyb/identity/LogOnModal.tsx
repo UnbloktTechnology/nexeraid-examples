@@ -11,7 +11,7 @@ import { useMockBankKybAuth } from "./useMockBankKybAuth";
 export const LogOnModal = () => {
   const [showMsg, setShowMsg] = useState(true);
   const [helpMsg, setHelpMsg] = useState(
-    "To open an HSBC account you will need to verify your identity first",
+    "To open an Green Bank account you will need to verify your identity first",
   );
   const [userSelected, setUserSelected] = useState<TestUser>();
   const { authenticate, user, isAuthenticated } = useMockBankKybAuth();
@@ -27,7 +27,7 @@ export const LogOnModal = () => {
       );
     } else {
       setHelpMsg(
-        "To open an HSBC account you will need to verify your identity first",
+        "To open an Green Bank account you will need to verify your identity first",
       );
     }
   };

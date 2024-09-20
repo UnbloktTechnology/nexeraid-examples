@@ -137,7 +137,7 @@ export const Swap: React.FC<{
             id={"kyc-btn-verify"}
             onClick={verifyUser}
           >
-            Verify
+            Prove compliance to swap
           </button>
         )}
       </div>

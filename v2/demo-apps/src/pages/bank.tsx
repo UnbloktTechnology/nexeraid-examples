@@ -4,21 +4,21 @@ import { Dashboard } from "@/features/bank/Dashboard";
 import { Banner, Content, Header, Layout } from "@/features/bank/Layout";
 import { useGlobalModals } from "@/features/bank/Modals/useGlobalModals";
 import { ToastContainer } from "react-toastify";
-import { NexeraIdProvider, useCustomerStatus } from "@nexeraid/react-sdk";
+import { ComPilotProvider, useCustomerStatus } from "@compilot/react-sdk";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { nexeraIdConfig } from "@/features/bank/identity/nexeraIdConfig";
+import { compilotConfig } from "@/features/bank/identity/compilotConfig";
 
 const queryClient = new QueryClient();
 
 const Home = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <NexeraIdProvider config={nexeraIdConfig}>
+      <ComPilotProvider config={compilotConfig}>
         <HomeContent />
         <ReactQueryDevtools initialIsOpen={false} />
         <ToastContainer />
-      </NexeraIdProvider>
+      </ComPilotProvider>
     </QueryClientProvider>
   );
 };
@@ -70,10 +70,10 @@ const HomeContent = () => {
         <Dashboard />
       )}
       <DisclaimerOverlay
-        content="This web application  is a simulated, mockup banking application developed solely for the purpose of demonstrating the functionalities and capabilities of the NexeraID product. It is not affiliated with, endorsed by, or in any way associated with any real-world banking or financial institution."
+        content="This web application  is a simulated, mockup banking application developed solely for the purpose of demonstrating the functionalities and capabilities of the ComPilot product. It is not affiliated with, endorsed by, or in any way associated with any real-world banking or financial institution."
         textButton="I understood"
         className="bg-[#3E505D]"
-        classNameButton="border-none !rounded-none !bg-[#DB0011] font-normal"
+        classNameButton="border-none !rounded-none !bg-[#77B212] font-normal"
       />
     </Layout>
   );

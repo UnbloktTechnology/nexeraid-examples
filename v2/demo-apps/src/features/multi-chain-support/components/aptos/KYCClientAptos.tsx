@@ -8,7 +8,7 @@ export const KYCClientAptos = () => {
     <>
       <div className="pt-10 text-center">
         <p className="text-2xl font-bold">
-          NexeraID Kyc Demo: Aptos Wallet KYC
+          ComPilot Kyc Demo: Aptos Wallet KYC
         </p>
       </div>
       <div className="min-w-prose mt-24 flex flex-col items-center justify-center pt-2">

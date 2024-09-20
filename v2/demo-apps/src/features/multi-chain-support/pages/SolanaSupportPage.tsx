@@ -17,10 +17,10 @@ import { SolanaExample } from "../components/solana/SolanaExample";
 import {
   createConfig,
   createWeb3AuthAdapter,
-  NexeraIdProvider,
+  ComPilotProvider,
   Web3SignatureRejected,
   type Web3Wallet,
-} from "@nexeraid/react-sdk";
+} from "@compilot/react-sdk";
 import { toBytes, toHex } from "viem";
 import { createDemoAppGenerateChallengeCallback } from "@/features/root/identity/createDemoAppGenerateChallengeCallback";
 
@@ -81,7 +81,7 @@ export const IdentitySdkWeb3SolanaProvider = ({
     return <>Loading...</>;
   }
 
-  return <NexeraIdProvider config={identitySdk}>{children}</NexeraIdProvider>;
+  return <ComPilotProvider config={identitySdk}>{children}</ComPilotProvider>;
 };
 
 const SolanaProviders = ({ children }: { children: React.ReactNode }) => {

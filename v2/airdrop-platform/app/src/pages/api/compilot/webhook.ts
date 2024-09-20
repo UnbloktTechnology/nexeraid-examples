@@ -1,12 +1,12 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { env } from "@/env.mjs";
-import { createNexeraSdk } from "@nexeraid/js-sdk";
+import { createSdk } from "@compilot/js-sdk";
 import { CustomerRepo } from "@/db/customer.repo";
 import "@/configureDemoEnv";
 
-const apiClient = createNexeraSdk({
-  webhookSecret: env.NEXERA_ID_WEBHOOK_SECRET_KYC_AIRDROP,
-  apiKey: env.NEXERA_ID_API_KEY_KYC_AIRDROP,
+const apiClient = createSdk({
+  webhookSecret: env.COMPILOT_WEBHOOK_SECRET_KYC_AIRDROP,
+  apiKey: env.COMPILOT_API_KEY_KYC_AIRDROP,
 });
 
 export default async function handler(
@@ -35,23 +35,19 @@ export default async function handler(
       event.eventType === "customer.updated"
     ) {
       if (!event.payload.status) {
+        console.error("No status found in the event payload", event.payload);
         return res.status(400).json({ message: "No status found" });
       }
 
-      // OPTIONAL: fetch additional data from the API
-      const wallets = await apiClient.getCustomerWallets({
-        customerId: event.payload.customerId,
-      });
-      const wallet = wallets[0];
-      if (!wallet) {
-        return res.status(400).json({ message: "No wallet found" });
+      if (!event.payload.externalCustomerId) {
+        throw new Error("No externalClientId in payload");
       }
-
+      const myUserId = parseInt(event.payload.externalCustomerId, 10);
       // upsert the customer in the project database for fast access
-      await CustomerRepo.upsert({
-        nexeraCustomerId: event.payload.customerId,
+      await CustomerRepo.updateById({
+        id: myUserId,
+        compilotCustomerId: event.payload.customerId,
         userStatus: event.payload.status,
-        walletAddress: wallet.address,
       });
     }
 

@@ -10,7 +10,7 @@ import {
   type ChainOptions,
   SwapOptions,
 } from "@/features/defi-offchain-zkp/SwapOptionsDemoData";
-import { useCustomerStatus } from "@nexeraid/react-sdk";
+import { useCustomerStatus } from "@compilot/react-sdk";
 
 const optionsToSwap = (options: ITokenInfo[], tokenInfo: ITokenInfo) => {
   return options.filter((token) => token.value !== tokenInfo.value);
@@ -138,7 +138,7 @@ export const Swap = () => {
             id={"kyc-btn-verify"}
             onClick={verifyUser}
           >
-            Verify
+            Prove compliance to swap
           </button>
         )}
       </div>

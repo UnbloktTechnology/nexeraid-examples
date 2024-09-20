@@ -43,11 +43,9 @@ export default async function handler(
         throw new Error("No externalClientId in payload");
       }
       const myUserId = parseInt(event.payload.externalCustomerId, 10);
-      await CustomerRepo.setLastLogin(myUserId);
-
       // upsert the customer in the project database for fast access
       await CustomerRepo.updateById({
-        id: parseInt(event.payload.externalCustomerId, 10),
+        id: myUserId,
         compilotCustomerId: event.payload.customerId,
         userStatus: event.payload.status,
       });

@@ -15,7 +15,17 @@ export const compilotConfig = createConfig({
   authAdapter: createWeb3AuthAdapter({
     wallet: createWagmiWalletAdapter(wagmiConfig),
     generateChallenge: async (params) => {
-      const challenge = await fetch("/api/compilot/challenge", {
+      const challenge = await fetch("/api/compilot/generate-challenge", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(params),
+      });
+      return challenge.json();
+    },
+    verifyChallenge: async (params) => {
+      const challenge = await fetch("/api/compilot/verify-challenge", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

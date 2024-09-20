@@ -39,15 +39,15 @@ export default async function handler(
         return res.status(400).json({ message: "No status found" });
       }
 
-      if (!event.payload.externalClientId) {
+      if (!event.payload.externalCustomerId) {
         throw new Error("No externalClientId in payload");
       }
-      const myUserId = parseInt(event.payload.externalClientId, 10);
+      const myUserId = parseInt(event.payload.externalCustomerId, 10);
       await CustomerRepo.setLastLogin(myUserId);
 
       // upsert the customer in the project database for fast access
       await CustomerRepo.updateById({
-        id: parseInt(event.payload.externalClientId, 10),
+        id: parseInt(event.payload.externalCustomerId, 10),
         compilotCustomerId: event.payload.customerId,
         userStatus: event.payload.status,
       });

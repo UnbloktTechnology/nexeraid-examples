@@ -32,7 +32,7 @@
     "deploy-sepolia": "npm run prepare-merkle-root && hardhat run ./scripts/deployTokenAndMerkleDistributor.ts --network sepolia"
   },
   "devDependencies": {
-    "@compilot/merkle-tree-js": "^2.1.8-dev",
+    "@compilot/merkle-tree-js": "^2.1.10-dev",
     "@nexeraprotocol/nexera-id-sig-gating-contracts": "^2.2.45",
     "@nexeraprotocol/nexera-id-sig-gating-contracts-sdk": "^2.0.22",
     "@nomicfoundation/hardhat-verify": "^2.0.8",

@@ -8,10 +8,10 @@ interface CSVRow {
 }
 
 // Function to read the CSV file, parse it, and convert it to JSON
-async function convertCsvToJson(csvFilePath: string, jsonFilePath: string) {
+async function convertCsvToJson(params: { csvFilePath: string; jsonFilePath: string }) {
   try {
     // Read the CSV file
-    const csvData = fs.readFileSync(csvFilePath, 'utf-8')
+    const csvData = fs.readFileSync(params.csvFilePath, 'utf-8')
 
     // Parse the CSV data
     parse(
@@ -26,23 +26,20 @@ async function convertCsvToJson(csvFilePath: string, jsonFilePath: string) {
           throw err
         }
 
-        // Convert the parsed CSV data to JSON object
-        const jsonObject: { [key: string]: number } = {}
+        // Convert the parsed CSV data to the required format
+        const balances = records.map((record) => ({
+          address: record.Account,
+          earnings: record.Alocation,
+          reasons: ""
+        }))
 
-        records.forEach((record) => {
-          jsonObject[record.Account] = parseInt(record.Alocation, 10)
-        })
-
-        // Sort the keys of the JSON object
-        const sortedJsonObject = Object.keys(jsonObject)
-          .sort()
-          .reduce((acc, key) => {
-            acc[key] = jsonObject[key]
-            return acc
-          }, {} as { [key: string]: number })
+        // Create the JSON object in the required format
+        const jsonObject = {
+          balances: balances
+        }
 
         // Write the JSON object to a file
-        fs.writeFileSync(jsonFilePath, JSON.stringify(sortedJsonObject, null, 2))
+        fs.writeFileSync(params.jsonFilePath, JSON.stringify(jsonObject, null, 2))
 
         console.log('CSV has been converted to JSON successfully!')
       }
@@ -56,4 +53,4 @@ async function convertCsvToJson(csvFilePath: string, jsonFilePath: string) {
 const csvFilePath = 'inputFiles/listInput.csv' // Path to your CSV file
 const jsonFilePath = 'outputFiles/allowListObj.json' // Path to the output JSON file
 
-convertCsvToJson(csvFilePath, jsonFilePath)
+convertCsvToJson({ csvFilePath, jsonFilePath })

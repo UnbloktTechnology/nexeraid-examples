@@ -24,7 +24,7 @@ export const signWithStarknet = async (
     },
     primaryType: "Message",
     domain: {
-      name: "Nexera ID Auth Message",
+      name: "ComPilot Auth Message",
     },
     message: {
       hash: messageHash,

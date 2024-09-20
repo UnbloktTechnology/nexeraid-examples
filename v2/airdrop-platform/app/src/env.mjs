@@ -7,12 +7,12 @@ export const env = createEnv({
    * isn't built with invalid env vars.
    */
   server: {
-    NEXERA_ID_API_KEY_KYC_AIRDROP: z.string(),
-    NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP: z.string(),
-    NEXERA_ID_WORKSPACE_ID: z.string(),
-    DATABASE_URL: z
+    COMPILOT_WEBHOOK_SECRET_KYC_AIRDROP: z.string(),
+    COMPILOT_API_KEY_KYC_AIRDROP: z.string(),
+    COMPILOT_WORKFLOW_ID_KYC_AIRDROP: z.string(),
+    POSTGRES_URL: z
       .string()
-      .default("postgresql://postgres:postgres@localhost:5432/postgres"),
+      .default("postgres://airdrop:airdrop@localhost:5454/airdrop"),
   },
 
   /**
@@ -25,12 +25,12 @@ export const env = createEnv({
       .enum(["local", "dev", "stage", "prod", "test-dev-1", "test-dev-2"])
       .describe("The environment the app is running in")
       .default("prod"),
-    NEXT_PUBLIC_AMOY_WS_PROVIDER_URL: z
+    NEXT_PUBLIC_AMOY_HTTP_PROVIDER_URL: z
       .string()
-      .describe("Amoy websocket url for better event support"),
-    NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL: z
+      .describe("Amoy http RPC url"),
+    NEXT_PUBLIC_SEPOLIA_HTTP_PROVIDER_URL: z
       .string()
-      .describe("Sepolia websocket url for better event support"),
+      .describe("Sepolia http RPC url"),
   },
 
   /**
@@ -38,16 +38,17 @@ export const env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
-    NEXERA_ID_WORKSPACE_ID: process.env.NEXERA_ID_WORKSPACE_ID,
-    NEXERA_ID_API_KEY_KYC_AIRDROP: process.env.NEXERA_ID_API_KEY_KYC_AIRDROP,
-    NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP:
-      process.env.NEXERA_ID_WORKFLOW_ID_KYC_AIRDROP,
+    COMPILOT_WEBHOOK_SECRET_KYC_AIRDROP:
+      process.env.COMPILOT_WEBHOOK_SECRET_KYC_AIRDROP,
+    COMPILOT_API_KEY_KYC_AIRDROP: process.env.COMPILOT_API_KEY_KYC_AIRDROP,
+    COMPILOT_WORKFLOW_ID_KYC_AIRDROP:
+      process.env.COMPILOT_WORKFLOW_ID_KYC_AIRDROP,
     NEXT_PUBLIC_ENVIRONMENT: process.env.NEXT_PUBLIC_ENVIRONMENT,
-    NEXT_PUBLIC_AMOY_WS_PROVIDER_URL:
-      process.env.NEXT_PUBLIC_AMOY_WS_PROVIDER_URL,
-    NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL:
-      process.env.NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL,
-    DATABASE_URL: process.env.DATABASE_URL,
+    NEXT_PUBLIC_AMOY_HTTP_PROVIDER_URL:
+      process.env.NEXT_PUBLIC_AMOY_HTTP_PROVIDER_URL,
+    NEXT_PUBLIC_SEPOLIA_HTTP_PROVIDER_URL:
+      process.env.NEXT_PUBLIC_SEPOLIA_HTTP_PROVIDER_URL,
+    POSTGRES_URL: process.env.POSTGRES_URL,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

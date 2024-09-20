@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev -p 3020",
+    "dev": "next dev -p 3121",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
@@ -16,17 +16,19 @@
     "db:clean": "docker compose -f postgres.yml down -v",
     "db:generate": "SKIP_ENV_VALIDATION=1 dotenv -c pnpm drizzle-kit generate",
     "db:migrate": "dotenv -c pnpm drizzle-kit migrate",
-    "db:studio": "dotenv -c pnpm drizzle-kit studio"
+    "db:studio": "dotenv -c pnpm drizzle-kit studio",
+    "db:rollback": "dotenv -c pnpm drizzle-kit drop"
   },
   "dependencies": {
-    "@nexeraid/js-sdk": "^2.0.10-dev",
-    "@nexeraid/merkle-tree-js": "^2.0.12-dev",
-    "@nexeraid/react-sdk": "^2.0.13-dev",
-    "@nexeraid/react-sdk-wallet-wagmi": "^2.0.2-dev",
+    "@compilot/merkle-tree-js": "^2.1.10-dev",
+    "@compilot/js-sdk": "^2.1.10-dev",
+    "@compilot/react-sdk": "^2.1.10-dev",
+    "@compilot/web-sdk-wallet-wagmi": "^2.1.10-dev",
     "@rainbow-me/rainbowkit": "^2.0.5",
     "@t3-oss/env-nextjs": "^0.6.0",
     "@tanstack/react-query": "^5.29.2",
     "@tanstack/react-query-devtools": "^5.29.2",
+    "@vercel/postgres": "^0.9.0",
     "drizzle-orm": "^0.32.2",
     "drizzle-zod": "^0.5.1",
     "ethereumjs-util": "^7.1.5",
@@ -43,7 +45,7 @@
   },
   "devDependencies": {
     "@types/eslint": "^8.44.2",
-    "@types/node": "^18.16.0",
+    "@types/node": "^20.16.5",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.3.0",
@@ -53,7 +55,7 @@
     "dotenv-cli": "^7.4.2",
     "drizzle-kit": "^0.23.2",
     "eslint": "^8.47.0",
-    "eslint-config-next": "^13.4.19",
+    "eslint-config-next": "^14.2.7",
     "postcss": "^8.4.27",
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.5.1",
@@ -63,8 +65,8 @@
   "ct3aMetadata": {
     "initVersion": "7.20.2"
   },
-  "packageManager": "npm@9.8.1",
+  "packageManager": "npm@10.8.3",
   "engines": {
-    "node": ">=18"
+    "node": ">=20.17.0"
   }
 }

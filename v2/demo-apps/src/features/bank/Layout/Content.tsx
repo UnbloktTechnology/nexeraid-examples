@@ -24,7 +24,7 @@ export const Content = () => {
       <div className="flex flex-wrap gap-8">
         {services.map((service) => (
           <h3 key={service} className="w-96 cursor-pointer text-3xl">
-            {service} <span className="text-[#DB0011]">&gt;</span>
+            {service} <span className="text-[#77B212]">&gt;</span>
           </h3>
         ))}
       </div>

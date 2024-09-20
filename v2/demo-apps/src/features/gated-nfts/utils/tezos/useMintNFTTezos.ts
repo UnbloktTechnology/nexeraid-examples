@@ -7,10 +7,11 @@ import { RpcClient } from "@taquito/rpc";
 import { TezosChainId } from "@nexeraid/identity-schemas";
 
 import { useTezosWallet } from "@/features/root/web3/wallet-hook/useTezosWallet";
-import { useGetTxAuthDataSignature } from "@nexeraid/react-sdk";
+import { useGetTxAuthDataSignature } from "@compilot/react-sdk";
 import { type TezosImplicitAddress } from "@nexeraid/identity-schemas";
 
-const NEXERAID_SIGNER_PK =
+// signer public key
+const COMPILOT_SIGNER_PK =
   "edpkurPsQ8eUApnLUJ9ZPDvu98E8VNj4KtJa1aZr16Cr5ow5VHKnz4";
 
 const RPC_ENDPOINT = "https://rpc.ghostnet.teztnets.com/";
@@ -32,7 +33,7 @@ function convertMint(owner_str: string, token_id: string) {
 
 export const useMintGatedNFTTezos = () => {
   const { wallet, tezos } = useTezosWallet();
-  const getTxAuthDataSignature = useGetTxAuthDataSignature();
+  const { getTxAuthDataSignature } = useGetTxAuthDataSignature();
 
   return useMutation({
     mutationFn: async () => {
@@ -97,7 +98,7 @@ export const useMintGatedNFTTezos = () => {
           expirationBlock: signatureResponse.blockExpiration,
           functionName,
           functionArgs: functionCallArgsBytes,
-          signerPublicKey: NEXERAID_SIGNER_PK,
+          signerPublicKey: COMPILOT_SIGNER_PK,
           signature: signatureResponse.signature,
         };
 

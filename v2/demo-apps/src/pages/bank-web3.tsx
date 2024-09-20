@@ -1,30 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Dashboard } from "@/features/bank-web3/Dashboard";
 import { Content, Header, Layout } from "@/features/bank-web3/Layout";
 import { useGlobalModals } from "@/features/bank-web3/Modals/useGlobalModals";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { WagmiProvider } from "wagmi";
-import { useCheckBankWeb3Compliance } from "@/features/bank-web3/identity/useCheckBankWeb3Compliance";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { NexeraIdProvider } from "@nexeraid/react-sdk";
+import { ComPilotProvider, useCustomerStatus } from "@compilot/react-sdk";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { createDemoWeb3WagmiSdkConfig } from "@/features/root/identity/createDemoWeb3WagmiSdkConfig";
 import { wagmiConfig } from "@/features/root/web3/wagmiConfig";
 
 const queryClient = new QueryClient();
-const nexeraIdConfig = createDemoWeb3WagmiSdkConfig("bank-web3");
+const compilotConfig = createDemoWeb3WagmiSdkConfig("bank-web3");
 
 const Home = () => {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
-          <NexeraIdProvider config={nexeraIdConfig}>
+          <ComPilotProvider config={compilotConfig}>
             <HomeContent />
             <ReactQueryDevtools initialIsOpen={false} />
             <ToastContainer />
-          </NexeraIdProvider>
+          </ComPilotProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
@@ -37,27 +36,8 @@ const HomeContent = () => {
     close: state.close,
     data: state.data,
   }));
-  const [isKycComplete, setIsKycComplete] = useState(false);
-  const [isCompliant, setIsCompliant] = useState(false);
-  const { data } = useCheckBankWeb3Compliance(isKycComplete);
-
-  useEffect(() => {
-    console.log("EXECUTING isVerified check compliance: ", data);
-    if (data) {
-      if (data.isValid) {
-        toast("Compliance Verification: Your identity has been verified");
-        setIsKycComplete(false);
-        setIsCompliant(true);
-      } else if (data.data === "unknown") {
-        setIsKycComplete(true);
-      } else {
-        toast("Compliance Verification: Your identity has not been verified");
-        setIsKycComplete(false);
-        setIsCompliant(false);
-      }
-    }
-  }, [data]);
-
+  const customerStatus = useCustomerStatus();
+  const isCompliant = customerStatus.data === "Active";
   useEffect(() => {
     if (isCompliant) {
       close();

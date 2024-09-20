@@ -1,11 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { env } from "@/env.mjs";
-import { createApiClient } from "@nexeraid/js-sdk";
+import { createSdk } from "@compilot/js-sdk";
 
 import "@/features/root/configureNodeDemoEnv";
 
-const apiClient = createApiClient({
-  apiKey: env.NEXERA_ID_API_KEY_BANK_KYB,
+const apiClient = createSdk({
+  webhookSecret: env.COMPILOT_WEBHOOK_SECRET_BANK_KYB,
+  apiKey: env.COMPILOT_API_KEY_BANK_KYB,
 });
 
 export default async function handler(
@@ -25,7 +26,7 @@ export default async function handler(
 
     const authSession = await apiClient.createSession({
       externalCustomerId: userId,
-      workflowId: env.NEXERA_ID_WORKFLOW_ID_BANK_KYB,
+      workflowId: env.COMPILOT_WORKFLOW_ID_BANK_KYB,
     });
 
     res.status(200).json(authSession);

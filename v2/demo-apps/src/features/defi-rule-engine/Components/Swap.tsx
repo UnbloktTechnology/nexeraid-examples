@@ -10,17 +10,18 @@ import {
   type ChainOptions,
   SwapOptions,
 } from "@/features/defi-rule-engine/SwapOptionsDemoData";
+import { useCustomerStatus } from "@compilot/react-sdk";
 
 const optionsToSwap = (options: ITokenInfo[], tokenInfo: ITokenInfo) => {
   return options?.filter((token) => token.value !== tokenInfo.value);
 };
 
-export const Swap: React.FC<{
-  isCompliant: boolean | undefined;
-}> = ({ isCompliant }) => {
+export const Swap = () => {
   const { chain } = useAccount();
   const options = SwapOptions[(chain?.id as ChainOptions) ?? "80002"];
-  console.log(options, chain?.name);
+  const customerStatus = useCustomerStatus();
+  const isCompliant = customerStatus.data === "Active";
+
   const [fromAmount, setFromAmount] = useState("0");
   const [fromToken, setFromToken] = useState<ITokenInfo>(
     options?.[0] ?? {
@@ -130,16 +131,24 @@ export const Swap: React.FC<{
           </div>
         </div>
 
-        {isCompliant && <SwapButton amount={fromAmount.toString()} />}
+        {isCompliant && <SwapButton amountWei={fromAmount.toString()} />}
         {!isCompliant && (
           <button
             type="button"
             className="mt-3 h-14 w-full rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]"
             id={"kyc-btn-verify"}
             onClick={verifyUser}
+            disabled={customerStatus.isLoading}
           >
-            Verify
+            {customerStatus.isLoading
+              ? "...Checking"
+              : "Prove compliance to swap"}
           </button>
+        )}
+        {customerStatus.isError && (
+          <div className="mt-3 h-14 w-full rounded-3xl bg-[#4c82fb3d] text-center text-xl font-bold text-[#4C82FB]">
+            {customerStatus.error.message}
+          </div>
         )}
       </div>
     </div>

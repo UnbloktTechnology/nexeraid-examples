@@ -17,16 +17,14 @@ export const Banner = () => {
         <div className="absolute left-14 top-1/2 w-6/12 -translate-y-1/2 space-y-9 bg-white px-8 py-6">
           <h3 className="text-4xl">Have £200 on us...</h3>
           <p className="text-base">
-            ...just switch to a qualifying HSBC current account using the
+            ...just switch to a qualifying Green Bank current account using the
             Current Account Switch Service within 30 days.
           </p>
           <p className="text-base">
             New customers only. Further eligibility and T&Cs apply. Deposit
             £1,500 within 60 days of account opening.
           </p>
-          <Button>
-            Find out more
-          </Button>
+          <Button>Find out more</Button>
         </div>
       </div>
 

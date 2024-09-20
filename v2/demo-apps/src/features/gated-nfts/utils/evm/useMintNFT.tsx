@@ -1,15 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
-import { encodeFunctionData, pad, toHex } from "viem";
+import { encodeFunctionData } from "viem";
 import { ExampleGatedNFTMinterABI } from "@nexeraid/sig-gating-contracts-sdk/abis";
 import { EvmChainId, type EIP155Signature } from "@nexeraid/identity-schemas";
-import {
-  useChainId,
-  useAccount,
-  useBlockNumber,
-  useSendTransaction,
-} from "wagmi";
+import { useChainId, useAccount, useSendTransaction } from "wagmi";
 import { getGatedContractAddress } from "./getContractAddress";
-import { useGetTxAuthDataSignature } from "@nexeraid/react-sdk";
+import { useGetTxAuthDataSignature } from "@compilot/react-sdk";
 
 const WRONG_SIGNATURE: EIP155Signature =
   "0xc6fd40ac16944fd0fef20071149270a2c283c8ae92ffcbb5e61f44348490dc3b65e786637aaa82f46ac3c01941a9875046a2ceb9bad189362014b35f6e74df231b";
@@ -17,8 +12,7 @@ const WRONG_SIGNATURE: EIP155Signature =
 export const useMintGatedNFTFromSDK = () => {
   const chainId = useChainId();
   const account = useAccount();
-  const blockNumber = useBlockNumber();
-  const getTxAuthDataSignature = useGetTxAuthDataSignature();
+  const { getTxAuthDataSignature } = useGetTxAuthDataSignature();
   const mintNFTGatedFromSDK = useSendTransaction();
 
   return useMutation({
@@ -39,23 +33,7 @@ export const useMintGatedNFTFromSDK = () => {
         });
 
         if (!signatureResponse.isAuthorized) {
-          // If user is not authorized, use wrong signature and dummy blockExpiration
-          const blockExpiration = blockNumber.data
-            ? Number(blockNumber.data) + 10
-            : 0;
-          return {
-            signatureResponse: {
-              isAuthorized: true,
-              signature: WRONG_SIGNATURE,
-              blockExpiration,
-              payload:
-                pad(
-                  // number to hex string number
-                  toHex(blockExpiration),
-                  { size: 32 },
-                ).slice(2) + WRONG_SIGNATURE.slice(2),
-            },
-          };
+          throw new Error("User not authorized");
         }
 
         // Create function call data

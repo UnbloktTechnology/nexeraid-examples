@@ -1,5 +1,5 @@
 import { getWallet } from "@/features/root/web3/wallet-hook/useAptosWallet";
-import { type Web3Wallet } from "@nexeraid/react-sdk";
+import { type Web3Wallet } from "@compilot/react-sdk";
 
 export const aptosWalletConfig: Web3Wallet = {
   namespace: "aptos",

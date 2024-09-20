@@ -1,11 +1,11 @@
 {
-  "id": "27e92e9b-dd4f-4c51-9c37-f7ed5df63032",
+  "id": "dd403d0d-bcc4-4bea-ab2c-cc521305574b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.users": {
-      "name": "users",
+    "public.customer": {
+      "name": "customer",
       "schema": "",
       "columns": {
         "id": {
@@ -14,18 +14,64 @@
           "primaryKey": true,
           "notNull": true
         },
-        "approved": {
-          "name": "approved",
-          "type": "boolean",
+        "compilot_customer_id": {
+          "name": "compilot_customer_id",
+          "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "default": false
+          "notNull": false
+        },
+        "wallet_address": {
+          "name": "wallet_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_status": {
+          "name": "user_status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_login": {
+          "name": "last_login",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "customer_compilot_customer_id_unique": {
+          "name": "customer_compilot_customer_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "compilot_customer_id"
+          ]
+        },
+        "customer_wallet_address_unique": {
+          "name": "customer_wallet_address_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "wallet_address"
+          ]
+        }
+      }
     }
   },
   "enums": {},

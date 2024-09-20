@@ -19,81 +19,130 @@ export const env = createEnv({
         "The URL of the Upstash Redis REST API -> https://console.upstash.com/redis/",
       ),
 
-    NEXERA_ID_API_KEY_DEFI_RULE_ENGINE: z
+    COMPILOT_WEBHOOK_SECRET_DEFI_RULE_ENGINE: z
       .string()
+      .optional()
+      .default("changeme")
       .describe(
-        "The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Defi Rule Engine Example dApp",
+        "The webhook secret for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Defi Rule Engine Example dApp",
       ),
-    NEXERA_ID_WORKFLOW_ID_DEFI_RULE_ENGINE: z
+    COMPILOT_API_KEY_DEFI_RULE_ENGINE: z
       .string()
       .describe(
-        "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Defi Rule Engine Example dApp",
+        "The API key for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Defi Rule Engine Example dApp",
       ),
-    NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP: z
+    COMPILOT_WORKFLOW_ID_DEFI_RULE_ENGINE: z
       .string()
       .describe(
-        "The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Defi Offchain ZKP Example dApp",
-      ),
-    NEXERA_ID_WORKFLOW_ID_DEFI_OFFCHAIN_ZKP: z
-      .string()
-      .describe(
-        "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Defi Offchain ZKP Example dApp",
+        "The workflow ID for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Defi Rule Engine Example dApp",
       ),
 
-    NEXERA_ID_API_KEY_BANK: z
+    COMPILOT_WEBHOOK_SECRET_DEFI_OFFCHAIN_ZKP: z
       .string()
+      .optional()
+      .default("changeme")
       .describe(
-        "The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank App",
+        "The webhook secret for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Defi Offchain ZKP Example dApp",
       ),
-    NEXERA_ID_WORKFLOW_ID_BANK: z
+    COMPILOT_API_KEY_DEFI_OFFCHAIN_ZKP: z
       .string()
       .describe(
-        "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank App",
+        "The API key for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Defi Offchain ZKP Example dApp",
       ),
-    NEXERA_ID_API_KEY_BANK_WEB3: z
+    COMPILOT_WORKFLOW_ID_DEFI_OFFCHAIN_ZKP: z
       .string()
       .describe(
-        "The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank Web3 dApp",
+        "The workflow ID for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Defi Offchain ZKP Example dApp",
       ),
-    NEXERA_ID_WORKFLOW_ID_BANK_WEB3: z
+
+    COMPILOT_WEBHOOK_SECRET_BANK: z
       .string()
+      .optional()
+      .default("changeme")
       .describe(
-        "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank Web3 dApp",
+        "The webhook secret for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Bank App",
       ),
-    NEXERA_ID_API_KEY_BANK_KYB: z
+    COMPILOT_API_KEY_BANK: z
       .string()
       .describe(
-        "The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank Web3 dApp Mocked",
+        "The API key for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Bank App",
       ),
-    NEXERA_ID_WORKFLOW_ID_BANK_KYB: z
+    COMPILOT_WORKFLOW_ID_BANK: z
       .string()
       .describe(
-        "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Bank Web3 dApp Mocked",
+        "The workflow ID for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Bank App",
       ),
-    NEXERA_ID_API_KEY_KYC: z
+
+    COMPILOT_WEBHOOK_SECRET_BANK_WEB3: z
       .string()
+      .optional()
+      .default("changeme")
       .describe(
-        "The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera KYC dApp",
+        "The webhook secret for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Bank Web3 dApp",
       ),
-    NEXERA_ID_WORKFLOW_ID_KYC: z
+    COMPILOT_API_KEY_BANK_WEB3: z
       .string()
       .describe(
-        "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera KYC dApp",
+        "The API key for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Bank Web3 dApp",
       ),
-    NEXERA_ID_API_KEY_MULTICHAIN_DEMO: z
+    COMPILOT_WORKFLOW_ID_BANK_WEB3: z
       .string()
       .describe(
-        "The API key for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Multichain Demo dApp",
+        "The workflow ID for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Bank Web3 dApp",
       ),
-    NEXERA_ID_WORKFLOW_ID_MULTICHAIN_DEMO: z
+
+    COMPILOT_WEBHOOK_SECRET_BANK_KYB: z
       .string()
+      .optional()
+      .default("changeme")
       .describe(
-        "The workflow ID for the Nexera ID API -> https://dashboard.nexera.id/: Nexera Multichain Demo dApp",
+        "The webhook secret for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Bank Web3 dApp Mocked",
       ),
-    NEXERA_ID_API_PROJECT_ID: z
+    COMPILOT_API_KEY_BANK_KYB: z
       .string()
       .describe(
-        "The API project ID which is used to identify the project in the Nexera ID API -> https://dashboard.nexera.id/",
+        "The API key for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Bank Web3 dApp Mocked",
+      ),
+    COMPILOT_WORKFLOW_ID_BANK_KYB: z
+      .string()
+      .describe(
+        "The workflow ID for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Bank Web3 dApp Mocked",
+      ),
+
+    COMPILOT_WEBHOOK_SECRET_KYC: z
+      .string()
+      .optional()
+      .default("changeme")
+      .describe(
+        "The webhook secret for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot KYC dApp",
+      ),
+    COMPILOT_API_KEY_KYC: z
+      .string()
+      .describe(
+        "The API key for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot KYC dApp",
+      ),
+    COMPILOT_WORKFLOW_ID_KYC: z
+      .string()
+      .describe(
+        "The workflow ID for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot KYC dApp",
+      ),
+
+    COMPILOT_WEBHOOK_SECRET_MULTICHAIN_DEMO: z
+      .string()
+      .optional()
+      .default("changeme")
+      .describe(
+        "The webhook secret for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Multichain Demo dApp",
+      ),
+    COMPILOT_API_KEY_MULTICHAIN_DEMO: z
+      .string()
+      .describe(
+        "The API key for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Multichain Demo dApp",
+      ),
+    COMPILOT_WORKFLOW_ID_MULTICHAIN_DEMO: z
+      .string()
+      .describe(
+        "The workflow ID for the ComPilot API -> https://dashboard.compilot.ai/: ComPilot Multichain Demo dApp",
       ),
   },
 
@@ -107,10 +156,10 @@ export const env = createEnv({
       .enum(["local", "dev", "stage", "prod", "test-dev-1", "test-dev-2"])
       .describe("The environment the app is running in")
       .default("prod"),
-    NEXT_PUBLIC_AMOY_WS_PROVIDER_URL: z
+    NEXT_PUBLIC_AMOY_HTTP_PROVIDER_URL: z
       .string()
       .describe("Amoy websocket url for better event support"),
-    NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL: z
+    NEXT_PUBLIC_SEPOLIA_HTTP_PROVIDER_URL: z
       .string()
       .describe("Sepolia websocket url for better event support"),
   },
@@ -124,35 +173,49 @@ export const env = createEnv({
     NEXT_PUBLIC_ENVIRONMENT: process.env.NEXT_PUBLIC_ENVIRONMENT,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
-    NEXT_PUBLIC_AMOY_WS_PROVIDER_URL:
-      process.env.NEXT_PUBLIC_AMOY_WS_PROVIDER_URL,
-    NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL:
-      process.env.NEXT_PUBLIC_SEPOLIA_WS_PROVIDER_URL,
+    NEXT_PUBLIC_AMOY_HTTP_PROVIDER_URL:
+      process.env.NEXT_PUBLIC_AMOY_HTTP_PROVIDER_URL,
+    NEXT_PUBLIC_SEPOLIA_HTTP_PROVIDER_URL:
+      process.env.NEXT_PUBLIC_SEPOLIA_HTTP_PROVIDER_URL,
 
-    NEXERA_ID_API_KEY_BANK: process.env.NEXERA_ID_API_KEY_BANK,
-    NEXERA_ID_WORKFLOW_ID_BANK: process.env.NEXERA_ID_WORKFLOW_ID_BANK,
-    NEXERA_ID_API_KEY_BANK_KYB: process.env.NEXERA_ID_API_KEY_BANK_KYB,
-    NEXERA_ID_WORKFLOW_ID_BANK_KYB: process.env.NEXERA_ID_WORKFLOW_ID_BANK_KYB,
-    NEXERA_ID_API_KEY_BANK_WEB3: process.env.NEXERA_ID_API_KEY_BANK_WEB3,
-    NEXERA_ID_WORKFLOW_ID_BANK_WEB3:
-      process.env.NEXERA_ID_WORKFLOW_ID_BANK_WEB3,
-    NEXERA_ID_API_KEY_DEFI_RULE_ENGINE:
-      process.env.NEXERA_ID_API_KEY_DEFI_RULE_ENGINE,
-    NEXERA_ID_WORKFLOW_ID_DEFI_RULE_ENGINE:
-      process.env.NEXERA_ID_WORKFLOW_ID_DEFI_RULE_ENGINE,
-    NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP:
-      process.env.NEXERA_ID_API_KEY_DEFI_OFFCHAIN_ZKP,
-    NEXERA_ID_WORKFLOW_ID_DEFI_OFFCHAIN_ZKP:
-      process.env.NEXERA_ID_WORKFLOW_ID_DEFI_OFFCHAIN_ZKP,
-    NEXERA_ID_API_KEY_KYC: process.env.NEXERA_ID_API_KEY_KYC,
-    NEXERA_ID_WORKFLOW_ID_KYC: process.env.NEXERA_ID_WORKFLOW_ID_KYC,
-    NEXERA_ID_API_KEY_MULTICHAIN_DEMO:
-      process.env.NEXERA_ID_API_KEY_MULTICHAIN_DEMO,
-    NEXERA_ID_WORKFLOW_ID_MULTICHAIN_DEMO:
-      process.env.NEXERA_ID_WORKFLOW_ID_MULTICHAIN_DEMO,
+    COMPILOT_WEBHOOK_SECRET_BANK: process.env.COMPILOT_WEBHOOK_SECRET_BANK,
+    COMPILOT_API_KEY_BANK: process.env.COMPILOT_API_KEY_BANK,
+    COMPILOT_WORKFLOW_ID_BANK: process.env.COMPILOT_WORKFLOW_ID_BANK,
 
-    // TODO:
-    NEXERA_ID_API_PROJECT_ID: process.env.NEXERA_ID_API_PROJECT_ID,
+    COMPILOT_WEBHOOK_SECRET_BANK_KYB:
+      process.env.COMPILOT_WEBHOOK_SECRET_BANK_KYB,
+    COMPILOT_API_KEY_BANK_KYB: process.env.COMPILOT_API_KEY_BANK_KYB,
+    COMPILOT_WORKFLOW_ID_BANK_KYB: process.env.COMPILOT_WORKFLOW_ID_BANK_KYB,
+
+    COMPILOT_WEBHOOK_SECRET_BANK_WEB3:
+      process.env.COMPILOT_WEBHOOK_SECRET_BANK_WEB3,
+    COMPILOT_API_KEY_BANK_WEB3: process.env.COMPILOT_API_KEY_BANK_WEB3,
+    COMPILOT_WORKFLOW_ID_BANK_WEB3: process.env.COMPILOT_WORKFLOW_ID_BANK_WEB3,
+
+    COMPILOT_WEBHOOK_SECRET_DEFI_RULE_ENGINE:
+      process.env.COMPILOT_WEBHOOK_SECRET_DEFI_RULE_ENGINE,
+    COMPILOT_API_KEY_DEFI_RULE_ENGINE:
+      process.env.COMPILOT_API_KEY_DEFI_RULE_ENGINE,
+    COMPILOT_WORKFLOW_ID_DEFI_RULE_ENGINE:
+      process.env.COMPILOT_WORKFLOW_ID_DEFI_RULE_ENGINE,
+
+    COMPILOT_WEBHOOK_SECRET_DEFI_OFFCHAIN_ZKP:
+      process.env.COMPILOT_WEBHOOK_SECRET_DEFI_OFFCHAIN_ZKP,
+    COMPILOT_API_KEY_DEFI_OFFCHAIN_ZKP:
+      process.env.COMPILOT_API_KEY_DEFI_OFFCHAIN_ZKP,
+    COMPILOT_WORKFLOW_ID_DEFI_OFFCHAIN_ZKP:
+      process.env.COMPILOT_WORKFLOW_ID_DEFI_OFFCHAIN_ZKP,
+
+    COMPILOT_WEBHOOK_SECRET_KYC: process.env.COMPILOT_WEBHOOK_SECRET_KYC,
+    COMPILOT_API_KEY_KYC: process.env.COMPILOT_API_KEY_KYC,
+    COMPILOT_WORKFLOW_ID_KYC: process.env.COMPILOT_WORKFLOW_ID_KYC,
+
+    COMPILOT_WEBHOOK_SECRET_MULTICHAIN_DEMO:
+      process.env.COMPILOT_WEBHOOK_SECRET_MULTICHAIN_DEMO,
+    COMPILOT_API_KEY_MULTICHAIN_DEMO:
+      process.env.COMPILOT_API_KEY_MULTICHAIN_DEMO,
+    COMPILOT_WORKFLOW_ID_MULTICHAIN_DEMO:
+      process.env.COMPILOT_WORKFLOW_ID_MULTICHAIN_DEMO,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

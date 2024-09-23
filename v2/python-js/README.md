@@ -78,10 +78,10 @@ npm run dev
 
 ## For more details, visit : 
 
-SDKs documentation : https://docs.compilot.id/developing/sdk/
-NexeraID KYC/KYB documentation : https://docs.compilot.id/usescases/
-NexeraID technical documentation :   https://docs.compilot.id/developing
+SDKs documentation : https://docs.compilot.ai/developing/sdk/
+NexeraID KYC/KYB documentation : https://docs.compilot.ai/usescases/
+NexeraID technical documentation :   https://docs.compilot.ai/developing
 
 ## Credits :
 
-This is a [Compilot] (https://compilot.id) project
+This is a [Compilot] (https://compilot.ai) project

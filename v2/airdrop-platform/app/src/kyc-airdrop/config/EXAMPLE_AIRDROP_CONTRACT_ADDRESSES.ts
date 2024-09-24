@@ -14,14 +14,14 @@ export const getDistributorContractAddress = () => {
   return distributorAddress;
 };
 
-export const getExampleTokenContractAddress = () => {
+export const getAirdropTokenConfig = () => {
   const tokenAddress =
     EXAMPLE_AIRDROP_CONTRACT_ADDRESSES[env.NEXT_PUBLIC_ENVIRONMENT]
       ?.tokenAddress;
   if (!tokenAddress) {
     throw new Error("Token address not found");
   }
-  return tokenAddress;
+  return { address: tokenAddress, symbol: "PEAQ", decimals: 18 };
 };
 
 export const getDeploymentChain = () => {
@@ -52,15 +52,15 @@ const EXAMPLE_AIRDROP_CONTRACT_ADDRESSES: {
     merkleDistributorAddress: "0xefAd1faC927aBc388E8bFbEf6b97509cdb9d65BF",
   },
   dev: {
-    tokenAddress: "0x9fc36bF470A7C099e83e200778809cA12Aa3Ee63",
-    merkleDistributorAddress: "0x4ea9BDc56F69C7FD812DD034829471d79F5dA872",
+    tokenAddress: "0xfc4Dbb8F9B20674dfaC0d5a01A6dD69f07fEC1E0",
+    merkleDistributorAddress: "0x643336F908491c806FA52fe96fe171ae3D6BC0e1",
   },
   stage: {
-    tokenAddress: "0x1d2CA900e97A6C12642af55B77ab57549371D87e",
-    merkleDistributorAddress: "0xb2B72E04800b2121162439ab7Ecad810d8240C4E",
+    tokenAddress: "0x3BD991D9215679A2a5d5DFc5754eA3E117bD4ab7",
+    merkleDistributorAddress: "0xaC91e330fE6a77944468490B0B27B829418f6DD1",
   },
   prod: {
-    tokenAddress: "0x0220dE68E41B0131bDf2C1796a142B9D11dd11FD",
-    merkleDistributorAddress: "0x9E6fDf5b83971C94B9B82658A00a4B14bC4736d1",
+    tokenAddress: "0xD7609E266bE7292D7FBc9766Ede5080288949F78",
+    merkleDistributorAddress: "0x6F07cE622f2664248ebD72bb6b5af03Bc99dE52F",
   },
 } as const;

@@ -9,7 +9,13 @@ import { SearchBar } from "./components/SearchBar";
 import { LogoutButton } from "./components/LogoutButton";
 import { useCustomerData } from "../lib/useCustomerData";
 import { useSwitchChain } from "wagmi";
-import { getDeploymentChain } from "../config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
+import {
+  getAirdropTokenConfig,
+  getDeploymentChain,
+} from "../config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
+import { AddTokenButton } from "./components/AddTokenButton";
+import { useGetTokenBalance } from "../lib/useGetTokenBalance";
+import { formatAirdropTokenAmount } from "../lib/formatDecimalNumber";
 
 export const AirdropPage = () => {
   const uiStep = useCurrentUiStep();
@@ -19,6 +25,8 @@ export const AirdropPage = () => {
   const claimMutation = useClaimMutation();
   const authenticate = useAuthenticate();
   const { switchChain } = useSwitchChain();
+  const { data: balance } = useGetTokenBalance();
+  const { symbol } = getAirdropTokenConfig();
   const isCustomerActive = customerData.data?.userStatus === "Active";
 
   return (
@@ -74,7 +82,9 @@ export const AirdropPage = () => {
             isLoading={openWidget.isPending}
             id="identity-btn"
           >
-            Begin identity verification
+            {authenticate.data === true
+              ? "Continue with identity verification"
+              : "Begin identity verification"}
           </Button>
         </div>
       )}
@@ -121,6 +131,18 @@ export const AirdropPage = () => {
               Authenticate wallet to claim
             </Button>
           )}
+        </div>
+      )}
+
+      {uiStep === "done" && (
+        <div className="flex flex-col justify-center space-y-4">
+          <p>
+            You currently own {formatAirdropTokenAmount(balance)} {symbol}
+          </p>
+          <div className="flex justify-center space-x-4">
+            <LogoutButton variant="secondary" label="Use another wallet" />
+            <AddTokenButton variant="primary" />
+          </div>
         </div>
       )}
     </AirdropLayout>

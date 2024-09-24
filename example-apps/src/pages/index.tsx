@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Button } from "../features/bank-web3/Components/Button";
 import { useState } from "react";
 import { AppTagFilter } from "../features/root/AppTagFilter";
+import Link from "next/link";
 
 const VCV_TAG = {
   text: "VCV",
@@ -76,7 +77,6 @@ const PROJECTS: AppCardProps[] = [
       "Short description for this app example that we showcase here. Better to have a few lines of text, so not very short if possible",
     image: "/images/apps/dex.svg",
     tags: [VCV_TAG, OFF_TAG, EW_TAG],
-    version: "v1",
     poweredBy: "/images/poweredBy/uniswap.svg",
   },
   {
@@ -86,7 +86,6 @@ const PROJECTS: AppCardProps[] = [
       "Short description for this app example that we showcase here. Better to have a few lines of text, so not very short if possible",
     image: "/images/apps/dex.svg",
     tags: [ZKP_TAG, OFF_TAG, EW_TAG],
-    version: "v1",
     poweredBy: "/images/poweredBy/uniswap.svg",
   },
   {
@@ -96,7 +95,6 @@ const PROJECTS: AppCardProps[] = [
       "Short description for this app example that we showcase here. Better to have a few lines of text, so not very short if possible",
     image: "/images/apps/banking.svg",
     tags: [VCV_TAG, OFF_TAG, AS_TAG],
-    version: "v1",
     poweredBy: "/images/poweredBy/green-bank.svg",
   },
   {
@@ -106,7 +104,6 @@ const PROJECTS: AppCardProps[] = [
       "Short description for this app example that we showcase here. Better to have a few lines of text, so not very short if possible",
     image: "/images/apps/banking.svg",
     tags: [VCV_TAG, OFF_TAG, AS_TAG],
-    version: "v1",
     poweredBy: "/images/poweredBy/green-bank.svg",
   },
   {
@@ -116,7 +113,6 @@ const PROJECTS: AppCardProps[] = [
       "Short description for this app example that we showcase here. Better to have a few lines of text, so not very short if possible",
     image: "/images/apps/banking-web3.svg",
     tags: [VCV_TAG, OFF_TAG, EW_TAG],
-    version: "v1",
     poweredBy: "/images/poweredBy/payee.png",
   },
   {
@@ -125,7 +121,6 @@ const PROJECTS: AppCardProps[] = [
     description:
       "Short description for this app example that we showcase here. Better to have a few lines of text, so not very short if possible",
     image: "/images/apps/gating.svg",
-    version: "v1",
   },
   {
     url: "/gated-nft-tezos",
@@ -133,7 +128,6 @@ const PROJECTS: AppCardProps[] = [
     description:
       "Short description for this app example that we showcase here. Better to have a few lines of text, so not very short if possible",
     image: "/images/apps/gating.svg",
-    version: "v1",
   },
   {
     url: "/kyc-airdrop",
@@ -141,7 +135,6 @@ const PROJECTS: AppCardProps[] = [
     description:
       "Short description for this app example that we showcase here. Better to have a few lines of text, so not very short if possible",
     image: "/images/apps/airdrop.svg",
-    version: "v1",
     poweredBy: "/images/poweredBy/airdrop.svg",
   },
   {
@@ -150,7 +143,6 @@ const PROJECTS: AppCardProps[] = [
     description:
       "Short description for this app example that we showcase here. Better to have a few lines of text, so not very short if possible",
     image: "/images/apps/gating.svg",
-    version: "v1",
   },
 ];
 
@@ -172,7 +164,7 @@ export default function Home() {
       <main className="flex min-h-screen flex-col items-center justify-center self-center bg-[#0258FD]">
         <div className="mb-12 flex w-full justify-center rounded-b-[72px] bg-white">
           <div className="container mb-16">
-            <div className="mb-12 mt-8 flex w-full items-center text-center">
+            <div className="my-2 flex w-full items-center text-center">
               <div className="flex-grow">
                 <Image
                   src={"/images/logo/compilot.svg"}
@@ -182,10 +174,24 @@ export default function Home() {
                 />
               </div>
               <div className="flex gap-4">
-                <Button className="rounded-lg border border-solid border-[#D0D5DD] bg-transparent p-2 text-[#1A1A1A]">
-                  Request demo
-                </Button>
-                <Button className="rounded-lg p-2">Login</Button>
+                <Link
+                  href="https://www.compilot.ai/contact-us"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button className="rounded-lg border border-solid border-[#D0D5DD] bg-transparent !py-2 !text-[#00040A]">
+                    Request demo
+                  </Button>
+                </Link>
+                <Link
+                  href="https://dashboard.compilot.ai/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button className="rounded-lg bg-[#0258FD] !py-2 text-white">
+                    Login
+                  </Button>
+                </Link>
               </div>
             </div>
             <div className="mb-12 mt-8 flex w-full flex-col items-center justify-center gap-4 text-center">
@@ -232,7 +238,6 @@ export default function Home() {
                     description={project.description}
                     key={project.name}
                     tags={project.tags}
-                    version={project.version}
                   />
                 ))}
               </div>
@@ -245,31 +250,107 @@ export default function Home() {
               Follow our product <br />
               development exclusively on
             </h2>
-            <Image
-              className="self-end pb-3"
-              src={"/images/logo/linkedin.svg"}
-              alt={"linkedin"}
-              height={48}
-              width={48}
-            />
+            <Link
+              className="self-end"
+              href="https://www.linkedin.com/company/nexeraid/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                className="self-end pb-3"
+                src={"/images/logo/linkedin.svg"}
+                alt={"linkedin"}
+                height={48}
+                width={48}
+              />
+            </Link>
           </div>
           <div className="flex gap-8 text-start text-white [&_h6]:mb-6 [&_h6]:text-sm [&_p]:mb-4 [&_p]:text-[#BFD5FF]">
             <div className="">
               <h6>ABOUT</h6>
-              <p>About us</p>
-              <p>Contact us</p>
-              <p>Academy</p>
+              <Link
+                href="https://www.compilot.ai/about"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <p>About us</p>
+              </Link>
+              <Link
+                href="https://www.compilot.ai/contact-us"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <p>Contact us</p>
+              </Link>
+              <Link
+                href="https://www.compilot.ai/academy"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <p>Academy</p>
+              </Link>
             </div>
             <div>
-              <h6>FEATURES</h6>
-              <p>Case management</p>
-              <p>Lifecycle risk management</p>
-              <p>Privacy preserving KYC</p>
+              <h6>SOLUTIONS</h6>
+              <Link
+                href="https://www.compilot.ai/case"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <p>Automated & collaborative case management</p>
+              </Link>
+              <Link
+                href="https://www.compilot.ai/riskassessment"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <p>All-in-one compliance solution</p>
+              </Link>
+              <Link
+                href="https://www.compilot.ai/kyc"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <p>Web3 compatibility</p>
+              </Link>
+              <Link
+                href="https://www.compilot.ai/customer-verification"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <p>Customer verification</p>
+              </Link>
+              <Link
+                href="https://www.compilot.ai/business-verification"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <p>Business verification</p>
+              </Link>
+              <Link
+                href="https://www.compilot.ai/wallet-screening"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <p>Wallet screening</p>
+              </Link>
             </div>
             <div>
               <h6>DEVELOPERS</h6>
-              <p>Documentation</p>
-              <p>Github</p>
+              <Link
+                href="https://docs.nexera.id/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <p>Documentation</p>
+              </Link>
+              <Link
+                href="https://github.com/NexeraProtocol/nexeraid-examples"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <p>Github</p>
+              </Link>
             </div>
           </div>
           <Image

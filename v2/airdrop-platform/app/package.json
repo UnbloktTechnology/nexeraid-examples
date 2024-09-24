@@ -22,7 +22,7 @@
   "dependencies": {
     "@compilot/js-sdk": "2.2.6-dev",
     "@compilot/merkle-tree-js": "2.2.7-dev",
-    "@compilot/react-sdk": "2.2.6-dev",
+    "@compilot/react-sdk": "2.2.7-dev",
     "@compilot/web-sdk-wallet-wagmi": "2.2.7-dev",
     "@rainbow-me/rainbowkit": "^2.0.5",
     "@t3-oss/env-nextjs": "^0.6.0",

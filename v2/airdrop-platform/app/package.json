@@ -20,15 +20,16 @@
     "db:rollback": "dotenv -c pnpm drizzle-kit drop"
   },
   "dependencies": {
-    "@compilot/merkle-tree-js": "^2.1.10-dev",
-    "@compilot/js-sdk": "^2.1.10-dev",
-    "@compilot/react-sdk": "^2.1.10-dev",
+    "@compilot/js-sdk": "^2.1.13-dev",
+    "@compilot/merkle-tree-js": "^2.1.11-dev",
+    "@compilot/react-sdk": "^2.1.15-dev",
     "@compilot/web-sdk-wallet-wagmi": "^2.1.10-dev",
     "@rainbow-me/rainbowkit": "^2.0.5",
     "@t3-oss/env-nextjs": "^0.6.0",
     "@tanstack/react-query": "^5.29.2",
     "@tanstack/react-query-devtools": "^5.29.2",
     "@vercel/postgres": "^0.9.0",
+    "big.js": "^6.2.2",
     "drizzle-orm": "^0.32.2",
     "drizzle-zod": "^0.5.1",
     "ethereumjs-util": "^7.1.5",
@@ -44,6 +45,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/big.js": "^6.2.2",
     "@types/eslint": "^8.44.2",
     "@types/node": "^20.16.5",
     "@types/react": "^18.2.20",

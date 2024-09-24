@@ -4,11 +4,15 @@ import { useGetTokenBalance } from "@/kyc-airdrop/lib/useGetTokenBalance";
 import { useWalletAddress } from "@/kyc-airdrop/lib/useWalletAddress";
 import { LogoutButton } from "@/kyc-airdrop/ui/components/LogoutButton";
 import { getUserAirdropAmount } from "@/kyc-airdrop/lib/airdropActions";
+import { getAirdropTokenConfig } from "@/kyc-airdrop/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
+import { AddTokenButton } from "@/kyc-airdrop/ui/components/AddTokenButton";
+import { formatAirdropTokenAmount } from "@/kyc-airdrop/lib/formatDecimalNumber";
 
 export default function AllocationCheck() {
   const { address } = useWalletAddress();
   const { isLoading: isBalanceLoading } = useGetTokenBalance();
   const amount = getUserAirdropAmount(address);
+  const { symbol } = getAirdropTokenConfig();
 
   const title = isBalanceLoading
     ? "Claiming your tokens..."
@@ -16,11 +20,14 @@ export default function AllocationCheck() {
 
   const subtitle = isBalanceLoading
     ? "Checking wallet balance..."
-    : `Congrats! The allocated ${amount.toString()} PEAQ were transferred to the wallet ${address}`;
+    : `Congrats! The allocated ${formatAirdropTokenAmount(amount)} $${symbol} were transferred to the wallet ${address}`;
 
   return (
     <AirdropLayout titleOverwrite={title} subtitleOverwrite={subtitle}>
-      <LogoutButton variant="secondary" label="Try another wallet" />
+      <div className="flex justify-between gap-4">
+        <LogoutButton variant="secondary" label="Try another wallet" />
+        <AddTokenButton variant="primary" />
+      </div>
     </AirdropLayout>
   );
 }

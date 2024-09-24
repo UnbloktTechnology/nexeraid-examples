@@ -9,7 +9,6 @@ export type AppCardProps = {
   image: string;
   poweredBy?: string;
   tags?: { text: string; bgColor: string; textColor: string }[];
-  version: "v1" | "v2";
 };
 
 export default function AppCard(props: AppCardProps) {
@@ -28,9 +27,6 @@ export default function AppCard(props: AppCardProps) {
           height={250}
           className="w-full"
         />
-        <div className="absolute left-4 top-4 rounded bg-white px-2 py-1 text-xs text-[#667085]">
-          {props.version}
-        </div>
         {props.poweredBy && (
           <div className="relative">
             <div className="absolute -top-[35px] right-1/2 translate-x-1/2 rounded-full bg-white p-2 text-white">

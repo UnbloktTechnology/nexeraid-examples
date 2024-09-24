@@ -82,7 +82,9 @@ export const AirdropPage = () => {
             isLoading={openWidget.isPending}
             id="identity-btn"
           >
-            Begin identity verification
+            {authenticate.data === true
+              ? "Continue with identity verification"
+              : "Begin identity verification"}
           </Button>
         </div>
       )}

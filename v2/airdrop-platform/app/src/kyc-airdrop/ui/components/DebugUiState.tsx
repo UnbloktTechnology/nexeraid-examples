@@ -1,3 +1,4 @@
+import { useClaimMutation } from "@/kyc-airdrop/lib/useClaimMutation";
 import { useCustomerData } from "@/kyc-airdrop/lib/useCustomerData";
 import { useGetTokenBalance } from "@/kyc-airdrop/lib/useGetTokenBalance";
 import { useCurrentUiStep, useUiState } from "@/kyc-airdrop/lib/useUiState";
@@ -10,10 +11,11 @@ export const DebugUiState = () => {
   const uiState = useUiState();
   const currentStep = useCurrentUiStep();
   const router = useRouter();
-  const customerData = useCustomerData();
+  const customerQuery = useCustomerData();
   const { data: isAuthenticated } = useAuthenticate();
   const chainId = useChainId();
   const debug = router.query.debug === "true";
+  const claimMutation = useClaimMutation();
 
   const { data: balance, isLoading: isBalanceLoading } = useGetTokenBalance();
 
@@ -29,7 +31,8 @@ export const DebugUiState = () => {
           isAuthenticated,
           balance: balance?.toString(),
           isBalanceLoading,
-          customer: customerData.data,
+          customerQuery,
+          claimMutation,
         },
         null,
         2,

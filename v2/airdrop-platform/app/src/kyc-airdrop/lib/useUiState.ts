@@ -1,5 +1,5 @@
 import { getUserAirdropAmount, isUserQualified } from "./airdropActions";
-import { type Address } from "viem";
+import { UserRejectedRequestError, type Address } from "viem";
 import { useAuthenticate } from "@compilot/react-sdk";
 import { useWalletAddress } from "./useWalletAddress";
 import { useGetTokenBalance } from "./useGetTokenBalance";
@@ -28,7 +28,7 @@ export type UiState = {
     failed: boolean;
     processing: boolean;
   };
-  claim: { claimed: boolean; claiming: boolean };
+  claim: { claimed: boolean; claiming: boolean; rejected: boolean };
 };
 
 export const useUiState = (): UiState => {
@@ -59,6 +59,7 @@ export const useUiState = (): UiState => {
     },
     claim: {
       claimed: balance ? balance > 0n : false,
+      rejected: claimMutation.data instanceof UserRejectedRequestError,
       claiming: claimMutation.isPending,
     },
   };

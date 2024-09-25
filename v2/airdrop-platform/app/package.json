@@ -20,10 +20,10 @@
     "db:rollback": "dotenv -c pnpm drizzle-kit drop"
   },
   "dependencies": {
-    "@compilot/js-sdk": "2.2.6-dev",
-    "@compilot/merkle-tree-js": "2.2.7-dev",
-    "@compilot/react-sdk": "2.2.7-dev",
-    "@compilot/web-sdk-wallet-wagmi": "2.2.7-dev",
+    "@compilot/js-sdk": "2.3.1-dev",
+    "@compilot/merkle-tree-js": "2.3.1-dev",
+    "@compilot/react-sdk": "2.3.1-dev",
+    "@compilot/web-sdk-wallet-wagmi": "2.3.1-dev",
     "@rainbow-me/rainbowkit": "^2.0.5",
     "@t3-oss/env-nextjs": "^0.6.0",
     "@tanstack/react-query": "^5.29.2",

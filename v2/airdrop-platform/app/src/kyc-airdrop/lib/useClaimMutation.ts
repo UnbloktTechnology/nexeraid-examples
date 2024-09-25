@@ -5,6 +5,7 @@ import {
   useRedirectToClaimError,
   useRedirectToClaimSuccess,
 } from "./navigation";
+import { TransactionExecutionError, UserRejectedRequestError } from "viem";
 
 export const useClaimMutation = () => {
   const account = useAccount();
@@ -15,13 +16,30 @@ export const useClaimMutation = () => {
 
   return useMutation({
     mutationFn: async () => {
-      const result = await claimToken({
-        userAddress: accountAddress,
-      });
-      return result;
+      try {
+        const result = await claimToken({
+          userAddress: accountAddress,
+        });
+        return result;
+      } catch (error) {
+        if (error instanceof UserRejectedRequestError) {
+          return error;
+        }
+        if (
+          error instanceof TransactionExecutionError &&
+          error.cause instanceof UserRejectedRequestError
+        ) {
+          return error.cause;
+        }
+
+        throw error;
+      }
     },
     onSuccess: (sdkResponse) => {
-      console.log("sdkResponse", sdkResponse.signatureResponse);
+      if (sdkResponse instanceof UserRejectedRequestError) {
+        return;
+      }
+
       if (sdkResponse?.signatureResponse.isAuthorized) {
         return redirectToClaimSuccess(accountAddress);
       }

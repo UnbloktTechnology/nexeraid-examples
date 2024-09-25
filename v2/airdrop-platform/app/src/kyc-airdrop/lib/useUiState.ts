@@ -1,5 +1,5 @@
 import { getUserAirdropAmount, isUserQualified } from "./airdropActions";
-import { type Address } from "viem";
+import { UserRejectedRequestError, type Address } from "viem";
 import { useAuthenticate } from "@compilot/react-sdk";
 import { useWalletAddress } from "./useWalletAddress";
 import { useGetTokenBalance } from "./useGetTokenBalance";
@@ -7,7 +7,11 @@ import { useRouter } from "next/router";
 import { useCustomerData } from "./useCustomerData";
 import { useClaimMutation } from "./useClaimMutation";
 import { useChainId } from "wagmi";
-import { getDeploymentChain } from "../config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
+import {
+  getAirdropTokenConfig,
+  getDeploymentChain,
+} from "../config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
+import { formatAirdropTokenAmount } from "./formatDecimalNumber";
 
 export type UiState = {
   // wallet can be set but not connected as it's present in the url
@@ -24,7 +28,7 @@ export type UiState = {
     failed: boolean;
     processing: boolean;
   };
-  claim: { claimed: boolean; claiming: boolean };
+  claim: { claimed: boolean; claiming: boolean; rejected: boolean };
 };
 
 export const useUiState = (): UiState => {
@@ -55,6 +59,7 @@ export const useUiState = (): UiState => {
     },
     claim: {
       claimed: balance ? balance > 0n : false,
+      rejected: claimMutation.data instanceof UserRejectedRequestError,
       claiming: claimMutation.isPending,
     },
   };
@@ -95,6 +100,7 @@ export const useTitles = (): { title: string; subtitle: string } => {
   const { address } = useWalletAddress();
   const allowance = address ? getUserAirdropAmount(address) : 0n;
   const { isLoading: isBalanceLoading } = useGetTokenBalance();
+  const { symbol } = getAirdropTokenConfig();
 
   if (!uiState.wallet.address)
     return {
@@ -123,13 +129,13 @@ export const useTitles = (): { title: string; subtitle: string } => {
   if (!uiState.wallet.connected)
     return {
       title: "You scored allocation!",
-      subtitle: `Congrats, the allocation for the wallet ${address} is ${allowance} $PEAQ.`,
+      subtitle: `Congrats, the allocation for the wallet ${address} is ${formatAirdropTokenAmount(allowance)} $${symbol}.`,
     };
 
   if (!uiState.wallet.chainIsCorrect)
     return {
       title: "Wrong chain",
-      subtitle: `Please switch to ${getDeploymentChain().name} to claim ${allowance} $PEAQ for ${address}.`,
+      subtitle: `Please switch to ${getDeploymentChain().name} to claim ${formatAirdropTokenAmount(allowance)} $${symbol} for ${address}.`,
     };
 
   if (!uiState.kyc.active && uiState.kyc.failed)
@@ -142,7 +148,7 @@ export const useTitles = (): { title: string; subtitle: string } => {
   if (!uiState.kyc.active)
     return {
       title: "Let's claim some tokens",
-      subtitle: `Now we need to verify your identity before you can claim ${allowance} $PEAQ for ${address}.`,
+      subtitle: `Now we need to verify your identity before you can claim ${formatAirdropTokenAmount(allowance)} $${symbol} for ${address}.`,
     };
 
   if (uiState.kyc.processing)
@@ -151,10 +157,16 @@ export const useTitles = (): { title: string; subtitle: string } => {
       subtitle: "Please wait while we verify your identity",
     };
 
+  if (uiState.claim.claimed)
+    return {
+      title: "Airdrop already claimed",
+      subtitle: `Congratulations you already claimed your airdrop for the wallet ${address}`,
+    };
+
   if (!uiState.kyc.connected)
     return {
       title: "Let's claim some tokens",
-      subtitle: `Now we need to verify your identity before you can claim ${allowance} $PEAQ for ${address}.`,
+      subtitle: `Now we need to verify your identity before you can claim ${formatAirdropTokenAmount(allowance)} $${symbol} for ${address}.`,
     };
 
   if (!uiState.claim.claimed && isBalanceLoading)
@@ -165,12 +177,12 @@ export const useTitles = (): { title: string; subtitle: string } => {
 
   if (!uiState.claim.claimed)
     return {
-      title: "Let's claim some $PEAQ",
-      subtitle: `You can claim ${allowance} $PEAQ now.`,
+      title: `Let's claim some $${symbol}`,
+      subtitle: `You can claim ${formatAirdropTokenAmount(allowance)} $${symbol} now.`,
     };
 
   return {
     title: "Tokens were already claimed",
-    subtitle: `Wallet ${address} already claimed tokens`,
+    subtitle: `Congratulations you already claimed your airdrop for the wallet ${address}`,
   };
 };

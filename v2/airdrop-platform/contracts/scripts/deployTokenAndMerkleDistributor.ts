@@ -27,10 +27,10 @@ export const getLocalMerkleRoot = () => {
   return root
 }
 
-const getTotalDistributionAmount = (): number => {
+const getTotalDistributionAmount = (): bigint => {
   const data = fs.readFileSync('./outputFiles/allowListObj.json', 'utf-8')
   const jsonData: AllowListData = JSON.parse(data)
-  return jsonData.balances.reduce((total, balance) => total + parseInt(balance.earnings, 10), 0)
+  return jsonData.balances.reduce((total, balance) => total + BigInt(balance.earnings), BigInt(0))
 }
 
 async function main() {
@@ -53,7 +53,9 @@ async function main() {
   console.log(`merkleDistributor deployed at ${merkleDistributor.address}`)
 
   // set Balance for distributor to a million
-  const distributorInitBalance = process.env.DISTRIBUTOR_INIT_BALANCE ?? getTotalDistributionAmount().toString()
+  const distributorInitBalance = process.env.DISTRIBUTOR_INIT_BALANCE
+    ? BigInt(process.env.DISTRIBUTOR_INIT_BALANCE)
+    : getTotalDistributionAmount()
   await token.setBalance(merkleDistributor.address, distributorInitBalance)
   console.log(`Set Distributor balance to ${distributorInitBalance}`)
 

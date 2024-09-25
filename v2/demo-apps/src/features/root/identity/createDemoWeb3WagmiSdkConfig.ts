@@ -1,9 +1,9 @@
-import { createConfig, createWeb3AuthAdapter } from "@nexeraid/react-sdk";
-import { createWagmiWalletConfig } from "@/features/root/web3/sdk-wallet/wagmiWallet";
+import { createConfig, createWeb3AuthAdapter } from "@compilot/react-sdk";
 import { createDemoAppGenerateChallengeCallback } from "@/features/root/identity/createDemoAppGenerateChallengeCallback";
 import { wagmiConfig } from "@/features/root/web3/wagmiConfig";
 
 import "@/features/root/configureReactDemoEnv";
+import { createWagmiWalletAdapter } from "@compilot/web-sdk-wallet-wagmi";
 
 export const createDemoWeb3WagmiSdkConfig = (
   demoApp:
@@ -17,7 +17,7 @@ export const createDemoWeb3WagmiSdkConfig = (
 ) =>
   createConfig({
     authAdapter: createWeb3AuthAdapter({
-      wallet: createWagmiWalletConfig(wagmiConfig),
+      wallet: createWagmiWalletAdapter(wagmiConfig),
       generateChallenge: createDemoAppGenerateChallengeCallback(demoApp),
     }),
   });

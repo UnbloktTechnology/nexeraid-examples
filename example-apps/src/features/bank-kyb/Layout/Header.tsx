@@ -14,7 +14,7 @@ export const Header = ({ onClickLogOn }: { onClickLogOn: () => void }) => {
 
   return (
     <div className="flex w-full flex-col items-center">
-      <div className="bold bg-[#000] flex h-9 w-full items-center justify-between px-[105px] text-white">
+      <div className="bold flex h-9 w-full items-center justify-between bg-[#000] px-[105px] text-white">
         <ul className="m-0 flex h-full p-0">
           <li className="flex cursor-pointer items-center font-bold">
             <Link href="#personal" className="border-r px-2">
@@ -42,17 +42,17 @@ export const Header = ({ onClickLogOn }: { onClickLogOn: () => void }) => {
             Register &gt;
           </li>
           <li
-            className="flex h-full w-24 cursor-pointer items-center justify-center bg-[#DB0011] hover:bg-[#cf313e]"
+            className="flex h-full w-24 cursor-pointer items-center justify-center bg-[#77B212] hover:bg-[#cf313e]"
             onClick={onClickLogOn}
           >
-            Log in
+            Log on
           </li>
         </ul>
       </div>
 
       <div className="flex w-full items-center px-[105px] py-6">
-        <Icon icon="hsbc-uk" size={185} className="!h-auto"/>
-
+        <Icon icon="green-bank" size={50} className="!h-auto max-h-16" />
+        <h1 className="ml-2 font-bold">Green Bank</h1>
         <div className="flex w-full justify-between">
           {items.map((item, index) => (
             <div

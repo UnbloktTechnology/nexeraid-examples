@@ -1,18 +1,17 @@
-import { useIsLoading, useOpenWidget } from "@nexeraid/react-sdk";
+import { useOpenWidget } from "@compilot/react-sdk";
 import { Button } from "../Components/Button";
 
 export const IdentityVerifyButton = () => {
-  const openWidget = useOpenWidget({});
-  const isLoading = useIsLoading();
+  const openWidget = useOpenWidget();
 
   return (
     <Button
       id="identity-btn-verify"
-      className={`ml-auto px-6 py-4 text-base font-bold text-white`}
-      onClick={openWidget}
-      disabled={isLoading}
+      className={"ml-auto px-6 py-4 text-base font-bold text-white"}
+      onClick={() => void openWidget.openWidget()}
+      disabled={openWidget.isPending}
     >
-      Verify
+      {openWidget.isPending ? "..." : "Verify"}
     </Button>
   );
 };

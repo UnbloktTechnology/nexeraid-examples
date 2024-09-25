@@ -7,7 +7,7 @@ export const KYCClientEIP155 = () => {
 
   return (
     <>
-      <ConnectButton label="Connect the wallet" />
+      <ConnectButton label="Connect your wallet" />
       {address && <IdentityFlow />}
     </>
   );

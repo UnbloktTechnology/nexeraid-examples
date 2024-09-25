@@ -52,7 +52,7 @@ export const Transactions = () => {
               <Icon icon="pie-chart" className="opacity-50" size={24} />
             </div>
 
-            <div className="rounded bg-[#DB0011] p-2">
+            <div className="rounded bg-[#77B212] p-2">
               <Icon icon="trending-up" color="white" size={24} />
             </div>
           </div>

@@ -8,6 +8,10 @@ interface MerkleData {
   merkleRoot: string
 }
 
+interface AllowListData {
+  balances: { address: string; earnings: string; reasons: string }[]
+}
+
 export const getLocalMerkleRoot = () => {
   // Read the JSON file
   const data = fs.readFileSync('./outputFiles/merkle.json', 'utf-8')
@@ -23,19 +27,10 @@ export const getLocalMerkleRoot = () => {
   return root
 }
 
-export const getTotalDistributionAmount = () => {
-  // Read the JSON file
+const getTotalDistributionAmount = (): bigint => {
   const data = fs.readFileSync('./outputFiles/allowListObj.json', 'utf-8')
-
-  // Parse the JSON data
-  const jsonData: { [key: string]: number } = JSON.parse(data)
-
-  // Sum all amounts
-  let sum = 0
-  Object.values(jsonData).forEach((amount) => {
-    sum += amount
-  })
-  return sum
+  const jsonData: AllowListData = JSON.parse(data)
+  return jsonData.balances.reduce((total, balance) => total + BigInt(balance.earnings), BigInt(0))
 }
 
 async function main() {
@@ -58,7 +53,9 @@ async function main() {
   console.log(`merkleDistributor deployed at ${merkleDistributor.address}`)
 
   // set Balance for distributor to a million
-  const distributorInitBalance = process.env.DISTRIBUTOR_INIT_BALANCE ?? getTotalDistributionAmount()
+  const distributorInitBalance = process.env.DISTRIBUTOR_INIT_BALANCE
+    ? BigInt(process.env.DISTRIBUTOR_INIT_BALANCE)
+    : getTotalDistributionAmount()
   await token.setBalance(merkleDistributor.address, distributorInitBalance)
   console.log(`Set Distributor balance to ${distributorInitBalance}`)
 

@@ -70,8 +70,8 @@ const MenuItems = ({ itemGroup }: { itemGroup: ItemGroup[] }) => {
             item.name === "Manage identity" ? "kyc-btn-management" : item.name
           }
           key={item.name + index.toString()}
-          className={`flex h-14 w-full cursor-pointer items-center space-x-4 rounded-lg p-5 font-semibold hover:bg-[#DB0011] hover:text-white ${
-            item.name === "Overview" ? "bg-[#DB0011] text-white" : ""
+          className={`flex h-14 w-full cursor-pointer items-center space-x-4 rounded-lg p-5 font-semibold hover:bg-[#77B212] hover:text-white ${
+            item.name === "Overview" ? "bg-[#77B212] text-white" : ""
           }`}
           onClick={item.onClick}
         >

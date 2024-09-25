@@ -5,8 +5,10 @@ import AppTag from "./AppTag";
 export type AppCardProps = {
   url: string;
   name: string;
+  description: string;
   image: string;
-  tags?: { text: string; color: string }[];
+  poweredBy?: string;
+  tags?: { text: string; bgColor: string; textColor: string }[];
 };
 
 export default function AppCard(props: AppCardProps) {
@@ -17,24 +19,42 @@ export default function AppCard(props: AppCardProps) {
       target="_blank"
       rel={"noopener noreferrer"}
     >
-      <div className="h-full lg:mb-12">
-        <div className="block h-full rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-[#e2e2e2]">
-          <div className="flex h-full flex-col items-center justify-center gap-6 text-center dark:border-opacity-10">
-            <Image
-              src={props.image}
-              alt={props.name}
-              width={150}
-              height={250}
-            />
+      <div className="relative h-full rounded-lg border border-solid border-[#BFD5FF] p-2">
+        <Image
+          src={props.image}
+          alt={props.name}
+          width={150}
+          height={250}
+          className="w-full"
+        />
+        {props.poweredBy && (
+          <div className="relative">
+            <div className="absolute -top-[35px] right-1/2 translate-x-1/2 rounded-full bg-white p-2 text-white">
+              <Image
+                className=""
+                src={props.poweredBy}
+                alt={"powered by"}
+                width={40}
+                height={40}
+              />
+            </div>
           </div>
-        </div>
-        <div className="mb-4 mt-1 flex w-full flex-wrap items-center justify-between gap-2">
-          <p className="text-md w-56 font-bold">{props.name}</p>
-          <div className="flex items-center justify-center gap-1">
+        )}
+        <div className="mt-6 w-full gap-2 p-2">
+          <div className="mb-4 flex items-center gap-1">
             {props.tags?.map((tag) => (
-              <AppTag text={tag.text} color={tag.color} key={tag.text} />
+              <AppTag
+                text={tag.text}
+                bgColor={tag.bgColor}
+                textColor={tag.textColor}
+                key={tag.text}
+              />
             ))}
           </div>
+          <h6 className="mb-4 text-xl font-medium">{props.name}</h6>
+          <p className="text-sm font-light text-[#667085]">
+            {props.description}
+          </p>
         </div>
       </div>
     </Link>

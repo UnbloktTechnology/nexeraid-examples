@@ -19,7 +19,7 @@ export const getWallet = async () => {
     const tezos = new TezosToolkit(RPC_ENDPOINT);
     // creates a wallet instance
     const wallet = new BeaconWallet({
-      name: "Nexera ID Tezos Example",
+      name: "ComPilot Tezos Example",
       preferredNetwork: NetworkType.GHOSTNET,
       network: {
         type: NetworkType.GHOSTNET,

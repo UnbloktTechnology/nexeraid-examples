@@ -10,6 +10,7 @@ import {IMerkleDistributor} from './interfaces/IMerkleDistributor.sol';
 error InvalidToken();
 error AlreadyClaimed();
 error InvalidProof(bytes32 merkleRoot);
+error Unauthorized();
 
 contract MerkleDistributor is IMerkleDistributor, TxAuthDataVerifier {
     using SafeERC20 for IERC20;
@@ -49,6 +50,7 @@ contract MerkleDistributor is IMerkleDistributor, TxAuthDataVerifier {
         uint256 amount,
         bytes32[] calldata merkleProof
     ) public virtual override requireTxDataAuth {
+        if (account != _msgSender()) revert Unauthorized();
         if (isClaimed(index)) revert AlreadyClaimed();
 
         // Verify the merkle proof.

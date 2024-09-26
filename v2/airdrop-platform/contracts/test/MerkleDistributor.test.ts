@@ -40,11 +40,12 @@ const gasUsed = {
 const ZERO_BYTES32 = '0x0000000000000000000000000000000000000000000000000000000000000000'
 
 const deployContract = async (
-  factory: ContractFactory,
+  factory: Contract,
   tokenAddress: string,
   merkleRoot: string,
   contractName: string,
-  signerAddress: string
+  signerAddress: string,
+  totalBalance: number
 ) => {
   let distributor
   const currentTimestamp = Math.floor(Date.now() / 1000)
@@ -126,7 +127,7 @@ const claimWithSignature = async (
 for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline'] as const) {
   describe(`${contract} tests`, () => {
     let mockToken: Contract
-    let distributorFactory: ContractFactory
+    let distributorFactory: Contract
     let wallet0: SignerWithAddress
     let wallet1: SignerWithAddress
     let txSigner: SignerWithAddress
@@ -140,7 +141,8 @@ for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline'] as
       const tokenFactory = await ethers.getContractFactory('TestERC20', wallet0)
       mockToken = await tokenFactory.deploy('Token', 'TKN', 0, overrides)
 
-      distributorFactory = await ethers.getContractFactory(contract, wallet0)
+      const factoryFactory = await ethers.getContractFactory('MerkleDistributorFactory', wallet0)
+      distributorFactory = await factoryFactory.deploy()
     })
 
     describe('#token', () => {

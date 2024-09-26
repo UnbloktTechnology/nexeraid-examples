@@ -854,4 +854,27 @@ describe('#MerkleDistributorWithDeadline', () => {
     distributor = distributor.connect(wallet1)
     await expect(distributor.withdraw(overrides)).to.be.revertedWith('Ownable: caller is not the owner')
   })
+
+  describe.only('rescue tokens', () => {
+    let randomToken: Contract
+    beforeEach('deploy', async () => {
+      const tokenFactory = await ethers.getContractFactory('TestERC20', wallet0)
+      randomToken = await tokenFactory.deploy('TokenOops', 'PLZGIVEBACK', 0, overrides)
+      await randomToken.setBalance(distributor.address, 100)
+    })
+    it('only owner can rescue token', async () => {
+      distributor = distributor.connect(wallet1)
+      await expect(distributor.rescueToken(token.address, overrides)).to.be.revertedWith(
+        'Ownable: caller is not the owner'
+      )
+    })
+    it('cannot rescue the distributed token', async () => {
+      await expect(distributor.rescueToken(token.address, overrides)).to.be.revertedWith('InvalidRescue()')
+    })
+    it('owner can rescue any other token', async () => {
+      expect(await randomToken.balanceOf(wallet0.address)).to.eq(0)
+      await expect(distributor.rescueToken(randomToken.address, overrides)).not.to.be.reverted
+      expect(await randomToken.balanceOf(wallet0.address)).to.eq(100)
+    })
+  })
 })

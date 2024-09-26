@@ -45,13 +45,13 @@ contract MerkleDistributor is IMerkleDistributor, TxAuthDataVerifier {
 
     function claim(
         uint256 index,
-        address account,
         uint256 amount,
         bytes32[] calldata merkleProof
     ) public virtual override requireTxDataAuth {
         if (isClaimed(index)) revert AlreadyClaimed();
 
         // Verify the merkle proof.
+        address account = msg.sender;
         bytes32 node = keccak256(abi.encodePacked(index, account, amount));
         if (!MerkleProof.verify(merkleProof, merkleRoot, node)) revert InvalidProof(merkleRoot);
 

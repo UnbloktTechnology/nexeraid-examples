@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 
-require('dotenv').config()
+import 'dotenv/config'
 import '@nomiclabs/hardhat-ethers'
 import { ethers } from 'hardhat'
 

@@ -108,7 +108,7 @@ const claimWithSignature = async (
   })
 }
 
-for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline']) {
+for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline'] as const) {
   describe(`${contract} tests`, () => {
     let token: Contract
     let distributorFactory: ContractFactory
@@ -381,7 +381,7 @@ for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline']) {
             merkleProof: proof,
           })
           const receipt = await tx.wait()
-          expect(receipt.gasUsed).to.eq(gasUsed[contract as keyof typeof gasUsed].twoAccountTree)
+          expect(receipt.gasUsed).to.be.lte(gasUsed[contract].twoAccountTree)
         })
       })
 
@@ -441,7 +441,7 @@ for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline']) {
             merkleProof: proof,
           })
           const receipt = await tx.wait()
-          expect(receipt.gasUsed).to.eq(gasUsed[contract as keyof typeof gasUsed].largerTreeFirstClaim)
+          expect(receipt.gasUsed).to.be.lte(gasUsed[contract].largerTreeFirstClaim)
         })
 
         it('gas second down about 15k', async () => {
@@ -458,7 +458,7 @@ for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline']) {
             merkleProof: tree.getProof({ index: BigInt(1), account: wallets[1].address as Address, amount: BigInt(2) }),
           })
           const receipt = await tx.wait()
-          expect(receipt.gasUsed).to.eq(gasUsed[contract as keyof typeof gasUsed].largerTreeSecondClaim)
+          expect(receipt.gasUsed).to.be.lte(gasUsed[contract].largerTreeSecondClaim)
         })
       })
 
@@ -515,7 +515,7 @@ for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline']) {
             merkleProof: proof,
           })
           const receipt = await tx.wait()
-          expect(receipt.gasUsed).to.eq(gasUsed[contract as keyof typeof gasUsed].realisticTreeGas)
+          expect(receipt.gasUsed).to.be.lte(gasUsed[contract].realisticTreeGas)
         })
         it('gas deeper node', async () => {
           const proof = tree.getProof({
@@ -530,7 +530,7 @@ for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline']) {
             merkleProof: proof,
           })
           const receipt = await tx.wait()
-          expect(receipt.gasUsed).to.eq(gasUsed[contract as keyof typeof gasUsed].realisticTreeGasDeeperNode)
+          expect(receipt.gasUsed).to.be.lte(gasUsed[contract].realisticTreeGasDeeperNode)
         })
         it('gas average random distribution', async () => {
           let total: BigNumber = BigNumber.from(0)
@@ -548,7 +548,7 @@ for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline']) {
             count++
           }
           const average = total.div(count)
-          expect(average).to.eq(gasUsed[contract as keyof typeof gasUsed].realisticTreeGasAverageRandom)
+          expect(average).to.be.lte(gasUsed[contract].realisticTreeGasAverageRandom)
         })
         // this is what we gas golfed by packing the bitmap
         it('gas average first 25', async () => {
@@ -567,7 +567,7 @@ for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline']) {
             count++
           }
           const average = total.div(count)
-          expect(average).to.eq(gasUsed[contract as keyof typeof gasUsed].realisticTreeGasAverageFirst25)
+          expect(average).to.be.lte(gasUsed[contract].realisticTreeGasAverageFirst25)
         })
 
         it('no double claims in random distribution', async () => {

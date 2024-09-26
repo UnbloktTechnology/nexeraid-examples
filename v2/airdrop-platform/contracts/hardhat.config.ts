@@ -1,13 +1,14 @@
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
-require('dotenv').config()
+import 'dotenv/config'
+
 import { NEXERA_CHAINS } from '@nexeraprotocol/nexera-id-sig-gating-contracts-sdk/lib'
 import '@nomiclabs/hardhat-ethers'
 import '@nomiclabs/hardhat-waffle'
 import '@nomicfoundation/hardhat-verify'
 
-module.exports = {
+const config = {
   solidity: {
     compilers: [
       {
@@ -38,13 +39,6 @@ module.exports = {
     enabled: true,
   },
   networks: {
-    hardhat: {
-      settings: {
-        debug: {
-          revertStrings: 'debug',
-        },
-      },
-    },
     tenderly: {
       chainId: 1,
       url: `https://rpc.tenderly.co/fork/${process.env.TENDERLY_FORK_ID}`,
@@ -67,3 +61,5 @@ module.exports = {
     },
   },
 }
+
+export default config

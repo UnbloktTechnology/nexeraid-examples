@@ -26,7 +26,7 @@ contract MerkleDistributor is IMerkleDistributor, TxAuthDataVerifierUpgradeable 
         __MerkleDistributor_init(token_, merkleRoot_, signer_);
     }
 
-    function __MerkleDistributor_init(address token_, bytes32 merkleRoot_, address signer_) internal initializer {
+    function __MerkleDistributor_init(address token_, bytes32 merkleRoot_, address signer_) internal {
         __TxAuthDataVerifierUpgradeable_init(signer_);
         if (token_ == address(0)) revert InvalidToken();
         token = token_;

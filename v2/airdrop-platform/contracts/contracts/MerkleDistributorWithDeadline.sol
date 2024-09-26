@@ -16,11 +16,13 @@ contract MerkleDistributorWithDeadline is MerkleDistributor, OwnableUpgradeable 
     uint256 public endTime;
 
     function initialize(
+        address owner_,
         address token_,
         bytes32 merkleRoot_,
         uint256 endTime_,
         address signerAddress
     ) external initializer {
+        _transferOwnership(owner_);
         __MerkleDistributor_init(token_, merkleRoot_, signerAddress);
         if (endTime_ <= block.timestamp) revert EndTimeInPast();
         endTime = endTime_;

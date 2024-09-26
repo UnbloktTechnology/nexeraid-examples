@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 import {MerkleDistributor} from './MerkleDistributor.sol';
-import {Ownable} from '@openzeppelin/contracts/access/Ownable.sol';
+import {OwnableUpgradeable} from '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 import {IERC20, SafeERC20} from '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
 
 error EndTimeInPast();
@@ -10,17 +10,20 @@ error ClaimWindowFinished();
 error NoWithdrawDuringClaim();
 error InvalidRescue();
 
-contract MerkleDistributorWithDeadline is MerkleDistributor, Ownable {
+contract MerkleDistributorWithDeadline is MerkleDistributor, OwnableUpgradeable {
     using SafeERC20 for IERC20;
 
-    uint256 public immutable endTime;
+    uint256 public endTime;
 
-    constructor(
+    function initialize(
+        address owner_,
         address token_,
         bytes32 merkleRoot_,
         uint256 endTime_,
         address signerAddress
-    ) MerkleDistributor(token_, merkleRoot_, signerAddress) {
+    ) external initializer {
+        _transferOwnership(owner_);
+        __MerkleDistributor_init(token_, merkleRoot_, signerAddress);
         if (endTime_ <= block.timestamp) revert EndTimeInPast();
         endTime = endTime_;
     }

@@ -29,7 +29,9 @@
     "pretest": "npm run compile",
     "test": "hardhat test",
     "deploy-polygonAmoy": "npm run prepare-merkle-root && hardhat run ./scripts/deployTokenAndMerkleDistributor.ts --network polygonAmoy",
-    "deploy-sepolia": "npm run prepare-merkle-root && hardhat run ./scripts/deployTokenAndMerkleDistributor.ts --network sepolia"
+    "deploy-sepolia": "npm run prepare-merkle-root && hardhat run ./scripts/deployTokenAndMerkleDistributor.ts --network sepolia",
+    "deploy-factory-polygonAmoy": "hardhat run ./scripts/deployMerkleDistributorFactory.ts --network polygonAmoy",
+    "deploy-factory-sepolia": "hardhat run ./scripts/deployMerkleDistributorFactory.ts --network sepolia"
   },
   "devDependencies": {
     "@compilot/merkle-tree-js": "2.3.1-dev",

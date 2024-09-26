@@ -42,15 +42,20 @@ async function main() {
   // Deploy Merkle Distributor
   console.log('inputs for merkleDistributor: ', token.address, process.env.DEPLOY_ROOT, process.env.TX_SIGNER_ADDRESS)
   const MerkleDistributor = await ethers.getContractFactory('MerkleDistributor')
-  const merkleDistributor = await MerkleDistributor.deploy(
+  const merkleDistributor = await MerkleDistributor.deploy()
+  await merkleDistributor.deployed()
+  console.log(`merkleDistributor deployed at ${merkleDistributor.address}`)
+
+  // Initialize Merkle Distributor
+  const initTrx = await merkleDistributor.initialize(
     token.address,
     process.env.DEPLOY_ROOT === 'local' || process.env.DEPLOY_ROOT === undefined
       ? getLocalMerkleRoot()
       : process.env.DEPLOY_ROOT,
     process.env.TX_SIGNER_ADDRESS
   )
-  await merkleDistributor.deployed()
-  console.log(`merkleDistributor deployed at ${merkleDistributor.address}`)
+  await initTrx.wait()
+  console.log('Merkle Distributor initialized')
 
   // set Balance for distributor to a million
   const distributorInitBalance = process.env.DISTRIBUTOR_INIT_BALANCE

@@ -65,7 +65,7 @@ type ClaimArgs = {
 const buildClaimTxData = async (
   distributorContract: Contract,
   contractName: string,
-  senderSigner: SignerWithAddress,
+  senderSignerAddress: string,
   txAuthSigner: SignerWithAddress,
   claimArgs: ClaimArgs
 ) => {
@@ -78,7 +78,7 @@ const buildClaimTxData = async (
     contractAddress: distributorContract.address as Address,
     functionName: 'claim',
     args: [claimArgs.index, claimArgs.amount, claimArgs.merkleProof],
-    userAddress: senderSigner.address as Address,
+    userAddress: senderSignerAddress as Address,
   }
 
   const signatureResponse = await signTxAuthDataLibEthers(txAuthSigner as unknown as Wallet, txAuthInput)
@@ -108,7 +108,13 @@ const claimWithSignature = async (
   txAuthSigner: SignerWithAddress,
   claimArgs: ClaimArgs
 ) => {
-  const txData = await buildClaimTxData(distributorContract, contractName, senderSigner, txAuthSigner, claimArgs)
+  const txData = await buildClaimTxData(
+    distributorContract,
+    contractName,
+    senderSigner.address,
+    txAuthSigner,
+    claimArgs
+  )
   // Send tx
   return await senderSigner.sendTransaction({
     to: distributorContract.address,
@@ -197,15 +203,12 @@ for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline'] as
           })
         ).to.be.revertedWith('InvalidProof')
       })
-      /*
-      describe.only('eligible contract (multisig or account abstraction support)', async () => {
+
+      describe('eligible contract (multisig or account abstraction support)', async () => {
         let distributor: Contract
         let tree: BalanceTree
         let mockClaimerContract: Contract
-        let senderSigner: SignerWithAddress
         beforeEach('deploy', async () => {
-          senderSigner = wallets[3]
-
           const claimerContractFactory = await ethers.getContractFactory('TestClaimerContract', wallet0)
           mockClaimerContract = await claimerContractFactory.deploy()
 
@@ -223,23 +226,30 @@ for (const contract of ['MerkleDistributor', 'MerkleDistributorWithDeadline'] as
         })
 
         it('successful contract claim', async () => {
-          const proof = tree.getProof({
-            index: BigInt(0),
-            account: mockClaimerContract.address as Address,
-            amount: BigInt(100),
-          })
-          const claimerTxCallData = await buildClaimTxData(distributor, contract, wallet0, txSigner, {
-            index: 0,
-            amount: 100,
-            merkleProof: proof,
-          })
+          const claimerTxCallData = await buildClaimTxData(
+            distributor,
+            contract,
+            mockClaimerContract.address,
+            txSigner,
+            {
+              index: 0,
+              amount: 100,
+              merkleProof: tree.getProof({
+                index: BigInt(0),
+                account: mockClaimerContract.address as Address,
+                amount: BigInt(100),
+              }),
+            }
+          )
+
+          expect(await mockToken.balanceOf(mockClaimerContract.address)).to.eq(0)
           const trx = mockClaimerContract.claim(distributor.address, claimerTxCallData)
-          console.log('trx', await (await trx).wait())
-          expect(trx).not.to.be.reverted
-          //expect(await mockToken.balanceOf(mockClaimerContract.address)).to.eq(101)
+          await expect(trx).not.to.be.reverted
+          await expect(trx).to.emit(distributor, 'Claimed').withArgs(0, mockClaimerContract.address, 100)
+          expect(await mockToken.balanceOf(mockClaimerContract.address)).to.eq(100)
         })
       })
-*/
+
       describe('two account tree', () => {
         let distributor: Contract
         let tree: BalanceTree

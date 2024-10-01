@@ -9,8 +9,8 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Compilot Next.Js Web3</title>
-        <meta content="Compilot Example" name="description" />
+        <title>ComPilot Next.Js Web3</title>
+        <meta content="ComPilot Example" name="description" />
       </Head>
 
       <main className={styles.main}>
@@ -24,7 +24,7 @@ const Home: NextPage = () => {
           Open Widget
         </button>
         <h1 className={styles.title}>
-          Welcome to <a href="">Compilot</a>
+          Welcome to <a href="">ComPilot</a>
           <br /> NextJS Web3 example.
         </h1>
 
@@ -32,21 +32,21 @@ const Home: NextPage = () => {
           This example uses RainbowKit and Wagmi. Get started by editing{" "}
           <code className={styles.code}>pages/index.tsx</code>
           <br />
-          Check _app.tsx , compilot-config.ts and challenge.ts to work on Compilot
+          Check _app.tsx , compilot-config.ts and challenge.ts to work on ComPilot
           integration
         </p>
 
         <div className={styles.grid}>
           <a className={styles.card} href="https://docs.compilot.ai">
-            <h2>Compilot Documentation &rarr;</h2>
+            <h2>ComPilot Documentation &rarr;</h2>
             <p>Learn how to Implement our compliance widget on your App.</p>
           </a>
           <a
             className={styles.card}
             href="https://github.com/UnbloktTechnology/compilot-examples/tree/development/v2"
           >
-            <h2>Compilot Examples &rarr;</h2>
-            <p>Discover example Compilot projects.</p>
+            <h2>ComPilot Examples &rarr;</h2>
+            <p>Discover example ComPilot projects.</p>
           </a>
           <a className={styles.card} href="https://rainbowkit.com">
             <h2>RainbowKit Documentation &rarr;</h2>

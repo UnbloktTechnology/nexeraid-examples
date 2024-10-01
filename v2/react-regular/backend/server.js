@@ -48,7 +48,7 @@ if (CUSTOMER_WALLET_ADDRESS || CUSTOMER_WALLET_NAMESPACE) {
 
 // API routes
 
-//Regular route. CUSTOMER_ID must be replaced. you need to authenticate the user before opening a Compilot user session.
+//Regular route. CUSTOMER_ID must be replaced. you need to authenticate the user before opening a ComPilot user session.
 app.post("/api/create-session", async (req, res) => {
   try {
     // Create the session

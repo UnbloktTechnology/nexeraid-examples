@@ -1,13 +1,13 @@
 
-Compilot widget integration example : for Javascript in Web3 mode. 
+ComPilot widget integration example : for Javascript in Web3 mode. 
 ===========================================================
 
-This example demonstrates how to integrate the Compilot Widget for KYC (Know Your Customer) and KYB (Know Your Business) processes. In this implementation, the widget initialization requires a wallet signature. For this example, we’ve used Wallect connect for wallet management. However, note that Wallet connect is not a project dependency and the Compilot widget is compatible with any wallet adapter of your choice.
+This example demonstrates how to integrate the ComPilot Widget for KYC (Know Your Customer) and KYB (Know Your Business) processes. In this implementation, the widget initialization requires a wallet signature. For this example, we’ve used Wallect connect for wallet management. However, note that Wallet connect is not a project dependency and the ComPilot widget is compatible with any wallet adapter of your choice.
 
 ## pre-requisite :
 
 To run this example App, you need:
-	•	Access to the Compilot dashboard with an API key.
+	•	Access to the ComPilot dashboard with an API key.
 	•	A workflow set up in your workspace.
 
 
@@ -17,7 +17,7 @@ To run this example App, you need:
 
 ~~~~
 
-cd Compilot-examples/v2/no-framework-web3/frontend 
+cd compilot-examples/v2/no-framework-web3/frontend 
 npm install
 cd ../backend
 npm install
@@ -47,9 +47,9 @@ npm dev
 ## For more details, visit : 
 
 SDKs documentation : https://docs.compilot.ai/developing/sdk/
-Compilot KYC/KYB documentation : https://docs.compilot.ai/usescases/
-Compilot technical documentation :   https://docs.compilot.ai/developing
+ComPilot KYC/KYB documentation : https://docs.compilot.ai/usescases/
+ComPilot technical documentation :   https://docs.compilot.ai/developing
 
 ## Credits :
 
-This is a [Compilot] (https://compilot.ai) + [Wallet Connect] (https://walletconnect.com/) project
+This is a [ComPilot] (https://compilot.ai) + [Wallet Connect] (https://walletconnect.com/) project

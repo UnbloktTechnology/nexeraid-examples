@@ -1,14 +1,14 @@
-Compilot widget integration example : for JS in regular mode. 
+ComPilot widget integration example : for JS in regular mode. 
 ===========================================================
 
-This example demonstrates how to integrate the Compilot Widget for KYC (Know Your Customer) and KYB (Know Your Business) processes. In this implementation, we uses no framework and a customer ID as an environment variable to illustrate the integration.
+This example demonstrates how to integrate the ComPilot Widget for KYC (Know Your Customer) and KYB (Know Your Business) processes. In this implementation, we uses no framework and a customer ID as an environment variable to illustrate the integration.
 
 ## pre-requisite :
 
 To run this example dApp, you need:
-	•	Access to the Compilot dashboard with an API key.
+	•	Access to the ComPilot dashboard with an API key.
 	•	A workflow set up in your workspace.
-	•	User authentication before opening a Compilot session, with a unique ID for this user (such as an email address or another ID).
+	•	User authentication before opening a ComPilot session, with a unique ID for this user (such as an email address or another ID).
 
 
 
@@ -48,9 +48,9 @@ npm dev
 ## For more details, visit : 
 
 SDKs documentation : https://docs.compilot.ai/developing/sdk/
-Compilot KYC/KYB documentation : https://docs.compilot.ai/usescases/
-Compilot technical documentation :   https://docs.compilot.ai/developing
+ComPilot KYC/KYB documentation : https://docs.compilot.ai/usescases/
+ComPilot technical documentation :   https://docs.compilot.ai/developing
 
 ## Credits :
 
-This is a [Compilot] (https://compilot.ai) project
+This is a [ComPilot] (https://compilot.ai) project

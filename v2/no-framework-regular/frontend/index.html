@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <title>Compilot : no frontend, no framework demo</title>
+  <title>ComPilot : no frontend, no framework demo</title>
   <script type="importmap">
       {
         "imports": {
@@ -26,7 +26,7 @@
         // This is an implementation of the auth adapter
         createSession: async () => {
           try {
-            // Make a POST request to your API endpoint, previously created with wit Compilot js-sdk, considering you created the path api/create-session.
+            // Make a POST request to your API endpoint, previously created with wit ComPilot js-sdk, considering you created the path api/create-session.
             // Make sur the backend is running on port 5000
             const response = await fetch(
               "http://localhost:5000/api/create-session",

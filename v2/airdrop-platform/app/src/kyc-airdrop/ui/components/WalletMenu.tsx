@@ -6,10 +6,15 @@ import { DropDownMenu } from "./DropDownMenu";
 import { useWalletAddress } from "@/kyc-airdrop/lib/useWalletAddress";
 import { formatAddress } from "@/kyc-airdrop/lib/formatAddress";
 import { useLogout } from "@/kyc-airdrop/lib/useLogout";
+import { useCustomerData } from "@/kyc-airdrop/lib/useCustomerData";
 
 export const WalletMenu = () => {
   const { address } = useWalletAddress();
   const logout = useLogout();
+  const customerData = useCustomerData();
+  const isLoading = customerData.isLoading;
+  const isCustomerActive = customerData.data?.userStatus === "Active";
+
   if (!address) {
     return null;
   }
@@ -17,9 +22,12 @@ export const WalletMenu = () => {
     <DropDownMenu>
       <DropDownMenu.Button>
         <div className="inline-flex h-9 items-center justify-start gap-1 rounded-3xl bg-black px-4 py-1">
-          <div className="relative h-4 w-4">
-            <WalletMenuIcon />
-          </div>
+          {isCustomerActive && (
+            <div className="relative h-4 w-4">
+              <WalletMenuIcon />
+            </div>
+          )}
+          {isLoading && <div className="relative h-4 w-4">...</div>}
           <div className="font-['Aeonik Pro'] text-center text-sm font-normal leading-none text-white">
             {formatAddress(address)}
           </div>

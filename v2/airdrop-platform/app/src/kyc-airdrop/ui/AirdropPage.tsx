@@ -133,7 +133,7 @@ export const AirdropPage = () => {
               isLoading={authenticate.isPending}
               id="identity-btn"
             >
-              Authenticate wallet to claim
+              Authenticate wallet to start claiming.
             </Button>
           )}
         </div>

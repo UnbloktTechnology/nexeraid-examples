@@ -5,7 +5,7 @@ import { ConnectWalletButton } from "@/kyc-airdrop/ui/components/ConnectWalletBu
 import { useClaimMutation } from "@/kyc-airdrop/lib/useClaimMutation";
 import { useCurrentUiStep } from "@/kyc-airdrop/lib/useUiState";
 import { useWalletAddress } from "@/kyc-airdrop/lib/useWalletAddress";
-import { SearchBar } from "./components/SearchBar";
+import { AddressSearchBar } from "./components/AddressSearchBar";
 import { LogoutButton } from "./components/LogoutButton";
 import { useCustomerData } from "../lib/useCustomerData";
 import { useSwitchChain } from "wagmi";
@@ -16,6 +16,7 @@ import {
 import { AddTokenButton } from "./components/AddTokenButton";
 import { useGetTokenBalance } from "../lib/useGetTokenBalance";
 import { formatAirdropTokenAmount } from "../lib/formatDecimalNumber";
+import { useRedirectToCheckWallet } from "../lib/navigation";
 
 export const AirdropPage = () => {
   const uiStep = useCurrentUiStep();
@@ -28,6 +29,7 @@ export const AirdropPage = () => {
   const { data: balance } = useGetTokenBalance();
   const { symbol } = getAirdropTokenConfig();
   const isCustomerActive = customerData.data?.userStatus === "Active";
+  const redirectToCheckWallet = useRedirectToCheckWallet();
 
   return (
     <AirdropLayout>
@@ -35,7 +37,10 @@ export const AirdropPage = () => {
         <>
           {!isConnected && (
             <>
-              <SearchBar />
+              <AddressSearchBar
+                variant="outlined"
+                onWalletAddressValid={redirectToCheckWallet}
+              />
               or
             </>
           )}

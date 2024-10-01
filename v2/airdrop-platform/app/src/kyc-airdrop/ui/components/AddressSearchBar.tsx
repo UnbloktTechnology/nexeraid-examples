@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import { Button } from "@/kyc-airdrop/ui/components/Button";
-import { useRedirectToCheckWallet } from "@/kyc-airdrop/lib/navigation";
-import { isAddress } from "viem";
+import { type Address, isAddress } from "viem";
+
 interface SearchBarProps {
+  variant: "outlined" | "flat";
   placeholder?: string;
+  onWalletAddressValid: (address: Address) => void;
 }
 
-export const SearchBar = ({ placeholder }: SearchBarProps) => {
+export const AddressSearchBar = ({
+  variant,
+  placeholder,
+  onWalletAddressValid,
+}: SearchBarProps) => {
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  const redirectToCheckWallet = useRedirectToCheckWallet();
 
   const handlePasteAndCheck = async () => {
     let text: string | null = null;
@@ -28,7 +33,7 @@ export const SearchBar = ({ placeholder }: SearchBarProps) => {
       setWalletAddress(text);
       setError(null);
 
-      redirectToCheckWallet(text);
+      onWalletAddressValid(text);
     } else {
       setError("Invalid address");
     }
@@ -38,14 +43,19 @@ export const SearchBar = ({ placeholder }: SearchBarProps) => {
     setWalletAddress(value);
     setError(null);
     if (isAddress(value)) {
-      redirectToCheckWallet(value);
+      onWalletAddressValid(value);
     } else if (value.length >= 42) {
       setError("Invalid address");
     }
   };
 
   return (
-    <div className="flex w-full items-center rounded-xl bg-gray-100 p-2 shadow-md">
+    <div
+      className={
+        "flex w-full items-center rounded-xl bg-gray-100 p-2 " +
+        (variant === "outlined" ? "shadow-md" : "")
+      }
+    >
       <input
         type="text"
         placeholder={placeholder ?? "Enter wallet address here"}

@@ -4,6 +4,7 @@ import stylesPeaq from "./peaq.module.css";
 import { Footer } from "./components/Footer";
 import { useTitles } from "../lib/useUiState";
 import { DebugUiState } from "./components/DebugUiState";
+import { WalletMenu } from "./components/WalletMenu";
 
 interface AirdropLayoutProps {
   titleOverwrite?: string;
@@ -33,6 +34,8 @@ export const AirdropLayout = ({
             <li>Community</li>
           </ul>
         </nav>
+
+        <WalletMenu />
       </header>
       <div className="w-full">
         <div className="p-4 pb-20">

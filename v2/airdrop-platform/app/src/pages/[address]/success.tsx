@@ -39,7 +39,7 @@ export default function AllocationCheck() {
           }
         },
       }),
-    [redirectToCheckWallet],
+    [redirectToCheckWallet, address],
   );
 
   return (

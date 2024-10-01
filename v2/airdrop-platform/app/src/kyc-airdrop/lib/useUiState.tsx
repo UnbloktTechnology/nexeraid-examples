@@ -12,6 +12,9 @@ import {
   getDeploymentChain,
 } from "../config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
 import { formatAirdropTokenAmount } from "./formatDecimalNumber";
+import { AirdropTokenIcon } from "../ui/components/icon/AirdropTokenIcon";
+import { ChainIcon } from "../ui/components/icon/ChainIcon";
+import { formatAddress } from "./formatAddress";
 
 export type UiState = {
   // wallet can be set but not connected as it's present in the url
@@ -95,12 +98,16 @@ export const useCurrentUiStep = (): UiStep => {
   return "done";
 };
 
-export const useTitles = (): { title: string; subtitle: string } => {
+export const useTitles = (): {
+  title: React.ReactNode;
+  subtitle: React.ReactNode;
+} => {
   const uiState = useUiState();
   const { address } = useWalletAddress();
   const allowance = address ? getUserAirdropAmount(address) : 0n;
   const { isLoading: isBalanceLoading } = useGetTokenBalance();
   const { symbol } = getAirdropTokenConfig();
+  const chainId = useChainId();
 
   if (!uiState.wallet.address)
     return {
@@ -117,25 +124,47 @@ export const useTitles = (): { title: string; subtitle: string } => {
   if (!uiState.eligibility.qualified)
     return {
       title: "This wallet doesn't qualify",
-      subtitle: `Unfortunately, the wallet ${address} doesn't qualify`,
+      subtitle: (
+        <>
+          Unfortunately, the wallet <ChainIcon chainId={chainId} />{" "}
+          {formatAddress(address)} doesn&apos;t qualify
+        </>
+      ),
     };
 
   if (!allowance)
     return {
       title: "No allocation",
-      subtitle: `Unfortunately, there is no allocation for the wallet ${address}`,
+      subtitle: (
+        <>
+          Unfortunately, there is no allocation for the wallet{" "}
+          <ChainIcon chainId={chainId} /> {formatAddress(address)}
+        </>
+      ),
     };
 
   if (!uiState.wallet.connected)
     return {
       title: "You scored allocation!",
-      subtitle: `Congrats, the allocation for the wallet ${address} is ${formatAirdropTokenAmount(allowance)} $${symbol}.`,
+      subtitle: (
+        <>
+          Congrats, the allocation for the wallet{" "}
+          <ChainIcon chainId={chainId} /> {formatAddress(address)} is{" "}
+          <AirdropTokenIcon /> {formatAirdropTokenAmount(allowance)} ${symbol}.
+        </>
+      ),
     };
 
   if (!uiState.wallet.chainIsCorrect)
     return {
       title: "Wrong chain",
-      subtitle: `Please switch to ${getDeploymentChain().name} to claim ${formatAirdropTokenAmount(allowance)} $${symbol} for ${address}.`,
+      subtitle: (
+        <>
+          Please switch to {getDeploymentChain().name} to claim{" "}
+          <AirdropTokenIcon /> {formatAirdropTokenAmount(allowance)} ${symbol}{" "}
+          for <ChainIcon chainId={chainId} /> {formatAddress(address)}.
+        </>
+      ),
     };
 
   if (!uiState.kyc.active && uiState.kyc.failed)
@@ -148,7 +177,13 @@ export const useTitles = (): { title: string; subtitle: string } => {
   if (!uiState.kyc.active)
     return {
       title: "Let's claim some tokens",
-      subtitle: `Now we need to verify your identity before you can claim ${formatAirdropTokenAmount(allowance)} $${symbol} for ${address}.`,
+      subtitle: (
+        <>
+          Now we need to verify your identity before you can claim{" "}
+          <AirdropTokenIcon /> {formatAirdropTokenAmount(allowance)} {symbol}{" "}
+          for <ChainIcon chainId={chainId} /> {formatAddress(address)}.
+        </>
+      ),
     };
 
   if (uiState.kyc.processing)
@@ -160,13 +195,24 @@ export const useTitles = (): { title: string; subtitle: string } => {
   if (uiState.claim.claimed)
     return {
       title: "Airdrop already claimed",
-      subtitle: `Congratulations you already claimed your airdrop for the wallet ${address}`,
+      subtitle: (
+        <>
+          Congratulations you already claimed your airdrop for the wallet{" "}
+          <ChainIcon chainId={chainId} /> {formatAddress(address)}
+        </>
+      ),
     };
 
   if (!uiState.kyc.connected)
     return {
-      title: "Let's claim some tokens",
-      subtitle: `Now we need to verify your identity before you can claim ${formatAirdropTokenAmount(allowance)} $${symbol} for ${address}.`,
+      title: "You scored allocation!",
+      subtitle: (
+        <>
+          Congrats, the allocation for the wallet{" "}
+          <ChainIcon chainId={chainId} /> {formatAddress(address)} is{" "}
+          <AirdropTokenIcon /> {formatAirdropTokenAmount(allowance)} ${symbol}.
+        </>
+      ),
     };
 
   if (!uiState.claim.claimed && isBalanceLoading)
@@ -183,6 +229,11 @@ export const useTitles = (): { title: string; subtitle: string } => {
 
   return {
     title: "Tokens were already claimed",
-    subtitle: `Congratulations you already claimed your airdrop for the wallet ${address}`,
+    subtitle: (
+      <>
+        Congratulations you already claimed your airdrop for the wallet{" "}
+        <ChainIcon chainId={chainId} /> {formatAddress(address)}
+      </>
+    ),
   };
 };

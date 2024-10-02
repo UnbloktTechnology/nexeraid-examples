@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "@/kyc-airdrop/ui/components/Button";
+import { Button } from "@/ui/components/Button";
 import { type Address, isAddress } from "viem";
 
 interface SearchBarProps {

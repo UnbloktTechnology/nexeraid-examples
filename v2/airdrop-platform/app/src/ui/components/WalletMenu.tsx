@@ -7,15 +7,22 @@ import { useWalletAddress } from "@/kyc-airdrop/lib/useWalletAddress";
 import { formatAddress } from "@/kyc-airdrop/lib/formatAddress";
 import { useLogout } from "@/kyc-airdrop/lib/useLogout";
 import { useCustomerData } from "@/kyc-airdrop/lib/useCustomerData";
+import { useUsername } from "@/kyc-airdrop/lib/useUsername";
+import { AddAddressIcon } from "./icon/AddAddressIcon";
+import { useRedirectToAccountPage } from "@/kyc-airdrop/lib/navigation";
+import { useAuthenticate } from "@compilot/react-sdk";
 
 export const WalletMenu = () => {
   const { address } = useWalletAddress();
+  const { data: isKycAuthenticated } = useAuthenticate();
+  const username = useUsername();
   const logout = useLogout();
   const customerData = useCustomerData();
   const isLoading = customerData.isLoading;
   const isCustomerActive = customerData.data?.userStatus === "Active";
+  const redirectToAccountPage = useRedirectToAccountPage();
 
-  if (!address) {
+  if (!address || !isKycAuthenticated) {
     return null;
   }
   return (
@@ -29,7 +36,7 @@ export const WalletMenu = () => {
           )}
           {isLoading && <div className="relative h-4 w-4">...</div>}
           <div className="font-['Aeonik Pro'] text-center text-sm font-normal leading-none text-white">
-            {formatAddress(address)}
+            {username}
           </div>
           <div className="relative h-4 w-4">
             <ArrowDownIcon />
@@ -51,7 +58,8 @@ export const WalletMenu = () => {
             <div className=" text-gray-950">{formatAddress(address, 10)}</div>
           </div>
         </DropDownMenu.Item>
-        {/*<DropDownMenu.Item selectable>
+
+        <DropDownMenu.Item selectable onClick={() => redirectToAccountPage()}>
           <div className="flex items-center justify-start gap-1 ">
             <div className="relative h-5 w-5">
               <AddAddressIcon />
@@ -60,7 +68,8 @@ export const WalletMenu = () => {
               Add another wallet
             </div>
           </div>
-        </DropDownMenu.Item>*/}
+        </DropDownMenu.Item>
+
         <DropDownMenu.Item selectable onClick={logout}>
           <div className="flex items-center justify-start gap-1">
             <div className="relative h-5 w-5">

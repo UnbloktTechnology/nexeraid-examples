@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { AirdropLayout } from "@/kyc-airdrop/ui/AirdropLayout";
+import { AirdropLayout } from "@/ui/AirdropLayout";
 import { useGetTokenBalance } from "@/kyc-airdrop/lib/useGetTokenBalance";
 import { useWalletAddress } from "@/kyc-airdrop/lib/useWalletAddress";
-import { LogoutButton } from "@/kyc-airdrop/ui/components/LogoutButton";
+import { LogoutButton } from "@/ui/components/LogoutButton";
 import { getUserAirdropAmount } from "@/kyc-airdrop/lib/airdropActions";
 import { getAirdropTokenConfig } from "@/kyc-airdrop/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
-import { AddTokenButton } from "@/kyc-airdrop/ui/components/AddTokenButton";
+import { AddTokenButton } from "@/ui/components/AddTokenButton";
 import { formatAirdropTokenAmount } from "@/kyc-airdrop/lib/formatDecimalNumber";
 import { watchAccount } from "wagmi/actions";
 import { wagmiConfig } from "@/wagmiConfig";

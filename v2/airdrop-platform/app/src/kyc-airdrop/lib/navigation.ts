@@ -61,3 +61,15 @@ export const useRedirectToHome = () => {
     });
   }, [router, isDebugMode]);
 };
+
+export const useRedirectToAccountPage = () => {
+  const router = useRouter();
+  const isDebugMode = useIsDebugMode();
+
+  return useCallback(() => {
+    void router.push({
+      pathname: "/account",
+      query: isDebugMode ? { debug: true } : {},
+    });
+  }, [router, isDebugMode]);
+};

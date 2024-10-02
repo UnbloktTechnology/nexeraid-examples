@@ -2,17 +2,19 @@ import React, { type ReactNode } from "react";
 import Image from "next/image";
 import stylesPeaq from "./peaq.module.css";
 import { Footer } from "./components/Footer";
-import { useTitles } from "../lib/useUiState";
+import { useTitles } from "@/kyc-airdrop/lib/useClaimUiState";
 import { DebugUiState } from "./components/DebugUiState";
 import { WalletMenu } from "./components/WalletMenu";
 
 interface AirdropLayoutProps {
+  showTitles?: boolean;
   titleOverwrite?: string;
   subtitleOverwrite?: string;
   children: ReactNode;
 }
 
 export const AirdropLayout = ({
+  showTitles = true,
   titleOverwrite,
   subtitleOverwrite,
   children,
@@ -43,10 +45,14 @@ export const AirdropLayout = ({
             className={`${stylesPeaq.bg} flex min-h-screen items-center justify-center p-8`}
           >
             <section className="flex w-full max-w-4xl flex-col gap-2 rounded-lg px-8 py-20 text-center text-white">
-              <h1 className="text-[52px] font-normal">
-                {titleOverwrite ?? title}
-              </h1>
-              <h2 className="text-base">{subtitleOverwrite ?? subtitle}</h2>
+              {showTitles && (
+                <>
+                  <h1 className="text-[52px] font-normal">
+                    {titleOverwrite ?? title}
+                  </h1>
+                  <h2 className="text-base">{subtitleOverwrite ?? subtitle}</h2>
+                </>
+              )}
               <div className="flex flex-col items-center justify-center gap-4 pt-4">
                 {children}
               </div>

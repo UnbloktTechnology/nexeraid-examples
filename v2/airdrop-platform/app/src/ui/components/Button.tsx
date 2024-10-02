@@ -16,8 +16,8 @@ export const Button: React.FC<IButton> = forwardRef<HTMLButtonElement, IButton>(
     let hoverClasses = "";
 
     if (variant === "primary") {
-      variantClasses = "bg-blue-600 text-white";
-      hoverClasses = "hover:bg-blue-700"; // Primary button hover styles
+      variantClasses = "bg-[#6666FE] text-white";
+      hoverClasses = "hover:bg-[#6666FE]/85"; // Primary button hover styles
     } else if (variant === "secondary") {
       variantClasses = "bg-white text-black";
       hoverClasses = "hover:bg-gray-100"; // Secondary button hover styles

@@ -1,14 +1,17 @@
 import { useClaimMutation } from "@/kyc-airdrop/lib/useClaimMutation";
 import { useCustomerData } from "@/kyc-airdrop/lib/useCustomerData";
 import { useGetTokenBalance } from "@/kyc-airdrop/lib/useGetTokenBalance";
-import { useCurrentUiStep, useUiState } from "@/kyc-airdrop/lib/useUiState";
+import {
+  useCurrentUiStep,
+  useClaimUiState,
+} from "@/kyc-airdrop/lib/useClaimUiState";
 import { useAuthenticate } from "@compilot/react-sdk";
 
 import { useRouter } from "next/router";
 import { useChainId } from "wagmi";
 
 export const DebugUiState = () => {
-  const uiState = useUiState();
+  const uiState = useClaimUiState();
   const currentStep = useCurrentUiStep();
   const router = useRouter();
   const customerQuery = useCustomerData();

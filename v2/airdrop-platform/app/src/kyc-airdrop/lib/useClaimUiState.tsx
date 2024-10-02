@@ -12,8 +12,8 @@ import {
   getDeploymentChain,
 } from "../config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
 import { formatAirdropTokenAmount } from "./formatDecimalNumber";
-import { AirdropTokenIcon } from "../ui/components/icon/AirdropTokenIcon";
-import { ChainIcon } from "../ui/components/icon/ChainIcon";
+import { AirdropTokenIcon } from "@/ui/components/icon/AirdropTokenIcon";
+import { ChainIcon } from "@/ui/components/icon/ChainIcon";
 import { formatAddress } from "./formatAddress";
 
 export type UiState = {
@@ -22,6 +22,7 @@ export type UiState = {
     connected: boolean;
     address: Address | undefined;
     chainIsCorrect: boolean;
+    addressIsCorrect: boolean; // check address is not the one connected
   };
   route: { check: boolean };
   eligibility: { qualified: boolean };
@@ -34,7 +35,7 @@ export type UiState = {
   claim: { claimed: boolean; claiming: boolean; rejected: boolean };
 };
 
-export const useUiState = (): UiState => {
+export const useClaimUiState = (): UiState => {
   const { isConnected, address } = useWalletAddress();
   const customerData = useCustomerData();
   const router = useRouter();
@@ -45,9 +46,15 @@ export const useUiState = (): UiState => {
   const chainId = useChainId();
   const chainIsCorrect = chainId === getDeploymentChain().id;
   const isInCheckPage = router.query.address !== undefined;
+  const addressIsCorrect = address === router.query.address;
 
   return {
-    wallet: { connected: isConnected, address: address, chainIsCorrect },
+    wallet: {
+      connected: isConnected,
+      address: address,
+      chainIsCorrect,
+      addressIsCorrect,
+    },
     route: { check: isInCheckPage },
     eligibility: { qualified: isQualified },
     kyc: {
@@ -69,10 +76,11 @@ export const useUiState = (): UiState => {
 };
 
 export type UiStep =
-  | "wallet_set" // we need an address to work with
+  | "address_set" // we need an address to work with
   | "chain_set" // we need the correct chain
   | "eligibility" // check if the address is qualified
   | "wallet_connect" // connect the wallet if needed
+  | "wallet_change_address" // change the wallet address
   | "kyc" // ask for kyc
   | "kyc_processing" // kyc is being processed
   | "kyc_failed" // kyc failed
@@ -80,13 +88,14 @@ export type UiStep =
   | "done"; // all done
 
 export const useCurrentUiStep = (): UiStep => {
-  const uiState = useUiState();
+  const uiState = useClaimUiState();
 
-  if (!uiState.wallet.address) return "wallet_set";
-  if (!uiState.route.check) return "wallet_set";
+  if (!uiState.wallet.address) return "address_set";
+  if (!uiState.route.check) return "address_set";
   if (!uiState.wallet.chainIsCorrect) return "chain_set";
   if (!uiState.eligibility.qualified) return "eligibility";
   if (!uiState.wallet.connected) return "wallet_connect";
+  if (!uiState.wallet.addressIsCorrect) return "wallet_change_address";
   if (!uiState.kyc.active) {
     if (uiState.kyc.failed) return "kyc_failed";
     if (uiState.kyc.processing) return "kyc_processing";
@@ -102,7 +111,7 @@ export const useTitles = (): {
   title: React.ReactNode;
   subtitle: React.ReactNode;
 } => {
-  const uiState = useUiState();
+  const uiState = useClaimUiState();
   const { address } = useWalletAddress();
   const allowance = address ? getUserAirdropAmount(address) : 0n;
   const { isLoading: isBalanceLoading } = useGetTokenBalance();

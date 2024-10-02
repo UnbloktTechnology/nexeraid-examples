@@ -10,6 +10,7 @@ import { wagmiConfig } from "@/wagmiConfig";
 import "@/configureDemoEnv";
 import { watchAccount, watchConnections } from "wagmi/actions";
 import { queryClient } from "./reactQueryConfig";
+import { getCustomerDataQueryKey } from "./kyc-airdrop/lib/useCustomerData";
 
 export const compilotConfig = createConfig({
   authAdapter: createWeb3AuthAdapter({
@@ -46,13 +47,23 @@ watchWidgetVisibleState(compilotConfig, {
     }
   },
 });
-// listen for wallet changes and disconnect the instance
-// when that's the case
+
 watchAccount(wagmiConfig, {
-  onChange: () => {
-    void disconnect(compilotConfig);
+  onChange: (_newAccount, _prevAccount) => {
+    if (
+      _prevAccount?.address &&
+      _newAccount?.address &&
+      _prevAccount.address !== _newAccount.address
+    ) {
+      void queryClient.invalidateQueries({
+        queryKey: getCustomerDataQueryKey({ address: _prevAccount.address }),
+      });
+    }
   },
 });
+
+// listen for wallet changes and disconnect the instance
+// when that's the case
 watchConnections(wagmiConfig, {
   onChange: () => {
     void disconnect(compilotConfig);

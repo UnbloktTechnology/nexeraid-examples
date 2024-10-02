@@ -24,6 +24,11 @@ export const DropDownMenu = ({ children }: { children: React.ReactNode }) => {
   return (
     <DropDownContext.Provider value={contextValue}>
       <div className="relative inline-block text-left">{children}</div>
+      <div
+        className="fixed inset-0 z-10 "
+        style={{ display: isOpen ? "block" : "none" }}
+        onClick={() => setIsOpen(false)}
+      />
     </DropDownContext.Provider>
   );
 };
@@ -54,7 +59,7 @@ const DropDown = ({ children }: { children: React.ReactNode }) => {
   const { isOpen } = useContext(DropDownContext);
   return (
     <div
-      className="absolute right-0 z-10 w-56 origin-top-right rounded-md  bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+      className="absolute right-0 z-20 w-56 origin-top-right rounded-md  bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       role="menu"
       aria-orientation="vertical"
       aria-labelledby="menu-button"

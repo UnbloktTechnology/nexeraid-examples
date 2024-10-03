@@ -1,4 +1,4 @@
-import { getAirdropTokenConfig } from "@/kyc-airdrop/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
+import { getAirdropTokenConfig } from "@/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
 import Image from "next/image";
 
 export const AirdropTokenIcon = () => (

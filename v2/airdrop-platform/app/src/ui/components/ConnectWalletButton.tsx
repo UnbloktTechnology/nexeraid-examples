@@ -2,7 +2,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 import { Button } from "./Button";
 import type { Address } from "@nexeraid/identity-schemas";
-import { useRedirectToCheckWallet } from "@/kyc-airdrop/lib/navigation";
+import { useRedirectToCheckWallet } from "@/lib/navigation";
 
 interface ConnectButtonProps {
   label: string;

@@ -1,40 +1,44 @@
 import { AirdropLayout } from "@/ui/AirdropLayout";
 import { Button } from "@/ui/components/Button";
-import { useAuthenticate, useOpenWidget } from "@compilot/react-sdk";
+import {
+  useAuthenticate,
+  useCustomerStatus,
+  useDisconnect,
+  useOpenWidget,
+} from "@compilot/react-sdk";
 import { ConnectWalletButton } from "@/ui/components/ConnectWalletButton";
-import { useClaimMutation } from "@/kyc-airdrop/lib/useClaimMutation";
-import { useCurrentUiStep } from "@/kyc-airdrop/lib/useClaimUiState";
-import { useWalletAddress } from "@/kyc-airdrop/lib/useWalletAddress";
+import { useClaimMutation } from "@/lib/useClaimMutation";
+import { useCurrentUiStep } from "@/lib/useClaimUiState";
+import { useWalletAddress } from "@/lib/useWalletAddress";
 import { AddressSearchBar } from "./components/AddressSearchBar";
 import { LogoutButton } from "./components/LogoutButton";
-import { useCustomerData } from "@/kyc-airdrop/lib/useCustomerData";
 import { useConfig, useSwitchChain } from "wagmi";
 import {
   getAirdropTokenConfig,
   getDeploymentChain,
-} from "@/kyc-airdrop/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
+} from "@/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
 import { AddTokenButton } from "./components/AddTokenButton";
-import { useGetTokenBalance } from "@/kyc-airdrop/lib/useGetTokenBalance";
-import { formatAirdropTokenAmount } from "@/kyc-airdrop/lib/formatDecimalNumber";
-import { useRedirectToCheckWallet } from "@/kyc-airdrop/lib/navigation";
+import { useRedirectToCheckWallet } from "@/lib/navigation";
 import { useEffect } from "react";
 import { watchAccount } from "wagmi/actions";
 import { useRouter } from "next/router";
+import { getUserAirdropAmount } from "@/lib/airdropActions";
 
 export const AirdropPage = () => {
   const uiStep = useCurrentUiStep();
   const { isConnected } = useWalletAddress();
-  const customerData = useCustomerData();
+  const customerData = useCustomerStatus();
   const openWidget = useOpenWidget();
   const claimMutation = useClaimMutation();
   const authenticate = useAuthenticate();
   const { switchChain } = useSwitchChain();
-  const { data: balance } = useGetTokenBalance();
   const { symbol } = getAirdropTokenConfig();
-  const isCustomerActive = customerData.data?.userStatus === "Active";
+  const isCustomerActive = customerData.data === "Active";
   const redirectToCheckWallet = useRedirectToCheckWallet();
   const router = useRouter();
   const routeAddress = router.query.address as string | undefined;
+  const { disconnect } = useDisconnect();
+  const { address } = useWalletAddress();
 
   // when the account is changed, go to the check page for it
   const config = useConfig();
@@ -46,13 +50,14 @@ export const AirdropPage = () => {
           newAccount.address.toLocaleLowerCase() !==
             routeAddress?.toLocaleLowerCase()
         ) {
+          void disconnect();
           redirectToCheckWallet(newAccount.address);
         }
       },
     });
 
     return unsubscribe;
-  }, [config, redirectToCheckWallet, routeAddress]);
+  }, [config, redirectToCheckWallet, routeAddress, disconnect]);
 
   return (
     <AirdropLayout>
@@ -172,7 +177,7 @@ export const AirdropPage = () => {
       {uiStep === "done" && (
         <div className="flex flex-col justify-center space-y-4">
           <p>
-            You currently own {formatAirdropTokenAmount(balance)} {symbol}
+            You already claimed your {getUserAirdropAmount(address)} {symbol}
           </p>
           <div className="flex justify-center space-x-4">
             <LogoutButton variant="secondary" label="Use another wallet" />

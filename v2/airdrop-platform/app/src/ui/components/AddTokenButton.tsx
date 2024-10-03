@@ -1,6 +1,6 @@
 import { Button } from "./Button";
-import { getAirdropTokenConfig } from "@/kyc-airdrop/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
-import { useAddToken } from "@/kyc-airdrop/lib/useAddToken";
+import { getAirdropTokenConfig } from "@/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
+import { useAddToken } from "@/lib/useAddToken";
 
 interface AddTokenButtonProps {
   label?: string;

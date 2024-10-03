@@ -7,7 +7,6 @@ export const env = createEnv({
    * isn't built with invalid env vars.
    */
   server: {
-    COMPILOT_WEBHOOK_SECRET_KYC_AIRDROP: z.string(),
     COMPILOT_API_KEY_KYC_AIRDROP: z.string(),
     COMPILOT_WORKFLOW_ID_KYC_AIRDROP: z.string(),
     POSTGRES_URL: z
@@ -38,8 +37,6 @@ export const env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
-    COMPILOT_WEBHOOK_SECRET_KYC_AIRDROP:
-      process.env.COMPILOT_WEBHOOK_SECRET_KYC_AIRDROP,
     COMPILOT_API_KEY_KYC_AIRDROP: process.env.COMPILOT_API_KEY_KYC_AIRDROP,
     COMPILOT_WORKFLOW_ID_KYC_AIRDROP:
       process.env.COMPILOT_WORKFLOW_ID_KYC_AIRDROP,

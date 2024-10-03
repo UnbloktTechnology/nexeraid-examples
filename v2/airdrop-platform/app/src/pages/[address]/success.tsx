@@ -1,27 +1,27 @@
 import React, { useEffect } from "react";
 import { AirdropLayout } from "@/ui/AirdropLayout";
-import { useGetTokenBalance } from "@/kyc-airdrop/lib/useGetTokenBalance";
-import { useWalletAddress } from "@/kyc-airdrop/lib/useWalletAddress";
+import { useWalletAddress } from "@/lib/useWalletAddress";
 import { LogoutButton } from "@/ui/components/LogoutButton";
-import { getUserAirdropAmount } from "@/kyc-airdrop/lib/airdropActions";
-import { getAirdropTokenConfig } from "@/kyc-airdrop/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
+import { getUserAirdropAmount } from "@/lib/airdropActions";
+import { getAirdropTokenConfig } from "@/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
 import { AddTokenButton } from "@/ui/components/AddTokenButton";
-import { formatAirdropTokenAmount } from "@/kyc-airdrop/lib/formatDecimalNumber";
+import { formatAirdropTokenAmount } from "@/lib/formatDecimalNumber";
 import { watchAccount } from "wagmi/actions";
 import { wagmiConfig } from "@/wagmiConfig";
-import { useRedirectToCheckWallet } from "@/kyc-airdrop/lib/navigation";
+import { useRedirectToCheckWallet } from "@/lib/navigation";
+import { useIsClaimed } from "@/lib/useIsClaimed";
 
 export default function AllocationCheck() {
   const { address } = useWalletAddress();
-  const { isLoading: isBalanceLoading } = useGetTokenBalance();
+  const isClaimed = useIsClaimed();
   const amount = getUserAirdropAmount(address);
   const { symbol } = getAirdropTokenConfig();
   const redirectToCheckWallet = useRedirectToCheckWallet();
-  const title = isBalanceLoading
+  const title = isClaimed?.isLoading
     ? "Claiming your tokens..."
     : "Tokens claimed successfully";
 
-  const subtitle = isBalanceLoading
+  const subtitle = isClaimed?.isLoading
     ? "Checking wallet balance..."
     : `Congrats! The allocated ${formatAirdropTokenAmount(amount)} $${symbol} were transferred to the wallet ${address}`;
 

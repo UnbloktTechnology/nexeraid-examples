@@ -5,23 +5,22 @@ import {
   animals,
 } from "unique-names-generator";
 import { useMemo } from "react";
-import { useCustomerData } from "./useCustomerData";
+import { useIdentityId } from "@compilot/react-sdk";
 
 export const useUsername = () => {
-  const { data: customer } = useCustomerData();
-  const customerId = customer?.id;
+  const { data: identityId } = useIdentityId();
 
   const username = useMemo(() => {
-    if (!customerId) return "";
+    if (!identityId) return "";
 
     const nameFromSeed = uniqueNamesGenerator({
       dictionaries: [adjectives, colors, animals],
       separator: "-",
-      seed: `customer-${customerId}`,
+      seed: identityId,
     });
 
     return nameFromSeed;
-  }, [customerId]);
+  }, [identityId]);
 
   return username;
 };

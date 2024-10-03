@@ -2,7 +2,7 @@ import React, { type ReactNode } from "react";
 import Image from "next/image";
 import stylesPeaq from "./peaq.module.css";
 import { Footer } from "./components/Footer";
-import { useTitles } from "@/kyc-airdrop/lib/useClaimUiState";
+import { useTitles } from "@/lib/useClaimUiState";
 import { DebugUiState } from "./components/DebugUiState";
 import { WalletMenu } from "./components/WalletMenu";
 

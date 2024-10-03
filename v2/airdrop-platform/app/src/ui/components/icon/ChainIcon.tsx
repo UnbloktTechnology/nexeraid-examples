@@ -1,4 +1,4 @@
-import { getDeploymentChain } from "@/kyc-airdrop/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
+import { getDeploymentChain } from "@/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
 import Image from "next/image";
 
 export const ChainIcon = ({ chainId }: { chainId: number }) => (

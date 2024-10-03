@@ -1,4 +1,4 @@
-import { useLogout } from "@/kyc-airdrop/lib/useLogout";
+import { useLogout } from "@/lib/useLogout";
 import { Button } from "./Button";
 
 interface LogoutButtonProps {

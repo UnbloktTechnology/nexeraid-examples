@@ -3,23 +3,22 @@ import { WalletMenuIcon } from "./icon/WalletMenuIcon";
 import { DisconnectIcon } from "./icon/DisconnectIcon";
 import { ArrowDownIcon } from "./icon/ArrowDownIcon";
 import { DropDownMenu } from "./DropDownMenu";
-import { useWalletAddress } from "@/kyc-airdrop/lib/useWalletAddress";
-import { formatAddress } from "@/kyc-airdrop/lib/formatAddress";
-import { useLogout } from "@/kyc-airdrop/lib/useLogout";
-import { useCustomerData } from "@/kyc-airdrop/lib/useCustomerData";
-import { useUsername } from "@/kyc-airdrop/lib/useUsername";
+import { useWalletAddress } from "@/lib/useWalletAddress";
+import { formatAddress } from "@/lib/formatAddress";
+import { useLogout } from "@/lib/useLogout";
+import { useUsername } from "@/lib/useUsername";
 import { AddAddressIcon } from "./icon/AddAddressIcon";
-import { useRedirectToAccountPage } from "@/kyc-airdrop/lib/navigation";
-import { useAuthenticate } from "@compilot/react-sdk";
+import { useRedirectToAccountPage } from "@/lib/navigation";
+import { useAuthenticate, useCustomerStatus } from "@compilot/react-sdk";
 
 export const WalletMenu = () => {
   const { address } = useWalletAddress();
   const { data: isKycAuthenticated } = useAuthenticate();
   const username = useUsername();
   const logout = useLogout();
-  const customerData = useCustomerData();
-  const isLoading = customerData.isLoading;
-  const isCustomerActive = customerData.data?.userStatus === "Active";
+  const customerStatus = useCustomerStatus();
+  const isLoading = customerStatus.isLoading;
+  const isCustomerActive = customerStatus.data === "Active";
   const redirectToAccountPage = useRedirectToAccountPage();
 
   if (!address || !isKycAuthenticated) {

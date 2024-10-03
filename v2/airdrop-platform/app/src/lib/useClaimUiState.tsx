@@ -1,10 +1,8 @@
 import { getUserAirdropAmount, isUserQualified } from "./airdropActions";
 import { UserRejectedRequestError, type Address } from "viem";
-import { useAuthenticate } from "@compilot/react-sdk";
+import { useAuthenticate, useCustomerStatus } from "@compilot/react-sdk";
 import { useWalletAddress } from "./useWalletAddress";
-import { useGetTokenBalance } from "./useGetTokenBalance";
 import { useRouter } from "next/router";
-import { useCustomerData } from "./useCustomerData";
 import { useClaimMutation } from "./useClaimMutation";
 import { useChainId } from "wagmi";
 import {
@@ -15,6 +13,7 @@ import { formatAirdropTokenAmount } from "./formatDecimalNumber";
 import { AirdropTokenIcon } from "@/ui/components/icon/AirdropTokenIcon";
 import { ChainIcon } from "@/ui/components/icon/ChainIcon";
 import { formatAddress } from "./formatAddress";
+import { useIsClaimed } from "./useIsClaimed";
 
 export type UiState = {
   // wallet can be set but not connected as it's present in the url
@@ -37,11 +36,11 @@ export type UiState = {
 
 export const useClaimUiState = (): UiState => {
   const { isConnected, address } = useWalletAddress();
-  const customerData = useCustomerData();
+  const customerStatus = useCustomerStatus();
   const router = useRouter();
   const { data: isKycAuthenticated } = useAuthenticate();
   const isQualified = address ? isUserQualified(address) : false;
-  const { data: balance } = useGetTokenBalance();
+  const isClaimed = useIsClaimed();
   const claimMutation = useClaimMutation();
   const chainId = useChainId();
   const chainIsCorrect = chainId === getDeploymentChain().id;
@@ -59,16 +58,14 @@ export const useClaimUiState = (): UiState => {
     eligibility: { qualified: isQualified },
     kyc: {
       connected: isKycAuthenticated === true,
-      active: customerData?.data?.userStatus === "Active",
+      active: customerStatus.data === "Active",
       failed:
-        customerData?.data?.userStatus === "Rejected" ||
-        customerData?.data?.userStatus === "Failed",
+        customerStatus.data === "Rejected" || customerStatus.data === "Failed",
       processing:
-        !!customerData?.data?.userStatus &&
-        customerData?.data?.userStatus !== "Active",
+        customerStatus.data !== null && customerStatus.data !== "Active",
     },
     claim: {
-      claimed: balance ? balance > 0n : false,
+      claimed: isClaimed?.data === true,
       rejected: claimMutation.data instanceof UserRejectedRequestError,
       claiming: claimMutation.isPending,
     },
@@ -114,7 +111,7 @@ export const useTitles = (): {
   const uiState = useClaimUiState();
   const { address } = useWalletAddress();
   const allowance = address ? getUserAirdropAmount(address) : 0n;
-  const { isLoading: isBalanceLoading } = useGetTokenBalance();
+  const isClaimed = useIsClaimed();
   const { symbol } = getAirdropTokenConfig();
   const chainId = useChainId();
 
@@ -224,7 +221,7 @@ export const useTitles = (): {
       ),
     };
 
-  if (!uiState.claim.claimed && isBalanceLoading)
+  if (!uiState.claim.claimed && isClaimed?.isLoading)
     return {
       title: "Claiming your tokens...",
       subtitle: "Checking wallet balance...",

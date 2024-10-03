@@ -1,26 +1,21 @@
-import { useClaimMutation } from "@/kyc-airdrop/lib/useClaimMutation";
-import { useCustomerData } from "@/kyc-airdrop/lib/useCustomerData";
-import { useGetTokenBalance } from "@/kyc-airdrop/lib/useGetTokenBalance";
-import {
-  useCurrentUiStep,
-  useClaimUiState,
-} from "@/kyc-airdrop/lib/useClaimUiState";
-import { useAuthenticate } from "@compilot/react-sdk";
+import { useClaimMutation } from "@/lib/useClaimMutation";
+import { useCurrentUiStep, useClaimUiState } from "@/lib/useClaimUiState";
+import { useAuthenticate, useCustomerStatus } from "@compilot/react-sdk";
 
 import { useRouter } from "next/router";
 import { useChainId } from "wagmi";
+import { useIsClaimed } from "@/lib/useIsClaimed";
 
 export const DebugUiState = () => {
   const uiState = useClaimUiState();
   const currentStep = useCurrentUiStep();
   const router = useRouter();
-  const customerQuery = useCustomerData();
+  const customerQuery = useCustomerStatus();
   const { data: isAuthenticated } = useAuthenticate();
   const chainId = useChainId();
   const debug = router.query.debug === "true";
   const claimMutation = useClaimMutation();
-
-  const { data: balance, isLoading: isBalanceLoading } = useGetTokenBalance();
+  const isClaimed = useIsClaimed();
 
   if (!debug) return null;
 
@@ -32,12 +27,18 @@ export const DebugUiState = () => {
           currentStep,
           uiState,
           isAuthenticated,
-          balance: balance?.toString(),
-          isBalanceLoading,
           customerQuery,
           claimMutation,
+          isClaimed,
         },
-        null,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (key: string, value: any): any => {
+          if (typeof value === "bigint") {
+            return value.toString() + "n";
+          }
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+          return value;
+        },
         2,
       )}
     </pre>

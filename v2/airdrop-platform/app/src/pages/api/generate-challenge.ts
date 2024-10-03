@@ -3,10 +3,8 @@ import { env } from "@/env.mjs";
 import { createSdk, GenerateWalletChallengeRequest } from "@compilot/js-sdk";
 
 import "@/configureDemoEnv";
-import { CustomerRepo } from "@/db/customer.repo";
 
-const apiClient = createSdk({
-  webhookSecret: env.COMPILOT_WEBHOOK_SECRET_KYC_AIRDROP,
+const compilotSdk = createSdk({
   apiKey: env.COMPILOT_API_KEY_KYC_AIRDROP,
 });
 
@@ -26,20 +24,13 @@ export default async function handler(
       workflowId: true,
     }).parse(req.body);
 
-    const customerTryingToLogin = await CustomerRepo.selectOrInsertByAddress({
-      walletAddress: params.address,
-    });
-
-    console.log("customerTryingToLogin", customerTryingToLogin);
-
     // attach the workflowId we want to the request
-    const challengeRes = await apiClient.createWeb3Challenge({
+    const challengeRes = await compilotSdk.createWeb3Challenge({
       address: params.address,
       blockchainId: params.blockchainId,
       namespace: params.namespace,
       origin: params.origin,
       workflowId: env.COMPILOT_WORKFLOW_ID_KYC_AIRDROP,
-      externalCustomerId: customerTryingToLogin.id + "",
     });
 
     console.log("challengeRes", challengeRes);

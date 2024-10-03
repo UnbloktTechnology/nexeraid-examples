@@ -1,11 +1,11 @@
-import { useWalletAddress } from "@/kyc-airdrop/lib/useWalletAddress";
+import { useWalletAddress } from "@/lib/useWalletAddress";
 import { AddressSelectIcon } from "./icon/AddressSelectIcon";
 import { ArrowDownIcon } from "./icon/ArrowDownIcon";
 import { useCallback, useState } from "react";
 import { AddressCheckedIcon } from "./icon/AddressCheckedIcon";
-import { useUsername } from "@/kyc-airdrop/lib/useUsername";
+import { useUsername } from "@/lib/useUsername";
 import { useIdentityWallets } from "@compilot/react-sdk";
-import { useCustomerData } from "@/kyc-airdrop/lib/useCustomerData";
+import { useIsCustomerActive } from "@/lib/useIsCustomerActive";
 
 export const AddressSelect = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -71,8 +71,7 @@ const SelectedContent = ({
   value: string;
   onClick: () => void;
 }) => {
-  const customerData = useCustomerData();
-  const isCustomerActive = customerData.data?.userStatus === "Active";
+  const isCustomerActive = useIsCustomerActive();
   return (
     <button
       className="inline-flex w-full cursor-pointer items-stretch rounded-xl bg-violet-950 p-px"

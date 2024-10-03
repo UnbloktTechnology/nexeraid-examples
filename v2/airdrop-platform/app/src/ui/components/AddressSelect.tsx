@@ -4,8 +4,10 @@ import { ArrowDownIcon } from "./icon/ArrowDownIcon";
 import { useCallback, useState } from "react";
 import { AddressCheckedIcon } from "./icon/AddressCheckedIcon";
 import { useUsername } from "@/lib/useUsername";
-import { useIdentityWallets } from "@compilot/react-sdk";
+import { useCustomerStatus, useIdentityWallets } from "@compilot/react-sdk";
 import { useIsCustomerActive } from "@/lib/useIsCustomerActive";
+import { HourglassIcon } from "./icon/HourglassIcon";
+import { RedXIcon } from "./icon/RedXIcon";
 
 export const AddressSelect = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,7 +45,7 @@ export const AddressSelect = () => {
                   className=" rounded-xl bg-violet-950 p-px opacity-40"
                 >
                   <div className="flex h-11 basis-0 items-start justify-start gap-2 px-3.5 py-2.5">
-                    <div className="relative h-6 w-6">
+                    <div className="relative flex h-6 w-6 items-stretch justify-stretch">
                       <AddressCheckedIcon />
                     </div>
                     <div className="  basis-0 text-base font-normal leading-normal text-white">
@@ -71,18 +73,24 @@ const SelectedContent = ({
   value: string;
   onClick: () => void;
 }) => {
-  const isCustomerActive = useIsCustomerActive();
+  const { data: status } = useCustomerStatus();
+  let Icon = HourglassIcon;
+  if (status === "Active") {
+    Icon = AddressCheckedIcon;
+  } else if (status === "Rejected" || status === "Failed") {
+    Icon = RedXIcon;
+  }
+
   return (
     <button
       className="inline-flex w-full cursor-pointer items-stretch rounded-xl bg-violet-950 p-px"
       onClick={onClick}
     >
-      <div className="flex h-11 basis-0 items-start justify-center gap-2 px-3.5 py-2.5">
-        {isCustomerActive && (
-          <div className="relative h-6 w-6">
-            <AddressSelectIcon />
-          </div>
-        )}
+      <div className="flex h-11 basis-0 items-center justify-center gap-2 px-3.5 py-2.5">
+        <div className="relative flex h-6 w-6 items-stretch justify-stretch">
+          <Icon />
+        </div>
+
         <div className=" basis-0 hyphens-none whitespace-nowrap text-base font-normal leading-normal text-white">
           {value}
         </div>

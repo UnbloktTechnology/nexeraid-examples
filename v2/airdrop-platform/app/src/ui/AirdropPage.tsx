@@ -112,6 +112,16 @@ export const AirdropPage = () => {
         </div>
       )}
 
+      {uiStep === "wallet_connect" && (
+        <div className="flex justify-center space-x-4">
+          <LogoutButton variant="primary" label="Try another wallet" />
+          <ConnectWalletButton
+            label="Connect your wallet"
+            variant="secondary"
+          />
+        </div>
+      )}
+
       {uiStep === "kyc" && (
         <div className="flex justify-center space-x-4">
           <LogoutButton variant="primary" label="Try another wallet" />

@@ -8,8 +8,12 @@ import { AddTokenButton } from "@/ui/components/AddTokenButton";
 import { formatAirdropTokenAmount } from "@/lib/formatDecimalNumber";
 import { watchAccount } from "wagmi/actions";
 import { wagmiConfig } from "@/wagmiConfig";
-import { useRedirectToCheckWallet } from "@/lib/navigation";
+import {
+  useRedirectToAccountPage,
+  useRedirectToCheckWallet,
+} from "@/lib/navigation";
 import { useIsClaimed } from "@/lib/useIsClaimed";
+import { Button } from "@/ui/components/Button";
 
 export default function AllocationCheck() {
   const { address } = useWalletAddress();
@@ -17,6 +21,7 @@ export default function AllocationCheck() {
   const amount = getUserAirdropAmount(address);
   const { symbol } = getAirdropTokenConfig();
   const redirectToCheckWallet = useRedirectToCheckWallet();
+  const redirectToAccountPage = useRedirectToAccountPage();
   const title = isClaimed?.isLoading
     ? "Claiming your tokens..."
     : "Tokens claimed successfully";
@@ -45,7 +50,9 @@ export default function AllocationCheck() {
   return (
     <AirdropLayout titleOverwrite={title} subtitleOverwrite={subtitle}>
       <div className="flex justify-between gap-4">
-        <LogoutButton variant="secondary" label="Try another wallet" />
+        <Button variant="secondary" onClick={redirectToAccountPage}>
+          Try another wallet
+        </Button>
         <AddTokenButton variant="primary" />
       </div>
     </AirdropLayout>

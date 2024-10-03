@@ -69,7 +69,7 @@ export const AddressLinker = () => {
         <div className="flex h-12 flex-col items-start justify-start self-stretch rounded-xl">
           <div className="inline-flex items-start justify-start self-stretch rounded-xl bg-slate-100 p-px">
             <div className="flex h-11 shrink grow basis-0 items-start justify-start gap-2 py-2.5 pl-3.5">
-              <div className="relative h-6 w-6">
+              <div className="relative flex h-6 w-6 items-stretch justify-stretch">
                 <RedXIcon />
               </div>
               <div className=" mr-4 shrink grow basis-0 text-base font-normal leading-normal text-slate-500">

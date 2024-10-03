@@ -1,6 +1,10 @@
 import { useClaimMutation } from "@/lib/useClaimMutation";
 import { useCurrentUiStep, useClaimUiState } from "@/lib/useClaimUiState";
-import { useAuthenticate, useCustomerStatus } from "@compilot/react-sdk";
+import {
+  useAuthenticate,
+  useCustomerStatus,
+  useOpenWidget,
+} from "@compilot/react-sdk";
 
 import { useRouter } from "next/router";
 import { useChainId } from "wagmi";
@@ -16,6 +20,7 @@ export const DebugUiState = () => {
   const debug = router.query.debug === "true";
   const claimMutation = useClaimMutation();
   const isClaimed = useIsClaimed();
+  const openWidget = useOpenWidget();
 
   if (!debug) return null;
 
@@ -30,6 +35,7 @@ export const DebugUiState = () => {
           customerQuery,
           claimMutation,
           isClaimed,
+          openWidget,
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (key: string, value: any): any => {

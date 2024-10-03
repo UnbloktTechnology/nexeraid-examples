@@ -68,6 +68,7 @@ export const AirdropPage = () => {
               <AddressSearchBar
                 variant="outlined"
                 onWalletAddressValid={redirectToCheckWallet}
+                isLoading={false}
               />
               or
             </>

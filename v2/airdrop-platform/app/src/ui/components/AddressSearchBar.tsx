@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 import { Button } from "@/ui/components/Button";
 import { type Address, isAddress } from "viem";
+import { Spinner } from "./Spinner";
 
 interface SearchBarProps {
   variant: "outlined" | "flat";
   placeholder?: string;
-  onWalletAddressValid: (address: Address) => void;
+  onWalletAddressValid: (
+    address: Address,
+    actions: { clear: () => void },
+  ) => void;
+  isLoading: boolean;
 }
 
 export const AddressSearchBar = ({
   variant,
   placeholder,
   onWalletAddressValid,
+  isLoading,
 }: SearchBarProps) => {
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
@@ -32,8 +38,8 @@ export const AddressSearchBar = ({
     if (isAddress(text)) {
       setWalletAddress(text);
       setError(null);
-
-      onWalletAddressValid(text);
+      console.log("text", text);
+      onWalletAddressValid(text, { clear: () => setWalletAddress("") });
     } else {
       setError("Invalid address");
     }
@@ -43,7 +49,7 @@ export const AddressSearchBar = ({
     setWalletAddress(value);
     setError(null);
     if (isAddress(value)) {
-      onWalletAddressValid(value);
+      onWalletAddressValid(value, { clear: () => setWalletAddress("") });
     } else if (value.length >= 42) {
       setError("Invalid address");
     }
@@ -64,14 +70,21 @@ export const AddressSearchBar = ({
         className="text-regular flex-grow bg-transparent px-4 py-2 text-black outline-none"
       />
       {error && <span className="text-sm text-red-500">{error}</span>}
-      <Button
-        variant="secondary"
-        disabled={error !== null}
-        onClick={() => void handlePasteAndCheck()}
-        className="flex items-center space-x-1 !bg-transparent text-blue-500 shadow-none hover:underline"
-      >
-        Paste & check
-      </Button>
+      {isLoading && (
+        <div className="mr-1">
+          <Spinner />
+        </div>
+      )}
+      {!isLoading && (
+        <Button
+          variant="secondary"
+          disabled={error !== null}
+          onClick={() => void handlePasteAndCheck()}
+          className="flex items-center space-x-1 !bg-transparent text-blue-500 shadow-none hover:underline"
+        >
+          Paste & check
+        </Button>
+      )}
     </div>
   );
 };

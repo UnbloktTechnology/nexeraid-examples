@@ -4,7 +4,7 @@ interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   className?: string;
   isLoading?: boolean;
-  variant: "primary" | "secondary";
+  variant: "primary" | "secondary" | "transparent";
 }
 
 export const Button: React.FC<IButton> = forwardRef<HTMLButtonElement, IButton>(
@@ -21,6 +21,9 @@ export const Button: React.FC<IButton> = forwardRef<HTMLButtonElement, IButton>(
     } else if (variant === "secondary") {
       variantClasses = "bg-white text-black";
       hoverClasses = "hover:bg-gray-100"; // Secondary button hover styles
+    } else if (variant === "transparent") {
+      variantClasses = "bg-transparent text-white";
+      hoverClasses = "hover:bg-gray-100 hover:text-black"; // Transparent button hover styles
     }
 
     return (

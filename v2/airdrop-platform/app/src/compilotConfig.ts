@@ -4,9 +4,10 @@ import { wagmiConfig } from "@/wagmiConfig";
 
 import "@/configureDemoEnv";
 
+export const compilotWalletAdapter = createWagmiWalletAdapter(wagmiConfig);
 export const compilotConfig = createConfig({
   authAdapter: createWeb3AuthAdapter({
-    wallet: createWagmiWalletAdapter(wagmiConfig),
+    wallet: compilotWalletAdapter,
     generateChallenge: async (params) => {
       const challenge = await fetch("/api/generate-challenge", {
         method: "POST",

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { AirdropLayout } from "@/ui/AirdropLayout";
 import { useWalletAddress } from "@/lib/useWalletAddress";
-import { LogoutButton } from "@/ui/components/LogoutButton";
 import { getUserAirdropAmount } from "@/lib/airdropActions";
 import { getAirdropTokenConfig } from "@/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
 import { AddTokenButton } from "@/ui/components/AddTokenButton";

@@ -26,6 +26,7 @@ export type UiState = {
   route: { check: boolean };
   eligibility: { qualified: boolean };
   kyc: {
+    loading: boolean;
     connected: boolean;
     active: boolean;
     failed: boolean;
@@ -38,7 +39,7 @@ export const useClaimUiState = (): UiState => {
   const { isConnected, address } = useWalletAddress();
   const customerStatus = useCustomerStatus();
   const router = useRouter();
-  const { data: isKycAuthenticated } = useAuthenticate();
+  const authenticate = useAuthenticate();
   const isQualified = address ? isUserQualified(address) : false;
   const isClaimed = useIsClaimed();
   const claimMutation = useClaimMutation();
@@ -57,12 +58,15 @@ export const useClaimUiState = (): UiState => {
     route: { check: isInCheckPage },
     eligibility: { qualified: isQualified },
     kyc: {
-      connected: isKycAuthenticated === true,
+      loading:
+        customerStatus.isLoading ||
+        customerStatus.data === undefined ||
+        authenticate.isPending,
+      connected: authenticate.data === true,
       active: customerStatus.data === "Active",
       failed:
         customerStatus.data === "Rejected" || customerStatus.data === "Failed",
-      processing:
-        customerStatus.data !== null && customerStatus.data !== "Active",
+      processing: !!customerStatus.data && customerStatus.data !== "Active",
     },
     claim: {
       claimed: isClaimed?.data === true,
@@ -78,7 +82,9 @@ export type UiStep =
   | "eligibility" // check if the address is qualified
   | "wallet_connect" // connect the wallet if needed
   | "wallet_change_address" // change the wallet address
+  | "kyc_connect" // connect the kyc
   | "kyc" // ask for kyc
+  | "kyc_data_loading" // kyc data loaded
   | "kyc_processing" // kyc is being processed
   | "kyc_failed" // kyc failed
   | "claim" // claim the tokens
@@ -92,7 +98,10 @@ export const useCurrentUiStep = (): UiStep => {
   if (!uiState.wallet.chainIsCorrect) return "chain_set";
   if (!uiState.eligibility.qualified) return "eligibility";
   if (!uiState.wallet.connected) return "wallet_connect";
+  if (uiState.claim.claimed) return "done";
   if (!uiState.wallet.addressIsCorrect) return "wallet_change_address";
+  if (!uiState.kyc.connected) return "kyc_connect";
+  if (uiState.kyc.loading) return "kyc_data_loading";
   if (!uiState.kyc.active) {
     if (uiState.kyc.failed) return "kyc_failed";
     if (uiState.kyc.processing) return "kyc_processing";
@@ -149,6 +158,17 @@ export const useTitles = (): {
       ),
     };
 
+  if (uiState.claim.claimed)
+    return {
+      title: "Airdrop already claimed",
+      subtitle: (
+        <>
+          Congratulations you already claimed your airdrop for the wallet{" "}
+          <ChainIcon chainId={chainId} /> {formatAddress(address)}
+        </>
+      ),
+    };
+
   if (!uiState.wallet.connected)
     return {
       title: "You scored allocation!",
@@ -196,17 +216,6 @@ export const useTitles = (): {
     return {
       title: "Identity verification in progress",
       subtitle: "Please wait while we verify your identity",
-    };
-
-  if (uiState.claim.claimed)
-    return {
-      title: "Airdrop already claimed",
-      subtitle: (
-        <>
-          Congratulations you already claimed your airdrop for the wallet{" "}
-          <ChainIcon chainId={chainId} /> {formatAddress(address)}
-        </>
-      ),
     };
 
   if (!uiState.kyc.connected)

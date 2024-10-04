@@ -113,13 +113,18 @@ export const AirdropPage = () => {
         </div>
       )}
 
-      {uiStep === "wallet_connect" && (
+      {uiStep === "kyc_connect" && (
         <div className="flex justify-center space-x-4">
           <LogoutButton variant="primary" label="Try another wallet" />
-          <ConnectWalletButton
-            label="Connect your wallet"
+          <Button
             variant="secondary"
-          />
+            onClick={() => void openWidget.openWidget()}
+            disabled={isCustomerActive}
+            isLoading={openWidget.isPending}
+            id="identity-btn"
+          >
+            Prove wallet ownership
+          </Button>
         </div>
       )}
 
@@ -136,6 +141,15 @@ export const AirdropPage = () => {
             {authenticate.data === true
               ? "Continue with identity verification"
               : "Begin identity verification"}
+          </Button>
+        </div>
+      )}
+
+      {uiStep === "kyc_data_loading" && (
+        <div className="flex justify-center space-x-4">
+          <LogoutButton variant="primary" label="Try another wallet" />
+          <Button variant="secondary" isLoading={true}>
+            Kyc Data loading
           </Button>
         </div>
       )}

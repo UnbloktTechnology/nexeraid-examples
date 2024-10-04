@@ -20,6 +20,9 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
+    NEXT_PUBLIC_LOG_LEVEL: z
+      .enum(["trace", "debug", "info", "warn", "error"])
+      .default("error"),
     NEXT_PUBLIC_ENVIRONMENT: z
       .enum(["local", "dev", "stage", "prod", "test-dev-1", "test-dev-2"])
       .describe("The environment the app is running in")
@@ -40,6 +43,7 @@ export const env = createEnv({
     COMPILOT_API_KEY_KYC_AIRDROP: process.env.COMPILOT_API_KEY_KYC_AIRDROP,
     COMPILOT_WORKFLOW_ID_KYC_AIRDROP:
       process.env.COMPILOT_WORKFLOW_ID_KYC_AIRDROP,
+    NEXT_PUBLIC_LOG_LEVEL: process.env.NEXT_PUBLIC_LOG_LEVEL,
     NEXT_PUBLIC_ENVIRONMENT: process.env.NEXT_PUBLIC_ENVIRONMENT,
     NEXT_PUBLIC_AMOY_HTTP_PROVIDER_URL:
       process.env.NEXT_PUBLIC_AMOY_HTTP_PROVIDER_URL,

@@ -1,26 +1,5 @@
 export const MerkleDistributorAbi = [
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "token_",
-        type: "address",
-      },
-      {
-        internalType: "bytes32",
-        name: "merkleRoot_",
-        type: "bytes32",
-      },
-      {
-        internalType: "address",
-        name: "signerAddress",
-        type: "address",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
-  {
     inputs: [],
     name: "AlreadyClaimed",
     type: "error",
@@ -28,6 +7,16 @@ export const MerkleDistributorAbi = [
   {
     inputs: [],
     name: "BlockExpired",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ClaimWindowFinished",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EndTimeInPast",
     type: "error",
   },
   {
@@ -43,12 +32,22 @@ export const MerkleDistributorAbi = [
   },
   {
     inputs: [],
+    name: "InvalidRescue",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "InvalidSignature",
     type: "error",
   },
   {
     inputs: [],
     name: "InvalidToken",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NoWithdrawDuringClaim",
     type: "error",
   },
   {
@@ -74,6 +73,19 @@ export const MerkleDistributorAbi = [
       },
     ],
     name: "Claimed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint8",
+        name: "version",
+        type: "uint8",
+      },
+    ],
+    name: "Initialized",
     type: "event",
   },
   {
@@ -125,6 +137,25 @@ export const MerkleDistributorAbi = [
       {
         indexed: true,
         internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
         name: "newSigner",
         type: "address",
       },
@@ -140,11 +171,6 @@ export const MerkleDistributorAbi = [
         type: "uint256",
       },
       {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-      {
         internalType: "uint256",
         name: "amount",
         type: "uint256",
@@ -158,6 +184,19 @@ export const MerkleDistributorAbi = [
     name: "claim",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "endTime",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -214,6 +253,62 @@ export const MerkleDistributorAbi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "token_",
+        type: "address",
+      },
+      {
+        internalType: "bytes32",
+        name: "merkleRoot_",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "signer_",
+        type: "address",
+      },
+    ],
+    name: "initialize",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "owner_",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "token_",
+        type: "address",
+      },
+      {
+        internalType: "bytes32",
+        name: "merkleRoot_",
+        type: "bytes32",
+      },
+      {
+        internalType: "uint256",
+        name: "endTime_",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "signerAddress",
+        type: "address",
+      },
+    ],
+    name: "initialize",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "index",
         type: "uint256",
@@ -264,6 +359,39 @@ export const MerkleDistributorAbi = [
   },
   {
     inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "token_",
+        type: "address",
+      },
+    ],
+    name: "rescueToken",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "token",
     outputs: [
       {
@@ -273,6 +401,19 @@ export const MerkleDistributorAbi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -307,4 +448,11 @@ export const MerkleDistributorAbi = [
     stateMutability: "view",
     type: "function",
   },
-] as const;
+  {
+    inputs: [],
+    name: "withdraw",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];

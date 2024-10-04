@@ -38,7 +38,6 @@ export const AddressSearchBar = ({
     if (isAddress(text)) {
       setWalletAddress(text);
       setError(null);
-      console.log("text", text);
       onWalletAddressValid(text, { clear: () => setWalletAddress("") });
     } else {
       setError("Invalid address");

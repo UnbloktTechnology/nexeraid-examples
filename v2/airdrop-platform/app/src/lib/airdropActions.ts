@@ -9,7 +9,7 @@ import {
 } from "../config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
 import { getTxAuthDataSignature } from "@compilot/react-sdk";
 import { compilotConfig } from "@/compilotConfig";
-import { sendTransaction } from "@wagmi/core";
+import { sendTransaction, waitForTransactionReceipt } from "@wagmi/core";
 import { wagmiConfig } from "@/wagmiConfig";
 
 const balanceMap = parseBalanceMap({ balances: CUSTOMERS_BALANCE_MAP });
@@ -55,7 +55,7 @@ export const claimToken = async (props: { userAddress: Address }) => {
     contractAbi: Array.from(MerkleDistributorAbi),
     contractAddress: distributorAddress,
     functionName: "claim",
-    args: [index.toString(), userAddress, amount.toString(), proof],
+    args: [index.toString(), amount.toString(), proof],
     chainId: getDeploymentChain().parsedId,
   });
 
@@ -64,13 +64,17 @@ export const claimToken = async (props: { userAddress: Address }) => {
   const unsignedTx = encodeFunctionData({
     abi: Array.from(MerkleDistributorAbi),
     functionName: "claim",
-    args: [index, userAddress, amount, proof],
+    args: [index, amount, proof],
   });
 
   const txData = (unsignedTx + signatureResponse.payload) as `0x${string}`;
   const txHash = await sendTransaction(wagmiConfig, {
     to: distributorAddress,
     data: txData,
+  });
+
+  const receipt = await waitForTransactionReceipt(wagmiConfig, {
+    hash: txHash,
   });
 
   return {
@@ -82,5 +86,6 @@ export const claimToken = async (props: { userAddress: Address }) => {
       payload: signatureResponse.payload,
       blockExpiration: signatureResponse.blockExpiration,
     },
+    receipt,
   };
 };

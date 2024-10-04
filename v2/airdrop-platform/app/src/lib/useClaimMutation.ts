@@ -5,11 +5,15 @@ import {
   useRedirectToClaimError,
   useRedirectToClaimSuccess,
 } from "./navigation";
-import { TransactionExecutionError, UserRejectedRequestError } from "viem";
+import {
+  type Address,
+  TransactionExecutionError,
+  UserRejectedRequestError,
+} from "viem";
 
-export const useClaimMutation = () => {
+export const useClaimMutation = (walletAddress?: Address) => {
   const account = useAccount();
-  const accountAddress = account.address!;
+  const accountAddress = account.address ?? walletAddress;
 
   const redirectToClaimSuccess = useRedirectToClaimSuccess();
   const redirectToClaimError = useRedirectToClaimError();
@@ -17,6 +21,10 @@ export const useClaimMutation = () => {
   return useMutation({
     mutationFn: async () => {
       try {
+        if (!accountAddress) {
+          throw new Error("No account address provided");
+        }
+        console.log("Claiming token for address", accountAddress);
         const result = await claimToken({
           userAddress: accountAddress,
         });
@@ -36,6 +44,9 @@ export const useClaimMutation = () => {
       }
     },
     onSuccess: (sdkResponse) => {
+      if (!accountAddress) {
+        return;
+      }
       if (sdkResponse instanceof UserRejectedRequestError) {
         return;
       }
@@ -49,6 +60,9 @@ export const useClaimMutation = () => {
       );
     },
     onError: (error) => {
+      if (!accountAddress) {
+        return;
+      }
       console.error("Error while fetching signature", error);
       redirectToClaimError(accountAddress, "Error while fetching signature");
     },

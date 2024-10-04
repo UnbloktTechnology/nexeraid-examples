@@ -1,11 +1,9 @@
 import { useWalletAddress } from "@/lib/useWalletAddress";
-import { AddressSelectIcon } from "./icon/AddressSelectIcon";
 import { ArrowDownIcon } from "./icon/ArrowDownIcon";
 import { useCallback, useState } from "react";
 import { AddressCheckedIcon } from "./icon/AddressCheckedIcon";
 import { useUsername } from "@/lib/useUsername";
 import { useCustomerStatus, useIdentityWallets } from "@compilot/react-sdk";
-import { useIsCustomerActive } from "@/lib/useIsCustomerActive";
 import { HourglassIcon } from "./icon/HourglassIcon";
 import { RedXIcon } from "./icon/RedXIcon";
 

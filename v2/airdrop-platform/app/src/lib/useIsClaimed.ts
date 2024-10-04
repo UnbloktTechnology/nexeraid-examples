@@ -4,11 +4,14 @@ import { getDistributorContractAddress } from "../config/EXAMPLE_AIRDROP_CONTRAC
 import { useWalletAddress } from "./useWalletAddress";
 import { getUserIndex } from "./airdropActions";
 import { MerkleDistributorAbi } from "../abis/MerkleDistributorAbi";
+import { type Address } from "viem";
 
-export const useIsClaimed = () => {
+export const useIsClaimed = (walletAddress?: Address) => {
   let index: bigint | null = 0n;
 
-  const { address } = useWalletAddress();
+  const { address: uiAddress } = useWalletAddress();
+
+  const address = walletAddress ?? uiAddress;
   if (address) {
     index = getUserIndex(address);
   }

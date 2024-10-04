@@ -13,6 +13,7 @@ const config = {
     compilers: [
       {
         version: '0.8.20',
+        medadata: true,
         settings: {
           optimizer: {
             enabled: true,

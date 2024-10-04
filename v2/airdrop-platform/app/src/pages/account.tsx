@@ -14,11 +14,12 @@ import {
   useAuthenticate,
   useCustomerStatus,
   useIdentityWallets,
+  useOpenWidget,
   WalletAlreadyLinkedToAnotherIdentity,
 } from "@compilot/react-sdk";
 import { useAccount } from "wagmi";
 import { ConnectWalletButton } from "@/ui/components/ConnectWalletButton";
-import { Address } from "viem";
+import { type Address } from "viem";
 import { getUserAirdropAmount, isUserQualified } from "@/lib/airdropActions";
 import { HourglassIcon } from "@/ui/components/icon/HourglassIcon";
 import { formatAirdropTokenAmount } from "@/lib/formatDecimalNumber";
@@ -26,6 +27,10 @@ import { getAirdropTokenConfig } from "@/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESS
 import { Spinner } from "@/ui/components/Spinner";
 import { formatAddress } from "@/lib/formatAddress";
 import { compilotWalletAdapter } from "@/compilotConfig";
+import { ThumbUpIcon } from "@/ui/components/icon/ThumbUpIcon";
+import { useIsClaimed } from "@/lib/useIsClaimed";
+import { useClaimMutation } from "@/lib/useClaimMutation";
+import { AddressCheckedIcon } from "@/ui/components/icon/AddressCheckedIcon";
 
 const AccountPageContext = createContext<{
   modalOpen: boolean;
@@ -88,7 +93,8 @@ const AccountPageContent = () => {
   } = useAuthenticate();
   const [addressToCheck, setAddressToCheck] = useState<Address | null>(null);
   const { modalOpen } = useContext(AccountPageContext);
-  const { data: status } = useCustomerStatus();
+  const { address } = useAccount();
+  const claimerAddress = addressToCheck ?? address;
 
   if (!account?.address) {
     return (
@@ -137,12 +143,11 @@ const AccountPageContent = () => {
           </div>
         </div>
         <div className="flex w-full flex-col items-start justify-start gap-4 self-stretch pt-2">
-          {addressToCheck && <AddressLinker address={addressToCheck} />}
+          {claimerAddress && <AddressClaimer address={claimerAddress} />}
 
           <AddressSearchBar
             variant="flat"
             onWalletAddressValid={(address, { clear }) => {
-              console.log("Address set to", address);
               setAddressToCheck(address);
               clear();
             }}
@@ -155,37 +160,117 @@ const AccountPageContent = () => {
   );
 };
 
-export const AddressLinker = ({ address }: { address: Address }) => {
+export const AddressClaimer = ({ address }: { address: Address }) => {
   const isQualified = isUserQualified(address);
   const amountEligible = getUserAirdropAmount(address);
   const { start: openModal } = useContext(AccountPageContext);
+  const isLinked = useIsWalletLinked(address);
+  const isClaimedQuery = useIsClaimed(address);
+  const claimMutation = useClaimMutation(address);
+  const isActive = useCustomerStatus().data === "Active";
+  const openWidget = useOpenWidget();
+  const isAccountCorrectForClaim = useAccount()?.address === address;
+
+  let step:
+    | "not_qualified"
+    | "must_link"
+    | "must_kyc"
+    | "must_switch_account"
+    | "can_claim"
+    | "claimed";
+  if (!isQualified) {
+    step = "not_qualified";
+  } else if (!isLinked) {
+    step = "must_link";
+  } else if (!isActive) {
+    step = "must_kyc";
+  } else if (!isAccountCorrectForClaim) {
+    step = "must_switch_account";
+  } else if (isClaimedQuery.data === true) {
+    step = "claimed";
+  } else {
+    step = "can_claim";
+  }
 
   return (
     <div className="flex h-16 flex-col items-start justify-start gap-1 self-stretch">
       <div className="flex h-16 flex-col items-start justify-start gap-0.5 self-stretch">
         <div className="flex h-12 flex-col items-start justify-start self-stretch rounded-xl">
           <div className="inline-flex items-start justify-start self-stretch rounded-xl bg-slate-100 p-px">
-            <div className="flex h-11 shrink grow basis-0 items-start justify-start gap-2 py-2.5 pl-3.5">
+            <div className="flex h-11 shrink grow basis-0 items-start justify-stretch gap-2 py-2.5 pl-3.5">
               <div className="relative flex h-6 w-6 items-stretch justify-stretch">
-                {isQualified ? <HourglassIcon /> : <RedXIcon />}
+                {
+                  {
+                    not_qualified: <RedXIcon />,
+                    must_link: <HourglassIcon />,
+                    can_claim: <ThumbUpIcon />,
+                    claimed: <AddressCheckedIcon />,
+                    must_kyc: <HourglassIcon />,
+                    must_switch_account: <RedXIcon />,
+                    claiming: <HourglassIcon />,
+                  }[step]
+                }
               </div>
               <div className=" mr-4 shrink grow basis-0 text-left text-base font-normal leading-normal text-slate-500">
                 {address}
               </div>
             </div>
-            <Button
-              className="min-w-32"
-              variant="primary"
-              onClick={() => openModal(address)}
-            >
-              Link to profile
-            </Button>
+
+            {step === "must_link" && (
+              <Button
+                className="min-w-32"
+                variant="primary"
+                disabled={!isQualified}
+                isLoading={claimMutation.isPending}
+                onClick={() => openModal(address)}
+              >
+                Link to profile
+              </Button>
+            )}
+
+            {step === "must_kyc" && (
+              <Button
+                variant="primary"
+                className="min-w-32"
+                isLoading={openWidget.isPending}
+                onClick={() => void openWidget.openWidget()}
+              >
+                Activate account
+              </Button>
+            )}
+
+            {step === "must_switch_account" && (
+              <div className="stretch flex h-full min-w-32 items-center justify-center font-bold text-gray-400">
+                <p>
+                  Please switch your wallet to address {formatAddress(address)}{" "}
+                </p>
+              </div>
+            )}
+
+            {step === "can_claim" && (
+              <Button
+                className="min-w-32"
+                variant="primary"
+                disabled={!isQualified || !isLinked}
+                isLoading={claimMutation.isPending}
+                onClick={() => void claimMutation.mutateAsync()}
+              >
+                Claim
+              </Button>
+            )}
+
+            {step === "claimed" && (
+              <div className="stretch flex h-full min-w-32 items-center justify-center font-bold text-gray-400">
+                <p>Claimed</p>
+              </div>
+            )}
           </div>
         </div>
         <div className="inline-flex items-start justify-start gap-2 self-stretch">
           <div className="text-sm font-medium text-slate-600">
             {formatAirdropTokenAmount(amountEligible)} $
-            {getAirdropTokenConfig().symbol} allocated
+            {getAirdropTokenConfig().symbol} allocated{" "}
+            {isClaimedQuery.data === true ? "and claimed" : ""}
           </div>
         </div>
       </div>
@@ -196,14 +281,12 @@ export const AddressLinker = ({ address }: { address: Address }) => {
 const AttachWalletModal = () => {
   const { forAddress, close } = useContext(AccountPageContext);
   const account = useAccount();
-  const { identityWallets, addWalletMutation } = useIdentityWallets();
+  const { addWalletMutation } = useIdentityWallets();
 
   const isConnected = !account;
   const isCorrectAccount = account?.address === forAddress;
   const isLinking = addWalletMutation.isPending;
-  const isLinked = identityWallets.data?.some(
-    (w) => w.address.toLocaleLowerCase() === forAddress.toLocaleLowerCase(),
-  );
+  const isLinked = useIsWalletLinked(forAddress);
   const hasNonRetriableError =
     addWalletMutation.error &&
     addWalletMutation.error instanceof WalletAlreadyLinkedToAnotherIdentity;
@@ -300,13 +383,13 @@ const AttachWalletModal = () => {
             )}
 
             {step === "must_change_account" && (
-              <Button variant="primary" disabled={true} onClick={() => {}}>
+              <Button variant="primary" disabled={true}>
                 Link {formatAddress(forAddress)}
               </Button>
             )}
 
             {step === "can_link" && (
-              <Button variant="primary" onClick={linkAction}>
+              <Button variant="primary" onClick={() => void linkAction()}>
                 Link {formatAddress(forAddress)}
               </Button>
             )}
@@ -327,5 +410,12 @@ const AttachWalletModal = () => {
         </div>
       </div>
     </>
+  );
+};
+
+const useIsWalletLinked = (address: Address) => {
+  const { identityWallets } = useIdentityWallets();
+  return identityWallets.data?.some(
+    (w) => w.address.toLocaleLowerCase() === address.toLocaleLowerCase(),
   );
 };

@@ -28,8 +28,10 @@
     "prepublishOnly": "npm test",
     "pretest": "npm run compile",
     "test": "hardhat test",
-    "deploy-polygonAmoy": "npm run prepare-merkle-root && hardhat run ./scripts/deployTokenAndMerkleDistributor.ts --network polygonAmoy",
-    "deploy-sepolia": "npm run prepare-merkle-root && hardhat run ./scripts/deployTokenAndMerkleDistributor.ts --network sepolia",
+    "deploy-polygonAmoy": "npm run prepare-merkle-root && FACTORY_ADDRESS=0x5fDD5a75a0E0a57c8a8C3df00FE18a1C5a4a9ab7 hardhat run ./scripts/deployTokenAndMerkleDistributor.ts --network polygonAmoy",
+    "deploy-sepolia": "npm run prepare-merkle-root && FACTORY_ADDRESS=0x5fDD5a75a0E0a57c8a8C3df00FE18a1C5a4a9ab7 hardhat run ./scripts/deployTokenAndMerkleDistributor.ts --network sepolia",
+    "deploy-polygonAmoy-nofactory": "npm run prepare-merkle-root && hardhat run ./scripts/deployTokenAndMerkleDistributor.ts --network polygonAmoy",
+    "deploy-sepolia-nofactory": "npm run prepare-merkle-root && hardhat run ./scripts/deployTokenAndMerkleDistributor.ts --network sepolia",
     "deploy-factory-polygonAmoy": "hardhat run ./scripts/deployMerkleDistributorFactory.ts --network polygonAmoy",
     "deploy-factory-sepolia": "hardhat run ./scripts/deployMerkleDistributorFactory.ts --network sepolia"
   },

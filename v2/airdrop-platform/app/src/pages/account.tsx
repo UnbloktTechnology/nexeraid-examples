@@ -12,6 +12,7 @@ import { Button } from "@/ui/components/Button";
 import { RedXIcon } from "@/ui/components/icon/RedXIcon";
 import {
   useAuthenticate,
+  useCustomerStatus,
   useIdentityWallets,
   WalletAlreadyLinkedToAnotherIdentity,
 } from "@compilot/react-sdk";
@@ -43,10 +44,8 @@ const AccountPageContext = createContext<{
 });
 
 const AccountPageProvider = ({ children }: { children: React.ReactNode }) => {
-  const [modalOpen, setModalOpen] = useState(true);
-  const [forAddress, setForAddress] = useState<Address>(
-    "0xbEa25a41f9F6B5bD9a3Ad666cDabfE0A201033cf",
-  );
+  const [modalOpen, setModalOpen] = useState(false);
+  const [forAddress, setForAddress] = useState<Address>("0x00");
 
   const start = useCallback(
     (address: Address) => {
@@ -89,6 +88,7 @@ const AccountPageContent = () => {
   } = useAuthenticate();
   const [addressToCheck, setAddressToCheck] = useState<Address | null>(null);
   const { modalOpen } = useContext(AccountPageContext);
+  const { data: status } = useCustomerStatus();
 
   if (!account?.address) {
     return (
@@ -207,6 +207,12 @@ const AttachWalletModal = () => {
   const hasNonRetriableError =
     addWalletMutation.error &&
     addWalletMutation.error instanceof WalletAlreadyLinkedToAnotherIdentity;
+  const [success, setSuccess] = useState(false);
+
+  const linkAction = useCallback(async () => {
+    await addWalletMutation.attachWalletToIdentity(compilotWalletAdapter);
+    setSuccess(true);
+  }, [addWalletMutation, setSuccess]);
 
   let step:
     | "must_connect"
@@ -214,7 +220,8 @@ const AttachWalletModal = () => {
     | "can_link"
     | "linking"
     | "linked"
-    | "must_cancel";
+    | "must_cancel"
+    | "success";
   if (isConnected) {
     step = "must_connect";
   } else if (!isCorrectAccount) {
@@ -222,7 +229,11 @@ const AttachWalletModal = () => {
   } else if (isLinking) {
     step = "linking";
   } else if (isLinked) {
-    step = "linked";
+    if (success) {
+      step = "success";
+    } else {
+      step = "linked";
+    }
   } else if (hasNonRetriableError) {
     step = "must_cancel";
   } else {
@@ -252,6 +263,7 @@ const AttachWalletModal = () => {
                   linking: "Linking...",
                   linked: "Wallet is linked to your account",
                   must_cancel: "Cannot link this wallet to your account",
+                  success: "Wallet linked o/",
                 }[step]
               }
             </h2>
@@ -265,6 +277,7 @@ const AttachWalletModal = () => {
                 linking: "Linking...",
                 linked: "Wallet is linked to your account",
                 must_cancel: "Cannot link this wallet to your account",
+                success: `You can now login with ${forAddress}`,
               }[step]
             }
             {addWalletMutation.error &&
@@ -293,14 +306,7 @@ const AttachWalletModal = () => {
             )}
 
             {step === "can_link" && (
-              <Button
-                variant="primary"
-                onClick={() =>
-                  addWalletMutation.attachWalletToIdentity(
-                    compilotWalletAdapter,
-                  )
-                }
-              >
+              <Button variant="primary" onClick={linkAction}>
                 Link {formatAddress(forAddress)}
               </Button>
             )}
@@ -310,6 +316,12 @@ const AttachWalletModal = () => {
                 <Spinner />
                 <span>Linking...</span>
               </div>
+            )}
+
+            {step === "success" && (
+              <Button variant="primary" onClick={close}>
+                Done
+              </Button>
             )}
           </div>
         </div>

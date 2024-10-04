@@ -36,8 +36,8 @@ const EXAMPLE_AIRDROP_CONTRACT_ADDRESSES: {
   }>;
 } = {
   local: {
-    tokenAddress: "0xfb6c07EB480A646D222CD40581157BfB992e6480",
-    merkleDistributorAddress: "0xdFDEE2E480bafa5e3f0Fd3f9004eE33c87f109EA",
+    tokenAddress: "0xf588e70e5ce660CFF7728420e7BA5ca81D525664",
+    merkleDistributorAddress: "0x8B6613C87be88346788EbaF3d55FE5f332eE0EF0",
   },
   cicd: {
     tokenAddress: "0x83236b1a94AEC9f1Fd3Ad35ddf838139EA4b9729",
@@ -52,15 +52,15 @@ const EXAMPLE_AIRDROP_CONTRACT_ADDRESSES: {
     merkleDistributorAddress: "0xefAd1faC927aBc388E8bFbEf6b97509cdb9d65BF",
   },
   dev: {
-    tokenAddress: "0xb1613704C4A2caDf19FE11fb5b5D4dc533bFBF7D",
-    merkleDistributorAddress: "0x0BbC160F41f05de8CE2CC681815B3e8ED109527C",
+    tokenAddress: "0x46828dC9Fe28030946207a9Fc42aBb5f3d31746b",
+    merkleDistributorAddress: "0x067Ffa12D9835e7197AdCD84D4d62EEB010985F0",
   },
   stage: {
-    tokenAddress: "0x074c15CF2242C5aC76Ee2FbD2D4123a20D4B66a5",
-    merkleDistributorAddress: "0xdcfd58bDb56A0a75199b742430305620D412a0bf",
+    tokenAddress: "0xA6bCBf71C530a7092a758e73688F1c79C055F0A3",
+    merkleDistributorAddress: "0xe41F70A388B7Cc2eF88A534Ac8E03d188976866a",
   },
   prod: {
-    tokenAddress: "0x8Da4110965dE6c813E24A71457b3f1aA83148B60",
-    merkleDistributorAddress: "0x113F91B96062852C828570CE2c8F0df6423e266F",
+    tokenAddress: "0x7b8a0573AA4c60Ce126EE7BDB1FF3F9eE64AfaF7",
+    merkleDistributorAddress: "0x6d5D47218680D24Aeb40B6ac193690b64b39b552",
   },
 } as const;

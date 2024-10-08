@@ -196,8 +196,8 @@ export const AddressClaimer = ({ address }: { address: Address }) => {
     <div className="flex h-16 flex-col items-start justify-start gap-1 self-stretch">
       <div className="flex h-16 flex-col items-start justify-start gap-0.5 self-stretch">
         <div className="flex h-12 flex-col items-start justify-start self-stretch rounded-xl">
-          <div className="inline-flex items-start justify-start self-stretch rounded-xl bg-slate-100 p-px">
-            <div className="flex h-11 shrink grow basis-0 items-start justify-stretch gap-2 py-2.5 pl-3.5">
+          <div className="inline-flex items-center justify-start self-stretch rounded-xl bg-slate-100 p-px">
+            <div className="flex h-11 shrink grow basis-0 items-center justify-stretch gap-2 py-2.5 pl-3.5">
               <div className="relative flex h-6 w-6 items-stretch justify-stretch">
                 {
                   {
@@ -218,7 +218,7 @@ export const AddressClaimer = ({ address }: { address: Address }) => {
 
             {step === "must_link" && (
               <Button
-                className="min-w-32"
+                className="h-10 min-w-32 rounded-lg text-sm font-semibold"
                 variant="primary"
                 disabled={!isQualified}
                 isLoading={claimMutation.isPending}
@@ -231,7 +231,7 @@ export const AddressClaimer = ({ address }: { address: Address }) => {
             {step === "must_kyc" && (
               <Button
                 variant="primary"
-                className="min-w-32"
+                className="h-10 min-w-32 rounded-lg text-sm font-semibold"
                 isLoading={openWidget.isPending}
                 onClick={() => void openWidget.openWidget()}
               >
@@ -249,7 +249,7 @@ export const AddressClaimer = ({ address }: { address: Address }) => {
 
             {step === "can_claim" && (
               <Button
-                className="min-w-32"
+                className="h-10 min-w-32 rounded-lg text-sm font-semibold"
                 variant="primary"
                 disabled={!isQualified || !isLinked}
                 isLoading={claimMutation.isPending}
@@ -330,20 +330,20 @@ const AttachWalletModal = () => {
         onClick={close}
       >
         <div
-          className="w-full max-w-sm rounded-lg bg-black p-6 text-white shadow-lg"
+          className="w-full min-w-[500px] max-w-sm rounded-lg bg-black p-8 text-white shadow-lg "
           onClick={(e) => {
             e.stopPropagation();
             return false;
           }}
         >
-          <div className="flex items-center space-x-4">
-            <h2 className="text-lg font-semibold">
+          <div className="flex items-center space-x-4 ">
+            <h2 className="text-3xl font-normal leading-loose text-stone-100">
               {
                 {
                   must_connect: "Connect your wallet",
                   must_change_account: "Please switch your wallet",
                   can_link: "Link this wallet",
-                  linking: "Linking...",
+                  linking: "Linking wallet",
                   linked: "Wallet is linked to your account",
                   must_cancel: "Cannot link this wallet to your account",
                   success: "Wallet linked o/",
@@ -357,7 +357,7 @@ const AttachWalletModal = () => {
                 must_connect: "You need to connect your wallet to link it",
                 must_change_account: `Please switch your wallet to address ${forAddress} to link it`,
                 can_link: "You can link this wallet",
-                linking: "Linking...",
+                linking: "Please sign the request in your wallet  👉",
                 linked: "Wallet is linked to your account",
                 must_cancel: "Cannot link this wallet to your account",
                 success: `You can now login with ${forAddress}`,

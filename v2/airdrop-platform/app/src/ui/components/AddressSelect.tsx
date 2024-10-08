@@ -44,7 +44,7 @@ export const AddressSelect = () => {
                 >
                   <div className="flex h-11 basis-0 items-start justify-start gap-2 px-3.5 py-2.5">
                     <div className="relative flex h-6 w-6 items-stretch justify-stretch">
-                      <AddressCheckedIcon />
+                      <CustomerStatusIcon />
                     </div>
                     <div className="  basis-0 text-base font-normal leading-normal text-white">
                       {wallet.address}
@@ -71,14 +71,6 @@ const SelectedContent = ({
   value: string;
   onClick: () => void;
 }) => {
-  const { data: status } = useCustomerStatus();
-  let Icon = HourglassIcon;
-  if (status === "Active") {
-    Icon = AddressCheckedIcon;
-  } else if (status === "Rejected" || status === "Failed") {
-    Icon = RedXIcon;
-  }
-
   return (
     <button
       className="inline-flex w-full cursor-pointer items-stretch rounded-xl bg-violet-950 p-px"
@@ -86,7 +78,7 @@ const SelectedContent = ({
     >
       <div className="flex h-11 basis-0 items-center justify-center gap-2 px-3.5 py-2.5">
         <div className="relative flex h-6 w-6 items-stretch justify-stretch">
-          <Icon />
+          <CustomerStatusIcon />
         </div>
 
         <div className=" basis-0 hyphens-none whitespace-nowrap text-base font-normal leading-normal text-white">
@@ -98,4 +90,16 @@ const SelectedContent = ({
       </div>
     </button>
   );
+};
+
+const CustomerStatusIcon = () => {
+  const { data: status } = useCustomerStatus();
+  let Icon = HourglassIcon;
+  if (status === "Active") {
+    Icon = AddressCheckedIcon;
+  } else if (status === "Rejected" || status === "Failed") {
+    Icon = RedXIcon;
+  }
+
+  return <Icon />;
 };

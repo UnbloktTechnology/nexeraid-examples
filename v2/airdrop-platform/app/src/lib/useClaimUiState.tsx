@@ -127,7 +127,7 @@ export const useTitles = (): {
   if (!uiState.wallet.address)
     return {
       title: "Let's claim some tokens",
-      subtitle: "Connect your wallet to claim tokens",
+      subtitle: "Check if your wallet is eligible",
     };
 
   if (!uiState.route.check)

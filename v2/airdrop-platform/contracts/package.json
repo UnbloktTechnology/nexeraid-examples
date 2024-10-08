@@ -25,6 +25,7 @@
     "generate-merkle-root:input": "ts-node scripts/generate-merkle-root.ts --input outputFiles/allowListObj.json",
     "convert-csv-to-json": "ts-node scripts/convert-csv-to-json.ts",
     "prepare-merkle-root": "npm run convert-csv-to-json && npm run generate-merkle-root:input",
+    "generate-demo-wallets": "ts-node ./scripts/generate-demo-wallets.ts >> ./inputFiles/listInput.csv",
     "prepublishOnly": "npm test",
     "pretest": "npm run compile",
     "test": "hardhat test",
@@ -60,7 +61,7 @@
     "solc": "0.6.11",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2",
-    "viem": "2.20.1"
+    "viem": "^2.20.1"
   },
   "engines": {
     "node": ">=20.17.0"

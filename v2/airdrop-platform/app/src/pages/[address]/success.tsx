@@ -13,9 +13,14 @@ import {
 } from "@/lib/navigation";
 import { useIsClaimed } from "@/lib/useIsClaimed";
 import { Button } from "@/ui/components/Button";
+import { ChainIcon } from "@/ui/components/icon/ChainIcon";
+import { useChainId } from "wagmi";
+import { AirdropTokenIcon } from "@/ui/components/icon/AirdropTokenIcon";
+import { formatAddress } from "@/lib/formatAddress";
 
 export default function AllocationCheck() {
   const { address } = useWalletAddress();
+  const chainId = useChainId();
   const isClaimed = useIsClaimed();
   const amount = getUserAirdropAmount(address);
   const { symbol } = getAirdropTokenConfig();
@@ -25,9 +30,15 @@ export default function AllocationCheck() {
     ? "Claiming your tokens..."
     : "Tokens claimed successfully";
 
-  const subtitle = isClaimed?.isLoading
-    ? "Checking wallet balance..."
-    : `Congrats! The allocated ${formatAirdropTokenAmount(amount)} $${symbol} were transferred to the wallet ${address}`;
+  const subtitle = isClaimed?.isLoading ? (
+    "Checking wallet balance..."
+  ) : (
+    <>
+      Congrats! The allocated <AirdropTokenIcon />{" "}
+      {formatAirdropTokenAmount(amount)} ${symbol} were transferred to the
+      wallet <ChainIcon chainId={chainId} /> {formatAddress(address)}.
+    </>
+  );
 
   // redirect if we change wallet here
   useEffect(

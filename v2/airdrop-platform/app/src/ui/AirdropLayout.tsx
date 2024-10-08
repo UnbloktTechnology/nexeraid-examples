@@ -8,8 +8,8 @@ import { WalletMenu } from "./components/WalletMenu";
 
 interface AirdropLayoutProps {
   showTitles?: boolean;
-  titleOverwrite?: string;
-  subtitleOverwrite?: string;
+  titleOverwrite?: React.ReactNode;
+  subtitleOverwrite?: React.ReactNode;
   children: ReactNode;
 }
 

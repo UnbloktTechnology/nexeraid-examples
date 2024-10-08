@@ -1,6 +1,7 @@
 import { Button } from "./Button";
 import { getAirdropTokenConfig } from "@/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
 import { useAddToken } from "@/lib/useAddToken";
+import { AirdropTokenIcon } from "./icon/AirdropTokenIcon";
 
 interface AddTokenButtonProps {
   label?: string;
@@ -12,7 +13,11 @@ export const AddTokenButton = ({ label, variant }: AddTokenButtonProps) => {
   const { symbol } = getAirdropTokenConfig();
   return (
     <Button variant={variant ?? "secondary"} onClick={addToken}>
-      {label ?? `Add ${symbol} to your wallet`}
+      {label ?? (
+        <>
+          Add <AirdropTokenIcon /> ${symbol} to your wallet
+        </>
+      )}
     </Button>
   );
 };

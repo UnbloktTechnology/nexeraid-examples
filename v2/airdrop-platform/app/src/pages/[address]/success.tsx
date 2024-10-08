@@ -61,7 +61,7 @@ export default function AllocationCheck() {
     <AirdropLayout titleOverwrite={title} subtitleOverwrite={subtitle}>
       <div className="flex justify-between gap-4">
         <Button variant="secondary" onClick={redirectToAccountPage}>
-          Try another wallet
+          Link another wallet
         </Button>
         <AddTokenButton variant="primary" />
       </div>

@@ -118,9 +118,9 @@ export const AirdropPage = () => {
           <LogoutButton variant="primary" label="Try another wallet" />
           <Button
             variant="secondary"
-            onClick={() => void openWidget.openWidget()}
+            onClick={() => void authenticate.authenticate()}
             disabled={isCustomerActive}
-            isLoading={openWidget.isPending}
+            isLoading={authenticate.isPending}
             id="identity-btn"
           >
             Prove wallet ownership
@@ -138,9 +138,7 @@ export const AirdropPage = () => {
             isLoading={openWidget.isPending}
             id="identity-btn"
           >
-            {authenticate.data === true
-              ? "Continue with identity verification"
-              : "Begin identity verification"}
+            Begin identity verification
           </Button>
         </div>
       )}

@@ -10,19 +10,48 @@ import { useUsername } from "@/lib/useUsername";
 import { AddAddressIcon } from "./icon/AddAddressIcon";
 import { useRedirectToAccountPage } from "@/lib/navigation";
 import { useAuthenticate, useCustomerStatus } from "@compilot/react-sdk";
+import { ConnectWalletButton } from "./ConnectWalletButton";
+import { Button } from "./Button";
+import { useAccount } from "wagmi";
 
 export const WalletMenu = () => {
+  const account = useAccount();
   const { address } = useWalletAddress();
-  const { data: isKycAuthenticated } = useAuthenticate();
+  const authenticate = useAuthenticate();
   const username = useUsername();
   const logout = useLogout();
   const customerStatus = useCustomerStatus();
   const isLoading = customerStatus.isLoading;
   const isCustomerActive = customerStatus.data === "Active";
   const redirectToAccountPage = useRedirectToAccountPage();
+  const isKycAuthenticated = authenticate.data === true;
 
-  if (!address || !isKycAuthenticated) {
-    return null;
+  if (!account?.address || !address) {
+    return (
+      <div className="flex h-14 justify-center space-x-4 px-4 py-2 text-sm">
+        <ConnectWalletButton
+          label="Connect your wallet"
+          variant="black"
+          className="text-sm"
+        />
+      </div>
+    );
+  }
+
+  if (!isKycAuthenticated) {
+    return (
+      <div className="flex h-14 justify-center space-x-4 px-4 py-2 text-sm">
+        <Button
+          variant="black"
+          onClick={() => void authenticate.authenticate()}
+          disabled={isCustomerActive}
+          isLoading={authenticate.isPending}
+          id="identity-btn"
+        >
+          Prove wallet ownership
+        </Button>
+      </div>
+    );
   }
   return (
     <DropDownMenu>

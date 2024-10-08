@@ -1,15 +1,20 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
-import { Button } from "./Button";
+import { Button, type ButtonVariant } from "./Button";
 import type { Address } from "@nexeraid/identity-schemas";
 import { useRedirectToCheckWallet } from "@/lib/navigation";
 
 interface ConnectButtonProps {
   label: string;
-  variant: "primary" | "secondary";
+  variant: ButtonVariant;
+  className?: string;
 }
 
-export const ConnectWalletButton = ({ label, variant }: ConnectButtonProps) => {
+export const ConnectWalletButton = ({
+  label,
+  variant,
+  className,
+}: ConnectButtonProps) => {
   const redirectToCheckWallet = useRedirectToCheckWallet();
 
   return (
@@ -27,22 +32,32 @@ export const ConnectWalletButton = ({ label, variant }: ConnectButtonProps) => {
 
         return (
           <div
-            {...(!ready && {
-              "aria-hidden": true,
-              className: "opacity-0 pointer-events-none select-none",
-            })}
+            {...(ready
+              ? { className: "flex items-stretch justify-stretch" }
+              : {
+                  "aria-hidden": true,
+                  className: "opacity-0 pointer-events-none select-none",
+                })}
           >
             {(() => {
               if (!connected) {
                 return (
-                  <Button onClick={openConnectModal} variant={variant}>
+                  <Button
+                    onClick={openConnectModal}
+                    variant={variant}
+                    className={className}
+                  >
                     {label}
                   </Button>
                 );
               }
               if (chain.unsupported) {
                 return (
-                  <Button onClick={openChainModal} variant={variant}>
+                  <Button
+                    onClick={openChainModal}
+                    variant={variant}
+                    className={className}
+                  >
                     Wrong network
                   </Button>
                 );
@@ -52,7 +67,7 @@ export const ConnectWalletButton = ({ label, variant }: ConnectButtonProps) => {
                   <Button
                     onClick={openChainModal}
                     variant="primary"
-                    className="flex flex-row items-center gap-2"
+                    className={`flex flex-row items-center gap-2 ${className}`}
                   >
                     {chain.iconUrl && (
                       <Image
@@ -64,7 +79,11 @@ export const ConnectWalletButton = ({ label, variant }: ConnectButtonProps) => {
                     )}
                     {chain.name}
                   </Button>
-                  <Button onClick={openAccountModal} variant="primary">
+                  <Button
+                    onClick={openAccountModal}
+                    variant="primary"
+                    className={className}
+                  >
                     {account.displayName}
                     {account.displayBalance
                       ? ` (${account.displayBalance})`
@@ -75,6 +94,7 @@ export const ConnectWalletButton = ({ label, variant }: ConnectButtonProps) => {
                       redirectToCheckWallet(account.address as Address)
                     }
                     variant={variant}
+                    className={className}
                   >
                     Check this wallet for airdrop eligibility
                   </Button>

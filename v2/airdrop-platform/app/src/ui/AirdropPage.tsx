@@ -8,7 +8,7 @@ import {
 } from "@compilot/react-sdk";
 import { ConnectWalletButton } from "@/ui/components/ConnectWalletButton";
 import { useClaimMutation } from "@/lib/useClaimMutation";
-import { useCurrentUiStep } from "@/lib/useClaimUiState";
+import { useClaimUiState, useCurrentUiStep } from "@/lib/useClaimUiState";
 import { useWalletAddress } from "@/lib/useWalletAddress";
 import { AddressSearchBar } from "./components/AddressSearchBar";
 import { LogoutButton } from "./components/LogoutButton";
@@ -18,7 +18,10 @@ import {
   getDeploymentChain,
 } from "@/config/EXAMPLE_AIRDROP_CONTRACT_ADDRESSES";
 import { AddTokenButton } from "./components/AddTokenButton";
-import { useRedirectToCheckWallet } from "@/lib/navigation";
+import {
+  useRedirectToAccountPage,
+  useRedirectToCheckWallet,
+} from "@/lib/navigation";
 import { useEffect } from "react";
 import { watchAccount } from "wagmi/actions";
 import { useRouter } from "next/router";
@@ -35,10 +38,13 @@ export const AirdropPage = () => {
   const { symbol } = getAirdropTokenConfig();
   const isCustomerActive = customerData.data === "Active";
   const redirectToCheckWallet = useRedirectToCheckWallet();
+  const redirectToAccount = useRedirectToAccountPage();
   const router = useRouter();
   const routeAddress = router.query.address as string | undefined;
   const { disconnect } = useDisconnect();
   const { address } = useWalletAddress();
+  const isClaimed = useClaimUiState().claim;
+  const dataIsLoading = isClaimed.loading;
 
   // when the account is changed, go to the check page for it
   const config = useConfig();
@@ -97,6 +103,7 @@ export const AirdropPage = () => {
           <Button
             variant="secondary"
             onClick={() => switchChain({ chainId: getDeploymentChain().id })}
+            isLoading={dataIsLoading}
           >
             Switch to {getDeploymentChain().name}
           </Button>
@@ -105,10 +112,29 @@ export const AirdropPage = () => {
 
       {uiStep === "wallet_connect" && (
         <div className="flex justify-center space-x-4">
-          <LogoutButton variant="primary" label="Try another wallet" />
+          {isClaimed.claimed ? (
+            <Button
+              variant="primary"
+              onClick={() => redirectToAccount()}
+              isLoading={dataIsLoading}
+            >
+              Use another wallet
+            </Button>
+          ) : (
+            <LogoutButton
+              variant="primary"
+              label="Use another wallet"
+              isLoading={dataIsLoading}
+            />
+          )}
           <ConnectWalletButton
-            label="Connect your wallet"
+            label={
+              isClaimed.claimed
+                ? "Connect to use another wallet"
+                : "Connect your wallet"
+            }
             variant="secondary"
+            isLoading={dataIsLoading}
           />
         </div>
       )}
@@ -120,7 +146,7 @@ export const AirdropPage = () => {
             variant="secondary"
             onClick={() => void authenticate.authenticate()}
             disabled={isCustomerActive}
-            isLoading={authenticate.isPending}
+            isLoading={authenticate.isPending || dataIsLoading}
             id="identity-btn"
           >
             Prove wallet ownership
@@ -135,7 +161,7 @@ export const AirdropPage = () => {
             variant="secondary"
             onClick={() => void openWidget.openWidget()}
             disabled={isCustomerActive}
-            isLoading={openWidget.isPending}
+            isLoading={openWidget.isPending || dataIsLoading}
             id="identity-btn"
           >
             Begin identity verification
@@ -155,7 +181,7 @@ export const AirdropPage = () => {
       {uiStep === "kyc_processing" && (
         <div className="flex justify-center space-x-4">
           <LogoutButton variant="primary" label="Try another wallet" />
-          <Button variant="secondary" disabled>
+          <Button variant="secondary" disabled isLoading={dataIsLoading}>
             Identity verification in progress
           </Button>
         </div>
@@ -166,7 +192,7 @@ export const AirdropPage = () => {
           <LogoutButton variant="primary" label="Use another wallet" />
 
           {authenticate.data === undefined && (
-            <Button variant="secondary" disabled>
+            <Button variant="secondary" disabled isLoading={dataIsLoading}>
               Loading wallet data
             </Button>
           )}
@@ -177,7 +203,7 @@ export const AirdropPage = () => {
               disabled={!isCustomerActive || claimMutation.isPending}
               onClick={() => claimMutation.mutate()}
               id="claim-btn"
-              isLoading={claimMutation.isPending}
+              isLoading={claimMutation.isPending || dataIsLoading}
             >
               Claim tokens
             </Button>
@@ -188,7 +214,7 @@ export const AirdropPage = () => {
               variant="secondary"
               onClick={() => void authenticate.authenticate()}
               disabled={authenticate.isPending}
-              isLoading={authenticate.isPending}
+              isLoading={authenticate.isPending || dataIsLoading}
               id="identity-btn"
             >
               Authenticate wallet to start claiming.
@@ -203,7 +229,13 @@ export const AirdropPage = () => {
             You already claimed your {getUserAirdropAmount(address)} {symbol}
           </p>
           <div className="flex justify-center space-x-4">
-            <LogoutButton variant="secondary" label="Use another wallet" />
+            {isClaimed.claimed ? (
+              <Button variant="secondary" onClick={() => redirectToAccount()}>
+                Use another wallet
+              </Button>
+            ) : (
+              <LogoutButton variant="secondary" label="Use another wallet" />
+            )}
             <AddTokenButton variant="primary" />
           </div>
         </div>

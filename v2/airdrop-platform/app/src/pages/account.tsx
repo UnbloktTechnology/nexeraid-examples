@@ -124,7 +124,7 @@ const AccountPageContent = () => {
             onClick={() => void authenticate()}
             isLoading={isAuthenticating}
           >
-            Connect
+            Prove wallet ownership
           </Button>
         </div>
       </AirdropLayout>
@@ -167,7 +167,8 @@ export const AddressClaimer = ({ address }: { address: Address }) => {
   const isLinked = useIsWalletLinked(address);
   const isClaimedQuery = useIsClaimed(address);
   const claimMutation = useClaimMutation(address);
-  const isActive = useCustomerStatus().data === "Active";
+  const customerStatusQuery = useCustomerStatus();
+  const isActive = customerStatusQuery.data === "Active";
   const openWidget = useOpenWidget();
   const isAccountCorrectForClaim = useAccount()?.address === address;
 
@@ -191,6 +192,16 @@ export const AddressClaimer = ({ address }: { address: Address }) => {
   } else {
     step = "can_claim";
   }
+
+  console.log({
+    isClaimedQueryLoading: isClaimedQuery.isLoading,
+    customerStatusQuery,
+    isLinked,
+    isAccountCorrectForClaim,
+    step,
+    isQualified,
+    isActive,
+  });
 
   return (
     <div className="flex h-16 flex-col items-start justify-start gap-1 self-stretch">
@@ -221,7 +232,11 @@ export const AddressClaimer = ({ address }: { address: Address }) => {
                 className="h-10 min-w-32 rounded-lg text-sm font-semibold"
                 variant="primary"
                 disabled={!isQualified}
-                isLoading={claimMutation.isPending}
+                isLoading={
+                  claimMutation.isPending ||
+                  isClaimedQuery.isLoading ||
+                  customerStatusQuery.isLoading
+                }
                 onClick={() => openModal(address)}
               >
                 Link to profile
@@ -232,7 +247,11 @@ export const AddressClaimer = ({ address }: { address: Address }) => {
               <Button
                 variant="primary"
                 className="h-10 min-w-32 rounded-lg text-sm font-semibold"
-                isLoading={openWidget.isPending}
+                isLoading={
+                  openWidget.isPending ||
+                  isClaimedQuery.isLoading ||
+                  customerStatusQuery.isLoading
+                }
                 onClick={() => void openWidget.openWidget()}
               >
                 Activate account
@@ -252,7 +271,11 @@ export const AddressClaimer = ({ address }: { address: Address }) => {
                 className="h-10 min-w-32 rounded-lg text-sm font-semibold"
                 variant="primary"
                 disabled={!isQualified || !isLinked}
-                isLoading={claimMutation.isPending}
+                isLoading={
+                  claimMutation.isPending ||
+                  isClaimedQuery.isLoading ||
+                  customerStatusQuery.isLoading
+                }
                 onClick={() => void claimMutation.mutateAsync()}
               >
                 Claim

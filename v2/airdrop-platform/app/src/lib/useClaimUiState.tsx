@@ -32,7 +32,12 @@ export type UiState = {
     failed: boolean;
     processing: boolean;
   };
-  claim: { claimed: boolean; claiming: boolean; rejected: boolean };
+  claim: {
+    claimed: boolean;
+    claiming: boolean;
+    rejected: boolean;
+    loading: boolean;
+  };
 };
 
 export const useClaimUiState = (): UiState => {
@@ -72,6 +77,7 @@ export const useClaimUiState = (): UiState => {
       claimed: isClaimed?.data === true,
       rejected: claimMutation.data instanceof UserRejectedRequestError,
       claiming: claimMutation.isPending,
+      loading: isClaimed?.isLoading,
     },
   };
 };

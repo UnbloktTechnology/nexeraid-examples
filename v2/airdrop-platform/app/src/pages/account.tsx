@@ -193,16 +193,6 @@ export const AddressClaimer = ({ address }: { address: Address }) => {
     step = "can_claim";
   }
 
-  console.log({
-    isClaimedQueryLoading: isClaimedQuery.isLoading,
-    customerStatusQuery,
-    isLinked,
-    isAccountCorrectForClaim,
-    step,
-    isQualified,
-    isActive,
-  });
-
   return (
     <div className="flex h-16 flex-col items-start justify-start gap-1 self-stretch">
       <div className="flex h-16 flex-col items-start justify-start gap-0.5 self-stretch">

@@ -180,10 +180,10 @@ export const AddressClaimer = ({ address }: { address: Address }) => {
     | "claimed";
   if (!isQualified) {
     step = "not_qualified";
-  } else if (!isLinked) {
-    step = "must_link";
   } else if (!isActive) {
     step = "must_kyc";
+  } else if (!isLinked) {
+    step = "must_link";
   } else if (!isAccountCorrectForClaim) {
     step = "must_switch_account";
   } else if (isClaimedQuery.data === true) {

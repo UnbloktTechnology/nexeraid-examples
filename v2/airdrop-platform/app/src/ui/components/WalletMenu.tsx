@@ -87,16 +87,18 @@ export const WalletMenu = () => {
           </div>
         </DropDownMenu.Item>
 
-        <DropDownMenu.Item selectable onClick={() => redirectToAccountPage()}>
-          <div className="flex items-center justify-start gap-1 ">
-            <div className="relative h-5 w-5">
-              <AddAddressIcon />
+        {isCustomerActive && (
+          <DropDownMenu.Item selectable onClick={() => redirectToAccountPage()}>
+            <div className="flex items-center justify-start gap-1 ">
+              <div className="relative h-5 w-5">
+                <AddAddressIcon />
+              </div>
+              <div className="text-base font-normal leading-normal text-gray-950">
+                Add another wallet
+              </div>
             </div>
-            <div className="text-base font-normal leading-normal text-gray-950">
-              Add another wallet
-            </div>
-          </div>
-        </DropDownMenu.Item>
+          </DropDownMenu.Item>
+        )}
 
         <DropDownMenu.Item selectable onClick={logout}>
           <div className="flex items-center justify-start gap-1">

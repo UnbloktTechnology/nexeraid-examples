@@ -36,8 +36,8 @@ const EXAMPLE_AIRDROP_CONTRACT_ADDRESSES: {
   }>;
 } = {
   local: {
-    tokenAddress: "0xCB5fa74A8a801395018CA6188C5d816640AAE61F",
-    merkleDistributorAddress: "0x6D30524AA5245E3217AA57560745eE160ad96046",
+    tokenAddress: "0xe19fA0CcD51353c2646881D096b18F53cEF22453",
+    merkleDistributorAddress: "0x97A28EcA052ecC99C10386236b2d949DAA850D56",
   },
   cicd: {
     tokenAddress: "0x83236b1a94AEC9f1Fd3Ad35ddf838139EA4b9729",

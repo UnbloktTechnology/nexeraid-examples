@@ -8,12 +8,14 @@ interface ConnectButtonProps {
   label: string;
   variant: ButtonVariant;
   className?: string;
+  isLoading?: boolean;
 }
 
 export const ConnectWalletButton = ({
   label,
   variant,
   className,
+  isLoading,
 }: ConnectButtonProps) => {
   const redirectToCheckWallet = useRedirectToCheckWallet();
 
@@ -46,6 +48,7 @@ export const ConnectWalletButton = ({
                     onClick={openConnectModal}
                     variant={variant}
                     className={className}
+                    isLoading={isLoading}
                   >
                     {label}
                   </Button>
@@ -57,6 +60,7 @@ export const ConnectWalletButton = ({
                     onClick={openChainModal}
                     variant={variant}
                     className={className}
+                    isLoading={isLoading}
                   >
                     Wrong network
                   </Button>
@@ -68,6 +72,7 @@ export const ConnectWalletButton = ({
                     onClick={openChainModal}
                     variant="primary"
                     className={`flex flex-row items-center gap-2 ${className}`}
+                    isLoading={isLoading}
                   >
                     {chain.iconUrl && (
                       <Image
@@ -83,6 +88,7 @@ export const ConnectWalletButton = ({
                     onClick={openAccountModal}
                     variant="primary"
                     className={className}
+                    isLoading={isLoading}
                   >
                     {account.displayName}
                     {account.displayBalance
@@ -95,6 +101,7 @@ export const ConnectWalletButton = ({
                     }
                     variant={variant}
                     className={className}
+                    isLoading={isLoading}
                   >
                     Check this wallet for airdrop eligibility
                   </Button>
